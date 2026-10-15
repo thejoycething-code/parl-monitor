@@ -13,11 +13,11 @@ Netherlands, Tweede Kamer. From the parliamentary monitor's store; positions are
 
 Group spells, as the source dates them: VVD (11 September 2025 to 11 November 2025); VVD (12 May 2026 to 31 August 2026).
 
-## Votes on our ground (47)
+## Votes on our ground (88)
 
 Recorded positions (6): “Tegen” 5, “Voor” 1.
-DERIVED positions (41, from the group's vote, X5; not recorded per member): “Voor” 24, “Tegen” 17.
-By area (every vote): abortion: “Tegen” 2, “Voor” 1; assisted dying: “Voor” 2; sex-based rights: “Voor” 4, “Tegen” 1; parental rights and education: “Tegen” 3, “Voor” 3; free speech and civil liberties: “Voor” 6, “Tegen” 1; religious freedom: “Tegen” 8, “Voor” 2; marriage and family: “Voor” 2, “Tegen” 1; surrogacy and embryology: “Voor” 7, “Tegen” 6; prostitution and trafficking: “Tegen” 1.
+DERIVED positions (82, from the group's vote, X5; not recorded per member): “Voor” 43, “Tegen” 39.
+By area (every vote): abortion: “Tegen” 11, “Voor” 3; assisted dying: “Voor” 2; sex-based rights: “Voor” 14, “Tegen” 4; parental rights and education: “Tegen” 4, “Voor” 4; free speech and civil liberties: “Voor” 8, “Tegen” 3; religious freedom: “Tegen” 15, “Voor” 6; marriage and family: “Voor” 3, “Tegen” 2; surrogacy and embryology: “Voor” 7, “Tegen” 6; prostitution and trafficking: “Tegen” 1.
 
 The latest 20:
 
@@ -39,19 +39,19 @@ The latest 20:
 | 16 Jun 2026 | Voor (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Dobbe c.s. over de Ghanese wetgeving die inzet op strafbaarstelling en gevangenisstraf voor de lhbtiqa+-gemeenschap en bo…](https://www.tweedekamer.nl/zoeken?qry=2026Z12936) | sex-based rights, tier 2 |
 | 16 Jun 2026 | Voor (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid El Abassi over versterking van de landelijke regie en doorzettingsmacht binnen de jeugdbescherming](https://www.tweedekamer.nl/zoeken?qry=2026Z12867) | parental rights and education, tier 2 |
 | 16 Jun 2026 | Tegen (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Van Meetelen over de jeugdbescherming landelijk en eenduidig organiseren](https://www.tweedekamer.nl/zoeken?qry=2026Z12864) | parental rights and education, tier 2 |
-| 16 Jun 2026 | Voor (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Podt c.s. over signalen van discriminerende lhbtiq+-content door grote onlineplatforms betrekken bij het toezicht op de n…](https://www.tweedekamer.nl/zoeken?qry=2026Z12645) · their vote meant: to adopt the motion “Motie: Motie van het lid Podt c.s. over signalen van discriminerende lhbtiq+-content door…” (by rule, from the vote's wording and the bill) | sex-based rights, free speech and civil liberties, tier 1 |
+| 16 Jun 2026 | Voor (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Podt c.s. over signalen van discriminerende lhbtiq+-content door grote onlineplatforms betrekken bij het toezicht op de n…](https://www.tweedekamer.nl/zoeken?qry=2026Z12645) · their vote meant: to adopt the motion asking that reports of discriminatory LGBTIQ+ content on large online platforms be taken into account when supervising compliance with the Digital Services Act (read by the free session judge) | sex-based rights, free speech and civil liberties, tier 1 |
 | 16 Jun 2026 | Voor (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Clemminck over aandacht voor culturele en religieuze factoren als oorzaken van dalende acceptatie bij de monitoring van d…](https://www.tweedekamer.nl/zoeken?qry=2026Z12644) | sex-based rights, tier 2 |
-| 16 Jun 2026 | Tegen (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Clemminck over geen steun geven aan bindende EU-verplichtingen op het terrein van onderwijs, gezinsbeleid en familierecht…](https://www.tweedekamer.nl/zoeken?qry=2026Z12643) · their vote meant: against adopting the motion (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 16 Jun 2026 | Tegen (DERIVED) | VVD (group's vote on the day, X5) | [Motie van het lid Clemminck over geen steun geven aan bindende EU-verplichtingen op het terrein van onderwijs, gezinsbeleid en familierecht…](https://www.tweedekamer.nl/zoeken?qry=2026Z12643) · their vote meant: to reject the motion on withholding support from binding EU obligations on education, family policy and family law beyond the treaties (read by the free session judge) | marriage and family, tier 1 |
 | 16 Jun 2026 | Tegen (DERIVED) | VVD (group's vote on the day, X5) | [Motie van de leden Clemminck en Keijzer over de verdere uitvoering van de nationale aanpak moslimdiscriminatie aanhouden](https://www.tweedekamer.nl/zoeken?qry=2026Z12573) | religious freedom, tier 2 |
 
-27 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+68 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Declared interests (2)
 
 | Category | Interest | Function | Paid | Period |
 |---|---|---|---|---|
-| Nevenfunctie | Eigenaar Puur Company B.V. (Op afstand gezet gedurende Kamerlidmaatschap) |  |  |  |
-| Nevenfunctie | Fractievoorzitter VVD Rotterdam |  |  | 2026-03-31 |
+| Nevenfunctie | Eigenaar Puur Company B.V. (Op afstand gezet gedurende Kamerlidmaatschap) |  |  | 2014-03 to now |
+| Nevenfunctie | Fractievoorzitter VVD Rotterdam |  |  | 2022-03 to 2026-03-31 |
 
 The register's own words; nothing here is a judgement of the interest.
 

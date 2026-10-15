@@ -9,5 +9,38 @@
   "ready": false,
   "sha": "0aa18765cb0f5d0f7ee72920bd24021e2d5837f1884b51fb0c6e932781598a81",
   "title": "Antwoorden op vragen commissie inzake Maximumaantal kinderen per spermadonor volgens het CBO-advies (20486-42)"
+ },
+ "nl-igj-jaarrapportage-2025-wet-afbreking-zwangersch-2026p16709": {
+  "changelog": [
+   "2026-10-15 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "8d4287ab269880c66685ef3fd52cf547147d88c489fb7da7ef3994b942b99fd3",
+  "generated": "2026-10-15",
+  "key": "2026P16709",
+  "ready": false,
+  "sha": "e85eb7866dbd4a0d021392a7338b7b0d4759eeb03fee7cd9473404330f69efcd",
+  "title": "IGJ Jaarrapportage 2025 Wet afbreking zwangerschap (Wafz)"
+ },
+ "nl-kabinetsreactie-advies-gezondheidsraad-transgend-2026p16916": {
+  "changelog": [
+   "2026-10-15 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "ec8fb4b72662d158b7050a2a5fb987746479b1dcd532f7f953aeb8800ed76838",
+  "generated": "2026-10-15",
+  "key": "2026P16916",
+  "ready": false,
+  "sha": "ddee26a226a9e282b755fbf1bb532ba85d8e97e0d5c38d80f97da4057e188247",
+  "title": "Kabinetsreactie advies Gezondheidsraad Transgenderzorg voor Jongeren"
+ },
+ "nl-kabinetsreactie-op-onderzoeksresultaten-rise-ond-2026p16107": {
+  "changelog": [
+   "2026-10-15 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "c56fb73f4a2821178236849bbf528cddff41370586e8acf02e36a3da3c0729c2",
+  "generated": "2026-10-15",
+  "key": "2026P16107",
+  "ready": false,
+  "sha": "84626a16a96e149504d534a744fd6e8f57a8029cfa0c0379b91fdadfdf9a325b",
+  "title": "Kabinetsreactie op onderzoeksresultaten RISE-onderzoek naar de oorzaken en achtergronden van de stijging van euthanasie"
  }
 }

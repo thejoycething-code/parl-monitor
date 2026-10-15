@@ -1,0 +1,58 @@
+# Slagt-Tichelman, E.
+
+Netherlands, Tweede Kamer. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Netherlands members](index.md).
+
+- **Party:** GroenLinks-PvdA; latest seen in the member list (the group used for derived positions)
+- **Source id:** `dec3c54b-fb7a-4d4c-9e7e-ff622d7b63ab`
+
+## Length of service
+
+- Not in the service source read (nl-fractiezetels, 11 October 2026: every Tweede Kamer fractie seat the gegevensmagazijn records (the earliest from 1 November 1977)): nothing is said about this member's service.
+
+## Votes on our ground (357)
+
+Recorded positions (5): “Voor” 3, “Tegen” 2.
+DERIVED positions (352, from the group's vote, X5; not recorded per member): “Voor” 233, “Tegen” 119.
+By area (every vote): abortion: “Voor” 15, “Tegen” 13; assisted dying: “Voor” 21, “Tegen” 7; gender medicine and children: “Tegen” 6, “Voor” 5; conversion practices: “Voor” 4, “Tegen” 1; sex-based rights: “Voor” 39, “Tegen” 16; parental rights and education: “Voor” 31, “Tegen” 12; free speech and civil liberties: “Voor” 34, “Tegen” 15; religious freedom: “Voor” 24, “Tegen” 22; marriage and family: “Voor” 19, “Tegen” 7; surrogacy and embryology: “Tegen” 13, “Voor” 10; prostitution and trafficking: “Voor” 44, “Tegen” 17; organ donation: “Voor” 6, “Tegen” 1.
+
+The latest 20:
+
+| Date | Position | Party at the vote | Vote | Areas |
+|---|---|---|---|---|
+| 2 Jun 2026 | Tegen (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Diederik van Dijk over verkennen bij welke wetgeving er een nadere weging noodzakelijk is om de fundamentele rechten van…](https://www.tweedekamer.nl/zoeken?qry=2026Z11094) · their vote meant: to reject the motion asking which laws need closer weighing to safeguard the fundamental rights of mothers and their unborn children (read by the free session judge) | abortion, tier 1 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van de leden Straatman en Bikkers over bij opvraag van het adoptiedossier automatisch de moederbrief in laten zien](https://www.tweedekamer.nl/zoeken?qry=2026Z11093) | marriage and family, tier 2 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van de leden Kostić en Mutluer over no-regretstappen verkennen voor praktische implementatie van meerouderschap](https://www.tweedekamer.nl/zoeken?qry=2026Z11087) · their vote meant: to adopt the motion asking the government to explore low-risk first steps towards putting legal recognition of more than two parents into practice (read by the free session judge) | marriage and family, tier 1 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Vliegenthart over onafhankelijk onderzoek naar misstanden bij donorconceptie](https://www.tweedekamer.nl/zoeken?qry=2026Z10364) · **watched** · bill's areas · their vote meant: to adopt the motion 36677 (the vehicle for amendments on creating embryos and on IVG gametes (17 matched items this Kamer)) (by rule, from the vote's wording and the bill) | surrogacy and embryology, tier 1 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Vliegenthart over de Embryowet binnen twee jaar evalueren en daarbij expliciet de toekomstbestendigheid meenemen](https://www.tweedekamer.nl/zoeken?qry=2026Z10363) · **watched** · their vote meant: to adopt the motion 36677 (the vehicle for amendments on creating embryos and on IVG gametes (17 matched items this Kamer)) (by rule, from the vote's wording and the bill) | surrogacy and embryology, tier 1 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Bikker over in Europees verband zicht houden op internationale ontwikkelingen op het terrein van embryo-onderzoek](https://www.tweedekamer.nl/zoeken?qry=2026Z10359) · **watched** · their vote meant: to adopt the motion 36677 (the vehicle for amendments on creating embryos and on IVG gametes (17 matched items this Kamer)) (by rule, from the vote's wording and the bill) | surrogacy and embryology, tier 1 |
+| 2 Jun 2026 | Tegen (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Bikker over de CCMO laten rapporteren over het aantal en de aard van de onderzoeken met intacte ELS](https://www.tweedekamer.nl/zoeken?qry=2026Z10358) · **watched** · bill's areas · their vote meant: against adopting the motion (by rule, from the vote's wording and the bill) | surrogacy and embryology, tier 1 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Bikker over een ethische reflectie door de Gezondheidsraad op nieuwe technieken om een embryo tot stand te brengen](https://www.tweedekamer.nl/zoeken?qry=2026Z10356) · **watched** · their vote meant: to adopt the motion 36677 (the vehicle for amendments on creating embryos and on IVG gametes (17 matched items this Kamer)) (by rule, from the vote's wording and the bill) | surrogacy and embryology, tier 1 |
+| 2 Jun 2026 | Tegen (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Gewijzigd amendement van het lid Claassen ter vervanging van nr. 17 over modelembryo's onderbrengen onder de Wlz met behoud van kernverbode…](https://www.tweedekamer.nl/zoeken?qry=2026Z10184) · **watched** · bill's areas · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | surrogacy and embryology, tier 1 |
+| 2 Jun 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Amendement van de leden Bikker en Diederik van Dijk over een verbod of het bevorderen van verboden handelingen; on: Wijziging van de Embryo…](https://www.tweedekamer.nl/zoeken?qry=2026Z07566) · **watched** · bill's areas · their vote meant: adopted the amendment to the Embryo Act revision creating a ban on, or on promoting, the prohibited acts the Act lists (read by the free session judge) | surrogacy and embryology, tier 1 |
+| 26 May 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Gewijzigde motie van het lid Dassen over desinformatie over EU-uitbreiding expliciet opnemen in de Nederlandse aanpak van buitenlandse beïn…](https://www.tweedekamer.nl/zoeken?qry=2026Z10834) | free speech and civil liberties, tier 2 |
+| 26 May 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Rooderkerk c.s. over periodiek beoordelen of de inspectiekaders voor burgerschapsonderwijs op b3-scholen nog voldoende wa…](https://www.tweedekamer.nl/zoeken?qry=2026Z09807) | parental rights and education, tier 2 |
+| 13 May 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Kröger c.s. over zich internationaal actief uitspreken tegen het inperken van vrouwenrechten, lhbtiq+-rechten en seksuele…](https://www.tweedekamer.nl/zoeken?qry=2026Z09838) | abortion, sex-based rights, tier 2 |
+| 12 May 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid El Abassi over uitspreken dat ongefundeerde beschuldigingen van antisemitisme leiden tot zelfcensuur, polarisatie en aant…](https://www.tweedekamer.nl/zoeken?qry=2026Z08649) · their vote meant: to adopt the motion stating that unfounded accusations of antisemitism lead to self-censorship, polarisation and damage to academic freedom (read by the free session judge) | free speech and civil liberties, tier 1 |
+| 12 May 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Teunissen over onderwijsbestuurders faciliteren in hun kennis over het demonstratierecht](https://www.tweedekamer.nl/zoeken?qry=2026Z08647) | free speech and civil liberties, tier 2 |
+| 12 May 2026 | Tegen (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van de leden Keijzer en Nanninga over in richtlijnen vastleggen dat intimidatie, bedreiging en obstructie van onderwijs niet onder he…](https://www.tweedekamer.nl/zoeken?qry=2026Z08644) | free speech and civil liberties, tier 2 |
+| 21 Apr 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van de leden Abdi en Rooderkerk over in het brede onderzoek naar academische vrijheid institutionele autonomie meenemen als factor va…](https://www.tweedekamer.nl/zoeken?qry=2026Z08042) · their vote meant: adopts a motion asking that the wider inquiry into academic freedom treat the institutional autonomy of universities as an important factor (read by the free session judge) | free speech and civil liberties, tier 1 |
+| 7 Apr 2026 | Voor (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Gewijzigde motie van de leden Stoffer en Ceder over inzet in EU-verband voor verankering van het recht op geloofsvrijheid in de Syrische gr…](https://www.tweedekamer.nl/zoeken?qry=2026Z07107) · their vote meant: adopts an amended motion asking the government to work through the EU to get the right to freedom of religion written into Syria's constitution (read by the free session judge) | religious freedom, tier 1 |
+| 7 Apr 2026 | Tegen (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van het lid Faber over geen transgender vrouwen plaatsen in de vrouwengevangenis](https://www.tweedekamer.nl/zoeken?qry=2026Z06890) · their vote meant: rejects the motion not to place transgender women in women's prisons (read by the free session judge) | gender medicine and children, sex-based rights, tier 1 |
+| 7 Apr 2026 | Tegen (DERIVED) | GroenLinks-PvdA (group's vote, X5) | [Motie van de leden Stoffer en Ceulemans over best practices in de aanpak van wereldwijde christenvervolging actief uitwisselen met de VS](https://www.tweedekamer.nl/zoeken?qry=2026Z06868) · their vote meant: rejects the motion to exchange best practice with the United States on tackling persecution of Christians (read by the free session judge) | religious freedom, tier 1 |
+
+337 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Declared interests (3)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Nevenfunctie | Mede-auteur van het boek 'Groene planeet, Groene zorg' |  | Onbezoldigd |  |
+| Nevenfunctie | Subsidie aanvrager voor de projecten SIA KIEM en NWA ORC (aangevraagd toen zij nog werkzaam was bij vorige werkgever). Subsidies blijven tijdens de looptijd op naam van aanvrager staan. |  | Onbezoldigd |  |
+| Nevenfunctie | Terugkeerregeling bij de Hogeschool Rotterdam |  | Onbezoldigd | 2023-12-06 to now |
+
+The register's own words; nothing here is a judgement of the interest.
+
+## Notes
+
+- Party: Most Tweede Kamer votes are by show of hands, one position per fractie; those member positions are DERIVED (X5), given to every member the store lists under that fractie by their latest fractie. Roll calls record each member and are shown as recorded. Since 11 October 2026, where the parliament dates a member's seats and group (src/member_service.py), a DERIVED position is given only for a day the member sat, by the group they were in that day; otherwise by the latest group, as labelled.
+- How these profiles are built, and what they never say: [the index's notes](index.md#notes).

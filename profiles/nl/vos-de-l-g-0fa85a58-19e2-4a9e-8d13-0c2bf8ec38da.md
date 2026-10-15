@@ -13,11 +13,11 @@ Netherlands, Tweede Kamer. From the parliamentary monitor's store; positions are
 
 Group spells, as the source dates them: FVD (16 January 2025 to 31 March 2025); FVD (4 September 2025 to 5 August 2026).
 
-## Votes on our ground (117)
+## Votes on our ground (218)
 
-Recorded positions (8): “Niet deelgenomen” 6, “Tegen” 1, “Voor” 1.
-DERIVED positions (109, from the group's vote, X5; not recorded per member): “Voor” 64, “Tegen” 45.
-By area (every vote): abortion: “Niet deelgenomen” 1, “Tegen” 1, “Voor” 1; assisted dying: “Voor” 3; gender medicine and children: “Tegen” 1, “Voor” 1; sex-based rights: “Tegen” 9, “Voor” 4; parental rights and education: “Voor” 15, “Tegen” 11; free speech and civil liberties: “Tegen” 7, “Voor” 7; religious freedom: “Tegen” 16, “Voor” 9; marriage and family: “Voor” 7, “Tegen” 3; surrogacy and embryology: “Voor” 17, “Niet deelgenomen” 6, “Tegen” 2; prostitution and trafficking: “Voor” 3.
+Recorded positions (11): “Niet deelgenomen” 6, “Voor” 3, “Tegen” 2.
+DERIVED positions (207, from the group's vote, X5; not recorded per member): “Voor” 114, “Tegen” 84, “Niet deelgenomen” 9.
+By area (every vote): abortion: “Niet deelgenomen” 10, “Tegen” 6, “Voor” 6; assisted dying: “Voor” 3, “Tegen” 1; gender medicine and children: “Voor” 2, “Tegen” 1; conversion practices: “Voor” 4, “Tegen” 1; sex-based rights: “Voor” 21, “Tegen” 18; parental rights and education: “Voor” 17, “Tegen” 15; free speech and civil liberties: “Voor” 21, “Tegen” 17; religious freedom: “Tegen” 27, “Voor” 13; marriage and family: “Voor” 9, “Tegen” 4; surrogacy and embryology: “Voor” 18, “Niet deelgenomen” 6, “Tegen” 2; prostitution and trafficking: “Voor” 4, “Tegen” 1; organ donation: “Voor” 7.
 
 The latest 20:
 
@@ -39,18 +39,18 @@ The latest 20:
 | 16 Jun 2026 | Tegen (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Dobbe c.s. over de Ghanese wetgeving die inzet op strafbaarstelling en gevangenisstraf voor de lhbtiqa+-gemeenschap en bo…](https://www.tweedekamer.nl/zoeken?qry=2026Z12936) | sex-based rights, tier 2 |
 | 16 Jun 2026 | Voor (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid El Abassi over versterking van de landelijke regie en doorzettingsmacht binnen de jeugdbescherming](https://www.tweedekamer.nl/zoeken?qry=2026Z12867) | parental rights and education, tier 2 |
 | 16 Jun 2026 | Tegen (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Van Meetelen over de jeugdbescherming landelijk en eenduidig organiseren](https://www.tweedekamer.nl/zoeken?qry=2026Z12864) | parental rights and education, tier 2 |
-| 16 Jun 2026 | Tegen (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Podt c.s. over signalen van discriminerende lhbtiq+-content door grote onlineplatforms betrekken bij het toezicht op de n…](https://www.tweedekamer.nl/zoeken?qry=2026Z12645) · their vote meant: against adopting the motion (by rule, from the vote's wording and the bill) | sex-based rights, free speech and civil liberties, tier 1 |
+| 16 Jun 2026 | Tegen (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Podt c.s. over signalen van discriminerende lhbtiq+-content door grote onlineplatforms betrekken bij het toezicht op de n…](https://www.tweedekamer.nl/zoeken?qry=2026Z12645) · their vote meant: to reject the motion on taking reports of discriminatory LGBTIQ+ content on large online platforms into account in Digital Services Act supervision (read by the free session judge) | sex-based rights, free speech and civil liberties, tier 1 |
 | 16 Jun 2026 | Tegen (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Clemminck over aandacht voor culturele en religieuze factoren als oorzaken van dalende acceptatie bij de monitoring van d…](https://www.tweedekamer.nl/zoeken?qry=2026Z12644) | sex-based rights, tier 2 |
-| 16 Jun 2026 | Voor (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Clemminck over geen steun geven aan bindende EU-verplichtingen op het terrein van onderwijs, gezinsbeleid en familierecht…](https://www.tweedekamer.nl/zoeken?qry=2026Z12643) · their vote meant: to adopt the motion “Motie: Motie van het lid Clemminck over geen steun geven aan bindende EU-verplichtingen…” (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 16 Jun 2026 | Voor (DERIVED) | FVD (group's vote on the day, X5) | [Motie van het lid Clemminck over geen steun geven aan bindende EU-verplichtingen op het terrein van onderwijs, gezinsbeleid en familierecht…](https://www.tweedekamer.nl/zoeken?qry=2026Z12643) · their vote meant: to adopt the motion asking the government not to back binding EU obligations on education, family policy and family law that go beyond what the EU treaties allow (read by the free session judge) | marriage and family, tier 1 |
 | 16 Jun 2026 | Voor (DERIVED) | FVD (group's vote on the day, X5) | [Motie van de leden Clemminck en Keijzer over de verdere uitvoering van de nationale aanpak moslimdiscriminatie aanhouden](https://www.tweedekamer.nl/zoeken?qry=2026Z12573) | religious freedom, tier 2 |
 
-97 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+198 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Declared interests (1)
 
 | Category | Interest | Function | Paid | Period |
 |---|---|---|---|---|
-| Nevenfunctie | Auteur "Niemand in de Cockpit" (samen met Thierry Baudet) |  |  |  |
+| Nevenfunctie | Auteur "Niemand in de Cockpit" (samen met Thierry Baudet) |  |  | 2023-11 to now |
 
 The register's own words; nothing here is a judgement of the interest.
 

@@ -1,0 +1,77 @@
+# Staaij van der, C.G.
+
+Netherlands, Tweede Kamer. From the parliamentary monitor's store; positions are as the record gives them, never a verdict. Index: [Netherlands members](index.md).
+
+- **Party:** SGP; latest seen in the member list (the group used for derived positions)
+- **Source id:** `1b59d69d-89a1-42c3-b5bf-52f38c39d88d`
+
+## Length of service
+
+- Not in the service source read (nl-fractiezetels, 11 October 2026: every Tweede Kamer fractie seat the gegevensmagazijn records (the earliest from 1 November 1977)): nothing is said about this member's service.
+
+## Votes on our ground (698)
+
+Recorded positions (7): “Voor” 4, “Tegen” 3.
+DERIVED positions (691, from the group's vote, X5; not recorded per member): “Voor” 431, “Tegen” 260.
+By area (every vote): abortion: “Voor” 38, “Tegen” 34; assisted dying: “Voor” 33, “Tegen” 6; gender medicine and children: “Tegen” 13, “Voor” 8; conversion practices: “Tegen” 3, “Voor” 3; sex-based rights: “Tegen” 53, “Voor” 32; parental rights and education: “Voor” 47, “Tegen” 33; free speech and civil liberties: “Voor” 64, “Tegen” 34; religious freedom: “Tegen” 49, “Voor” 39; marriage and family: “Voor” 57, “Tegen” 28; surrogacy and embryology: “Voor” 28, “Tegen” 11; prostitution and trafficking: “Voor” 100, “Tegen” 18; organ donation: “Voor” 7, “Tegen” 2.
+
+The latest 20:
+
+| Date | Position | Party at the vote | Vote | Areas |
+|---|---|---|---|---|
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Gewijzigde motie van het lid Martens-America over gezichtsbedekkende kleding bij demonstraties vaker niet toestaan (t.v.v. 34324-47)](https://www.tweedekamer.nl/zoeken?qry=2026Z22012) | free speech and civil liberties, religious freedom, tier 2 |
+| 13 Oct 2026 | Tegen (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Van Baarle over het verbranden van de koran en andere heilige boeken strafbaar stellen](https://www.tweedekamer.nl/zoeken?qry=2026Z21303) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Tegen (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Van Baarle over pro-Palestinademonstraties niet beknotten](https://www.tweedekamer.nl/zoeken?qry=2026Z21301) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Clemminck over een protocol voor het identificeren van personen die worden verdacht van strafbare feiten en het veiligste…](https://www.tweedekamer.nl/zoeken?qry=2026Z21298) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Clemminck over het identificeren en strafrechtelijk aanpakken van alle deelnemers aan snelwegblokkades die aantoonbaar st…](https://www.tweedekamer.nl/zoeken?qry=2026Z21297) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Clemminck over een uitvoeringsplan voor het ondersteunen van benadeelden bij het verhalen van schade door geweld en verni…](https://www.tweedekamer.nl/zoeken?qry=2026Z21296) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Sneller over zorgen voor een verbeterde incidentregistratie](https://www.tweedekamer.nl/zoeken?qry=2026Z21294) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Martens-America over de wijziging van de Wet openbare manifestaties versneld naar de Kamer sturen](https://www.tweedekamer.nl/zoeken?qry=2026Z21292) | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Abdi over onderzoeken hoe de veiligheid van journalisten op demonstraties beter beschermd kan worden](https://www.tweedekamer.nl/zoeken?qry=2026Z21290) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Van der Plas over waarborgen dat de bevoegdheid tot bestuurlijke verplaatsing geen vervanging wordt voor strafrechtelijk…](https://www.tweedekamer.nl/zoeken?qry=2026Z21289) · bill's areas | free speech and civil liberties, tier 2 |
+| 13 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Van der Plas over bij vernielingen tijdens demonstraties de schade op de veroorzakers verhalen](https://www.tweedekamer.nl/zoeken?qry=2026Z21288) · bill's areas | free speech and civil liberties, tier 2 |
+| 6 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Nader gewijzigd amendement van het lid Boomsma c.s. ter vervanging van nr. 23 over het expliciteren van relationele uitbuiting als vorm van…](https://www.tweedekamer.nl/zoeken?qry=2026Z21153) · their vote meant: to adopt an amendment spelling out relational exploitation (exploitation within a manipulated relationship) as a form of human trafficking in the bill (read by the free session judge) | prostitution and trafficking, tier 1 |
+| 6 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Nader gewijzigd amendement van de leden Faber en Diederik van Dijk ter vervanging van nr. 27 over het schrappen van 'oogmerk' als bestandde…](https://www.tweedekamer.nl/zoeken?qry=2026Z21007) · their vote meant: to adopt an amendment removing the element of intent ("oogmerk") from the legal definition of human trafficking in the bill (read by the free session judge) | prostitution and trafficking, tier 1 |
+| 6 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Nader gewijzigd amendement van de leden Faber en Diederik van Dijk ter vervanging van nr. 24 over het trapsgewijs verhogen van de leeftijd…](https://www.tweedekamer.nl/zoeken?qry=2026Z21006) · their vote meant: to adopt an amendment raising the minimum age for prostitution in steps from 18 to 21 (read by the free session judge) | prostitution and trafficking, tier 1 |
+| 6 Oct 2026 | Tegen (DERIVED) | SGP (group's vote, X5) | [Motie van de leden Kröger en Vliegenthart over de beschikbaarheid van abortuszorg en noodanticonceptie waarborgen in conflictgebieden](https://www.tweedekamer.nl/zoeken?qry=2026Z20841) · their vote meant: against adopting that motion (read by the free session judge) | abortion, tier 1 |
+| 6 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Stoffer over bij de beleidsuitwerking op vrouwenrechten en gendergelijkheid aandacht besteden aan gezinsversterking en ou…](https://www.tweedekamer.nl/zoeken?qry=2026Z20822) | sex-based rights, tier 2 |
+| 6 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Van Houwelingen over uitspreken dat in sommige gevallen voor kinderen thuisonderwijs de meest passende vorm van onderwijs…](https://www.tweedekamer.nl/zoeken?qry=2026Z20638) · their vote meant: to adopt a motion stating that, for some children, home education is the most suitable form of education, in the debate on inclusive education (read by the free session judge) | parental rights and education, tier 1 |
+| 6 Oct 2026 | Tegen (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Clemminck over een representatief vervolgonderzoek naar de samenhang tussen religieuze achtergrond en lhbti-opvattingen o…](https://www.tweedekamer.nl/zoeken?qry=2026Z20616) | sex-based rights, tier 2 |
+| 6 Oct 2026 | Tegen (DERIVED) | SGP (group's vote, X5) | [Motie van het lid Ergin over bij de aanpak van lhbti-discriminatie geen religie of bevolkingsgroep als oorzaak, risicogroep of afzonderlijk…](https://www.tweedekamer.nl/zoeken?qry=2026Z20614) | sex-based rights, tier 2 |
+| 6 Oct 2026 | Voor (DERIVED) | SGP (group's vote, X5) | [Gewijzigd amendement van het lid Faber ter vervanging van nr. 13 over het behulpzaam zijn bij mensenhandel ongeacht het motief strafbaar st…](https://www.tweedekamer.nl/zoeken?qry=2026Z20581) · their vote meant: to adopt an amendment making it a criminal offence to help with human trafficking whatever the helper's motive (read by the free session judge) | prostitution and trafficking, tier 1 |
+
+678 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Declared interests (22)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Nevenfunctie | Bestuurslid Stichting fractiebijstand SGP |  | Onbezoldigd |  |
+| Nevenfunctie | Lid bestuur Centrum Parlementaire Geschiedenis, Nijmegen |  | Onbezoldigd | 2017-12-01 to now |
+| Nevenfunctie | Lid Comité van aanbeveling Bond tegen vloeken |  | Onbezoldigd |  |
+| Nevenfunctie | Lid Comité van Aanbeveling Stichting Vrienden van Aix |  | Onbezoldigd | 2016-06-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Bible League |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Serve India |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Hudson Taylor |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Jaffa-Project Nederland |  | Onbezoldigd | 2013-11 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Kimon |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Oost-Europahulp SOEGG |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Stephanos |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting steun Messiasbelijdende joden |  | Onbezoldigd | 2013-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Volharding, Dirksland |  | Onbezoldigd | 2015-01-01 to now |
+| Nevenfunctie | Lid Comité van Aanbeveling van Stichting Zikna |  | Onbezoldigd |  |
+| Nevenfunctie | Lid Maatschappelijke Raad Gevangenzorg Nederland |  | Onbezoldigd |  |
+| Nevenfunctie | Lid van de identiteitscommissie van de VGS te Ridderkerk |  | Onbezoldigd | 2015-07-01 to now |
+| Nevenfunctie | Lid van de Raad van Aanbeveling van International Justice Mission Nederland |  | Onbezoldigd | 2015-08-01 to now |
+| Nevenfunctie | Ouderling Oud Gereformeerde Gemeente in Nederland te Benthuizen |  | Onbezoldigd | 2022-10-27 to now |
+| Nevenfunctie | Plaatsvervangend lid Commissie voor geschillen VBSO |  | Onbezoldigd |  |
+| Nevenfunctie | Plaatsvervangend lid van commissies van beroep en geschillen VGS |  | Bezoldigd | 2013-01 to now |
+| Nevenfunctie | Voorzitter klachtencommissie Stichting Ouderenzorg |  | Onbezoldigd |  |
+| Nevenfunctie | Waarnemend voorzitter Commissie van Beroep VBSO |  | Onbezoldigd |  |
+
+The register's own words; nothing here is a judgement of the interest.
+
+## Notes
+
+- Party: Most Tweede Kamer votes are by show of hands, one position per fractie; those member positions are DERIVED (X5), given to every member the store lists under that fractie by their latest fractie. Roll calls record each member and are shown as recorded. Since 11 October 2026, where the parliament dates a member's seats and group (src/member_service.py), a DERIVED position is given only for a day the member sat, by the group they were in that day; otherwise by the latest group, as labelled.
+- How these profiles are built, and what they never say: [the index's notes](index.md#notes).
