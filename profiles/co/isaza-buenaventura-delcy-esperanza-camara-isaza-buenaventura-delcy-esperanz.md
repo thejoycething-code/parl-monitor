@@ -15,7 +15,7 @@ Colombia, Cámara de Representantes. From the parliamentary monitor's store; pos
 | 16 Oct 2025 | ESTRUCTURA DE DONACIONES,TRASPLANTES Y COMPONENTES ANATÓMICOS | camara/2025/428 | author | organ donation |
 | 1 Oct 2025 | REGULACIÓN Y USO DE LA IA | camara/2025/384 | author | parental rights and education, free speech and civil liberties |
 | 3 Sep 2025 | PARIDAD ELECTORAL | camara/2025/301 | author | sex-based rights |
-| 20 Aug 2025 | LEY GABRIEL ESTEBAN | camara/2025/254 | author | sex-based rights |
+| 20 Aug 2025 | LEY GABRIEL ESTEBAN | camara/2025/254 | author | sex-based rights, marriage and family |
 
 ## Attendance
 

@@ -76,15 +76,27 @@
   "sha": "17b906292a3cb9265c900e51db2c940b29ee7b396d8d07a810021c10e55962ae",
   "title": "PROTECCIÓN DE LA VIDA DESDE LA FECUNDACIÓN"
  },
+ "co-regulacion-de-redes-sociales-camara-2026-83": {
+  "changelog": [
+   "2026-10-15 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "117323614e55301c95dc802fe4716667e8710a5c8b1e077a47fb9888c1830359",
+  "generated": "2026-10-15",
+  "key": "camara/2026/83",
+  "ready": false,
+  "sha": "e614fd36d2f3b53f2d650f4198ad3117cf3d997f529886f28168af0215212139",
+  "title": "REGULACIÓN DE REDES SOCIALES"
+ },
  "co-tarifa-especial-para-entidades-religiosas-camara-2026-361": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "9053155e2ae1b72611d28b79e5d2f3a9ad1cbfa5ac4a9d7d1f6221434b5ccb55",
+  "content": "6f0d16017f27011aa131c1ef60b9a500a2c749389b429156656280e8822a4dbd",
   "generated": "2026-10-11",
   "key": "camara/2026/361",
   "ready": false,
-  "sha": "8e469c8b20383fd9c8822e7de2b69e88a1827b0f2937fa7ae8382234a1cd88e0",
+  "sha": "637a75a2e9231ca3facea3af38264f03284cc7995950e9ef7c98b0caa47ac34f",
   "title": "TARIFA ESPECIAL PARA ENTIDADES RELIGIOSAS"
  }
 }

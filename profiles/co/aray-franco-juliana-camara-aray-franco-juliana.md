@@ -15,7 +15,7 @@ Colombia, Cámara de Representantes. From the parliamentary monitor's store; pos
 | 2 Dec 2025 | LEY PATRICIA TEHERÁN | camara/2025/490 | author | sex-based rights |
 | 23 Sep 2025 | LEY PROTECCION INTEGRAL DE VIOLENCIA DIGITAL | camara/2025/359 | author | sex-based rights, free speech and civil liberties |
 | 20 Aug 2025 | EXPLOTACIÓN SEXUAL INFANTIL | camara/2025/255 | author | prostitution and trafficking |
-| 20 Aug 2025 | LEY GABRIEL ESTEBAN | camara/2025/254 | author | sex-based rights |
+| 20 Aug 2025 | LEY GABRIEL ESTEBAN | camara/2025/254 | author | sex-based rights, marriage and family |
 
 ## Attendance
 

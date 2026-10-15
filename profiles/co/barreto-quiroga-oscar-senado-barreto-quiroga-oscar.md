@@ -10,7 +10,7 @@ Colombia, Senado. From the parliamentary monitor's store; positions are as the r
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 20 Aug 2025 | EXPLOTACIÓN SEXUAL INFANTIL | camara/2025/255 | author | prostitution and trafficking |
-| 20 Aug 2025 | LEY GABRIEL ESTEBAN | camara/2025/254 | author | sex-based rights |
+| 20 Aug 2025 | LEY GABRIEL ESTEBAN | camara/2025/254 | author | sex-based rights, marriage and family |
 | 30 Jul 2025 | LEY INFANCIA SIN PORNOGRAFÍA | camara/2025/130 | author | free speech and civil liberties, prostitution and trafficking |
 
 ## Notes

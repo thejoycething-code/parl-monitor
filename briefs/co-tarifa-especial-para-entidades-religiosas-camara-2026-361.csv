@@ -99,6 +99,7 @@ BUILDER TAB
 "Tier: B (open parliamentary data, the CO store). Drafted by tools/country_briefs.py (rules and the record; no AI model)."
 "Subject: WATCHED `camara/2026/361`, https://www.camara.gov.co/tarifa-especial-para-entidades-religiosas-2/, areas 8 (religious freedom)."
 Watchlist note: Special utility tariff for recognised religious entities. In committee. Its twin 058/2026C was withdrawn.
+"Session judge: A utility tariff for recognised religious entities is a funding line. It touches religious bodies' costs, not their freedom to worship or teach, so it is background only."
 Key dates: introduced 2026-09-11; last recorded event 2026-09-11; next none in the store (no Urgent proposed: news-only dates never trigger it).
 Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 "SIGN-OFF: no bill direction on file for `camara/2026/361` (no stance file yet). Add a `bill_directions` line (direction with/against, why) to config/co_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc co --confirm-direction camara/2026/361 --by NAME`."
@@ -108,3 +109,4 @@ Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days
 Possible Survival: a free-speech or religious-freedom measure can reach CitizenGO itself; check before typing it Opportunity.
 Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What are we asking for in the petition?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 Changelog: 2026-10-11 tools/country_briefs.py drafted every cell
+Changelog: 2026-10-15 tools/country_briefs.py refreshed by the builder
