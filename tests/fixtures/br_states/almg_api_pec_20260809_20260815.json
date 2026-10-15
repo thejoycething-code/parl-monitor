@@ -1,0 +1,366 @@
+{
+ "resultado": {
+  "consulta": "BOOL(\nfilter:\n\tTERM(siglaTipoProjeto: PEC)\n\t RANGE(dataPublicacao: from Sun Aug 09 00:00:00 BRT 2026 to Sat Aug 15 23:59:59 BRT 2026)\n)",
+  "noOcorrencias": 2,
+  "noDocumentos": 2,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "siglaTipoProjeto_ASC_ano_DESC_numero_DESC",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false,
+  "listaItem": [
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROPOSTA DE EMENDA À CONSTITUIÇÃO",
+    "siglaTipoProjeto": "PEC",
+    "numero": "68",
+    "ano": "2026",
+    "autor": "Deputado Arlen Santiago                    MDB\nDeputado Adriano Alvarenga                 PP\nDeputada Amanda Teixeira Dias              PL\nDeputado Antonio Carlos Arantes            PL\nDeputado Bim da Ambulância                 AVANTE\nDeputado Bosco                             PSD\nDeputado Bruno Engler                      PL\nDeputado Caporezzo                         PL\nDeputado Carlos Henrique                   REPUBLICANOS\nDeputado Carlos Pimenta                    PSB\nDeputada Carol Caram                       AVANTE\nDeputado Cassio Soares                     PSD\nDeputado Charles Santos                    REPUBLICANOS\nDeputada Chiara Biondini                   PL\nDeputado Coronel Henrique                  PL\nDeputado Duarte Bechir                     PSD\nDeputado Eduardo Azevedo                   PL\nDeputado Enes Cândido                      PSD\nDeputado Grego da Fundação                 UNIÃO\nDeputado Gustavo Valadares                 PSD\nDeputada Marli Ribeiro                     PL\nDeputado Rafael Martins                    PSD\nDeputado Roberto Andrade                   PRD\nDeputado Sargento Rodrigues                PL\nDeputado Thiago Cota                       PDT\nDeputado Zé Guilherme                      PP\n",
+    "ementa": "Acrescenta os arts. 159-A e 214-A à Constituição do Estado a fim de dispor sobre o Programa de Escolas Cívico-Militares no âmbito da rede pública estadual de ensino e assegurar dotação orçamentária específica para sua implementação, manutenção e expansão.",
+    "observacao": "Autoria coletiva.\nDistribuída a 2 comissões: CCJ ESP.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PEC 68 2026 - PROPOSTA DE EMENDA À CONSTITUIÇÃO",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicada no DL em 14 8 2026, pág 9.\nÀs Comissões de Constituição e Justiça e Especial, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 9652,
+      "nome": "Deputado Arlen Santiago",
+      "partido": "MDB"
+     },
+     {
+      "id": 28859,
+      "nome": "Deputado Adriano Alvarenga",
+      "partido": "PP"
+     },
+     {
+      "id": 30238,
+      "nome": "Deputada Amanda Teixeira Dias",
+      "partido": "PL"
+     },
+     {
+      "id": 7327,
+      "nome": "Deputado Antonio Carlos Arantes",
+      "partido": "PL"
+     },
+     {
+      "id": 28861,
+      "nome": "Deputado Bim da Ambulância",
+      "partido": "AVANTE"
+     },
+     {
+      "id": 18857,
+      "nome": "Deputado Bosco",
+      "partido": "PSD"
+     },
+     {
+      "id": 26148,
+      "nome": "Deputado Bruno Engler",
+      "partido": "PL"
+     },
+     {
+      "id": 28862,
+      "nome": "Deputado Caporezzo",
+      "partido": "PL"
+     },
+     {
+      "id": 10002,
+      "nome": "Deputado Carlos Henrique",
+      "partido": "REPUBLICANOS"
+     },
+     {
+      "id": 7758,
+      "nome": "Deputado Carlos Pimenta",
+      "partido": "PSB"
+     },
+     {
+      "id": 15330,
+      "nome": "Deputada Carol Caram",
+      "partido": "AVANTE"
+     },
+     {
+      "id": 18848,
+      "nome": "Deputado Cassio Soares",
+      "partido": "PSD"
+     },
+     {
+      "id": 26062,
+      "nome": "Deputado Charles Santos",
+      "partido": "REPUBLICANOS"
+     },
+     {
+      "id": 28863,
+      "nome": "Deputada Chiara Biondini",
+      "partido": "PL"
+     },
+     {
+      "id": 26149,
+      "nome": "Deputado Coronel Henrique",
+      "partido": "PL"
+     },
+     {
+      "id": 17919,
+      "nome": "Deputado Duarte Bechir",
+      "partido": "PSD"
+     },
+     {
+      "id": 28866,
+      "nome": "Deputado Eduardo Azevedo",
+      "partido": "PL"
+     },
+     {
+      "id": 28867,
+      "nome": "Deputado Enes Cândido",
+      "partido": "PSD"
+     },
+     {
+      "id": 28868,
+      "nome": "Deputado Grego da Fundação",
+      "partido": "UNIÃO"
+     },
+     {
+      "id": 12202,
+      "nome": "Deputado Gustavo Valadares",
+      "partido": "PSD"
+     },
+     {
+      "id": 28875,
+      "nome": "Deputada Marli Ribeiro",
+      "partido": "PL"
+     },
+     {
+      "id": 26138,
+      "nome": "Deputado Rafael Martins",
+      "partido": "PSD"
+     },
+     {
+      "id": 22607,
+      "nome": "Deputado Roberto Andrade",
+      "partido": "PRD"
+     },
+     {
+      "id": 9673,
+      "nome": "Deputado Sargento Rodrigues",
+      "partido": "PL"
+     },
+     {
+      "id": 22515,
+      "nome": "Deputado Thiago Cota",
+      "partido": "PDT"
+     },
+     {
+      "id": 26105,
+      "nome": "Deputado Zé Guilherme",
+      "partido": "PP"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROPOSTA DE EMENDA À CONSTITUIÇÃO",
+    "siglaTipoProjeto": "PEC",
+    "numero": "67",
+    "ano": "2026",
+    "autor": "Deputado Eduardo Azevedo                   PL\nDeputado Adriano Alvarenga                 PP\nDeputada Amanda Teixeira Dias              PL\nDeputado Antonio Carlos Arantes            PL\nDeputado Betinho Pinto Coelho              UNIÃO\nDeputado Bim da Ambulância                 AVANTE\nDeputado Bosco                             PSD\nDeputado Bruno Engler                      PL\nDeputado Caporezzo                         PL\nDeputada Carol Caram                       AVANTE\nDeputado Charles Santos                    REPUBLICANOS\nDeputado Coronel Henrique                  PL\nDeputado Delegado Christiano Xavier        PSD\nDeputado Doorgal Andrada                   PP\nDeputado Doutor Paulo                      UNIÃO\nDeputado Doutor Wilson Batista             PSD\nDeputado Dr. Maurício                      NOVO\nDeputado Duarte Bechir                     PSD\nDeputado Enes Cândido                      PSD\nDeputado Gil Pereira                       PSD\nDeputada Ione Pinheiro                     UNIÃO\nDeputada Marli Ribeiro                     PL\nDeputado Professor Cleiton                 PV\nDeputado Rafael Martins                    PSD\nDeputado Raul Belém                        PSD\nDeputado Sargento Rodrigues                PL\nDeputado Tito Torres                       PSD\nDeputado Vitório Júnior                    PP\nDeputado Zé Guilherme                      PP\nDeputado Zé Laviola                        NOVO\n",
+    "ementa": "Acrescenta o inciso XII ao art. 196 da Constituição do Estado. (Insere a garantia do funcionamento das instituições de ensino privadas e comunitárias confessionais entre os princípios da educação no Estado.)",
+    "observacao": "Autoria coletiva.\nDistribuída a 2 comissões: CCJ ESP.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PEC 67 2026 - PROPOSTA DE EMENDA À CONSTITUIÇÃO",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicada no DL em 14 8 2026, pág 8.\nÀs Comissões de Constituição e Justiça e Especial, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 28866,
+      "nome": "Deputado Eduardo Azevedo",
+      "partido": "PL"
+     },
+     {
+      "id": 28859,
+      "nome": "Deputado Adriano Alvarenga",
+      "partido": "PP"
+     },
+     {
+      "id": 30238,
+      "nome": "Deputada Amanda Teixeira Dias",
+      "partido": "PL"
+     },
+     {
+      "id": 7327,
+      "nome": "Deputado Antonio Carlos Arantes",
+      "partido": "PL"
+     },
+     {
+      "id": 13425,
+      "nome": "Deputado Betinho Pinto Coelho",
+      "partido": "UNIÃO"
+     },
+     {
+      "id": 28861,
+      "nome": "Deputado Bim da Ambulância",
+      "partido": "AVANTE"
+     },
+     {
+      "id": 18857,
+      "nome": "Deputado Bosco",
+      "partido": "PSD"
+     },
+     {
+      "id": 26148,
+      "nome": "Deputado Bruno Engler",
+      "partido": "PL"
+     },
+     {
+      "id": 28862,
+      "nome": "Deputado Caporezzo",
+      "partido": "PL"
+     },
+     {
+      "id": 15330,
+      "nome": "Deputada Carol Caram",
+      "partido": "AVANTE"
+     },
+     {
+      "id": 26062,
+      "nome": "Deputado Charles Santos",
+      "partido": "REPUBLICANOS"
+     },
+     {
+      "id": 26149,
+      "nome": "Deputado Coronel Henrique",
+      "partido": "PL"
+     },
+     {
+      "id": 28864,
+      "nome": "Deputado Delegado Christiano Xavier",
+      "partido": "PSD"
+     },
+     {
+      "id": 26151,
+      "nome": "Deputado Doorgal Andrada",
+      "partido": "PP"
+     },
+     {
+      "id": 26152,
+      "nome": "Deputado Doutor Paulo",
+      "partido": "UNIÃO"
+     },
+     {
+      "id": 18850,
+      "nome": "Deputado Doutor Wilson Batista",
+      "partido": "PSD"
+     },
+     {
+      "id": 28865,
+      "nome": "Deputado Dr. Maurício",
+      "partido": "NOVO"
+     },
+     {
+      "id": 17919,
+      "nome": "Deputado Duarte Bechir",
+      "partido": "PSD"
+     },
+     {
+      "id": 28867,
+      "nome": "Deputado Enes Cândido",
+      "partido": "PSD"
+     },
+     {
+      "id": 7762,
+      "nome": "Deputado Gil Pereira",
+      "partido": "PSD"
+     },
+     {
+      "id": 8095,
+      "nome": "Deputada Ione Pinheiro",
+      "partido": "UNIÃO"
+     },
+     {
+      "id": 28875,
+      "nome": "Deputada Marli Ribeiro",
+      "partido": "PL"
+     },
+     {
+      "id": 26119,
+      "nome": "Deputado Professor Cleiton",
+      "partido": "PV"
+     },
+     {
+      "id": 26138,
+      "nome": "Deputado Rafael Martins",
+      "partido": "PSD"
+     },
+     {
+      "id": 26114,
+      "nome": "Deputado Raul Belém",
+      "partido": "PSD"
+     },
+     {
+      "id": 9673,
+      "nome": "Deputado Sargento Rodrigues",
+      "partido": "PL"
+     },
+     {
+      "id": 22616,
+      "nome": "Deputado Tito Torres",
+      "partido": "PSD"
+     },
+     {
+      "id": 28878,
+      "nome": "Deputado Vitório Júnior",
+      "partido": "PP"
+     },
+     {
+      "id": 26105,
+      "nome": "Deputado Zé Guilherme",
+      "partido": "PP"
+     },
+     {
+      "id": 28879,
+      "nome": "Deputado Zé Laviola",
+      "partido": "NOVO"
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -145,14 +145,17 @@ DOCUMENTED_APIS = (
 class Permission:
     """One written permission to fetch what a host's robots.txt refuses."""
 
-    __slots__ = ("prefixes", "granted_by", "date", "condition", "docs")
+    __slots__ = ("prefixes", "granted_by", "date", "condition", "docs", "asks_robots")
 
-    def __init__(self, prefixes, granted_by, date, condition, docs):
+    def __init__(self, prefixes, granted_by, date, condition, docs, asks_robots=False):
         self.prefixes = tuple(prefixes)
         self.granted_by = granted_by
         self.date = date
         self.condition = condition
         self.docs = docs
+        # True: the owner granted access by changing robots.txt itself, so the
+        # record is kept but robots.txt is still asked (and obeyed) every run.
+        self.asks_robots = asks_robots
 
     def covers(self, url):
         return any(url.startswith(p) for p in self.prefixes)
@@ -200,11 +203,32 @@ PERMISSIONS = (
         "selected dataset endpoints count as API-client usage and it does not apply to them. "
         "No robots.txt change is needed: the email is the confirmation.",
         "docs/robots-runtime.md#written-permissions"),
+    # Recorded, never a skip: ALMG granted access by rewriting robots.txt,
+    # which still disallows paging and sorting (p=, tp=, ord=, ordenacao=).
+    Permission(
+        ("https://dadosabertos.almg.gov.br/api/v2/",),
+        "ALMG Centro de Atendimento ao Cidadão (protocolo 126599)",
+        "2026-10-14",
+        "At our written request ALMG changed dadosabertos.almg.gov.br/robots.txt to allow "
+        "/documentacao/, /api/ajuda/ and /api/v2/; it still disallows /api/v2/*?*p=, "
+        "/api/v2/*?*ord=, /api/v2/*?*tp= and /api/v2/*?*ordenacao= (paging and sorting). "
+        "Our question whether paging is acceptable is unanswered, so we do not page.",
+        "docs/robots-runtime.md#written-permissions",
+        asks_robots=True),
 )
 
 
 def permission_for(url, permissions=None):
-    """The Permission covering `url`, or None."""
+    """The Permission that lets `url` skip the robots.txt read, or None. A
+    permission given by changing robots.txt (asks_robots) never does."""
+    for p in (PERMISSIONS if permissions is None else permissions):
+        if p.covers(url) and not p.asks_robots:
+            return p
+    return None
+
+
+def recorded_permission(url, permissions=None):
+    """Any recorded Permission covering `url`, asks_robots ones included."""
     for p in (PERMISSIONS if permissions is None else permissions):
         if p.covers(url):
             return p

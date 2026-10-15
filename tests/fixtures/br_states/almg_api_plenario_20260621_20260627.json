@@ -1,0 +1,56 @@
+{
+ "resultadoPesquisaReunioesPlenario": {
+  "tamanhoPagina": 20,
+  "numeroPagina": 1,
+  "numeroOcorrencias": 4,
+  "dataHora": "2026-10-15T09:43:42.911",
+  "listaReuniaoPlenario": [
+   {
+    "dia": "2026-06-22",
+    "hora": "19:00",
+    "tipoReuniao": {
+     "id": 4,
+     "nome": "ESPECIAL"
+    },
+    "numReuniao": 20,
+    "resultadoCompleto": "N",
+    "reuniaoDesconvocada": "N",
+    "idReuniao": 8517
+   },
+   {
+    "dia": "2026-06-23",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA"
+    },
+    "numReuniao": 27,
+    "resultadoCompleto": "S",
+    "reuniaoDesconvocada": "N",
+    "idReuniao": 8522
+   },
+   {
+    "dia": "2026-06-24",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA"
+    },
+    "resultadoCompleto": "S",
+    "reuniaoDesconvocada": "N",
+    "idReuniao": 8523
+   },
+   {
+    "dia": "2026-06-25",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA"
+    },
+    "resultadoCompleto": "S",
+    "reuniaoDesconvocada": "N",
+    "idReuniao": 8524
+   }
+  ]
+ }
+}

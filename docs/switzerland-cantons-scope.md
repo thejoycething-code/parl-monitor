@@ -95,7 +95,7 @@ Ranked by population, then by what the first read found on our ground.
 | Solothurn (0.29 m) | Kantonsrat | `so.ch/parlament/` | TYPO3 pages | allows | not yet |
 | Thurgau (0.29 m) | Grosser Rat | `data.tg.ch` datasets sk-stat-140 (business), sk-stat-136 (votes) | Opendatasoft API | **`Disallow: /api/`** | **yes, with written permission (13 Oct 2026)**, business and members' votes; fallback `grgeko.tg.ch` (below) |
 | Graubünden (0.20 m) | Grosser Rat | `www.gr.ch` (SharePoint) | HTML | disallows search and list views | not yet |
-| Basel-Stadt (0.20 m) | Grosser Rat | the Grand Council's exports `grosserrat.bs.ch/component/gribs` (ges, dok, vor, siz; offered 13 Oct 2026); `data.bs.ch` datasets 100311 (business), 100313 (documents), 100314 (steps), 100186 (votes, per member), 100086 (motions), members, agendas | JSON/CSV exports; Opendatasoft API | exports allowed; data.bs.ch **`Disallow: /api/`** | **yes**: business from the Grand Council's exports; members' votes from data.bs.ch (written permission, 13 Oct 2026); fallbacks data.bs.ch, then `grosserrat.bs.ch` pages (below) |
+| Basel-Stadt (0.20 m) | Grosser Rat | the Grand Council's exports `grosserrat.bs.ch/component/gribs` (ges, dok, vor, siz; offered 13 Oct 2026; zuw, adr and gre since 15 Oct 2026, daily download allowed); `data.bs.ch` datasets 100311 (business), 100313 (documents), 100314 (steps), 100186 (votes, per member), 100086 (motions), members, agendas | JSON/CSV exports; Opendatasoft API | exports allowed; data.bs.ch **`Disallow: /api/`** | **yes**: business from the Grand Council's exports; members' votes from data.bs.ch (written permission, 13 Oct 2026); fallbacks data.bs.ch, then `grosserrat.bs.ch` pages (below) |
 | Neuchâtel (0.18 m) | Grand Conseil | `www.ne.ch` | Drupal | allows | not yet |
 | Schwyz (0.17 m) | Kantonsrat | `www.sz.ch/kantonsrat` | HTML | allows | not yet |
 | Zug (0.13 m) | Kantonsrat | `zg.ch/de/kantonsrat` | Magnolia pages | allows | not yet |
@@ -347,11 +347,55 @@ the "Source:" line names grosserrat.bs.ch); votes keep the data.bs.ch
 dataset link, as its CC BY licence requires; the coverage line links the
 four exports and names Frankenbach's offer.
 
+### Further exports: committee assignments and members (15 October 2026)
+
+**The permission.** Peter Frankenbach (email of 13 October 2026) gave
+further exports and allowed a **daily** download (the exports are rebuilt
+nightly around 03:00): `zuw` (Zuweisungen an Gremien), `dok` (already read)
+and `adr` (Ratsmitglieder), at
+`https://grosserrat.bs.ch/component/gribs/?chosentable={zuw|dok|adr}&view=exporter&Itemid=105&format={csv|json}`.
+Recorded in docs/robots-runtime.md ("Written permissions", Basel-Stadt daily
+downloads). No `Permission` entry: robots.txt allows `/component/` and is
+still asked every run.
+
+**Measured live, 15 October 2026.** `zuw` JSON: 25,620 assignments (4.9 MB):
+`ges_laufnr` (the business), `uni_nr_an` (the body it is assigned to),
+`titel` (the assignment's words: "Überweisung", "Überweisung RA", "Zum
+Bericht"), `status` (A done, B open, F, X), `termin` (deadline), `erledigt`
+(completed); no date of assignment. The body numbers are not in `adr`; the
+exporter's public form also lists `gre` (Gremien, 90 rows, 16 KB: number,
+short name, name, type), which names them (811 Gesundheits- und
+Sozialkommission, 795 BKK, 842 UVEK ...). The Regierungsrat and the plenary,
+the commonest recipients, are not Gremien there and are not treated as
+committees. `adr` JSON: 439 people (224 KB): members past and present and
+some officials, with number, name, party (`partei_kname`) and, besides,
+addresses, phone numbers and e-mail addresses. Only number, name and party
+are read, in memory; nothing from `adr` is stored as such and the exports
+are not archived.
+
+**Wired** (`fetch_baselstadt_gribs`, branch `almg-bs-extra`): each business's
+`committee` is the Gremium its open assignment names (else the last one it
+was assigned to); an assignment completed in the window is a step ("Zuweisung
+an Gesundheits- und Sozialkommission (Überweisung): erledigt"); the first
+author (`ges.gr_urheber`) gets name and party from `adr`; every member's vote
+from data.bs.ch 100186 gets the member's party from `adr`
+(`ch_canton_votes.party`, beside the Fraktion at the vote, which is kept as
+printed). Three more requests a week (about 5 MB), read weekly in
+jobs/ch-weekly.sh, inside the daily allowance. If `adr` or `zuw`/`gre`
+fails, a gap line says so and the business is read without it.
+
+**Dataset links** (15 October 2026): data.bs.ch and data.bl.ch now answer
+`/explore/dataset/<id>/` with a 302 to `/explore/assets/<id>/`. Every
+Source line and the coverage line link the assets page directly (the item
+filter in the form the portal redirects to, `?refine=signatur_ges%3A<nr>`);
+rows stored earlier are shown the same way (`src/editions/ch.direct_url`).
+
 ### Ongoing source plan for Basel-Stadt
 
 1. **Primary: the Grand Council's own exports** (`grosserrat.bs.ch/component/gribs`,
    offered by the Parlamentsdienst, 13 October 2026; robots.txt allows
-   them): business (`ges`), documents (`dok`), steps (`vor` + `siz`). When
+   them): business (`ges`), documents (`dok`), steps (`vor` + `siz`),
+   committee assignments (`zuw`, named by `gre`) and members (`adr`). When
    Frankenbach sends a votes export, it replaces data.bs.ch 100186 here.
 2. **Secondary: `data.bs.ch`'s API under the Statistisches Amt's written
    permission** (Orhan Saeedi, 13 October 2026, `src/robots_guard.PERMISSIONS`):

@@ -105,6 +105,7 @@ dataset not listed is asked.
 | data.bs.ch | `/api/explore/v2.1/catalog/datasets/` 100311 (Grosser Rat: Geschäfte), 100313 (Dokumente), 100314 (Vorgänge von Geschäften), 100186 (Live-Abstimmungsergebnisse, members' votes) | Orhan Saeedi, Statistisches Amt Basel-Stadt | 13 Oct 2026 | "Sie können sehr gerne die API benutzen unter Einhaltung der Lizenz. Das heisst sie müssen die Datenquelle irgendwie verlinken." If the API is slow, download in batches. | Licence CC BY 4.0 (Parlamentsdienst des Grossen Rates). Every Basel-Stadt item and vote in the Swiss edition carries a "Source:" link to its dataset (`ch_canton_acts.source_url`, `ch_canton_divisions.source_url`), and the Cantons coverage line links all four datasets. Exports filtered server-side; votes fetched in 14-day batches; 3 s between requests |
 | data.tg.ch | `/api/explore/v2.1/catalog/datasets/` sk-stat-140 (Politische Geschäfte des Grossen Rats), sk-stat-141 (Vorstösserinnen und Vorstösser), sk-stat-136 (Abstimmungen im Grossen Rat, members' votes), sk-stat-139 (Dokumente; listed, not read yet) | Felix Lorenz, Amt für Daten und Statistik (ogd@tg.ch) | 13 Oct 2026 | robots.txt is aimed at crawlers indexing the whole portal; targeted API retrieval of individual datasets is explicitly intended; our client "CitizenGO-ParlMonitor/1.0" may retrieve the Grosser Rat datasets about weekly via the API; the licence allows commercial and non-commercial use. | Licence CC0 1.0. Read once a week by jobs/ch-weekly.sh; votes from the newest stored day on (the first read: the 2024-2028 legislature in quarterly batches). Items carry their dataset link too |
 | data.bl.ch | `/api/explore/v2.1/catalog/datasets/` 13090 (Landratsgeschäfte seit 2017), 13140 (Beteiligungen von Landratsmitgliedern an Vorstössen: authors and co-signatories), 13130 (Unterlagen zu Landratsgeschäften: documents), 13080 (Abstimmungsverhalten der Landratsmitglieder seit 2018: members' votes) | Johannes Hool, Project Manager, Statistisches Amt / Office for Data and Statistics, Finance and Church Directorate, Canton of Basel-Landschaft | 13 Oct 2026 | Client "CitizenGO-ParlMonitor/1.0" is authorised to retrieve the Landrat's open data records, voting results included, via the data.bl.ch API; large-scale retrieval is fine. The robots.txt `/api/` disallow targets generic crawlers; requests to specific, deliberately selected dataset endpoints (`/api/explore/v2.1/catalog/datasets/<id>/records?...`) count as API-client usage and the rule does not apply. No robots.txt change is needed; the email is the confirmation. (Paraphrased.) | Publisher Landeskanzlei des Kantons Basel-Landschaft; licence opendata.swiss `terms_by` (free use, commercial allowed, the source must be cited): every Basel-Landschaft item and vote carries a "Source:" link to its dataset, and the Cantons coverage line links all four. Read once a week by jobs/ch-weekly.sh: exports filtered server-side, business in the last 45 days plus everything in progress, votes from the newest stored day on (the first read: the 2023-2027 legislature in quarterly batches, about 1,100 votes and 97,000 member votes, under two minutes on 13 October 2026); 3 s between requests. The other Landrat datasets (13100 interests, 13110 memberships, 13120 agendas, 13150/13160 bodies) are not listed and are still asked (refused) |
+| dadosabertos.almg.gov.br | `/api/v2/` (recorded with `asks_robots=True`: **not** a skip, see below) | ALMG Centro de Atendimento ao Cidadão (protocolo 126599) | 14 Oct 2026 | At our written request ALMG changed its robots.txt to `Allow: /documentacao/`, `Allow: /api/ajuda/`, `Allow: /api/v2/`, while keeping `Disallow: /api/v2/*?*p=`, `/api/v2/*?*ord=`, `/api/v2/*?*tp=`, `/api/v2/*?*ordenacao=` and `Disallow: /`. We asked whether paging is acceptable; no answer yet. | Read by `tools/br_states.py` (`fetch_mg_api`), Minas Gerais, weekly. robots.txt is still read every run and obeyed: the wildcard rules refuse every paged or sorted URL (Robots and star_rules both match `*` and take the longest rule; `tests/test_robots_runtime.py`, `AlmgRobotsTests`), and the collector's `mg_api_url()` refuses to build one. Searches narrow by publication date (a week, split to days when a week holds more than one page of 20); a day holding more than one page is completed by reading bills one by one by number, and what a run's cap leaves is a gap carried to the next run. ALMG's own limits are kept: one request at a time, 1.5 s apart (they ask for at most two at once and one second between). If ALMG confirms paging and lifts the Disallow lines, paging can replace the date splitting |
 
 Collector: `tools/ch_cantons.py` (`fetch_baselstadt_api`, `fetch_thurgau_api`,
 `fetch_baselland_api`). If an API fails, the canton is read from its
@@ -128,6 +129,26 @@ for them like any other page and would refuse them if that changed (tested:
 a `Disallow: /component/` makes Basel-Stadt step down to data.bs.ch with a
 gap). Collector: `fetch_baselstadt_gribs`; order: exports, then data.bs.ch,
 then the Grand Council's pages.
+
+**Minas Gerais, 15 October 2026 (branch `almg-bs-extra`).** ALMG's answer
+was a robots.txt change, not an exemption, so its `Permission` carries
+`asks_robots=True`: `permission_for()` never returns it (no skip), while
+`recorded_permission()` does, so the record stays with the others. A paged
+or sorted URL (`p=`, `tp=`, `ord=`, `ordenacao=`) is refused by the guard
+exactly as before the change.
+
+**Basel-Stadt, daily downloads (15 October 2026).** Peter Frankenbach (IT
+lead, Parlamentsdienst des Grossen Rates Basel-Stadt) wrote on 13 October
+2026 offering further GRIBS exports and allowing a DAILY download (the data
+are updated nightly around 03:00): `zuw` (Zuweisungen an Gremien: committee
+assignments), `dok` (documents) and `adr` (Ratsmitglieder: members),
+`https://grosserrat.bs.ch/component/gribs/?chosentable={zuw|dok|adr}&view=exporter&Itemid=105&format={csv|json}`.
+`tools/ch_cantons.py` now reads `zuw` and `adr` beside `ges`, `dok`, `vor`
+and `siz`, once a week in jobs/ch-weekly.sh (well inside the daily
+allowance). Like the other GRIBS exports these need no `Permission` entry:
+grosserrat.bs.ch's robots.txt allows `/component/`, and the run-time guard
+still asks it. Votes stay on data.bs.ch 100186 under Orhan Saeedi's
+permission above.
 
 A new permission is added by appending a `Permission(...)` to
 `robots_guard.PERMISSIONS` with the same fields and a row here;

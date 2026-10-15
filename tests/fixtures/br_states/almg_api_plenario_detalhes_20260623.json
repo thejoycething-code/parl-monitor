@@ -1,0 +1,307 @@
+{
+ "reuniao": {
+  "reuniao": {
+   "id": 8522,
+   "data": "2026-06-23",
+   "hora": "14:00",
+   "numero": 27,
+   "tipo": {
+    "id": 1,
+    "descricao": "ORDINÁRIA",
+    "idCategoria": 0
+   },
+   "descricao": "27ª Reunião Ordinária de Plenário",
+   "pautaCompleta": true,
+   "resultadoCompleto": true,
+   "situacao": {
+    "codigo": "OCORRIDA",
+    "descricao": "Ocorrida"
+   },
+   "reuniaoDesconvocada": false,
+   "dataPublicacaoAta": "2026-06-25"
+  },
+  "segundaParte": {
+   "titulo": "2ª Parte",
+   "SegundaFase": {
+    "titulo": "2ª Fase",
+    "ordemDoDia": [
+     {
+      "ordem": 1,
+      "turno": {
+       "codigo": 1,
+       "descricao": "1º Turno"
+      },
+      "tipoApreciacao": {
+       "codigo": 2,
+       "descricao": "Votação"
+      },
+      "apreciacaoSobreParecer": false,
+      "parecerPelaInconstitucionalidade": false,
+      "ordemResultado": 1,
+      "faixaConstitucional": false,
+      "primeiraFaseReuniao": false,
+      "proposicao": {
+       "id": 235015,
+       "tipo": {
+        "id": 1,
+        "descricao": "Projeto de Lei",
+        "idCategoria": 0,
+        "sigla": "PL."
+       },
+       "numero": 4172,
+       "ano": 2025,
+       "ementaOuAssunto": "Dispõe sobre a instituição do Programa de Atendimento Psicológico Remoto para Vítimas de Violência Doméstica e Familiar no Estado.",
+       "autoria": [
+        {
+         "id": 0,
+         "sequencia": 1,
+         "primeiroSignatario": true,
+         "idDeputado": 28874,
+         "nome": "Deputada Maria Clara Marra"
+        }
+       ]
+      },
+      "descricao": "Votação - 1º Turno",
+      "acoes": [
+       {
+        "sequencia": 1,
+        "descricao": "Aprovado em 1º turno na forma do Substitutivo nº  2.",
+        "idDeputado": 0,
+        "idComissao": 0,
+        "tipoAcao": {
+         "id": 96,
+         "descricao": "Aprovado em 1º turno na forma do Substitutivo nº ",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 1,
+         "descricao": "Resultado de proposição"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       },
+       {
+        "sequencia": 2,
+        "descricao": "Prejudicados o Substitutivo nº 1 e o projeto original.",
+        "idDeputado": 0,
+        "idComissao": 0,
+        "tipoAcao": {
+         "id": 54,
+         "descricao": "Prejudicados",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 1,
+         "descricao": "Resultado de proposição"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       },
+       {
+        "sequencia": 3,
+        "descricao": "À Comissão de Defesa dos Direitos da Mulher",
+        "idDeputado": 0,
+        "idComissao": 1132,
+        "tipoAcao": {
+         "id": 1,
+         "descricao": "À Comissão",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 2,
+         "descricao": "Despacho"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       }
+      ]
+     },
+     {
+      "ordem": 8,
+      "turno": {
+       "codigo": 2,
+       "descricao": "2º Turno"
+      },
+      "tipoApreciacao": {
+       "codigo": 1,
+       "descricao": "Discussão"
+      },
+      "apreciacaoSobreParecer": false,
+      "parecerPelaInconstitucionalidade": false,
+      "ordemResultado": 8,
+      "faixaConstitucional": false,
+      "primeiraFaseReuniao": false,
+      "proposicao": {
+       "id": 206790,
+       "tipo": {
+        "id": 1,
+        "descricao": "Projeto de Lei",
+        "idCategoria": 0,
+        "sigla": "PL."
+       },
+       "numero": 948,
+       "ano": 2023,
+       "ementaOuAssunto": "Dispõe sobre o programa estadual de acompanhamento pré-natal e pós-parto em casos de gestantes com transtorno do espectro autista.",
+       "autoria": [
+        {
+         "id": 0,
+         "sequencia": 1,
+         "primeiroSignatario": true,
+         "idDeputado": 16234,
+         "nome": "Deputada Alê Portela"
+        }
+       ]
+      },
+      "descricao": "Discussão - 2º Turno",
+      "acoes": [
+       {
+        "sequencia": 1,
+        "descricao": "Aprovado em 2º turno na forma do Substitutivo nº 1 ao vencido em 1º turno.",
+        "idDeputado": 0,
+        "idComissao": 0,
+        "tipoAcao": {
+         "id": 98,
+         "descricao": "Aprovado em 2º turno na forma do Substitutivo nº",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 1,
+         "descricao": "Resultado de proposição"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       },
+       {
+        "sequencia": 2,
+        "descricao": "À Comissão de Redação",
+        "idDeputado": 0,
+        "idComissao": 13,
+        "tipoAcao": {
+         "id": 1,
+         "descricao": "À Comissão",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 2,
+         "descricao": "Despacho"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       }
+      ]
+     },
+     {
+      "ordem": 9,
+      "turno": {
+       "codigo": 2,
+       "descricao": "2º Turno"
+      },
+      "tipoApreciacao": {
+       "codigo": 1,
+       "descricao": "Discussão"
+      },
+      "apreciacaoSobreParecer": false,
+      "parecerPelaInconstitucionalidade": false,
+      "ordemResultado": 9,
+      "faixaConstitucional": false,
+      "primeiraFaseReuniao": false,
+      "proposicao": {
+       "id": 208065,
+       "tipo": {
+        "id": 1,
+        "descricao": "Projeto de Lei",
+        "idCategoria": 0,
+        "sigla": "PL."
+       },
+       "numero": 1117,
+       "ano": 2023,
+       "ementaOuAssunto": "Declara como patrimônio histórico, cultural, religioso, turístico, paisagístico e social, de natureza material e imaterial de Minas Gerais a Capela de Santo Amaro do Botafogo, construção seiscentista que está entre as mais antigas do Estado, pertencente à Basílica do Pilar, em Ouro Preto.",
+       "autoria": [
+        {
+         "id": 0,
+         "sequencia": 1,
+         "primeiroSignatario": true,
+         "idDeputado": 12552,
+         "nome": "Deputado Leleco Pimentel"
+        }
+       ]
+      },
+      "descricao": "Discussão - 2º Turno",
+      "acoes": [
+       {
+        "sequencia": 1,
+        "descricao": "Aprovado em 2º turno na forma do vencido em 1º turno",
+        "idDeputado": 0,
+        "idComissao": 0,
+        "tipoAcao": {
+         "id": 22,
+         "descricao": "Aprovado em 2º turno na forma do vencido em 1º turno",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 1,
+         "descricao": "Resultado de proposição"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       },
+       {
+        "sequencia": 2,
+        "descricao": "À Comissão de Redação",
+        "idDeputado": 0,
+        "idComissao": 13,
+        "tipoAcao": {
+         "id": 1,
+         "descricao": "À Comissão",
+         "prontaOrdemDia": false,
+         "requerimento": false,
+         "requerVotacao": false,
+         "idsemantica": 0
+        },
+        "classificacao": {
+         "id": 2,
+         "descricao": "Despacho"
+        },
+        "abrangencia": {
+         "id": 1,
+         "descricao": "Proposição"
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "hashAtualizacao": 952379083
+ }
+}

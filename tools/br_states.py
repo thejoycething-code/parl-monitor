@@ -25,14 +25,19 @@ THE SOURCES, all keyless, all probed live with robots.txt read first:
        for bills on our ground or watched. Nothing large is archived (the
        files are the Assembly's own, re-downloadable): the read is recorded
        in brs_reads with its newest date.
-  mg   ALMG (Minas Gerais), the website's bill search
-       (/atividade-parlamentar/projetos-de-lei/), newest first, ten a page,
-       for PL, PLC and PEC: number, ementa, authors with party, situação.
-       A second pass sorted by "data da última ação" catches bills that
-       moved. A bill on our ground also has its page read (publication date,
-       latest tramitação step). ALMG's open-data API (dadosabertos.almg.gov.br)
-       is NOT read: its robots.txt disallows everything but the
-       documentation.
+  mg   ALMG (Minas Gerais), its open-data API (dadosabertos.almg.gov.br/api/v2/,
+       since 15 October 2026: ALMG changed robots.txt at our request, protocolo
+       126599): bills (PL, PLC, PEC) with ementa, authors and party, situação,
+       committee and the date of the last action; plenary results per bill;
+       the deputies in office with party. robots.txt STILL disallows paging
+       and sorting (p=, tp=, ord=, ordenacao=), so searches never page: they
+       narrow by publication date (a week, split to single days) and a day
+       holding more than one page is completed bill by bill by number (see
+       "Minas Gerais (ALMG open-data API)" below; paging may be enabled later
+       if ALMG confirms it). When the API cannot be used on a run, the
+       website's bill search (/atividade-parlamentar/projetos-de-lei/) is read
+       as before: newest first, ten a page, for PL, PLC and PEC, a second pass
+       sorted by "data da última ação", bill pages for bills on our ground.
   rj   ALERJ (Rio de Janeiro), the Lotus Notes view of the 2023-2027 bills
        (https://alerjln1.alerj.rj.gov.br/scpro2327.nsf/Internet/LeiInt; it
        answers plain HTTP too, but the repository never fetches over HTTP), fifteen a
@@ -622,7 +627,9 @@ def with_retries(call, budget, waits, sleep):
             sleep(waits[i])
 
 
-def fetch_mg(client, ctx):
+def fetch_mg_site(client, ctx):
+    """Minas Gerais from the ALMG website: the fallback when the open-data
+    API (fetch_mg_api) cannot be used on a run."""
     res = Result("mg", "mg")
     tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
     first = not ctx["read_ok"].get("mg")
@@ -729,6 +736,444 @@ def fetch_mg(client, ctx):
             if m:
                 res.members.append(("mg/name:" + m.group(1), "mg", m.group(1), m.group(2)))
     return res
+
+
+# --- Minas Gerais (ALMG open-data API) ----------------------------------------------
+#
+# ALMG changed dadosabertos.almg.gov.br/robots.txt at our written request
+# (Centro de Atendimento ao Cidadão, protocolo 126599, 14 October 2026;
+# src/robots_guard.PERMISSIONS, docs/robots-runtime.md). It now allows
+# /api/v2/ but STILL disallows every /api/v2/ URL whose query names a page
+# or a sort: `Disallow: /api/v2/*?*p=`, `*?*tp=`, `*?*ord=`, `*?*ordenacao=`.
+# We asked whether paging is acceptable and have no answer yet, so this
+# reader never pages and never sorts:
+#
+#   * every search asks for page 1 only, at the API's default page size (20
+#     on 15 October 2026, read from each answer's tamanhoPagina, never set);
+#   * a search narrows by publication date instead: one query per week; a
+#     week reporting more occurrences (noOcorrencias) than one page holds is
+#     split in halves, down to single days;
+#   * a single day that still holds more than one page (ALMG publishes bills
+#     in batches: 100 PLs on 14 August 2026) keeps its first page (the
+#     highest numbers: the default order is type, year, number descending)
+#     and the rest are read ONE BY ONE by number, walking down from the
+#     lowest number listed (/proposicoes/{tipo}/{num}/{ano}, no query but
+#     formato=json), within MG_API_FILL_CAP a run; what the cap leaves is a
+#     gap line and is carried to the next run (brs_reads.meta);
+#   * mg_api_url() refuses to build a URL carrying p=, tp=, ord= or
+#     ordenacao=, and the run-time robots guard refuses it again.
+#
+# PAGING MAY BE ENABLED LATER: if ALMG confirms that p=/tp= are acceptable
+# (and lifts the Disallow lines), the date splitting and the number walk can
+# give way to ordinary paging. Until robots.txt itself allows it, it stays off.
+#
+# What the API gives: the bills (PL, PLC, PEC) with ementa, structured
+# authors with party, situação, local (the committee holding it), the date of
+# the last action and the full tramitação history; the plenary meetings
+# (ordinária and extraordinária) with each bill's result as recorded; the
+# deputies in office with party. It does NOT publish plenary votações
+# nominais (each member's vote): the plenary detail carries results only,
+# so votes are stored with their result and no tally or positions.
+# Committee per-member votes appear in the committee results only rarely
+# and at about 450 KB a bill; they are not read.
+
+MG_API = "https://dadosabertos.almg.gov.br/api/v2/"
+MG_API_HOST = "dadosabertos.almg.gov.br"
+# ALMG's documentation: at most two requests at a time and at least one
+# second between the end of one and the start of the next.
+MG_API_THROTTLE = 1.5
+HOST_THROTTLE[MG_API_HOST] = MG_API_THROTTLE
+MG_API_FIRST_DAYS = 60      # a first read: bills published in the last 60 days
+MG_API_OVERLAP_DAYS = 7     # later reads start a week before the last one ended
+MG_API_WINDOW_DAYS = 7      # one search per week, split when it overflows
+MG_API_FILL_CAP = 150       # bills read one by one per run (overflowing days)
+MG_API_DETAIL_CAP = 40      # known bills on our ground re-read per run
+MG_API_PLENARY_KINDS = ("ordinaria", "extraordinaria")
+# The query parameters robots.txt disallows (paging and sorting).
+MG_API_FORBIDDEN = re.compile(r"[?&](p|tp|ord|ordenacao)=", re.I)
+
+
+def mg_api_url(path, **params):
+    """An ALMG API URL. Never with a paging or sorting parameter: robots.txt
+    disallows them (see above), so this refuses to build one."""
+    query = "&".join("{0}={1}".format(k, v) for k, v in params.items() if v is not None)
+    url = MG_API + path + ("?" + query if query else "")
+    if MG_API_FORBIDDEN.search(url):
+        raise ValueError("ALMG API: paging/sorting parameters are disallowed by robots.txt: " + url)
+    return url
+
+
+def _ymd(day):
+    return day.replace("-", "")
+
+
+def _mg_name(nome):
+    return re.sub(r"^Deputad[oa]\s+", "", (nome or "").strip()).strip() or None
+
+
+def parse_mg_api_search(data):
+    """A pesquisa answer -> (items, occurrences, page size)."""
+    r = (data or {}).get("resultado") or (data or {}).get("resultadoPesquisa") or {}
+    items = r.get("listaItem") or []
+    if isinstance(items, dict):
+        items = [items]
+    return items, int(r.get("noOcorrencias") or 0), int(r.get("tamanhoPagina") or 0)
+
+
+def parse_mg_api_item(it):
+    """One DetalheProposicao -> bill dict (PL, PLC, PEC only), or None."""
+    kind = (it.get("siglaTipoProjeto") or "").strip().rstrip(".")
+    name = next((n for _i, s, n in MG_TYPES if s == kind), None)
+    try:
+        number, year = int(it.get("numero")), int(it.get("ano"))
+    except (TypeError, ValueError):
+        return None
+    if name is None:
+        return None
+    authors = []
+    for a in it.get("autoresEstruturados") or []:
+        n = _mg_name(a.get("nome"))
+        if n:
+            authors.append("{0} ({1})".format(n, a["partido"]) if a.get("partido") else n)
+    if not authors and it.get("autor"):
+        authors = [re.sub(r"\s{2,}", " ", _mg_name(line) or "").strip()
+                   for line in it["autor"].splitlines() if line.strip()]
+    hist = it.get("listaHistoricoTramitacoes") or []
+    step = hist[-1] if hist else {}
+    return {
+        "bill_key": brs_store.bill_key("mg", kind, number, year), "uf": "mg", "source": "mg",
+        "source_id": "{0}/{1}/{2}".format(kind, number, year), "kind": kind, "kind_name": name,
+        "number": number, "year": year, "title": (it.get("ementa") or "").strip() or None,
+        "authors": "; ".join(a for a in authors if a) or None,
+        "presented": (it.get("dataPublicacao") or "")[:10] or None,
+        "status": (it.get("situacao") or "").strip() or None,
+        "status_date": (it.get("dataUltimaAcao") or step.get("data") or "")[:10] or None,
+        "committees": (it.get("local") or "").strip() or None,
+        "url": MG_BILL.format(kind=kind, number=number, year=year),
+        "_authors": [(a.get("id"), _mg_name(a.get("nome")), a.get("partido"))
+                     for a in it.get("autoresEstruturados") or []],
+    }
+
+
+def parse_mg_api_deputies(data):
+    """deputados/em_exercicio -> [(member_key, uf, name, party)]."""
+    return [("mg/{0}".format(d["id"]), "mg", d.get("nome"), d.get("partido") or None)
+            for d in (data or {}).get("list") or [] if d.get("id") and d.get("nome")]
+
+
+def parse_mg_api_meetings(data):
+    """plenario/reunioes/pesquisa -> ([(dia, hora, kind folded)], occurrences, page size)."""
+    r = (data or {}).get("resultadoPesquisaReunioesPlenario") or {}
+    out = []
+    for m in r.get("listaReuniaoPlenario") or []:
+        if m.get("reuniaoDesconvocada") == "S" or not m.get("dia") or not m.get("hora"):
+            continue
+        out.append((m["dia"][:10], m["hora"][:5], plain((m.get("tipoReuniao") or {}).get("nome"))))
+    return out, int(r.get("numeroOcorrencias") or 0), int(r.get("tamanhoPagina") or 0)
+
+
+def parse_mg_api_plenary(data):
+    """plenario/reunioes/detalhes -> [vote dict]: one per bill (PL, PLC, PEC)
+    on the Ordem do Dia with a recorded result. Results only: the API
+    publishes no tally and no member's vote."""
+    reu = (data or {}).get("reuniao") or {}
+    head = reu.get("reuniao") or {}
+    if not head.get("resultadoCompleto"):
+        return []
+    day = (head.get("data") or "")[:10]
+    second = reu.get("segundaParte") or {}
+    out = []
+    for phase in second.values():
+        if not isinstance(phase, dict):
+            continue
+        for item in phase.get("ordemDoDia") or []:
+            prop = item.get("proposicao") or {}
+            kind = ((prop.get("tipo") or {}).get("sigla") or "").strip().rstrip(".")
+            if kind not in {s for _i, s, _n in MG_TYPES} or not prop.get("numero"):
+                continue
+            results = [a.get("descricao") for a in item.get("acoes") or []
+                       if (a.get("classificacao") or {}).get("id") == 1 and a.get("descricao")]
+            if not results:
+                continue
+            key = brs_store.bill_key("mg", kind, prop["numero"], prop.get("ano"))
+            out.append({
+                "vote_key": "mg/p{0}/{1}/{2}".format(head.get("id"), key.split("/", 1)[1],
+                                                     item.get("ordem")),
+                "uf": "mg", "bill_key": key, "date": day or None, "body": "plenary",
+                "description": "{0}, {1}".format(item.get("descricao") or "Plenary",
+                                                 head.get("descricao") or "plenary meeting"),
+                "result": re.sub(r"\s+", " ", results[0]).strip(),
+                "yes": None, "no": None, "abstain": None,
+                "_title": (prop.get("ementaOuAssunto") or "").strip() or None})
+    return out
+
+
+def _days(since, until):
+    d = datetime.date.fromisoformat(since)
+    end = datetime.date.fromisoformat(until)
+    while d <= end:
+        yield d.isoformat()
+        d += datetime.timedelta(days=1)
+
+
+def _windows(since, until, size):
+    days = list(_days(since, until))
+    for i in range(0, len(days), size):
+        yield days[i], days[min(i + size, len(days)) - 1]
+
+
+def _half(d1, d2):
+    a = datetime.date.fromisoformat(d1)
+    b = datetime.date.fromisoformat(d2)
+    mid = a + datetime.timedelta(days=(b - a).days // 2)
+    return (d1, mid.isoformat()), ((mid + datetime.timedelta(days=1)).isoformat(), d2)
+
+
+def fetch_mg_api(client, ctx):
+    """Minas Gerais from ALMG's open-data API, never paging (see above).
+    Returns (Result, None), or (None, reason) when the API cannot be used on
+    this run and the website should be read instead."""
+    res = Result("mg", "mg")
+    tax, budget, known = ctx["tax"], ctx["budget"], ctx["known"]
+    today = ctx["today"]
+    old = dict((ctx["meta"].get("mg") or {}).get("api") or {})
+    meta = dict(old)
+
+    def get(path, slug, **params):
+        return json.loads(decode(client.get_bytes(mg_api_url(path, formato="json", **params),
+                                                  FEED, "mg-api-" + slug)))
+
+    # The deputies first: one small request that tells us the API answers.
+    try:
+        res.members += parse_mg_api_deputies(get("deputados/em_exercicio", "deputados"))
+    except RobotsRefused as e:
+        return None, gap_text(e)
+    except (FetchError, ValueError) as e:
+        return None, gap_text(e)
+
+    first = not old.get("through")
+    since = (datetime.date.fromisoformat(today) - datetime.timedelta(days=MG_API_FIRST_DAYS)
+             if first else datetime.date.fromisoformat(min(old["through"], today))
+             - datetime.timedelta(days=MG_API_OVERLAP_DAYS)).isoformat()
+    since = max(since, LEGISLATURE_START)
+    listed = {}
+    overflow = []        # (kind, day, occurrences, [numbers listed])
+    failed_from = None   # the first day a search failed on: `through` stops before it
+
+    def search(kind, d1, d2):
+        nonlocal failed_from
+        if budget.exhausted():
+            res.gap("ALMG API: time budget reached in the {0} searches".format(kind))
+            failed_from = min(failed_from or d1, d1)
+            return
+        try:
+            items, n, size = parse_mg_api_search(get(
+                "proposicoes/pesquisa/direcionada", "{0}-{1}-{2}".format(kind, _ymd(d1), _ymd(d2)),
+                tipo=kind, ini=_ymd(d1), fim=_ymd(d2), sitTram=2))
+        except (FetchError, ValueError) as e:
+            res.gap("ALMG API {0} search {1} to {2}: {3}".format(kind, d1, d2, gap_text(e)))
+            failed_from = min(failed_from or d1, d1)
+            return
+        if size and n > size and len(items) < n and d1 < d2:
+            for a, b in _half(d1, d2):
+                search(kind, a, b)
+            return
+        got = [b for b in (parse_mg_api_item(it) for it in items) if b]
+        for b in got:
+            listed.setdefault(b["bill_key"], b)
+        if len(items) < n:
+            overflow.append((kind, d1, n, [b["number"] for b in got if b["kind"] == kind]))
+
+    for _tipo, kind, _name in MG_TYPES:
+        for d1, d2 in _windows(since, today, MG_API_WINDOW_DAYS):
+            search(kind, d1, d2)
+
+    # Days too full for one page: the rest by number, one at a time, walking
+    # down from the lowest number listed. Carried over from the last run first.
+    seen = {k for k in known["bills"] if k.startswith("mg/")} | set(listed)
+    walks = [dict(w) for w in old.get("pending") or []]
+    for kind, day, n, numbers in overflow:
+        if numbers:
+            walks.append({"kind": kind, "day": day, "next": min(numbers) - 1,
+                          "need": n - len(numbers)})
+    pending, fills = [], 0
+    for w in walks:
+        found = misses = 0
+        num, year = w["next"], int(w["day"][:4])
+        while found < w["need"] and num > 0 and misses <= 5:
+            key = brs_store.bill_key("mg", w["kind"], num, year)
+            if key in seen:
+                break            # reached bills already read: the day is complete
+            if fills >= MG_API_FILL_CAP or budget.exhausted():
+                break
+            try:
+                items, _n, _s = parse_mg_api_search(get(
+                    "proposicoes/{0}/{1}/{2}".format(w["kind"], num, year),
+                    "{0}-{1}-{2}".format(w["kind"], num, year)))
+            except (FetchError, ValueError) as e:
+                res.gap("ALMG API {0} {1}/{2}: {3}".format(w["kind"], num, year, gap_text(e)))
+                break
+            fills += 1
+            got = [b for b in (parse_mg_api_item(it) for it in items) if b]
+            if got:
+                found += 1
+                misses = 0
+                for b in got:
+                    listed.setdefault(b["bill_key"], b)
+                    seen.add(b["bill_key"])
+            else:
+                misses += 1
+            num -= 1
+        left = w["need"] - found
+        if left > 0 and num > 0 and misses <= 5 and brs_store.bill_key(
+                "mg", w["kind"], num, year) not in seen:
+            pending.append({"kind": w["kind"], "day": w["day"], "next": num, "need": left})
+            res.gap("ALMG API: {0} {1}(s) published on {2} not read yet (a day holds more than "
+                    "one page and paging is disallowed; read one by one, {3} a run; the next run "
+                    "continues from {1} {4}/{5})".format(left, w["kind"], w["day"],
+                                                         MG_API_FILL_CAP, num, year))
+        elif left > 0 and misses > 5:
+            res.gap("ALMG API: {0} {1}(s) published on {2} not found by number (six numbers in "
+                    "a row below {1} {3}/{4} answered nothing); not read".format(
+                        left, w["kind"], w["day"], num + 6, year))
+    meta["pending"] = pending
+    if failed_from is None:
+        meta["through"] = today
+    elif failed_from > since:
+        meta["through"] = (datetime.date.fromisoformat(failed_from)
+                           - datetime.timedelta(days=1)).isoformat()
+
+    # Plenary meetings: results per bill, results only.
+    psince = old.get("plen_through")
+    psince = ((datetime.date.fromisoformat(min(psince, today))
+               - datetime.timedelta(days=MG_API_OVERLAP_DAYS)).isoformat()
+              if psince else since)
+    meetings, pfailed = [], None
+
+    def meeting_search(d1, d2):
+        nonlocal pfailed
+        if budget.exhausted():
+            pfailed = min(pfailed or d1, d1)
+            return
+        try:
+            got, n, size = parse_mg_api_meetings(get(
+                "plenario/reunioes/pesquisa", "plen-{0}-{1}".format(_ymd(d1), _ymd(d2)),
+                ini=_ymd(d1), fim=_ymd(d2)))
+        except (FetchError, ValueError) as e:
+            res.gap("ALMG API plenary meetings {0} to {1}: {2}".format(d1, d2, gap_text(e)))
+            pfailed = min(pfailed or d1, d1)
+            return
+        if size and n > size and len(got) < n:
+            if d1 < d2:
+                for a, b in _half(d1, d2):
+                    meeting_search(a, b)
+                return
+            res.gap("ALMG API: plenary meetings on {0} hold more than one page; "
+                    "paging is disallowed".format(d1))
+        meetings.extend(got)
+
+    for d1, d2 in _windows(psince, today, MG_API_WINDOW_DAYS):
+        meeting_search(d1, d2)
+    for day, hour, kind in sorted(set(meetings)):
+        if kind not in MG_API_PLENARY_KINDS:
+            continue
+        if budget.exhausted():
+            pfailed = min(pfailed or day, day)
+            break
+        y, m, d = day.split("-")
+        try:
+            res.votes += parse_mg_api_plenary(get(
+                "plenario/reunioes/detalhes/{0}/{1}/{2}/{3}".format(y, m, d, hour),
+                "plen-{0}-{1}".format(_ymd(day), hour.replace(":", ""))))
+        except (FetchError, ValueError) as e:
+            res.gap("ALMG API plenary meeting {0} {1}: {2}".format(day, hour, gap_text(e)))
+            pfailed = min(pfailed or day, day)
+    if pfailed is None:
+        meta["plen_through"] = today
+    elif pfailed > psince:
+        meta["plen_through"] = (datetime.date.fromisoformat(pfailed)
+                                - datetime.timedelta(days=1)).isoformat()
+
+    # Bills voted on in plenary that are neither listed nor stored: classified
+    # from the ementa the meeting prints, and read by number when on our
+    # ground or watched (their votes are kept only for stored bills).
+    voted_new = 0
+    for v in res.votes:
+        key = v["bill_key"]
+        if key in listed or key in known["bills"] or voted_new >= MG_API_DETAIL_CAP:
+            continue
+        areas, _t, _tier = classify(tax, key, v.get("_title"), watch_path=ctx.get("watch_path"))
+        if not (on_our_ground(areas) or key in known["watched"]) or budget.exhausted():
+            continue
+        kind, num_year = key[3:].split(" ", 1)
+        number, yr = num_year.split("/")
+        try:
+            items, _n, _s = parse_mg_api_search(get("proposicoes/{0}/{1}/{2}".format(kind, number, yr),
+                                                    "{0}-{1}-{2}".format(kind, number, yr)))
+        except (FetchError, ValueError) as e:
+            res.gap("ALMG API {0}: {1}".format(key, gap_text(e)))
+            continue
+        voted_new += 1
+        for b in (parse_mg_api_item(it) for it in items):
+            if b and b["bill_key"] == key:
+                listed[key] = b
+    for v in res.votes:
+        v.pop("_title", None)
+
+    # Classify; bills on our ground or watched that this run did not list
+    # (an older bill that moved) are re-read by number, the least recently
+    # re-read first, within the cap.
+    for key, b in listed.items():
+        b = classified(tax, b, ctx.get("watch_path"))
+        res.bills.append(b)
+        if b.get("presented") and (res.through is None or b["presented"] > res.through):
+            res.through = b["presented"]
+    voted = {v["bill_key"] for v in res.votes}
+    revisit = []
+    for key, (_status, areas) in sorted(known["bills"].items()):
+        if not key.startswith("mg/") or key in listed:
+            continue
+        if on_our_ground(json.loads(areas or "[]")) or key in known["watched"] or key in voted:
+            revisit.append(key)
+    cursor = old.get("cursor") or ""
+    revisit = [k for k in revisit if k > cursor] + [k for k in revisit if k <= cursor]
+    details = 0
+    for key in revisit:
+        if details >= MG_API_DETAIL_CAP or budget.exhausted():
+            break
+        kind, num_year = key[3:].split(" ", 1)
+        number, yr = num_year.split("/")
+        try:
+            items, _n, _s = parse_mg_api_search(get("proposicoes/{0}/{1}/{2}".format(kind, number, yr),
+                                                    "{0}-{1}-{2}".format(kind, number, yr)))
+        except (FetchError, ValueError) as e:
+            res.gap("ALMG API {0}: {1}".format(key, gap_text(e)))
+            continue
+        details += 1
+        meta["cursor"] = key
+        for b in (parse_mg_api_item(it) for it in items):
+            if b and b["bill_key"] == key and b.get("status"):
+                res.stages.append((key, b["status"], b.get("status_date"), b.get("committees")))
+    # Authors as members, by ALMG's deputy id (the website route keys them by name).
+    for b in res.bills:
+        for mid, name, party in b.pop("_authors", []):
+            if mid and name:
+                res.members.append(("mg/{0}".format(mid), "mg", name, party or None))
+    res.meta = dict(ctx["meta"].get("mg") or {}, api=meta, route="api")
+    return res, None
+
+
+def fetch_mg(client, ctx):
+    """Minas Gerais: ALMG's open-data API first (since 15 October 2026); the
+    website (fetch_mg_site) when the API cannot be used on a run."""
+    res, reason = fetch_mg_api(client, ctx)
+    if res is not None:
+        return res
+    site = fetch_mg_site(client, ctx)
+    site.gap("ALMG open-data API not usable this run ({0}); read from the website "
+             "instead".format(reason))
+    site.meta = dict(ctx["meta"].get("mg") or {}, route="site")
+    return site
 
 
 # --- Rio de Janeiro (ALERJ Notes view) ----------------------------------------------

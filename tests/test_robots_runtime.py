@@ -124,11 +124,18 @@ class WrittenPermissionTests(unittest.TestCase):
             self.assertTrue(p.granted_by and p.condition)
             self.assertTrue(p.docs.startswith("docs/robots-runtime.md#written-permissions"))
             for prefix in p.prefixes:
+                hosts.add(prefix.split("/")[2])
+                if p.asks_robots:
+                    # A permission given by changing robots.txt: recorded, the
+                    # check still runs. Its host is named on the page.
+                    self.assertIn(prefix.split("/")[2], doc)
+                    self.assertIsNone(rg.permission_for(prefix + "x"))
+                    self.assertIs(rg.recorded_permission(prefix + "x"), p)
+                    continue
                 # host and a dataset path: never a whole host or a whole /api/
                 self.assertRegex(prefix, r"^https://[^/]+/api/explore/v2\.1/catalog/datasets/[^/]+/$")
-                hosts.add(prefix.split("/")[2])
                 self.assertIn(prefix.split("/datasets/")[1].rstrip("/"), doc)
-        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch", "data.bl.ch"})
+        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch", "data.bl.ch", "dadosabertos.almg.gov.br"})
         self.assertIn("Sie können sehr gerne die API benutzen", rg.PERMISSIONS[0].condition)
         self.assertIsNone(rg.probe_refusal(self.BS + "100311/records"))
         self.assertIsNotNone(rg.permission_for(self.TG + "sk-stat-140/exports/json"))
@@ -137,6 +144,63 @@ class WrittenPermissionTests(unittest.TestCase):
         self.assertIn("Johannes Hool", bl.granted_by)
         self.assertEqual(bl.date, "2026-10-13")
         self.assertIsNone(rg.permission_for(self.BL + "13100/records"))   # interests: not listed
+
+
+class AlmgRobotsTests(unittest.TestCase):
+    """15 October 2026: ALMG rewrote dadosabertos.almg.gov.br/robots.txt at
+    our written request (protocolo 126599). /api/v2/ is allowed, but every
+    paged or sorted query is still disallowed by wildcard rules; the guard
+    must read robots.txt every run (the permission is recorded with
+    asks_robots, never a skip) and refuse those URLs."""
+
+    ROBOTS = ("User-agent: *\nAllow: /documentacao/\nAllow: /api/ajuda/\nAllow: /api/v2/\n\n"
+              "Disallow: /api/v2/*?*p=\nDisallow: /api/v2/*?*ord=\nDisallow: /api/v2/*?*tp=\n"
+              "Disallow: /api/v2/*?*ordenacao=\nDisallow: /\n")
+    API = "https://dadosabertos.almg.gov.br/api/v2/"
+
+    def client(self):
+        from tests.robots_fakes import RobotsServing
+        serving = RobotsServing(Routes({"dadosabertos.almg.gov.br": "{}"}),
+                                {"dadosabertos.almg.gov.br": self.ROBOTS})
+        return rg.GuardedClient(serving, "br-states", log=quiet), serving
+
+    def test_allowed_queries_pass_after_reading_robots(self):
+        client, serving = self.client()
+        for path in ("proposicoes/pesquisa/direcionada?formato=json&tipo=PL&ini=20260814&fim=20260814&sitTram=2",
+                     "proposicoes/PL/6067/2026?formato=json", "deputados/em_exercicio?formato=json",
+                     "plenario/reunioes/pesquisa?formato=json&ini=20260810&fim=20260816",
+                     "plenario/reunioes/detalhes/2026/08/12/14:00?formato=json"):
+            self.assertEqual(client.get_text(self.API + path, "br-states", "x"), "{}")
+        self.assertEqual(serving.robots_asked, ["dadosabertos.almg.gov.br"])
+
+    def test_paging_and_sorting_are_refused(self):
+        client, serving = self.client()
+        for path in ("proposicoes/pesquisa/direcionada?tipo=PL&ano=2026&p=2",
+                     "proposicoes/pesquisa/direcionada?p=1",
+                     "proposicoes/pesquisa/direcionada?formato=json&tipo=PL&tp=100",
+                     "plenario/reunioes/pesquisa?ini=20260801&ord=1",
+                     "proposicoes/pesquisa/avancada?expr=x&ordenacao=2&formato=json"):
+            with self.assertRaises(rg.RobotsRefused, msg=path):
+                client.get_text(self.API + path, "br-states", "x")
+            self.assertFalse(client.allowed(self.API + path))
+        # The rest of the host (the old /ws/ API, the site root) stays refused.
+        for url in ("https://dadosabertos.almg.gov.br/ws/proposicoes/tipos",
+                    "https://dadosabertos.almg.gov.br/"):
+            self.assertFalse(client.allowed(url))
+        self.assertEqual(serving.inner.asked, [], "a refused URL is never requested")
+
+    def test_both_readers_honour_the_wildcards_and_longest_match(self):
+        from src.prov_fetch import Robots, rule_allows, star_rules
+        ua = "CitizenGO-ParlMonitor/1.0"
+        r, sr = Robots(self.ROBOTS), star_rules(self.ROBOTS, ua)
+        cases = {"/api/v2/proposicoes/PL/1/2026?formato=json": True,
+                 "/api/v2/x?a=1&p=2": False, "/api/v2/x?p=2": False, "/api/v2/x?tp=5&a=1": False,
+                 "/api/v2/x?ord=0": False, "/api/v2/x?ordenacao=0": False,
+                 "/api/v2/x?formato=json": True, "/documentacao/index": True, "/ws/x": False}
+        for path, want in cases.items():
+            url = "https://dadosabertos.almg.gov.br" + path
+            self.assertEqual(r.can_fetch(ua, url), want, path)
+            self.assertEqual(rule_allows(sr, url), want, path)
 
 
 class GuardTests(unittest.TestCase):

@@ -1,0 +1,14 @@
+{
+ "resultado": {
+  "consulta": "BOOL(\nfilter:\n\tTERM(siglaTipoProjeto: PL)\n\t RANGE(dataPublicacao: from Sun Aug 16 00:00:00 BRT 2026 to Thu Aug 20 23:59:59 BRT 2026)\n)",
+  "noOcorrencias": 0,
+  "noDocumentos": 0,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "siglaTipoProjeto_ASC_ano_DESC_numero_DESC",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false
+ }
+}

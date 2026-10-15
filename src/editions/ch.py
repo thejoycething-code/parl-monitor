@@ -48,6 +48,8 @@ the business; its votes keep the data.bs.ch dataset link.
 
 from __future__ import annotations
 
+import re
+
 from src import agenda
 from src import ch_store
 from src import country_edition as ce
@@ -218,20 +220,20 @@ CANTONS_DOC = ce.REPO + "docs/switzerland-cantons-scope.md"
 # dataset link, and so does the coverage line.
 OPEN_DATA = {
     "bs": ("data.bs.ch", "CC BY 4.0, Parlamentsdienst des Grossen Rates Basel-Stadt",
-           (("Geschäfte", "https://data.bs.ch/explore/dataset/100311/"),
-            ("Dokumente", "https://data.bs.ch/explore/dataset/100313/"),
-            ("Vorgänge", "https://data.bs.ch/explore/dataset/100314/"),
-            ("Abstimmungen", "https://data.bs.ch/explore/dataset/100186/"))),
+           (("Geschäfte", "https://data.bs.ch/explore/assets/100311/"),
+            ("Dokumente", "https://data.bs.ch/explore/assets/100313/"),
+            ("Vorgänge", "https://data.bs.ch/explore/assets/100314/"),
+            ("Abstimmungen", "https://data.bs.ch/explore/assets/100186/"))),
     "tg": ("data.tg.ch", "CC0 1.0, Staatskanzlei Kanton Thurgau",
            (("Geschäfte", "https://data.tg.ch/explore/dataset/sk-stat-140/"),
             ("Vorstösser", "https://data.tg.ch/explore/dataset/sk-stat-141/"),
             ("Abstimmungen", "https://data.tg.ch/explore/dataset/sk-stat-136/"))),
     "bl": ("data.bl.ch", "free use, source must be cited (opendata.swiss terms_by), "
                          "Landeskanzlei des Kantons Basel-Landschaft",
-           (("Geschäfte", "https://data.bl.ch/explore/dataset/13090/"),
-            ("Unterlagen", "https://data.bl.ch/explore/dataset/13130/"),
-            ("Vorstösser", "https://data.bl.ch/explore/dataset/13140/"),
-            ("Abstimmungen", "https://data.bl.ch/explore/dataset/13080/"))),
+           (("Geschäfte", "https://data.bl.ch/explore/assets/13090/"),
+            ("Unterlagen", "https://data.bl.ch/explore/assets/13130/"),
+            ("Vorstösser", "https://data.bl.ch/explore/assets/13140/"),
+            ("Abstimmungen", "https://data.bl.ch/explore/assets/13080/"))),
 }
 # Read from a parliament's own raw data exports, offered by its staff (13
 # October 2026; robots.txt allows them). The Source line links the
@@ -245,7 +247,14 @@ OWN_EXPORTS = {
             ("Vorgänge", "https://grosserrat.bs.ch/component/gribs?chosentable=vor&view=exporter"
                          "&Itemid=105&format=json"),
             ("Sitzungen", "https://grosserrat.bs.ch/component/gribs?chosentable=siz&view=exporter"
-                          "&Itemid=105&format=json"))),
+                          "&Itemid=105&format=json"),
+            # 15 October 2026: committee assignments, the committees they name, members.
+            ("Zuweisungen", "https://grosserrat.bs.ch/component/gribs?chosentable=zuw&view=exporter"
+                            "&Itemid=105&format=json"),
+            ("Gremien", "https://grosserrat.bs.ch/component/gribs?chosentable=gre&view=exporter"
+                        "&Itemid=105&format=json"),
+            ("Ratsmitglieder", "https://grosserrat.bs.ch/component/gribs?chosentable=adr&view=exporter"
+                               "&Itemid=105&format=json"))),
 }
 # The host of an item's source_url, when it is a parliament's own page (the
 # licence line of OPEN_DATA does not apply to it).
@@ -282,11 +291,30 @@ def _canton_takeaway(r, new):
     return "; ".join(bits)
 
 
+# data.bs.ch and data.bl.ch answer /explore/dataset/<id>/ with a 302 to
+# /explore/assets/<id>/ (15 October 2026): links go straight there, rows
+# stored before that included.
+_ODS_REDIRECTS = ("data.bs.ch", "data.bl.ch")
+
+
+def direct_url(url):
+    """A dataset link without the portal's redirect: /explore/dataset/ ->
+    /explore/assets/ on data.bs.ch and data.bl.ch, and the old
+    '?refine.<field>=<value>' filter in the form the portal redirects to."""
+    host = url.split("/")[2] if url and "://" in url else ""
+    if host not in _ODS_REDIRECTS or "/explore/dataset/" not in url:
+        return url
+    url = url.replace("/explore/dataset/", "/explore/assets/", 1)
+    return re.sub(r"\?refine\.([\w]+)=([^&]*)", lambda m: "?refine={0}%3A{1}".format(
+        m.group(1), m.group(2)), url)
+
+
 def source_line(canton, url):
     """The dataset link an open-data canton's licence asks for, or the
     parliament's own page where the item came from its own export."""
     if not url:
         return None
+    url = direct_url(url)
     host = url.split("/")[2] if "://" in url else ""
     if host in OWN_SOURCES:
         return "Source: [{0}]({1}) ({2}).".format(host, url, OWN_SOURCES[host])

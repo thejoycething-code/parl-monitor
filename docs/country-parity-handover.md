@@ -1672,3 +1672,26 @@ note, and the scope docs say what was applied.
   for keys not stored yet. Live scratch read: 104 projects from the sittings
   of 11 and 25 August, 61 new. Inside the AR step's 420 s budget; no new Mini
   job (pypdf is already on the Mini).
+
+## Minas Gerais from ALMG's API; Basel-Stadt's committees and members (15 October 2026, branch `almg-bs-extra`)
+
+- **Minas Gerais (ALMG):** ALMG rewrote `dadosabertos.almg.gov.br/robots.txt`
+  at our written request (protocolo 126599, 14 October 2026): `/api/v2/` is
+  allowed, paging and sorting (`p=`, `tp=`, `ord=`, `ordenacao=`) are still
+  disallowed. Recorded in `src/robots_guard.PERMISSIONS` with
+  `asks_robots=True` (kept on record, never a skip: robots.txt is read every
+  run and refuses every paged URL; `AlmgRobotsTests`). `tools/br_states.py`
+  now reads MG from the API first: bills (PL, PLC, PEC; ementa, authors with
+  party, situação, committee, last action), plenary results per bill and
+  the deputies with party. **No paging:** weekly date searches split to
+  single days; a day with more than one page (20) is completed bill by bill
+  by number (150 a run, the remainder a gap carried to the next run). No
+  plenary votações nominais exist in the API (results only). The website
+  search stays as the fallback. Open: ALMG's answer on paging.
+- **Basel-Stadt:** Peter Frankenbach's further exports (daily download
+  allowed): `zuw` gives each business its committee (named from the public
+  `gre` export) and completed assignments as steps; `adr` gives first
+  authors' and voters' parties (`ch_canton_votes.party`, new column; only
+  number, name and party are read from `adr`). data.bs.ch and data.bl.ch
+  dataset links now point at `/explore/assets/<id>/` directly (the old
+  `/explore/dataset/` form redirects).

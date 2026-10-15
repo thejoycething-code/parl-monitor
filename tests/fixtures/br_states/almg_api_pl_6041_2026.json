@@ -1,0 +1,57 @@
+{
+ "resultado": {
+  "banco": "MATE",
+  "consulta": "(PL)[TIPO]  E  (6041)[NUME]  E  (2026)[ANO]",
+  "noOcorrencias": 1,
+  "noDocumentos": 1,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "-@publ,tipo,-@nume",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false,
+  "listaItem": [
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6041",
+    "ano": "2026",
+    "autor": "Deputado Arlen Santiago                    MDB\n",
+    "ementa": "Dispõe sobre a vedação da destinação de recursos públicos estaduais, pela Defensoria Pública do Estado de Minas Gerais, ao programa de formação institucional denominado Escola de Masculinidade, quando não houver relação direta com as atribuições constitucionais e legais essenciais do órgão.",
+    "observacao": "Distribuído a 3  comissões: CCJ APU FFO.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6041 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 102.\nÀs Comissões de Constituição e Justiça, de Administração Pública e\nde Fiscalização Financeira e Orçamentária, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 9652,
+      "nome": "Deputado Arlen Santiago",
+      "partido": "MDB"
+     }
+    ]
+   }
+  ]
+ }
+}

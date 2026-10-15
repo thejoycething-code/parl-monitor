@@ -1,0 +1,774 @@
+{
+ "resultado": {
+  "consulta": "BOOL(\nfilter:\n\tTERM(siglaTipoProjeto: PL)\n\t RANGE(dataPublicacao: from Fri Aug 14 00:00:00 BRT 2026 to Fri Aug 14 23:59:59 BRT 2026)\n)",
+  "noOcorrencias": 100,
+  "noDocumentos": 100,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "siglaTipoProjeto_ASC_ano_DESC_numero_DESC",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false,
+  "listaItem": [
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6067",
+    "ano": "2026",
+    "autor": "Deputado Thiago Cota                       PDT\n",
+    "ementa": "Dispõe sobre a desafetação do trecho de rodovia que especifica e autoriza o Poder Executivo a doar a área correspondente ao Município de Sete Lagoas.",
+    "observacao": "Distribuído a 3 comissões: CCJ TCO APU.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6067 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 136.\nÀs Comissões de Constituição e Justiça, de Transporte, Comunicação e Obras Públicas e de Administração Pública, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 22515,
+      "nome": "Deputado Thiago Cota",
+      "partido": "PDT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6066",
+    "ano": "2026",
+    "autor": "Deputado Celinho Sintrocel                 PCdoB\n",
+    "ementa": "Autoriza o Poder Executivo a alienar onerosamente o imóvel que especifica e dá outras providências. ",
+    "observacao": "Distribuído a 3 comissões: CCJ APU FFO.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6066 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 135.\nÀs Comissões de Constituição e Justiça, de Administração Pública e\nde Fiscalização Financeira e Orçamentária, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 18849,
+      "nome": "Deputado Celinho Sintrocel",
+      "partido": "PCdoB"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6065",
+    "ano": "2026",
+    "autor": "Deputado Celinho Sintrocel                 PCdoB\n",
+    "ementa": "Declara de utilidade pública a Associação Atlética Juventude Materlandense, com sede no Município de Materlândia.",
+    "observacao": "Distribuído a 2 comissões: CCJ TPA.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6065 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único nas comissões",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 135.\nÀs Comissões de Constituição e Justiça e do Trabalho, da Previdência e da Assistência Social, para deliberação."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 18849,
+      "nome": "Deputado Celinho Sintrocel",
+      "partido": "PCdoB"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6064",
+    "ano": "2026",
+    "autor": "Deputado Celinho Sintrocel                 PCdoB\n",
+    "ementa": "Declara de utilidade pública a Associação dos Pequenos Produtores Rurais do Clementes, Memória e Camelinha, com sede no Município de Visconde do Rio Branco.",
+    "observacao": "Distribuído a 2 comissões: CCJ AAG.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6064 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único nas comissões",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 135.\nÀs Comissões de Constituição e Justiça e de Agropecuária e\nAgroindústria, para deliberação."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 18849,
+      "nome": "Deputado Celinho Sintrocel",
+      "partido": "PCdoB"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6062",
+    "ano": "2026",
+    "autor": "Deputada Leninha                           PT\n",
+    "ementa": "Declara de utilidade pública a Associação de Remanescente Quilombola de Gaim, com sede no Município de Cônego Marinho.",
+    "observacao": "Distribuído a 2 comissões: CCJ DHU.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6062 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único nas comissões",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 134.\nÀs Comissões de Constituição e Justiça e de Direitos Humanos,\npara deliberação."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26153,
+      "nome": "Deputada Leninha",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6059",
+    "ano": "2026",
+    "autor": "Deputado Carlos Henrique                   REPUBLICANOS\n",
+    "ementa": "Institui o Dia Estadual do Capelão Hospitalar Cristão e reconhece a capelania hospitalar cristã como serviço religioso essencial e como direito do paciente internado.",
+    "observacao": "Distribuído a 3 comissões: CCJ CTU DHU.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6059 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026 pág 129.\nÀs Comissões de Constituição e Justiça, de Cultura e de Direitos Humanos, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 10002,
+      "nome": "Deputado Carlos Henrique",
+      "partido": "REPUBLICANOS"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6058",
+    "ano": "2026",
+    "autor": "Deputado Cristiano Silveira                PT\n",
+    "ementa": "Reconhece como de relevante interesse cultural do Estado a tradição do artesanato em palha de milho do Município de Cipotânea.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6058 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 128.\nÀs Comissões de Constituição e Justiça e de Cultura, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 22523,
+      "nome": "Deputado Cristiano Silveira",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6057",
+    "ano": "2026",
+    "autor": "Deputado Grego da Fundação                 UNIÃO\n",
+    "ementa": "Declara de utilidade pública a entidade Trupencanta, com sede no Município de Além Paraíba.",
+    "observacao": "Distribuído a 2 comissões: CCJ TPA.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6057 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único nas comissões",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 127.\nÀs Comissões de Constituição e Justiça e do Trabalho, da Previdência e da Assistência Social, para deliberação."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 28868,
+      "nome": "Deputado Grego da Fundação",
+      "partido": "UNIÃO"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6056",
+    "ano": "2026",
+    "autor": "Deputada Beatriz Cerqueira                 PT\n",
+    "ementa": "Dispõe sobre contrapartidas às instituições financeiras públicas e privadas contratadas para prestação de serviços bancários ou financeiros e para operação de programas de crédito subsidiado ou induzido junto ao poder público, no âmbito do Estado.",
+    "observacao": "Distribuído a 4 comissões: CCJ DEC APU FFO.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6056 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 124.\nÀs Comissões de Constituição e Justiça, de Desenvolvimento Econômico, de Administração Pública e de Fiscalização Financeira e Orçamentária, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26098,
+      "nome": "Deputada Beatriz Cerqueira",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6055",
+    "ano": "2026",
+    "autor": "Deputada Andréia de Jesus                  PT\n",
+    "ementa": "Distribuído a 2 comissões: CCJ TPA.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6055 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único nas comissões",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 123.\nÀs Comissões de Constituição e Justiça e do Trabalho, da Previdência e da Assistência Social, para deliberação."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26143,
+      "nome": "Deputada Andréia de Jesus",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6054",
+    "ano": "2026",
+    "autor": "Deputado Betão                             PT\n",
+    "ementa": "Estabelece critérios para restrição da produção, da comercialização, da distribuição, do armazenamento e da utilização no Estado de agrotóxicos e produtos formulados à base de ingredientes ativos não autorizados na União Europeia por razões relacionadas à proteção da saúde humana ou do meio ambiente e dá outras providências.",
+    "situacao": "Anexado",
+    "siglaSituacao": "ANXDO",
+    "situacaoGeral": "Outras situações",
+    "siglaSituacaoGeral": "MOUTR",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6054 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "dataUltimaAcao": "2026-08-12",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 120.\nAnexe-se ao PL 84 2019, nos termos do parágrafo segundo do artigo 173 do Regimento Interno."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26145,
+      "nome": "Deputado Betão",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6053",
+    "ano": "2026",
+    "autor": "Deputado Carlos Henrique                   REPUBLICANOS\n",
+    "ementa": "Dispõe sobre a utilização de sistemas eletrônicos de pesagem dinâmica de veículos nas rodovias estaduais para apoio às atividades de fiscalização, segurança pública e preservação da infraestrutura rodoviária.",
+    "situacao": "Anexado",
+    "siglaSituacao": "ANXDO",
+    "situacaoGeral": "Outras situações",
+    "siglaSituacaoGeral": "MOUTR",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6053 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "dataUltimaAcao": "2026-08-12",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 118.\nAnexe-se ao PL 3072 2021, nos termos do parágrafo segundo do artigo 173 do Regimento Interno."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 10002,
+      "nome": "Deputado Carlos Henrique",
+      "partido": "REPUBLICANOS"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6052",
+    "ano": "2026",
+    "autor": "Deputado Carlos Henrique                   REPUBLICANOS\n",
+    "ementa": "Institui a participação consultiva da Associação Mineira de Municípios no processo de discussão do Plano Plurianual de Ação Governamental, da Lei de Diretrizes Orçamentárias e da Lei Orçamentária Anual do Estado.",
+    "observacao": "Distribuído a 3 comissões: CCJ AMR FFO.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6052 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 116.\nÀs Comissões de Constituição e Justiça, de Assuntos Municipais \ne Regionalização e de Fiscalização Financeira e Orçamentária, \npara parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 10002,
+      "nome": "Deputado Carlos Henrique",
+      "partido": "REPUBLICANOS"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6051",
+    "ano": "2026",
+    "autor": "Deputada Bella Gonçalves                   PT\n",
+    "ementa": "Veda à Companhia de Saneamento de Minas Gerais e à sua subsidiária Copasa Serviços de Saneamento Integrado do Norte e Nordeste de Minas Gerais S.A. transferir empregados, sem a sua anuência, para localidade diversa daquela em que exerce suas atividades e dá outra providência.",
+    "situacao": "Anexado",
+    "siglaSituacao": "ANXDO",
+    "situacaoGeral": "Outras situações",
+    "siglaSituacaoGeral": "MOUTR",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6051 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "dataUltimaAcao": "2026-08-12",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 115.\nAnexe-se ao PL 5951 2026, nos termos do parágrafo segundo do artigo 173 do Regimento Interno."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 28860,
+      "nome": "Deputada Bella Gonçalves",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6050",
+    "ano": "2026",
+    "autor": "Deputada Bella Gonçalves                   PT\n",
+    "ementa": "Altera a Lei nº 25.664, de 22 de dezembro de 2025, para estabelecer prazo para que a Companhia de Saneamento de Minas Gerais - Copasa-MG - realize a incorporação da sua subsidiária Copasa Serviços de Saneamento Integrado do Norte e Nordeste de Minas Gerais S.A. - Copanor. ",
+    "observacao": "Distribuído a 3 comissões: CCJ APU FFO.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6050 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 114.\nÀs Comissões de Constituição e Justiça, de Administração Pública e\nde Fiscalização Financeira e Orçamentária, para parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 28860,
+      "nome": "Deputada Bella Gonçalves",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6049",
+    "ano": "2026",
+    "autor": "Deputado Betão                             PT\n",
+    "ementa": "Institui a política estadual de fortalecimento das cooperativas e associações de catadores de materiais recicláveis e dá outras providências.",
+    "situacao": "Anexado",
+    "siglaSituacao": "ANXDO",
+    "situacaoGeral": "Outras situações",
+    "siglaSituacaoGeral": "MOUTR",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6049 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "dataUltimaAcao": "2026-08-12",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 112.\nAnexe-se ao PL 6043 2026, nos termos do parágrafo segundo do artigo 173 do Regimento Interno."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26145,
+      "nome": "Deputado Betão",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6048",
+    "ano": "2026",
+    "autor": "Deputado Ulysses Gomes                     PT\n",
+    "ementa": "Autoriza o Poder Executivo a doar ao Município de Poço Fundo o imóvel que especifica.",
+    "observacao": "Distribuído a 2 comissões: CCJ APU.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6048 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 111.\nÀs Comissões de Constituição e Justiça e de Administração Pública,\npara parecer."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 18867,
+      "nome": "Deputado Ulysses Gomes",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6045",
+    "ano": "2026",
+    "autor": "Deputado Betão                             PT\n",
+    "ementa": "Declara de utilidade pública o Mutirão da Meninada do Vale Verde, com sede no Município de Juiz de Fora.",
+    "observacao": "Distribuído a 2 comissões: CCJ TPA.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6045 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em turno único nas comissões",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 110.\nÀs Comissões de Constituição e Justiça e do Trabalho, da Previdência e da Assistência Social, para deliberação."
+     },
+     {
+      "passo": 2,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26145,
+      "nome": "Deputado Betão",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6044",
+    "ano": "2026",
+    "autor": "Deputado Betão                             PT\n",
+    "ementa": "Dispõe sobre a manutenção do benefício fiscal relativo ao ICMS incidente nas operações realizadas por cooperativas e associações de catadores de materiais recicláveis.",
+    "situacao": "Anexado",
+    "siglaSituacao": "ANXDO",
+    "situacaoGeral": "Outras situações",
+    "siglaSituacaoGeral": "MOUTR",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6044 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "dataUltimaAcao": "2026-08-12",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 109.\nAnexe-se ao PL 3996 2022, nos termos do parágrafo segundo do artigo 173 do Regimento Interno."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26145,
+      "nome": "Deputado Betão",
+      "partido": "PT"
+     }
+    ]
+   },
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6043",
+    "ano": "2026",
+    "autor": "Deputado Betão                             PT\n",
+    "ementa": "Institui a política estadual de incentivo ao uso de matéria-prima reciclada na cadeia produtiva e nas compras públicas do Estado.",
+    "observacao": "Distribuído a 4 comissões: CCJ MAD DEC FFO.",
+    "situacao": "Aguardando designação de relator em comissão",
+    "siglaSituacao": "AGDRC",
+    "situacaoGeral": "Aguardando apreciação nas comissões",
+    "siglaSituacaoGeral": "MAPCO",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6043 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Comissão de Constituição e Justiça",
+    "dataUltimaAcao": "2026-08-14",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 2,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "PL 6049 2026 anexado ao projeto de lei, nos termos do parágrafo segundo do artigo 173 do Regimento Interno.\nDecisão publicada no DL em 14 8 2026, pág 112."
+     },
+     {
+      "passo": 3,
+      "data": "2026-08-14",
+      "local": "Comissão de Constituição e Justiça",
+      "historico": "Proposição recebida na Comissão de Constituição e Justiça."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 26145,
+      "nome": "Deputado Betão",
+      "partido": "PT"
+     }
+    ]
+   }
+  ]
+ }
+}
