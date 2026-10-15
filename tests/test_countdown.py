@@ -251,7 +251,7 @@ class WhatsOnRefreshTests(unittest.TestCase):
     """The Monday re-read (2026-10-15): the render reads What's On again and
     scores only the What's On items it added."""
 
-    def test_refresh_stores_new_events_and_scores_them_only(self):
+    def test_refresh_stores_new_events_and_scores_nothing(self):
         import run_weekly
         from src import filter as filt
         from src.ingest import whatson
@@ -270,13 +270,15 @@ class WhatsOnRefreshTests(unittest.TestCase):
         events = [whatson.parse_event(r) for r in payload]
         with mock.patch.object(run_weekly.whatson, "fetch_events",
                                side_effect=[[], events]), \
-                mock.patch.dict(os.environ, {"TRIAGE": "stub"}):
+                mock.patch.dict(os.environ, {"TRIAGE": "live", "ANTHROPIC_API_KEY": "sk-test"}), \
+                mock.patch.object(run_weekly.triage, "score_live",
+                                  side_effect=AssertionError("the paid judge must never run here")):
             seen = run_weekly.refresh_whatson(None, conn, tax, wl, datetime.date(2026, 10, 19),
                                               datetime.date(2026, 10, 25), log=lambda *_: None)
         self.assertEqual(seen, {56696, 56697})
         rows = conn.execute("SELECT id, triage_score, issue_areas FROM items WHERE id LIKE 'whatson:%'").fetchall()
         self.assertEqual([r["id"] for r in rows], ["whatson:2026-10-28:56696"])   # by BillId
-        self.assertEqual(rows[0]["triage_score"], 2)                     # the watchlist floor
+        self.assertIsNone(rows[0]["triage_score"])          # no model: left for the session judge
         self.assertEqual(json.loads(rows[0]["issue_areas"]), [3, 5])
         self.assertIsNone(conn.execute("SELECT triage_score FROM items WHERE id = 'pq:1'").fetchone()[0])
 
@@ -343,3 +345,144 @@ class HealthBillTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Round2Tests(unittest.TestCase):
+    """Chris's review of the first DM test (16 October 2026)."""
+
+    def test_also_announced_is_gone(self):
+        e = digest.Edition(week_commencing=WEEK, number=10, mode="normal")
+        e.announced = [{"date": "2026-10-19", "where": "Commons", "what": "Troubles Bill", "url": "u"}]
+        md = digest.render(e)
+        self.assertNotIn("Also announced", md)
+        self.assertIn("### Coverage notes", md)
+
+    def test_private_meetings_are_never_big_dates(self):
+        rows = [cd.Row(date="2026-10-19", where="COMMONS", title="Draft Conversion Practices Bill",
+                       detail="private meeting", score=3),
+                cd.Row(date="2026-10-20", where="NI ASSEMBLY", title="Bill", session="Closed, 10:30 AM", score=3),
+                cd.Row(date="2026-10-22", where="LORDS", title="Debate", score=3)]
+        self.assertEqual([r.date for r in cd.mark_big(rows, WEEK)], ["2026-10-22"])
+
+    def test_titles_shortened_by_sense(self):
+        r = cd.Row(title="Age it would be considered appropriate for an individual to be able to consent "
+                         "to the administration of puberty blockers and cross-sex hormones", lead="Baroness Deech")
+        self.assertEqual(cd.short_title(r), "Baroness Deech: age of consent to puberty blockers and cross-sex hormones")
+        long = cd.short_title(cd.Row(title="Effect of artificial intelligence, screen usage and social media "
+                                           "on children and young people in schools across the country"))
+        self.assertNotIn("...", long)
+        self.assertLessEqual(len(long), 80)
+
+    def test_votes_of_one_debate_are_one_line(self):
+        vs = [{"date": "2026-09-16", "where": "Senedd", "result": r,
+               "title": "Item 5. Reform UK Debate - grooming gangs. " + t} for t, r in (
+            ("Motion without amendment.", "Motion has been rejected"),
+            ("Amendment 1, tabled in the", "Amendment has been agreed"),
+            ("Motion as amended.", "Motion as amended has been agreed"))]
+        vs.append({"date": "2026-09-11", "where": "Commons", "title": "Terminally Ill Adults (End of Life) Bill: "
+                   "Second Reading", "url": "u", "result": "rejected 270 to 286"})
+        got = cd.group_votes(vs)
+        self.assertEqual(len(got), 2)
+        self.assertEqual(cd.vote_line(got[0]), "16 Sep · **Senedd** · Item 5. Reform UK Debate - grooming gangs: "
+                                               "motion rejected; amendment agreed; motion as amended agreed")
+        self.assertIn("[Terminally Ill Adults (End of Life) Bill: Second Reading](u)", cd.vote_line(got[1]))
+
+    def test_judge_reads_the_watched_bills_why_line(self):
+        from src import filter as filt, triage
+        conn = store()
+        conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, matched_terms, extra) "
+                     "VALUES ('whatson:2026-10-28:1', 'x', 'whatson', 'event', 'Health Bill - committee stage', "
+                     "'[\"Health Bill\"]', ?)", (json.dumps({"bill_id": 4124, "description": "Health Bill"}),))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        item = triage.pending_items(conn, wl)[0]
+        self.assertIn("watched bill, why we track it: Health Bill: Carried NC142", item.text)
+
+
+class KeyQuestionsTests(unittest.TestCase):
+    def setUp(self):
+        self.conn = store()
+        for i, (uin, heading) in enumerate((("HL3710", "Puberty Suppressing Hormones"),
+                                            ("HL3711", "Gender Dysphoria: Hormone Treatments"),
+                                            ("HL3712", "Gender Dysphoria: Clinics"))):
+            self.conn.execute(
+                "INSERT INTO items (id, captured_at, source_feed, item_type, title, url, event_date, triage_score, "
+                "why_it_matters, issue_areas, extra) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                ("pq:{0}".format(i), "x", "pq", "pq", "PQ " + uin, "https://q/" + uin, "2026-10-02", 3 - (i == 2),
+                 "Overseas online prescribing escapes UK oversight." if i == 0 else "", "[3]",
+                 json.dumps({"uin": uin, "house": "Lords", "department": "DHSC", "heading": heading,
+                             "member": "Baroness Maclean of Redditch"})))
+        self.conn.execute(
+            "INSERT INTO items (id, captured_at, source_feed, item_type, title, url, event_date, triage_score, "
+            "why_it_matters, issue_areas, extra) VALUES ('pq:9','x','pq','pq','PQ 1','u','2026-10-05',3,'w','[11]','{}')")
+        self.conn.execute(
+            "INSERT INTO ni_items (id, kind, reference, title, answered, tabler, areas, url, first_seen, last_seen) "
+            "VALUES ('ni-question:1','question','AQW 1/22-27','Abortion services in NI.','2026-10-08','Ms A',"
+            "'[1]','https://ni/1','x','x')")
+        self.conn.execute(
+            "INSERT INTO sd_items (id, kind, reference, member_name, body, answered, areas, tier, first_seen, "
+            "last_seen) VALUES ('sd-question:1','question','WQ1','Mr B','RSE guidance?','2026-10-07','[6]',1,'x','x')")
+        self.conn.commit()
+
+    def test_cluster_rank_and_sources(self):
+        rows = cd.key_questions(self.conn, WEEK)
+        self.assertEqual(rows[0]["refs"], ["HL3710", "HL3711", "HL3712"])     # one row, not three
+        self.assertEqual(rows[0]["where"], "LORDS")
+        self.assertEqual([r["where"] for r in rows], ["LORDS", "SENEDD"])       # migration hidden; NI unscored = 1
+        md = cd.render_key_questions(rows)
+        self.assertIn("| Fri 2 Oct | LORDS | [HL3710\u2013HL3712](https://q/HL3710), Baroness Maclean of Redditch: "
+                      "Puberty Suppressing Hormones;", md)
+        self.assertIn("Overseas online prescribing escapes UK oversight.", md)
+        line = cd.key_question_line(rows)
+        self.assertTrue(line.startswith("*Key questions:* 3 Lords questions from Baroness Maclean of Redditch on "
+                                        "puberty suppressing hormones (answered 2 Oct)"))
+
+    def test_in_the_edition_after_further_afield(self):
+        e = digest.Edition(week_commencing=WEEK, number=10, mode="normal")
+        e.key_questions = cd.key_questions(self.conn, WEEK)
+        md = digest.render(e)
+        self.assertLess(md.index("## Further afield"), md.index("## Key questions"))
+        self.assertLess(md.index("## Key questions"), md.index("## Reference"))
+        e.timeline = [cd.Row(date="2026-10-22", where="LORDS", title="x", score=2)]
+        self.assertIn("*Key questions:*", cd.slack_post(e))
+
+
+class FreeJudgeTests(unittest.TestCase):
+    def test_queue_round_trip_without_spend(self):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import uk_whatson_judge as j
+        from src import filter as filt
+        conn = store()
+        conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, event_date, issue_areas, "
+                     "matched_terms, tier) VALUES ('whatson:2026-10-28:1','x','whatson','event','Health Bill - "
+                     "committee stage','2026-10-28','[3, 5]','[\"Health Bill\"]',NULL)")
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "queue.md")
+            self.assertEqual(j.queue_out(conn, wl, path, "2026-10-19", 10, log=lambda *_: None), 1)
+            text = open(path).read()
+            self.assertIn(j.QUEUE_MARKER, text)
+            self.assertIn("NC142", text)
+            open(path, "w").write(text.replace("SCORE: ", "SCORE: 3", 1).replace("WHY: ", "WHY: Lords can retable NC142.", 1))
+            self.assertEqual(j.queue_in(conn, wl, path, "2026-10-19", log=lambda *_: None), 1)
+        row = conn.execute("SELECT triage_score, why_it_matters FROM items").fetchone()
+        self.assertEqual((row[0], row[1]), (3, "Lords can retable NC142."))
+        src = open(os.path.join(ROOT, "tools", "uk_whatson_judge.py")).read()
+        self.assertNotIn("score_live", src)
+        self.assertNotIn("ANTHROPIC", src)
+
+    def test_unscored_items_render_on_rules_alone_never_big(self):
+        import run_weekly
+        conn = store()
+        conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, event_date, issue_areas, "
+                     "tier, extra) VALUES ('whatson:2026-10-22:1','x','whatson','event','t','2026-10-22','[3]',1,?)",
+                     (json.dumps({"event_id": 1, "house": "Lords", "description": "A debate"}),))
+        conn.execute("INSERT INTO items (id, captured_at, source_feed, item_type, title, event_date, issue_areas, "
+                     "tier, extra) VALUES ('whatson:2026-10-23:2','x','whatson','event','t','2026-10-23','[3]',2,?)",
+                     (json.dumps({"event_id": 2, "house": "Lords", "description": "Tier two"}),))
+        e = digest.Edition(week_commencing=WEEK, number=10, mode="normal")
+        with mock.patch.object(run_weekly, "load_settings", return_value={}), \
+                mock.patch("src.ingest.pqs.archive_map", return_value={}):
+            run_weekly.sections_from_store(conn, e)
+        self.assertEqual([l.event["description"] for l in e.week_ahead], ["A debate"])
+        self.assertEqual(e.week_ahead[0].tag, 2)
+        self.assertIsNone(conn.execute("SELECT triage_score FROM items WHERE id LIKE '%:1'").fetchone()[0])

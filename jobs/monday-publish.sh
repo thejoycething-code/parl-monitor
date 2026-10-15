@@ -16,9 +16,11 @@
 # and the local store -- and nothing is published or committed, exactly as
 # the workflow skips its publish and commit steps.
 #
-# The render reads What's On again (run_weekly.refresh_whatson, 15 October
+# run_monday.py reads What's On again (run_weekly.refresh_whatson, 15 October
 # 2026): the countdown is built from the diary as it stands at 04:00 Monday,
-# not as the Sunday pull read it, and new events are scored here.
+# not as the Sunday pull read it. New events are scored by the FREE session
+# judge (tools/session_judge.sh tools/uk_whatson_judge.py, Claude Code on the
+# plan allowance; never the paid API), or render on rules alone.
 #
 #     NO_PUBLISH=1   render without the Slack post and the Asana task
 #

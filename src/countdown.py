@@ -140,6 +140,7 @@ class Row:
     context: str = None        # set on big dates
     big: bool = False
     venue: str = None          # What's On venue ("Main Chamber", "General Committee", ...)
+    session: str = None        # NI committee session line ("Closed, 10:30 AM - 11:00 AM")
     also: list = field(default_factory=list)   # later sittings folded into this row (ISO dates)
 
     @property
@@ -169,14 +170,6 @@ def _clean(text):
     return " ".join(str(text or "").replace("|", "/").split())
 
 
-def _shorten(text, limit=72):
-    text = _clean(re.sub(r"\[([^]]+)\]\([^)]*\)", r"\1", text or "")).replace("*", "")
-    if len(text) <= limit:
-        return text
-    cut = text[:limit].rsplit(" ", 1)[0].rstrip(",;:. -")
-    return cut + "..."
-
-
 _PROCEDURAL = re.compile(r"\b(stage|reading|motion|consent|extension|amendment)\b", re.I)
 
 
@@ -191,13 +184,57 @@ def _plain_title(title):
     return t
 
 
+# Parliamentary filler a reader does not need in a one-line post (round 2,
+# Chris, 16 October 2026: "Baroness Deech: age of consent to puberty
+# blockers", not a title cut off with "...").
+_FILLER = [
+    (re.compile(r"^(?:the )?age (?:at which|it would be considered appropriate for) an? "
+                r"(?:individual|person|child|young person) (?:to be able to |can |could |should be able to )?"
+                r"consent to (?:the administration of )?", re.I), "age of consent to "),
+    (re.compile(r"^(?:provision for|the provision of) the ", re.I), ""),
+    (re.compile(r"^(?:the )?(?:government's|his majesty's government's) (?:plans|policy|approach) (?:for|on|to) ",
+                re.I), ""),
+    (re.compile(r"^(?:the )?potential merits of ", re.I), ""),
+    (re.compile(r"\s+-\s+(?=(?:committee|report|second|third) (?:stage|reading))", re.I), ", "),
+]
+_BOUNDARIES = (": ", " - ", ", ", " and ", " on the ", " of the ", " for ", " in ")
+
+
+def compress(text, limit=64):
+    """A title made short by sense, not by length: filler phrases go, then
+    the title is cut at the last natural boundary (colon, dash, comma, 'and')
+    that fits, and only as a last resort at a word. Never an ellipsis.
+    Returns (text, rewritten): rewritten says a filler phrase was removed,
+    so the text now starts mid-sentence and reads lower case after a name."""
+    t = _clean(text)
+    rewritten = False
+    for pattern, sub in _FILLER:
+        t2 = pattern.sub(sub, t)
+        if t2 != t and pattern.pattern.startswith("^"):
+            rewritten = True
+        t = t2
+    if not rewritten and t:
+        t = t[:1].upper() + t[1:]
+    if len(t) > limit:
+        t = re.sub(r"\s*\([^)]*\)", "", t)
+    if len(t) > limit:
+        head = t[:limit]
+        cut = max((head.rfind(b) for b in _BOUNDARIES), default=-1)
+        t = head[:cut].rstrip(" ,;:-") if cut >= limit // 2 else head.rsplit(" ", 1)[0].rstrip(" ,;:-")
+    return t, rewritten
+
+
 def short_title(row):
-    """The Slack post's text for a row: the title, short, with the lead."""
-    base = _shorten(_plain_title(row.title), 80)
+    """The Slack post's text for a row: 'Lead: short title'."""
+    title = _plain_title(row.title)
+    if row.lead:
+        short, rewritten = compress(title, 72)
+        base = "{0}: {1}".format(row.lead, short)
+    else:
+        short, rewritten = compress(title, 80)
+        base = short[:1].upper() + short[1:]
     if row.kind in ("deadline", "consultation") and "closes" not in base.lower():
         base += " closes" if row.kind == "consultation" else ", evidence closes"
-    if row.lead:
-        base += " ({0})".format(row.lead)
     return base
 
 
@@ -416,7 +453,7 @@ def ni_rows(conn, start, end):
                 clock = h * 60 + int(m.group(2))
             out.append(Row(date=r["dated"], where=NI_ASSEMBLY, title=_clean(r["business"]),
                            detail=_clean(r["committee"]) or None, areas=areas, clock=clock,
-                           kind="ni"))
+                           kind="ni", session=session or None))
     return out
 
 
@@ -582,10 +619,13 @@ def context_for(row, tracker, board_titles=None, year=None, devolved_votes=None)
         low = row.title.lower()
         bill_title = next((v["bill"] for v in tracker if v["bill"] and low.startswith(v["bill"].lower())), None)
     if bill_title:
-        on_bill = [v for v in tracker if v["bill"] and v["bill"].lower() == bill_title.lower()]
+        # The division itself must be on the bill (its title starts with the
+        # bill's name): an issue card can also hold an Opposition Day vote.
+        on_bill = [v for v in tracker if v["bill"] and v["bill"].lower() == bill_title.lower()
+                   and (v["title"] or "").lower().startswith(bill_title.lower())]
         if on_bill:
             parts = ["[{0}]({1}) ({2}, {3})".format(v["short"] or "the division", v["url"],
-                                                    (v["issue"] or "").lower(), _result(v))
+                                                    _topic_case(v["issue"] or ""), _result(v))
                      for v in sorted(on_bill, key=lambda v: v["id"])[:3]]
             return "in the Commons this bill carried votes on {0}, on {1}. {2}".format(
                 " and ".join(parts), _on(on_bill[0]["date"], year),
@@ -598,7 +638,313 @@ def context_for(row, tracker, board_titles=None, year=None, devolved_votes=None)
     return row.note
 
 
+# -- key questions ---------------------------------------------------------------
+
+KEY_QUESTIONS_DAYS = 21
+KEY_QUESTIONS_MAX = 6
+KEY_HIDDEN = (11,)     # migration: collated, never campaigned (as the judgments and the devolved tables)
+
+
+_TO_ASK = re.compile(r"^(?:To ask (?:the )?(?:Scottish|Welsh|Northern Ireland)? ?(?:Government|Executive|"
+                     r"First Minister|Cabinet Secretary[^,]*|Minister[^,]*)[, ]*|To ask the [A-Z][^,]*?,\s*)", re.I)
+
+
+def _person(name):
+    """'Mochan, Carol' -> 'Carol Mochan'."""
+    name = _clean(name)
+    if name.count(", ") == 1:
+        last, first = name.split(", ")
+        return "{0} {1}".format(first, last)
+    return name
+
+
+def _first_sentence(text, limit=160):
+    t = _clean(re.sub(r"<[^>]+>", " ", text or ""))
+    t = _TO_ASK.sub("", t)
+    t = t[:1].upper() + t[1:] if t else t
+    m = re.match(r"^(.+?[.!?])(\s|$)", t)
+    t = m.group(1) if m else t
+    return compress(t, limit)[0]
+
+
+def _numbers(refs):
+    """['HL3714', 'HL3710', 'HL3711', ...] -> 'HL3710–HL3714' when they run
+    on; else a short list."""
+    refs = sorted(set(r for r in refs if r), key=lambda r: (re.sub(r"\d+", "", r),
+                                                           int(re.sub(r"\D", "", r) or 0)))
+    if len(refs) > 2:
+        pre = {re.sub(r"\d+.*$", "", r) for r in refs}
+        nums = [re.search(r"(\d+)", r) for r in refs]
+        if len(pre) == 1 and all(nums):
+            n = [int(x.group(1)) for x in nums]
+            if n == list(range(n[0], n[0] + len(n))):
+                return "{0}\u2013{1}".format(refs[0], refs[-1])
+    if len(refs) > 4:
+        return ", ".join(refs[:4]) + " and {0} more".format(len(refs) - 4)
+    return ", ".join(refs)
+
+
+def key_questions(conn, week_commencing, days=KEY_QUESTIONS_DAYS, limit=KEY_QUESTIONS_MAX):
+    """Key questions (round 2, 16 October 2026): the most important
+    parliamentary questions on our issues answered since the last edition.
+
+    Window: answered in the `days` before the edition's Monday (three weeks,
+    not one, so a week whose questions sweep came back thin still surfaces
+    the answers the last edition missed). Sources, read only: Westminster
+    written questions (items 'pq:%', judge-scored at the Sunday pull),
+    Holyrood (sp_items kind 'question'), the Senedd (sd_items) and the NI
+    Assembly (ni_items kind 'question'). Only rows on our ground: their areas
+    less migration (KEY_HIDDEN).
+
+    Score: the judge's triage_score where the row has one. A devolved row
+    the judge has not reached ranks by its taxonomy tier instead (tier 1 ->
+    2, tier 2 -> 1); NI rows carry no tier, so an unscored NI question
+    counts as 1. Only score 2 or 3 is shown.
+
+    Clusters: several questions from one member, answered the same day, on
+    the same area (Westminster: the same department too) become ONE row --
+    Baroness Maclean's HL3710-HL3714 of 2 October 2026 is one row, not five.
+    Ranked by score, then most recent; at most `limit` rows. Upcoming oral
+    questions are rows of the This week / Further afield tables already and
+    are not repeated here: only ANSWERED questions are read.
+    """
+    ws = _date(week_commencing)
+    since = (ws - datetime.timedelta(days=days)).isoformat()
+    until = ws.isoformat()
+    qs = []
+
+    def on_ground(raw):
+        return [a for a in _areas(raw, hidden=KEY_HIDDEN)]
+
+    for r in conn.execute(
+            "SELECT id, title, url, event_date, triage_score, why_it_matters, issue_areas, extra "
+            "FROM items WHERE id LIKE 'pq:%' AND triage_score >= 2 AND event_date >= ? AND event_date < ?",
+            (since, until)):
+        areas = on_ground(r["issue_areas"])
+        if not areas:
+            continue
+        ex = json.loads(r["extra"]) if r["extra"] else {}
+        house = (ex.get("house") or "").lower()
+        qs.append({"where": LORDS if house.startswith("lord") else COMMONS, "answered": r["event_date"],
+                   "ref": ex.get("uin") or "", "asker": ex.get("member") or "", "url": r["url"],
+                   "heading": ex.get("heading") or r["title"], "group": ex.get("department") or "",
+                   "score": r["triage_score"], "why": _clean(r["why_it_matters"]), "areas": areas})
+
+    def col(table, name):
+        cols = [c[1] for c in conn.execute("PRAGMA table_info({0})".format(table))]
+        return name if name in cols else "NULL AS {0}".format(name)
+
+    def tier_score(score, tier):
+        if score is not None:
+            return score
+        return 2 if tier == 1 else 1
+
+    if _table_exists(conn, "sp_items"):
+        names = {}
+        if _table_exists(conn, "sp_members"):
+            names = {m["person_id"]: m["name"] for m in conn.execute("SELECT person_id, name FROM sp_members")}
+        for r in conn.execute(
+                "SELECT reference, title, answered, msp_id, areas, {0}, {1}, {2}, answer "
+                "FROM sp_items WHERE kind = 'question' AND answered >= ? AND answered < ?".format(
+                    col("sp_items", "tier"), col("sp_items", "triage_score"), col("sp_items", "why_it_matters")),
+                (since, until)):
+            areas = on_ground(r["areas"])
+            if areas:
+                qs.append({"where": HOLYROOD, "answered": r["answered"][:10], "ref": r["reference"] or "",
+                           "asker": _person(names.get(r["msp_id"]) or ""), "url": None, "heading": _first_sentence(r["title"], 90),
+                           "group": "", "score": tier_score(r["triage_score"], r["tier"]),
+                           "why": _clean(r["why_it_matters"]) or _first_sentence(r["answer"]), "areas": areas})
+    if _table_exists(conn, "sd_items"):
+        for r in conn.execute(
+                "SELECT reference, body, answered, member_name, areas, {0}, {1}, {2}, answer "
+                "FROM sd_items WHERE kind = 'question' AND answered >= ? AND answered < ?".format(
+                    col("sd_items", "tier"), col("sd_items", "triage_score"), col("sd_items", "why_it_matters")),
+                (since, until)):
+            areas = on_ground(r["areas"])
+            if areas:
+                qs.append({"where": SENEDD, "answered": r["answered"][:10], "ref": r["reference"] or "",
+                           "asker": r["member_name"] or "", "url": None, "heading": _first_sentence(r["body"], 90),
+                           "group": "", "score": tier_score(r["triage_score"], r["tier"]),
+                           "why": _clean(r["why_it_matters"]) or _first_sentence(r["answer"]), "areas": areas})
+    if _table_exists(conn, "ni_items"):
+        for r in conn.execute(
+                "SELECT reference, title, answered, {0}, areas, {1}, {2}, answer, url "
+                "FROM ni_items WHERE kind = 'question' AND answered >= ? AND answered < ?".format(
+                    col("ni_items", "tabler"), col("ni_items", "triage_score"), col("ni_items", "why_it_matters")),
+                (since, until)):
+            areas = on_ground(r["areas"])
+            if areas:
+                qs.append({"where": NI_ASSEMBLY, "answered": r["answered"][:10], "ref": r["reference"] or "",
+                           "asker": r["tabler"] or "", "url": r["url"], "heading": _first_sentence(r["title"], 90),
+                           "group": "", "score": tier_score(r["triage_score"], None),
+                           "why": _clean(r["why_it_matters"]) or _first_sentence(r["answer"]), "areas": areas})
+
+    clusters, index = [], {}
+    for q in sorted(qs, key=lambda q: (-(q["score"] or 0), q["answered"]), reverse=False):
+        if (q["score"] or 0) < 2:
+            continue
+        key = (q["where"], q["asker"].lower(), q["answered"], q["group"], q["areas"][0])
+        c = index.get(key)
+        if c is None:
+            c = {"where": q["where"], "answered": q["answered"], "asker": q["asker"], "score": q["score"],
+                 "url": q["url"], "why": q["why"], "areas": list(q["areas"]), "refs": [], "headings": []}
+            index[key] = c
+            clusters.append(c)
+        c["refs"].append(q["ref"])
+        h = _clean(q["heading"])
+        if h and h not in c["headings"]:
+            c["headings"].append(h)
+        if not c["why"] and q["why"]:
+            c["why"] = q["why"]
+    clusters.sort(key=lambda c: c["answered"], reverse=True)
+    clusters.sort(key=lambda c: -(c["score"] or 0))
+    return clusters[:limit]
+
+
+def render_key_questions(rows, names=None):
+    if not rows:
+        return None
+    out = ["## Key questions", "",
+           "*The most important questions on our issues answered since the last edition, "
+           "several from one member on one day as one row.*", "",
+           "| Answered | Where | Question | What the answer said / why it matters |", "|---|---|---|---|"]
+    for c in rows:
+        nums = _numbers(c["refs"])
+        label = "[{0}]({1})".format(nums, c["url"]) if c.get("url") and nums else nums
+        theme = "; ".join(c["headings"][:3]) + ("; and more" if len(c["headings"]) > 3 else "")
+        q = ", ".join(x for x in (label, c["asker"]) if x)
+        if theme:
+            q += ": " + theme
+        out.append("| {0} | {1} | {2} | {3} |".format(
+            day_label(c["answered"]), c["where"], q.replace("|", "/"), (c["why"] or "-").replace("|", "/")))
+    out.append("")
+    return "\n".join(out)
+
+
+_PROPER = {"england", "scotland", "wales", "welsh", "scottish", "northern", "ireland", "irish", "uk",
+           "british", "britain", "government", "parliament", "lords", "commons", "christian", "christians",
+           "muslim", "muslims", "jewish", "islam", "church", "bbc", "ofcom", "europe", "european"}
+
+
+def _topic_case(text):
+    """'Gender Dysphoria: Hormone Treatments' -> 'gender dysphoria: hormone
+    treatments' (a Hansard heading in Title Case, read in a sentence);
+    acronyms and the names in _PROPER keep their capitals."""
+    def word(w):
+        bare = re.sub(r"[^A-Za-z]", "", w)
+        if not bare or bare.isupper() and len(bare) > 1 or bare.lower() in _PROPER:
+            return w
+        return w.lower()
+    return " ".join(word(w) for w in (text or "").split())
+
+
+def key_question_line(rows):
+    """The Slack post's one line: the top row, and how many more."""
+    if not rows:
+        return None
+    c = rows[0]
+    n = len([r for r in c["refs"] if r]) or 1
+    house = {COMMONS: "Commons", LORDS: "Lords", HOLYROOD: "Holyrood", SENEDD: "Senedd",
+             NI_ASSEMBLY: "NI Assembly"}.get(c["where"], c["where"])
+    theme = c["headings"][0] if c["headings"] else issue_label(c["areas"])
+    theme = _topic_case(compress(theme, 60)[0])
+    line = "*Key questions:* {0} {1} question{2}{3} on {4} (answered {5})".format(
+        n, house, "" if n == 1 else "s", " from " + c["asker"] if c["asker"] else "",
+        theme, day_label(c["answered"])[4:])
+    if len(rows) > 1:
+        line += " · + {0} more in the edition".format(len(rows) - 1)
+    return line
+
+
+# -- latest votes ---------------------------------------------------------------
+
+_SENEDD_PART = re.compile(r"^(.*?)[.,]?\s+((?:Motion|Amendment)\b.*)$")
+_NI_AMENDMENT = re.compile(r"^Amendment (\d+) - (.*?)(?:\s*\(Day \d+\))?$")
+
+
+def _vote_base(title):
+    """(debate, part) for one division's title, so the votes of one debate
+    group: Senedd 'Item 5. Reform UK Debate - grooming gangs. Amendment 1,
+    tabled...' -> ('Item 5. Reform UK Debate - grooming gangs', 'Amendment 1...');
+    NI 'Amendment 97 - Consideration Stage: Justice Bill (NIA Bill 7/22-27)
+    (Day 4)' -> ('Consideration Stage: Justice Bill (NIA Bill 7/22-27)',
+    'Amendment 97'); Commons 'Health Bill: Report Stage: New Clause 142' ->
+    ('Health Bill: Report Stage', 'New Clause 142')."""
+    t = _clean(title)
+    m = _NI_AMENDMENT.match(t)
+    if m:
+        return m.group(2), "Amendment " + m.group(1)
+    m = _SENEDD_PART.match(t)
+    if m and m.group(1).strip(" .-"):
+        return m.group(1).strip(" .-"), m.group(2).strip(" .")
+    if t.count(": ") >= 2:
+        base, part = t.rsplit(": ", 1)
+        return base, part
+    return t, None
+
+
+def _part_text(part, result):
+    """One vote within a debate: the result says it best when it names what
+    was voted on ('Amendment has been agreed' -> 'amendment agreed')."""
+    res = _clean(result).replace(" has been ", " ").replace(" have been ", " ")
+    if res and re.match(r"^(motion|amendment)", res, re.I):
+        return res[:1].lower() + res[1:]
+    return ", ".join(x for x in (part, res) if x)
+
+
+def group_votes(votes):
+    """Votes of one debate on one day in one legislature become ONE entry
+    (round 2, 16 October 2026: the Senedd grooming-gangs motion and its
+    amendments were four lines). Order is kept (newest first)."""
+    out, index = [], {}
+    for v in votes:
+        base, part = _vote_base(v.get("title") or "")
+        key = (v.get("date"), v.get("where"), base.lower())
+        entry = index.get(key)
+        if entry is None:
+            entry = {"date": v.get("date"), "where": v.get("where"), "title": base,
+                     "url": v.get("url"), "result": v.get("result"), "parts": []}
+            index[key] = entry
+            out.append(entry)
+        entry["parts"].append({"label": part, "url": v.get("url"), "result": v.get("result")})
+    for e in out:
+        if len(e["parts"]) == 1:
+            only = e["parts"][0]
+            e["title"] = e["title"] + (": " + only["label"] if only["label"] else "")
+            e["parts"] = []
+    return out
+
+
+def vote_line(v):
+    """The markdown for one (grouped) vote: '16 Sep · **Senedd** · debate:
+    motion without amendment rejected; amendment agreed; ...'."""
+    head = "{0} · **{1}** · ".format(day_label(v.get("date"))[4:], v.get("where") or "")
+    if not v.get("parts"):
+        title = v.get("title") or ""
+        if v.get("url"):
+            title = "[{0}]({1})".format(title, v["url"])
+        return head + title + (", " + v["result"] if v.get("result") else "")
+    bits = []
+    for p in v["parts"]:
+        text = _part_text(p["label"], p["result"])
+        if p["url"] and p["label"]:
+            label = "[{0}]({1})".format(p["label"], p["url"])
+            text = label + (", " + _clean(p["result"]).replace(" has been ", " ") if p.get("result") else "")
+        bits.append(text)
+    return head + "{0}: {1}".format(v.get("title") or "", "; ".join(bits))
+
+
 # -- assembly -----------------------------------------------------------------
+
+_PRIVATE = re.compile(r"\b(private|closed|in camera)\b", re.I)
+
+
+def is_private(row):
+    """A meeting the public cannot attend (a select committee's private
+    meeting, an NI committee's closed session) is never a BIG DATE (round 2,
+    16 October 2026); it can still be a row in the tables."""
+    return bool(_PRIVATE.search(row.detail or "") or _PRIVATE.search(row.session or ""))
+
 
 def mark_big(rows, week_commencing, limit=BIG_MAX):
     """Flag up to `limit` score-3 dated rows inside the horizon, nearest first."""
@@ -606,7 +952,7 @@ def mark_big(rows, week_commencing, limit=BIG_MAX):
     for r in rows:
         r.big = False
     cands = sorted((r for r in rows if not r.running and r.score == BIG_SCORE and _date(r.date)
-                    and ws <= _date(r.date) <= he), key=Row.sort_key)
+                    and ws <= _date(r.date) <= he and not is_private(r)), key=Row.sort_key)
     for r in cands[:limit]:
         r.big = True
     return cands[:limit]
@@ -818,10 +1164,13 @@ def slack_post(edition, canvas_url=None, tracker_url=None):
         if rest:
             main = sorted(rest, key=lambda r: (-(r.score or 0), r.sort_key()))[:3]
             main.sort(key=Row.sort_key)
-            named = " · ".join("{0} {1}".format(_shorten(r.title, 40), day_label(r.date)[4:])
+            named = " · ".join("{0} {1}".format(compress(_plain_title(r.title), 44)[0], day_label(r.date)[4:])
                                for r in main)
             lines.append("+ {0} more to {1} {2}: {3}".format(
                 len(rest), he.day, _MONTHS[he.month], named))
+    kq = key_question_line(getattr(edition, "key_questions", None) or [])
+    if kq:
+        lines += ["", kq]
     text = "\n".join(lines)
     if len(text) > SLACK_TEXT_CAP:
         text = text[:SLACK_TEXT_CAP].rsplit("\n", 1)[0] + "\n(more in the edition)"

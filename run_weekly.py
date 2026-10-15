@@ -801,10 +801,16 @@ def ingest_whatson(client, conn, tax, wl, week_start, week_end):
 
 
 def refresh_whatson(client, conn, tax, wl, week_start, week_end, log=print):
-    """The Monday re-read (2026-10-15): What's On again for the whole window,
-    then the judge over the What's On items the re-read added (only those:
-    every other feed was scored by the Sunday pull). A failure is a gap and
-    the edition renders from Sunday's read, as before. Returns the event ids
+    """The Monday re-read (2026-10-15): What's On again for the whole window.
+
+    NO MODEL HERE, ever (round 2, 16 October 2026; the standing rule is no
+    paid AI API). The re-read only stores what it finds, unscored. The free
+    session judge scores the new items on the Mac Mini's plan allowance
+    (run_monday.py -> tools/session_judge.sh tools/uk_whatson_judge.py);
+    whatever it has not reached renders on rules alone (sections_from_store:
+    a pending What's On item matched at tier 1 or by the watchlist shows,
+    never as a big date, and its score is not written). A failed read is a
+    gap and the edition renders from Sunday's read. Returns the event ids
     seen, or None when the read failed."""
     edition = week_start.isoformat()
     try:
@@ -814,32 +820,10 @@ def refresh_whatson(client, conn, tax, wl, week_start, week_end, log=print):
                    "Monday re-read failed ({0}); the diary is as read on Sunday".format(str(exc)[:160]))
         log("whatson: Monday re-read failed ({0}); Sunday's read stands".format(exc))
         return None
-    pending = [i for i in triage.pending_items(conn, wl) if i.id.startswith("whatson:")]
-    if not pending:
-        log("whatson: Monday re-read, {0} event(s) in the window, nothing new to score".format(len(seen)))
-        return seen
-    mode = os.environ.get("TRIAGE", "auto")
-    if mode in ("auto", "live"):
-        key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
-        mode = "live" if key else "stub"
-        if key:
-            os.environ.setdefault("ANTHROPIC_API_KEY", key)
-    elif mode == "session":
-        mode = "stub"
-    try:
-        if mode == "live":
-            results = triage.triage(pending, mode="live",
-                                    usage_sink=lambda usage, model: spend.record(conn, "triage", model, usage))
-        else:
-            results = triage.triage(pending, mode="stub")
-    except Exception as exc:                                # noqa: BLE001
-        record_gap(conn, edition, "triage",
-                   "Monday What's On scoring failed ({0}); stub scores used".format(str(exc)[:160]))
-        mode, results = "stub", triage.score_stub(pending)
-    scored, discards = triage.apply_scores(conn, pending, results)
-    review.log_discards(conn, edition, [(i, t, None) for i, t in discards])
-    log("whatson: Monday re-read, {0} event(s) in the window, {1} new item(s) scored ({2})".format(
-        len(seen), scored, mode))
+    pending = conn.execute("SELECT COUNT(*) FROM items WHERE id LIKE 'whatson:%' AND triage_score IS NULL "
+                           "AND event_date >= ?", (edition,)).fetchone()[0]
+    log("whatson: Monday re-read, {0} event(s) in the window, {1} unscored item(s) for the "
+        "session judge".format(len(seen), pending))
     return seen
 
 
@@ -1148,7 +1132,7 @@ SECTION_FOR_FEED = {
 
 
 
-def devolved_from_store(conn, week_commencing, days=30, hidden=(11,)):
+def devolved_from_store(conn, week_commencing, days=30, hidden=(11,), cap=6):
     """The Devolved section's payload, READ from the watching-brief tables.
 
     Nothing here writes: sp_*/sd_*/ni_*/dg_* remain unable to reach items or
@@ -1239,7 +1223,7 @@ def devolved_from_store(conn, week_commencing, days=30, hidden=(11,)):
                 "title": "{0}: {1}".format(where, (r["title"] or "")[:70]),
                 "result": (r["result"] or "?")[:40]})
     out["divisions"].sort(key=lambda v: v["dated"], reverse=True)
-    out["divisions"] = out["divisions"][:6]
+    out["divisions"] = out["divisions"][:cap]
     return out
 
 
@@ -1247,9 +1231,15 @@ def sections_from_store(conn, edition):
     """Build edition sections by querying reviewed items (digest as byproduct)."""
     rows = conn.execute(
         "SELECT id, source_feed, title, url, event_date, deadline, triage_score, "
-        "why_it_matters, extra, issue_areas, answer_kind "
-        "FROM items WHERE triage_score >= 2 ORDER BY source_feed, event_date, id"
+        "why_it_matters, extra, issue_areas, answer_kind, tier "
+        "FROM items WHERE triage_score >= 2 OR (source_feed = 'whatson' AND triage_score IS NULL "
+        "AND event_date >= ?) ORDER BY source_feed, event_date, id", (edition.week_commencing,)
     ).fetchall()
+    # A What's On item the session judge has not reached (the Monday
+    # re-read stores, never scores) renders on rules alone: tier 1 or a
+    # watchlist hit (tier None) shows at 2, tier 2 waits. Nothing is written,
+    # so a judge still scores it later; 2 is never a big date.
+    rows = [r for r in rows if r["triage_score"] is not None or r["tier"] != 2]
     # Background-scored questions (triage 1) never reach the review file and so
     # carry no tag. They are real captures all the same, so the companion page
     # lists them: with questions dropped from the MP section, this is the only
@@ -1373,7 +1363,7 @@ def sections_from_store(conn, edition):
                                       ". " + r["why_it_matters"] if r["why_it_matters"] else "")
         line = digest.Line(
             text=text,
-            tag=r["triage_score"], owner=None, url=r["url"],
+            tag=r["triage_score"] if r["triage_score"] is not None else 2, owner=None, url=r["url"],
             deadline=r["deadline"], date=r["event_date"],
         )
         if feed == "whatson":
@@ -1522,7 +1512,9 @@ def countdown_from_store(conn, edition, wl=None):
     # Latest votes on our issues, across legislatures.
     votes = [{"date": v["date"], "where": "Commons", "title": v["title"], "url": v["url"],
               "result": cd._result(v)} for v in tracker]
-    for v in devolved.get("divisions") or []:
+    # Votes look back 120 days, not the old section's 30: a debate a month
+    # old is still the latest vote on its issue.
+    for v in devolved_from_store(conn, edition.week_commencing, days=120, cap=40).get("divisions") or []:
         where, _, title = (v.get("title") or "").partition(": ")
         votes.append({"date": v.get("dated"), "where": where, "title": title, "url": None,
                       "result": v.get("result")})
@@ -1548,7 +1540,8 @@ def countdown_from_store(conn, edition, wl=None):
             continue
         seen.add(key)
         latest.append(v)
-    edition.latest_votes = latest[:8]
+    edition.latest_votes = cd.group_votes(latest)[:8]
+    edition.key_questions = cd.key_questions(conn, edition.week_commencing)
     return edition
 
 
@@ -1737,7 +1730,7 @@ def announced_row(e):
             "members": e.members or [], "url": whatson.event_url(e)}
 
 
-def render_edition(week_commencing, db_name, draft=False, with_edition=False):
+def render_edition(week_commencing, db_name, draft=False, with_edition=False, whatson_live=None):
     """Phase 2: render from the store, score-driven (editorial loop retired).
 
     with_edition=True returns (path, edition): the Monday post is built from
@@ -1789,7 +1782,10 @@ def render_edition(week_commencing, db_name, draft=False, with_edition=False):
     # read is a day and a half old by Monday morning, and the countdown is
     # only as good as the diary it reads. RENDER_WHATSON_REFRESH=0 skips it
     # (a re-render of a past week must not rewrite its diary).
-    if os.environ.get("RENDER_WHATSON_REFRESH", "1") != "0":
+    # run_monday.py re-reads before the session judge and passes the ids in.
+    if whatson_live is not None:
+        edition.whatson_live = whatson_live
+    elif os.environ.get("RENDER_WHATSON_REFRESH", "1") != "0":
         tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
         edition.whatson_live = refresh_whatson(client, conn, tax, wl, week_start, week_end)
 
