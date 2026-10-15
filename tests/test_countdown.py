@@ -134,24 +134,22 @@ class StoreReadTests(unittest.TestCase):
         self.assertEqual((rows, note), ([], "Holyrood and Senedd: forward business not collected yet."))
 
     def test_holyrood_and_senedd_read_when_the_tables_exist(self):
-        for table in ("sp_agenda", "sd_agenda"):
-            self.conn.execute("CREATE TABLE {0} (dated TEXT, house TEXT, business TEXT, item_type TEXT, "
-                              "url TEXT, areas TEXT, matched_terms TEXT, first_seen TEXT, last_seen TEXT)"
-                              .format(table))
-        self.conn.execute("INSERT INTO sp_agenda VALUES ('2026-10-21', 'Chamber', 'Assisted dying debate', "
-                          "'Members business', 'https://sp/1', '[2]', '[]', 'x', 'x')")
-        self.conn.execute("INSERT INTO sd_agenda VALUES ('2026-10-22', 'Welsh Government', 'Statement on RSE', "
-                          "'Statement', 'https://sd/1', '[6]', '[]', 'x', 'x')")
-        self.conn.execute("INSERT INTO sp_agenda VALUES ('2026-10-22', 'Chamber', 'Government business', "
-                          "'to be announced', 'https://sp/2', '[6]', '[]', 'x', 'x')")
+        self._agenda("sp_agenda", "2026-10-21", "Chamber", "Assisted dying debate", "members' business", "[2]")
+        self._agenda("sd_agenda", "2026-10-22", "Welsh Government", "Statement on RSE", "statement", "[6]")
+        self._agenda("sp_agenda", "2026-10-22", "Chamber", "Government business", "to be announced", "[6]")
         rows, note = cd.forward_business(self.conn, self.ws, self.he)
         self.assertIsNone(note)
         self.assertEqual([(r.where, r.title) for r in rows],
                          [("HOLYROOD", "Assisted dying debate"), ("WELSH GOVT", "Statement on RSE")])
 
+    def _agenda(self, table, dated, body, business, item_type, areas):
+        self.conn.execute("INSERT INTO {0} (key, dated, item_time, body, business, item_type, url, areas, "
+                          "first_seen, last_seen) VALUES (?,?,?,?,?,?,?,?,?,?)".format(table),
+                          (table + dated + business, dated, "14:00", body, business, item_type,
+                           "https://x/" + table, areas, "x", "x"))
+
     def test_one_table_missing_names_it(self):
-        self.conn.execute("CREATE TABLE sp_agenda (dated TEXT, house TEXT, business TEXT, item_type TEXT, "
-                          "url TEXT, areas TEXT)")
+        self._agenda("sp_agenda", "2026-10-21", "Chamber", "Procedural", "procedural", "[]")
         _rows, note = cd.forward_business(self.conn, self.ws, self.he)
         self.assertEqual(note, "Senedd: forward business not collected yet.")
 

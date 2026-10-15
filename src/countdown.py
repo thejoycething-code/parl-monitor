@@ -452,7 +452,10 @@ def forward_business(conn, start, end):
     rows, missing = [], []
     for table, parl, govt, label in (("sp_agenda", HOLYROOD, SCOT_GOVT, "Holyrood"),
                                      ("sd_agenda", SENEDD, WELSH_GOVT, "Senedd")):
-        if not _table_exists(conn, table):
+        # db.init_db creates both tables (PR #204), so "collected" means the
+        # collector has written rows, not that the table exists.
+        if not _table_exists(conn, table) or \
+                conn.execute("SELECT COUNT(*) FROM {0}".format(table)).fetchone()[0] == 0:
             missing.append(label)
             continue
         cols = [c[1] for c in conn.execute("PRAGMA table_info({0})".format(table))]
