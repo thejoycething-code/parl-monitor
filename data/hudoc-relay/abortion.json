@@ -1,22 +1,10 @@
 {
- "fetched_on": "2026-10-14",
+ "fetched_on": "2026-10-15",
  "reply": {
-  "resultcount": 1,
-  "results": [
-   {
-    "columns": {
-     "appno": "55299/20;31515/22",
-     "conclusion": null,
-     "docname": "CASE OF G.K. AND A.S. v. SWITZERLAND",
-     "doctype": "Chamber Judgment",
-     "itemid": "001-251193",
-     "kpdate": "2026-07-16",
-     "respondent": "Switzerland"
-    }
-   }
-  ],
+  "resultcount": 0,
+  "results": [],
   "via": "rss"
  },
- "start": "2026-07-16",
+ "start": "2026-07-17",
  "term": "abortion"
 }
