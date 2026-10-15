@@ -72,10 +72,17 @@ def _post_json(url, payload, headers, timeout=30):  # pragma: no cover - network
 
 # -- Slack --------------------------------------------------------------------
 
+CANVAS_URL_SLOT = "{canvas_url}"
+
+
 def slack_publish_edition(secrets, week, edition_number, canvas_markdown, summary_mrkdwn,
                           transport=None):
     """Create a canvas holding the full edition, grant the channel access,
-    and post the summary message linking it. Returns a status dict."""
+    and post the summary message linking it. Returns a status dict.
+
+    A summary carrying CANVAS_URL_SLOT (the countdown post's "Open the
+    edition" link, 2026-10-15) has the canvas URL put there; any other
+    summary gets the old "Full edition:" line appended."""
     token = secrets.get("slack_bot_token")
     channel = secrets.get("slack_channel_id")
     if not token or not channel:
@@ -84,7 +91,7 @@ def slack_publish_edition(secrets, week, edition_number, canvas_markdown, summar
     auth = {"Authorization": "Bearer {0}".format(token)}
 
     canvas = transport("https://slack.com/api/canvases.create", {
-        "title": "Parliamentary Monitor - week commencing {0} (Edition {1})".format(week, edition_number),
+        "title": "Parliamentary Monitor, Edition {1} (week commencing {0})".format(week, edition_number),
         "document_content": {"type": "markdown", "markdown": canvas_markdown},
     }, auth)
     if not canvas.get("ok"):
@@ -101,12 +108,18 @@ def slack_publish_edition(secrets, week, edition_number, canvas_markdown, summar
     canvas_url = "https://citizengo.slack.com/docs/{0}/{1}".format(team, canvas_id)
     message = transport("https://slack.com/api/chat.postMessage", {
         "channel": channel,
-        "text": summary_mrkdwn + "\n\nFull edition: " + canvas_url,
+        "text": with_canvas_url(summary_mrkdwn, canvas_url),
         "unfurl_links": False,
     }, auth)
     if not message.get("ok"):
         return {"error": "chat.postMessage failed: {0}".format(message.get("error"))}
     return {"canvas_id": canvas_id, "canvas_url": canvas_url, "message_ts": message.get("ts")}
+
+
+def with_canvas_url(summary_mrkdwn, canvas_url):
+    if CANVAS_URL_SLOT in summary_mrkdwn:
+        return summary_mrkdwn.replace(CANVAS_URL_SLOT, canvas_url)
+    return summary_mrkdwn + "\n\nFull edition: " + canvas_url
 
 
 def slack_publish_canvas(secrets, title, canvas_markdown, summary_mrkdwn,
@@ -219,8 +232,10 @@ def slack_preview_canvas(secrets, title, canvas_markdown, summary_mrkdwn, transp
     canvas_url = "https://citizengo.slack.com/docs/{0}/{1}".format(team, canvas_id)
     if not announce:
         return {"canvas_id": canvas_id, "canvas_url": canvas_url}
+    text = (summary_mrkdwn.replace(CANVAS_URL_SLOT, canvas_url) if CANVAS_URL_SLOT in summary_mrkdwn
+            else summary_mrkdwn + "\n\n" + canvas_url)
     message = transport("https://slack.com/api/chat.postMessage", {
-        "channel": user, "text": summary_mrkdwn + "\n\n" + canvas_url, "unfurl_links": False,
+        "channel": user, "text": text, "unfurl_links": False,
     }, auth)
     if not message.get("ok"):
         return {"error": "chat.postMessage failed: {0}".format(message.get("error"))}

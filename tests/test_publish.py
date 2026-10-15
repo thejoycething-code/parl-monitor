@@ -10,31 +10,48 @@ sys.path.insert(0, ROOT)
 import run_monday
 from src import publish
 
-# The current render shape: score-driven, no editorial tags, no owners
-# (the loop was retired at Christopher's decision, 2026-08-21).
-EDITION = """# Parliamentary Monitor
-### Week commencing Monday 2026-08-10 | Edition 2
-
-## Top lines
-
-- Recess: neither House sits this week. Both Houses return 2026-09-01.
-- [Law Commission weddings reform closes 24 September.](https://example.gov.uk/tying) (Deadline: 2026-09-24)
-
-## Consultations and secondary legislation
-
-- [Child protection framework.](https://example.gov.uk/cp) (Deadline: 2026-08-20)
-"""
-
 
 class SummariseTests(unittest.TestCase):
-    def test_summary_quotes_top_lines_untagged_and_unlinked(self):
-        summary, acts, deadlines = run_monday.summarise_edition(EDITION, "2026-08-10")
-        self.assertIn("*Parliamentary Monitor - week commencing 2026-08-10*", summary)
-        self.assertIn("• Recess", summary)
-        self.assertIn("• Law Commission weddings reform", summary)
-        self.assertNotIn("[ACT]", summary)
-        self.assertNotIn("](https://", summary)          # links stripped for mrkdwn
-        self.assertEqual(acts, [])                       # the reading task is retired
+    """The countdown post (Christopher, 15 October 2026)."""
+
+    def _edition(self):
+        from src import countdown, digest
+        e = digest.Edition(week_commencing="2026-10-19", number=10, mode="normal")
+        e.timeline = [
+            countdown.Row(date="2026-10-22", where="LORDS", title="Puberty blockers debate",
+                          url="https://whatson.parliament.uk/event/cal56747", lead="Baroness Deech",
+                          score=3, areas=[3], big=True),
+            countdown.Row(date="2026-10-19", where="NI ASSEMBLY", title="Conversion Practices Bill",
+                          score=2, areas=[4]),
+            countdown.Row(date="2026-10-27", where="DEADLINE", title="Work-based immigration",
+                          kind="deadline", score=2, areas=[11]),
+        ]
+        return e
+
+    def test_post_is_the_countdown_from_the_edition(self):
+        summary, acts, deadlines = run_monday.summarise_edition(
+            "", "2026-10-19", self._edition(), canvas_url=publish.CANVAS_URL_SLOT,
+            tracker_url="https://x/mp-votes.html")
+        self.assertTrue(summary.startswith("*On our issues, from Mon 19 Oct* · Edition 10"))
+        self.assertIn("*BIG DATE* *Thu 22 Oct* · `LORDS` <https://whatson.parliament.uk/event/cal56747|"
+                      "Puberty blockers debate (Baroness Deech)>", summary)
+        self.assertLess(summary.index("*THIS WEEK*"), summary.index("*FURTHER AFIELD*"))
+        self.assertIn("Mon 19 · `NI ASSEMBLY` Conversion Practices Bill", summary)
+        self.assertIn("Tue 27 · `DEADLINE` Work-based immigration, evidence closes", summary)
+        self.assertIn("<{canvas_url}|Open the edition> · <https://x/mp-votes.html|Vote tracker>", summary)
+        self.assertNotIn("★", summary)
+        self.assertEqual((acts, deadlines), ([], []))
+        self.assertEqual(publish.with_canvas_url(summary, "https://c/1").count("<https://c/1|Open the edition>"), 1)
+
+    def test_markdown_fallback_reads_the_big_dates(self):
+        md = ("# Parliamentary Monitor\n### Edition 10 · Monday 19 October 2026\n\n## Big dates\n\n"
+              "> **BIG DATE** · **Thursday 22 October** · LORDS · Gender medicine (children)\n")
+        summary, _, _ = run_monday.summarise_edition(md, "2026-10-19")
+        self.assertIn("Edition 10", summary)
+        self.assertIn("*BIG DATE* *Thursday 22 October* · LORDS", summary)
+
+    def test_old_summaries_still_get_the_full_edition_line(self):
+        self.assertEqual(publish.with_canvas_url("x", "https://c/1"), "x\n\nFull edition: https://c/1")
 
     def test_deadlines_come_from_store_within_horizon(self):
         from src import db

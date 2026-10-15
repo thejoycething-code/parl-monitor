@@ -16,6 +16,10 @@
 # and the local store -- and nothing is published or committed, exactly as
 # the workflow skips its publish and commit steps.
 #
+# The render reads What's On again (run_weekly.refresh_whatson, 15 October
+# 2026): the countdown is built from the diary as it stands at 04:00 Monday,
+# not as the Sunday pull read it, and new events are scored here.
+#
 #     NO_PUBLISH=1   render without the Slack post and the Asana task
 #
 # mini_run: commit config/debate_watch.yaml editions reviews docs/judge-eval.md docs/mp-votes.html partner_site

@@ -24,26 +24,35 @@ from src import digest, partner, publish
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-def summarise_edition(markdown, week):
-    """Build the Slack mrkdwn summary + supporting lists from the edition."""
-    # Editorial tags retired: the summary quotes the Top lines section as
-    # written -- score-driven, no [ACT]/[WATCH]/[NOTE] and no owners.
-    m = re.search(r"^## (?:\d+\. )?Top lines\n(.*?)(?=^## |\Z)",
-                  markdown, re.M | re.S)
-    top_block = m.group(1) if m else ""
-    top = re.findall(r"^- (.+)$", top_block, re.M)
-    all_acts = []
-    deadlines = []
+def summarise_edition(markdown, week, edition=None, canvas_url=None, tracker_url=None):
+    """The Monday channel post (the countdown, Christopher 15 October 2026):
+    header, BIG DATE lines, THIS WEEK rows, the next FURTHER AFIELD rows and
+    a "+ N more" line, then the Open the edition / Vote tracker links.
 
-    bullet_lines = []
-    for text in top[:6]:
-        clean = re.sub(r"\[([^]]+)\]\([^)]*\)", r"\1", text)
-        bullet_lines.append("• {0}".format(clean))
+    Built from the edition's countdown rows when the edition is given (the
+    Monday run always gives it). Without one -- a hand call on a markdown
+    file -- the big-date lines are read back from the canvas markdown.
+    Returns (summary, acts, deadlines); the last two stay empty, the reading
+    task they fed is retired.
+    """
+    from src import countdown
+    if edition is not None:
+        return countdown.slack_post(edition, canvas_url, tracker_url), [], []
+    m = re.search(r"^### Edition (\d+)", markdown, re.M)
+    lines = ["*On our issues, from {0}* · Edition {1}".format(
+        countdown.day_label(week), m.group(1) if m else "?"), ""]
+    for head in re.findall(r"^> \*\*BIG DATE\*\* · (.+)$", markdown, re.M):
+        lines.append("*BIG DATE* " + re.sub(r"\*\*", "*", head))
+    links = [x for x in (canvas_url and "<{0}|Open the edition>".format(canvas_url),
+                         tracker_url and "<{0}|Vote tracker>".format(tracker_url)) if x]
+    if links:
+        lines += ["", " · ".join(links)]
+    return "\n".join(lines), [], []
 
-    summary = ("*Parliamentary Monitor - week commencing {0}*\n\n"
-               "The weekly briefing on everything moving in Westminster that touches "
-               "our campaigns.\n\n{1}").format(week, "\n".join(bullet_lines))
-    return summary, all_acts, deadlines
+
+def tracker_url():
+    base = (run_weekly.load_settings().get("partner_site_url") or "").rstrip("/")
+    return base + "/mp-votes.html" if base else None
 
 
 def edition_number(conn, week):
@@ -118,7 +127,7 @@ def main():
     except Exception as exc:
         print("devolved judge: failed ({0}); edition unaffected".format(exc))
 
-    path = run_weekly.render_edition(week, run_weekly._db_name(week))
+    path, edition = run_weekly.render_edition(week, run_weekly._db_name(week), with_edition=True)
     with open(path, "r", encoding="utf-8") as handle:
         markdown = handle.read()
 
@@ -165,7 +174,11 @@ def main():
         mark_duplicate()
 
     secrets = publish.load_secrets()
-    summary, acts, deadlines = summarise_edition(markdown, week)
+    # The post links the canvas, which only exists once it is created: the
+    # publisher fills {canvas_url} in (publish.slack_publish_edition).
+    summary, acts, deadlines = summarise_edition(markdown, week, edition,
+                                                 canvas_url=publish.CANVAS_URL_SLOT,
+                                                 tracker_url=tracker_url())
 
     # Canvas carries the edition body (strip the file's H1; canvas has a title).
     canvas_md = re.sub(r"^# Parliamentary Monitor\n", "", markdown, count=1)

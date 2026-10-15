@@ -395,6 +395,13 @@ def sweep_amendments(client, conn, tax, wl, week_start, edition, log=print):
             continue
         title = (spec or {}).get("title") or "Bill {0}".format(bill_id)
         everything = bool((spec or {}).get("all_amendments"))
+        # The FIRST read of a newly watched Bill (the Health Bill, added at
+        # its Lords stages on 2026-10-15) is a baseline: every amendment is
+        # recorded, but one already decided is history, not this week's
+        # news, and would otherwise fill the section with months-old
+        # Commons votes. Undecided ones are live and are shown.
+        baseline = conn.execute("SELECT COUNT(*) FROM bill_amendments WHERE bill_id = ?",
+                                (bill_id,)).fetchone()[0] == 0
         for stage in stages:
             try:
                 rows = amendments.fetch_amendments(client, bill_id, stage)
@@ -436,6 +443,8 @@ def sweep_amendments(client, conn, tax, wl, week_start, edition, log=print):
                      json.dumps(r.matched_terms + r.watchlist_hits), r.tier, int(bool(on_ground)),
                      prev["first_seen"] if prev else today, today, decided_seen))
                 if not on_ground:
+                    continue
+                if baseline and decided_now:
                     continue
                 matched += 1
                 newly_decided = decided_now and (prev is None or (prev["decision"] in (None, "NoDecision")))
@@ -719,6 +728,121 @@ def _tag(result):
     return "WATCH" if (result.tier == 1 or result.watchlist_hits) else "NOTE"
 
 
+def ingest_whatson(client, conn, tax, wl, week_start, week_end):
+    """What's On for the edition week and the eight weeks after it -> items.
+
+    Run by the Sunday pull AND again by the Monday render (2026-10-15), so
+    the countdown reads the diary as it stands on publication morning, not
+    as it stood at 02:00 on Sunday: the Health Bill's Lords committee day
+    and the Church Appointments Bill were both announced after a Saturday
+    read. Returns the What's On event ids the read saw (matched or not), so
+    the render can drop a stored event the diary no longer carries.
+    """
+    seen = set()
+    # Watched Bills are admitted by What's On's BillId as well as by words
+    # (handoff: key on bill IDs, never titles). A Bill whose title is not a
+    # matching entity (watchlist match_title: false, the Health Bill) has
+    # its sittings come in this way only.
+    watched = {}
+    for bid, spec in (getattr(wl, "bills_raw", None) or {}).items():
+        try:
+            watched[int(bid)] = spec or {}
+        except (TypeError, ValueError):
+            continue
+    # Two horizons: the edition week (Week ahead) and the EIGHT weeks
+    # after it (Further afield). Three weeks (Christopher, 2026-08-24)
+    # became eight on 2026-09-01: Caroline asked for a one-to-two-month
+    # forward look so a campaign can be built in time, and the EU
+    # monitor already sees 60 days -- both monitors now look as far as
+    # their sources publish. What's On simply returns nothing for weeks
+    # Parliament has not yet scheduled, so the far end costs only a few
+    # extra chunked calls.
+    for horizon, (h_start, h_end) in (
+            ("week", (week_start, week_end)),
+            ("further", (week_end + datetime.timedelta(days=1),
+                         week_end + datetime.timedelta(days=56)))):
+        for e in whatson.fetch_events(client, h_start, h_end):
+            if e.id:
+                seen.add(e.id)
+            text = whatson.event_text(e)
+            r = filt.filter_item(tax, wl, text)
+            if not r.matched():
+                try:
+                    spec = watched.get(int(e.bill_id)) if e.bill_id else None
+                except (TypeError, ValueError):
+                    spec = None
+                if spec is None:
+                    continue
+                r = filt.FilterResult(matched_terms=[], issue_areas=sorted(spec.get("areas") or []),
+                                      tier=None, watchlist_hits=[spec.get("title") or str(e.bill_id)],
+                                      min_score=2)
+            label = whatson.event_label(e)
+            event_date = e.start_date.isoformat() if e.start_date else None
+            # Parliament's event Id is the key. It used to be a Python
+            # string hash, which is seeded per process -- so two Sunday
+            # pulls stored the same debate twice, and the judge scored it
+            # twice (found 2026-09-07 in the Week ahead: every event
+            # printed two why-lines).
+            key = e.id if e.id else abs(hash(label)) % 10 ** 8
+            store_item(conn,
+                       "whatson:{0}:{1}".format(event_date, key),
+                       "whatson", "event", label, whatson.event_url(e), r,
+                       event_date=event_date,
+                       extra={"horizon": horizon, "event_id": e.id,
+                              "start_time": e.start_time or None,
+                              "end_time": e.end_time or None,
+                              "house": whatson._text(e.house) or None,
+                              "type": whatson._text(e.type) or None,
+                              "category": whatson._text(e.category) or None,
+                              "description": whatson._collapse(whatson._text(e.description)) or None,
+                              "bill_id": e.bill_id, "bill_name": e.bill_name or None,
+                              "members": e.members or []})
+    return seen
+
+
+def refresh_whatson(client, conn, tax, wl, week_start, week_end, log=print):
+    """The Monday re-read (2026-10-15): What's On again for the whole window,
+    then the judge over the What's On items the re-read added (only those:
+    every other feed was scored by the Sunday pull). A failure is a gap and
+    the edition renders from Sunday's read, as before. Returns the event ids
+    seen, or None when the read failed."""
+    edition = week_start.isoformat()
+    try:
+        seen = ingest_whatson(client, conn, tax, wl, week_start, week_end)
+    except Exception as exc:                                # noqa: BLE001
+        record_gap(conn, edition, "whatson",
+                   "Monday re-read failed ({0}); the diary is as read on Sunday".format(str(exc)[:160]))
+        log("whatson: Monday re-read failed ({0}); Sunday's read stands".format(exc))
+        return None
+    pending = [i for i in triage.pending_items(conn, wl) if i.id.startswith("whatson:")]
+    if not pending:
+        log("whatson: Monday re-read, {0} event(s) in the window, nothing new to score".format(len(seen)))
+        return seen
+    mode = os.environ.get("TRIAGE", "auto")
+    if mode in ("auto", "live"):
+        key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
+        mode = "live" if key else "stub"
+        if key:
+            os.environ.setdefault("ANTHROPIC_API_KEY", key)
+    elif mode == "session":
+        mode = "stub"
+    try:
+        if mode == "live":
+            results = triage.triage(pending, mode="live",
+                                    usage_sink=lambda usage, model: spend.record(conn, "triage", model, usage))
+        else:
+            results = triage.triage(pending, mode="stub")
+    except Exception as exc:                                # noqa: BLE001
+        record_gap(conn, edition, "triage",
+                   "Monday What's On scoring failed ({0}); stub scores used".format(str(exc)[:160]))
+        mode, results = "stub", triage.score_stub(pending)
+    scored, discards = triage.apply_scores(conn, pending, results)
+    review.log_discards(conn, edition, [(i, t, None) for i, t in discards])
+    log("whatson: Monday re-read, {0} event(s) in the window, {1} new item(s) scored ({2})".format(
+        len(seen), scored, mode))
+    return seen
+
+
 def ingest_all(client, conn, tax, wl, week_start, week_end):
     """Fetch every Phase 1 feed, filter, and store surviving items."""
     edition = week_start.isoformat()
@@ -786,44 +910,7 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                        extra=extra)
 
     def _whatson():
-        # Two horizons: the edition week (Week ahead) and the EIGHT weeks
-        # after it (Further afield). Three weeks (Christopher, 2026-08-24)
-        # became eight on 2026-09-01: Caroline asked for a one-to-two-month
-        # forward look so a campaign can be built in time, and the EU
-        # monitor already sees 60 days -- both monitors now look as far as
-        # their sources publish. What's On simply returns nothing for weeks
-        # Parliament has not yet scheduled, so the far end costs only a few
-        # extra chunked calls.
-        for horizon, (h_start, h_end) in (
-                ("week", (week_start, week_end)),
-                ("further", (week_end + datetime.timedelta(days=1),
-                             week_end + datetime.timedelta(days=56)))):
-            for e in whatson.fetch_events(client, h_start, h_end):
-                text = whatson.event_text(e)
-                r = filt.filter_item(tax, wl, text)
-                if not r.matched():
-                    continue
-                label = whatson.event_label(e)
-                event_date = e.start_date.isoformat() if e.start_date else None
-                # Parliament's event Id is the key. It used to be a Python
-                # string hash, which is seeded per process -- so two Sunday
-                # pulls stored the same debate twice, and the judge scored it
-                # twice (found 2026-09-07 in the Week ahead: every event
-                # printed two why-lines).
-                key = e.id if e.id else abs(hash(label)) % 10 ** 8
-                store_item(conn,
-                           "whatson:{0}:{1}".format(event_date, key),
-                           "whatson", "event", label, whatson.event_url(e), r,
-                           event_date=event_date,
-                           extra={"horizon": horizon, "event_id": e.id,
-                                  "start_time": e.start_time or None,
-                                  "end_time": e.end_time or None,
-                                  "house": whatson._text(e.house) or None,
-                                  "type": whatson._text(e.type) or None,
-                                  "category": whatson._text(e.category) or None,
-                                  "description": whatson._collapse(whatson._text(e.description)) or None,
-                                  "bill_id": e.bill_id, "bill_name": e.bill_name or None,
-                                  "members": e.members or []})
+        ingest_whatson(client, conn, tax, wl, week_start, week_end)
 
     def _divisions():
         # A Monday 06:30 edition REPORTS the week just ended and PREVIEWS the
@@ -1132,7 +1219,8 @@ def devolved_from_store(conn, week_commencing, days=30, hidden=(11,)):
             if not r["dated"] or r["dated"] < live_since:
                 continue
             out["bills"].append({"title": r["title"], "where": where,
-                                 "stage": r["stage"], "date": r["dated"]})
+                                 "stage": r["stage"], "date": r["dated"],
+                                 "areas": shown(r["areas"])})
 
     for sql, where in (
             ("SELECT dated, title, result, areas, tier FROM sp_divisions "
@@ -1195,10 +1283,17 @@ def sections_from_store(conn, edition):
         floor = (week_start - datetime.timedelta(days=days)).isoformat()
         return bool(event_date) and floor <= event_date < week_start.isoformat()
 
+    live_ids = getattr(edition, "whatson_live", None)
     for r in rows:
         feed = r["source_feed"]
         if not in_window(feed, r["event_date"]):
             continue
+        if feed == "whatson" and live_ids is not None and (r["event_date"] or "") >= edition.week_commencing:
+            # The Monday re-read did not see this event: moved (its id
+            # carries the old date) or withdrawn. It stays in the store.
+            ev_id = (json.loads(r["extra"]) if r["extra"] else {}).get("event_id")
+            if ev_id and ev_id not in live_ids:
+                continue
         if feed == "pq":
             extra = json.loads(r["extra"]) if r["extra"] else {}
             areas = json.loads(r["issue_areas"] or "[]")
@@ -1232,6 +1327,9 @@ def sections_from_store(conn, edition):
             edition.deadlines.append({
                 "type": "Consultation" if feed == "consultation" else "Evidence",
                 "title": title, "url": r["url"], "why": why, "deadline": r["deadline"],
+                # For the countdown's DEADLINE rows (2026-10-15).
+                "areas": json.loads(r["issue_areas"] or "[]"), "score": r["triage_score"],
+                "committee": m.group("cmte") if feed == "committee" and m else None,
             })
             # The deadline table carries no tag or owner, so an ACT decided at
             # review was rendering as an ordinary row: urgency the edition (and
@@ -1282,6 +1380,7 @@ def sections_from_store(conn, edition):
             ev = json.loads(r["extra"]) if r["extra"] else {}
             ev["title"] = r["title"]
             line.event = ev
+            line.areas = json.loads(r["issue_areas"] or "[]")
         getattr(edition, target).append(line)
 
     # Decisions needed: pair config/decisions.yaml with every rendered item's
@@ -1352,6 +1451,104 @@ def sections_from_store(conn, edition):
         # 600 characters by ingest. Prefer the longer of the two.
         if len(got["question"]) > len(row.get("question_text") or ""):
             row["question_text"] = got["question"]
+    return edition
+
+
+def countdown_from_store(conn, edition, wl=None):
+    """The countdown's timeline, big dates, devolved board rows and latest
+    votes (Christopher, 15 October 2026). READS only: What's On items and
+    deadlines already gathered into the edition, plus the NI Assembly, the
+    devolved consultations and (when collected) Holyrood and Senedd forward
+    business. Nothing here writes to the store."""
+    from src import countdown as cd
+    ws, we, fs, he = cd.windows(edition.week_commencing)
+    board_titles = cd.board_titles(edition)
+    rows = cd.rows_from_edition(edition, board_titles)
+    rows += cd.devolved_consultations(conn, ws, he)
+    rows += cd.ni_rows(conn, ws, he)
+    forward, edition.forward_note = cd.forward_business(conn, ws, he)
+    rows += forward
+
+    # Running bills: "All week" rows for bills in committee.
+    amend = {}
+    for a in edition.amendment_rows or []:
+        if a.get("bill_id") and a.get("label") and a.get("new"):
+            amend.setdefault(a["bill_id"], []).append(a["label"])
+    for house, tag in (("Commons", cd.COMMONS), ("Lords", cd.LORDS)):
+        sitting = [r for r in edition.board_rows or [] if r.status == "live" and r.house == house
+                   and "ommittee" in (r.stage or "") and r.next_key_date not in (board.TBA, None, "")
+                   and r.next_key_date <= we.isoformat()]
+        if not sitting:
+            continue
+        cells, areas = [], []
+        for r in sitting:
+            cell = "[{0}]({1})".format(r.title, r.link)
+            labels = amend.get(r.bill_id) or []
+            if labels:
+                cell += " ({0} tabled)".format(" and ".join(labels[:4]) if len(labels) <= 4
+                                               else "{0} amendments".format(len(labels)))
+            cells.append(cell)
+            areas += [int(a) for a in (r.areas or "").split(",") if a.strip().isdigit()]
+        what = (" and ".join(cells) if len(cells) <= 2 else ", ".join(cells[:-1]) + " and " + cells[-1])
+        what += ", {0}in committee".format("both " if len(cells) == 2 else "all " if len(cells) > 2 else "")
+        rows.append(cd.Row(where=tag, title=", ".join(r.title for r in sitting), running=True,
+                           areas=areas, kind="running", extra_md=what))
+    for name, committee, areas in cd.ni_running(conn, ws, he):
+        rows.append(cd.Row(where=cd.NI_ASSEMBLY, title=name, running=True, areas=areas, kind="running",
+                           extra_md="{0}, {1}".format(name, committee or "in committee")))
+    for tag, title, stage, areas in cd.devolved_running(conn, ws):
+        rows.append(cd.Row(where=tag, title=title, running=True, areas=areas, kind="running",
+                           extra_md="{0}, {1}".format(title, stage)))
+
+    board_areas = {r.bill_id: [int(a) for a in (r.areas or "").split(",") if a.strip().isdigit()]
+                   for r in edition.board_rows or []}
+    for r in rows:
+        if r.bill_id and not r.areas:
+            r.areas = list(board_areas.get(r.bill_id) or [])
+    rows = cd.fold_sittings(cd.dedupe(rows), edition.week_commencing)
+    tracker = cd.load_tracker(conn, os.path.join(ROOT, "config", "vote_tracker.yaml"))
+
+    # The devolved bills on our ground join the board (Where column).
+    devolved = edition.devolved or {}
+    edition.devolved_board = [dict(b, areas=b.get("areas") or [], next="none set")
+                              for b in devolved.get("bills") or []]
+    for name, committee, areas in cd.ni_running(conn, ws, he):
+        nxt = next((r for r in sorted(rows, key=cd.Row.sort_key)
+                    if r.where == cd.NI_ASSEMBLY and not r.running and name.lower() in r.title.lower()), None)
+        edition.devolved_board.append({"title": name, "where": "NI Assembly", "stage": "Committee",
+                                       "next": cd.day_label(nxt.date) if nxt else "none set",
+                                       "areas": areas, "why": committee})
+
+    # Latest votes on our issues, across legislatures.
+    votes = [{"date": v["date"], "where": "Commons", "title": v["title"], "url": v["url"],
+              "result": cd._result(v)} for v in tracker]
+    for v in devolved.get("divisions") or []:
+        where, _, title = (v.get("title") or "").partition(": ")
+        votes.append({"date": v.get("dated"), "where": where, "title": title, "url": None,
+                      "result": v.get("result")})
+    try:
+        since = (ws - datetime.timedelta(days=120)).isoformat()
+        for r in conn.execute("SELECT dated, subject, areas FROM ni_divisions WHERE dated >= ? "
+                              "ORDER BY dated DESC", (since,)):
+            if cd._areas(r["areas"]):
+                votes.append({"date": r["dated"], "where": "NI Assembly",
+                              "title": re.sub(r"\s*\[.*$", "", r["subject"] or ""), "url": None,
+                              "result": None})
+    except Exception:                                       # noqa: BLE001 - table may be absent
+        pass
+    for r in cd.mark_big(rows, edition.week_commencing):
+        r.context = cd.context_for(r, tracker, board_titles, ws.year,
+                                   devolved_votes=[v for v in votes if v["where"] != "Commons"])
+    edition.timeline = rows
+
+    seen, latest = set(), []
+    for v in sorted(votes, key=lambda v: v.get("date") or "", reverse=True):
+        key = (v["where"], (v["title"] or "")[:60].lower())
+        if key in seen:
+            continue
+        seen.add(key)
+        latest.append(v)
+    edition.latest_votes = latest[:8]
     return edition
 
 
@@ -1540,8 +1737,11 @@ def announced_row(e):
             "members": e.members or [], "url": whatson.event_url(e)}
 
 
-def render_edition(week_commencing, db_name, draft=False):
-    """Phase 2: render from the store, score-driven (editorial loop retired)."""
+def render_edition(week_commencing, db_name, draft=False, with_edition=False):
+    """Phase 2: render from the store, score-driven (editorial loop retired).
+
+    with_edition=True returns (path, edition): the Monday post is built from
+    the edition's countdown rows, not re-parsed from the markdown."""
     week_start = datetime.date.fromisoformat(week_commencing)
     week_end = week_start + datetime.timedelta(days=6)
     conn = db.init_db(db.connect(os.path.join(ROOT, "data", db_name)))
@@ -1585,7 +1785,16 @@ def render_edition(week_commencing, db_name, draft=False):
     # and persist this edition's (idempotent within an edition).
     board.apply_snapshots(conn, edition.board_rows, week_commencing)
 
+    # Read What's On close to publication (2026-10-15): the Sunday pull's
+    # read is a day and a half old by Monday morning, and the countdown is
+    # only as good as the diary it reads. RENDER_WHATSON_REFRESH=0 skips it
+    # (a re-render of a past week must not rewrite its diary).
+    if os.environ.get("RENDER_WHATSON_REFRESH", "1") != "0":
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        edition.whatson_live = refresh_whatson(client, conn, tax, wl, week_start, week_end)
+
     sections_from_store(conn, edition)
+    countdown_from_store(conn, edition, wl)
 
     window_start = (week_start - datetime.timedelta(days=7)).isoformat()
     # Who spoke, and which way: the debates of the week just ended, each
@@ -1642,7 +1851,7 @@ def render_edition(week_commencing, db_name, draft=False):
     path = digest.write_edition(conn, edition, os.path.join(ROOT, "editions"),
                                 generated_at=datetime.datetime.now().isoformat(timespec="seconds"))
     conn.close()
-    return path
+    return (path, edition) if with_edition else path
 
 
 def _db_name(week):

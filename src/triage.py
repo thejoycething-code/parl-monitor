@@ -399,6 +399,12 @@ def pending_items(conn, watchlist=None):
     score 2 rule (handoff section 6) is enforced at scoring time.
     """
     entity_names = {e[0] for e in (watchlist.entities if watchlist else [])}
+    # Every watched Bill's title, including one that is not a matching
+    # entity (match_title: false): its What's On sittings are admitted by
+    # BillId and keep the watchlist floor.
+    entity_names |= {(spec or {}).get("title") for spec in
+                     ((getattr(watchlist, "bills_raw", None) or {}).values() if watchlist else [])}
+    entity_names.discard(None)
     rows = conn.execute(
         "SELECT id, title, issue_areas, matched_terms, tier, extra FROM items WHERE triage_score IS NULL"
     ).fetchall()

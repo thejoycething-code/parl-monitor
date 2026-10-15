@@ -224,6 +224,14 @@ def load_watchlist(path):
         return (term, pattern, cs, areas, broad)
 
     for _bill_id, spec in (raw.get("bills") or {}).items():
+        # match_title: false (2026-10-15, the Health Bill): a large structural
+        # Bill whose NAME says nothing about our issues. It is on the board
+        # and its amendments are read, but its title is not a matching
+        # entity -- every NHS division and question naming it would
+        # otherwise reach the ledger as a gender-medicine item. What's On
+        # admits its sittings by BillId instead (run_weekly.ingest_whatson).
+        if spec.get("match_title") is False:
+            continue
         e = entry(spec.get("title"), spec.get("areas") or [])
         entities.append(e)
         bill_titles.append(e)
