@@ -12,7 +12,7 @@ Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nob
 - Who: [CAMPAIGNER: who brought it]; Congreso Nacional
 - Stage: ? (2026-07-30)
 - Next date: none published
-- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Cámara de Diputadas y Diputados: PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
+- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Cámara de Diputadas y Diputados: ? 86, PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
 - Our history: [CAMPAIGNER: earlier CitizenGO campaigns on this issue, with signatures and links]"
 Estimated Launch date,"2026-10-14 (the earliest: submission plus three working days; weekends counted, public holidays not checked)"
 Estimated date for Delivering Signatures,"2026-11-04 (estimate: launch plus 21 days; the record publishes no key date)
@@ -33,7 +33,7 @@ Who is the petition addressed to?,"All members of the Congreso Nacional (parlame
 [CAMPAIGNER: if this is a government bill: the responsible minister, named and checked against an official source]"
 What are we asking for in the petition?,"[CAMPAIGNER: the ask, once CitizenGO's position on this bill is confirmed]"
 Why would they listen to us?,"[CAMPAIGNER: the lead sentence: if we <action>, <target> will <behaviour>, because <pressure point>]
-1. **Vote arithmetic:** seats in the Cámara de Diputadas y Diputados: PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
+1. **Vote arithmetic:** seats in the Cámara de Diputadas y Diputados: ? 86, PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
 2. **Whip:** [CAMPAIGNER: free vote or whipped, and by whom]
 3. **Our members in their seats:** [CAMPAIGNER: our members in each constituency, from the postcode data]"
 What is happening that we are responding to?,"2026-07-30: Iniciado en moción de los Honorables Senadores señor Flores y señoras Astudillo, Núñez y Vodanovic, con la que inicia..., stage '?'.
@@ -106,3 +106,4 @@ No watched or tier-1 vote on this bill in the store yet.
 "Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns calendar (launch clash check), postcode member counts, the framing glossary (0 entries), the allies and opponents registers (0 / 0), the hostile-outlet deny-list."
 Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What are we asking for in the petition?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 Changelog: 2026-10-11 tools/country_briefs.py drafted every cell
+Changelog: 2026-10-15 tools/country_briefs.py refreshed by the builder

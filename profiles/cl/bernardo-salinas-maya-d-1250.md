@@ -14,15 +14,19 @@ Chile, Cámara de Diputadas y Diputados. From the parliamentary monitor's store;
 
 - IND (Independientes): 11 March 2026 to 10 March 2030 (the Cámara's militancias)
 
-## Votes on our ground (14)
+## Votes on our ground (18)
 
-Recorded positions (14): “Afirmativo” 12, “En Contra” 1, “No Vota” 1.
-By area (every vote): parental rights and education: “Afirmativo” 3; marriage and family: “En Contra” 1, “No Vota” 1; prostitution and trafficking: “Afirmativo” 9.
+Recorded positions (18): “Afirmativo” 16, “En Contra” 1, “No Vota” 1.
+By area (every vote): parental rights and education: “Afirmativo” 4; free speech and civil liberties: “Afirmativo” 1; marriage and family: “En Contra” 1, “No Vota” 1; surrogacy and embryology: “Afirmativo” 2; prostitution and trafficking: “Afirmativo” 10.
 
 Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
+| 6 Oct 2026 | Afirmativo | IND (on the day, militancias) | Boletín N° 16948-07 Indicación renovada del diputado Marcos Barraza para agregar un inciso final nuevo al artículo 411 bis A del Código Pen… | prostitution and trafficking, tier 2 |
+| 23 Sep 2026 | Afirmativo | IND (on the day, militancias) | Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso fi… · their vote meant: to adopt the amendment or part put to the vote (“Boletín N° 18584-25 Indicación renovada de la diputada Schneider y…”) on the text “Modifica el Código Penal para ampliar el ámbito de aplicación del delito de interrupción…” (by rule, from the vote's wording and the bill) | free speech and civil liberties, tier 1 |
+| 8 Sep 2026 | Afirmativo | IND (on the day, militancias) | Boletín N° 16709-11 | parental rights and education, surrogacy and embryology |
+| 7 Sep 2026 | Afirmativo | IND (on the day, militancias) | Boletín N° 16708-11 | surrogacy and embryology |
 | 7 Jul 2026 | No Vota | IND (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… | marriage and family, tier 1 |
 | 16 Jun 2026 | Afirmativo | IND (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo transitorio al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | Afirmativo | IND (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo 3° al proyecto. | prostitution and trafficking |

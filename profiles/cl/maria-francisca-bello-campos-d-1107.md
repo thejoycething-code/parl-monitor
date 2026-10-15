@@ -16,15 +16,19 @@ Chile, Cámara de Diputadas y Diputados. From the parliamentary monitor's store;
 - FA (Frente Amplio): 3 July 2024 to 10 March 2026 (the Cámara's militancias)
 - FA (Frente Amplio): 11 March 2026 to 10 March 2030 (the Cámara's militancias)
 
-## Votes on our ground (14)
+## Votes on our ground (90)
 
-Recorded positions (14): “No Vota” 14.
-By area (every vote): parental rights and education: “No Vota” 3; marriage and family: “No Vota” 2; prostitution and trafficking: “No Vota” 9.
+Recorded positions (90): “No Vota” 61, “Afirmativo” 23, “En Contra” 6.
+By area (every vote): gender medicine and children: “En Contra” 4, “Afirmativo” 2; sex-based rights: “No Vota” 5, “Afirmativo” 2, “En Contra” 2; parental rights and education: “No Vota” 42, “Afirmativo” 17, “En Contra” 1; free speech and civil liberties: “En Contra” 1, “No Vota” 1; marriage and family: “No Vota” 4, “Afirmativo” 1, “En Contra” 1; surrogacy and embryology: “No Vota” 2; prostitution and trafficking: “No Vota” 10, “Afirmativo” 1.
 
-Every vote:
+The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
+| 6 Oct 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16948-07 Indicación renovada del diputado Marcos Barraza para agregar un inciso final nuevo al artículo 411 bis A del Código Pen… | prostitution and trafficking, tier 2 |
+| 23 Sep 2026 | No Vota | FA (on the day, militancias) | Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso fi… | free speech and civil liberties, tier 1 |
+| 8 Sep 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16709-11 | parental rights and education, surrogacy and embryology |
+| 7 Sep 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16708-11 | surrogacy and embryology |
 | 7 Jul 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… | marriage and family, tier 1 |
 | 16 Jun 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo transitorio al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo 3° al proyecto. | prostitution and trafficking |
@@ -39,6 +43,10 @@ Every vote:
 | 21 Apr 2026 | No Vota | FA (on the day, militancias) | Boletín N° 18156-04 Indicación renovada que reemplaza el numeral 2) del artículo 5 del proyecto, por uno del siguiente tenor: “2) Incorpóre… | parental rights and education, tier 2 |
 | 21 Apr 2026 | No Vota | FA (on the day, militancias) | Boletín N° 18156-04 Artículo 87 ter, incorporado por el artículo 2 del proyecto, con la indicación renovada, que agrega un nuevo inciso seg… | parental rights and education, tier 2 |
 | 21 Apr 2026 | No Vota | FA (on the day, militancias) | Boletín N° 18156-04 Indicación renovada que sustituye el inciso final del artículo 16 J incorporado por el artículo 1 del proyecto, por uno… | marriage and family, tier 2 |
+| 26 Jan 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16781-04 Proposición de la Comisión Mixta recaída en el proyecto de ley, originado en mociones y mensaje, “Sobre convivencia, bu… | parental rights and education |
+| 20 Jan 2026 | No Vota | FA (on the day, militancias) | Boletín N° 16781-04 Enmienda del Senado que agrega un nuevo artículo 17 del proyecto, junto con las disposiciones transitorias decima a déc… | parental rights and education |
+
+70 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Attendance
 

@@ -41,7 +41,7 @@ Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nob
 - Who: [CAMPAIGNER: who brought it]; Congreso Nacional
 - Stage: ? (2026-08-06)
 - Next date: none published
-- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Cámara de Diputadas y Diputados: PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
+- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Cámara de Diputadas y Diputados: ? 86, PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
 - Our history: [CAMPAIGNER: earlier CitizenGO campaigns on this issue, with signatures and links]
 
 ### ✏️ Estimated Launch date
@@ -90,7 +90,7 @@ All members of the Congreso Nacional (parlamentarios).
 ### ✏️ Why would they listen to us?
 
 [CAMPAIGNER: the lead sentence: if we <action>, <target> will <behaviour>, because <pressure point>]
-1. **Vote arithmetic:** seats in the Cámara de Diputadas y Diputados: PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
+1. **Vote arithmetic:** seats in the Cámara de Diputadas y Diputados: ? 86, PREP 28, IND 27, FA 15, PDG 14, UDI 13, RN 11, PS 10, PNL 8, PC 8, DC 7, PPD 4, EVOP 2, PCCH 2, PL 2, PAH 1, DEM 1, PR 1, FRVS 1. seats in the Senado: ? 20, Independiente 10, R.N. 8, P.S. 7, U.D.I. 5, P.P.D. 3, P.D.C. 3, P.C 3, Republicano 3, Evópoli 2, Frente Amplio 2, F.R.E.V.S. 1, Demócratas 1, Nacional Libertario 1, Liberal 1.
 2. **Whip:** [CAMPAIGNER: free vote or whipped, and by whom]
 3. **Our members in their seats:** [CAMPAIGNER: our members in each constituency, from the postcode data]
 
@@ -171,3 +171,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-11 tools/country_briefs.py drafted every cell
+- 2026-10-15 tools/country_briefs.py refreshed by the builder

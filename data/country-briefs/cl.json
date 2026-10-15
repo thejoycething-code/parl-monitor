@@ -1,90 +1,98 @@
 {
  "cl-crea-una-accion-de-tutela-del-derecho-preferente-18508-04": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "9b83091687c548410a8077d9a92e411fe2a3096da72e20890ca4d27f4a278670",
+  "content": "d69a7cc2e1f2db4a27d99745ee187850ae84aa9d3d3f05463f1552eb88eac4f6",
   "generated": "2026-10-11",
   "key": "18508-04",
   "ready": false,
-  "sha": "57b5c106ba79f142e117f2c2dd2b7c0b22b702f6e9f4e5665dd0015bcc91b18f",
+  "sha": "9ff076ccaf5d024d76cf26869b3c03ed103537dbfb2af9b69bb9c55f82be814e",
   "title": "Crea una acción de tutela del derecho preferente de los padres a educar a sus hijos"
  },
  "cl-extiende-el-recurso-de-proteccion-al-derecho-pre-18698-07": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "3103b6745f9ced0d3b5c3a64d7786d75e49427e61b6802c90772c541dc70bbcf",
+  "content": "f8433842ef23bde10dc2e90bb8e3dd87ce0bd49ebeb837afd65cafbacb98ca6e",
   "generated": "2026-10-11",
   "key": "18698-07",
   "ready": false,
-  "sha": "e32833f4e6ded4e1618485ce92c07fe4e3d4bc176635826c7c1774a4b7703eea",
+  "sha": "0e324a956491cfb324e8643ff1be120e65d04f1b14875ab29d89bf729e38e997",
   "title": "Extiende el recurso de protección al derecho preferente y el deber de los padres de educar a sus hijos"
  },
  "cl-iniciado-en-mocion-de-los-honorables-senadores-s-18505-06": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "dc9dcbd1ce56d3af35ebd34769fe9de3420e22ed853c7d7a119fc6a43dbfd9c1",
+  "content": "197901c49bbe89d3d126024f892720287096bc613479864527d1d035a10bf330",
   "generated": "2026-10-11",
   "key": "18505-06",
   "ready": false,
-  "sha": "b17d984074cc2ba5f5ecb87897fcd019bec6b9a8f221a3a49dd9eaa07bd1e5b2",
+  "sha": "05229ece88a04c8ed8fc01f227c84830e37016c03ef27122aac8544212bab121",
   "title": "Iniciado en moción de los Honorables Senadores señor Flores y señoras Astudillo, Núñez y Vodanovic, con la que inician un proyecto de ley, que modifica la ley N° 21.325, de Migración y Extranjería, con el objeto de sancionar penalmente la celebración de matrimonios o acuerdos de unión civil con fines migratorios"
  },
  "cl-modifica-diversos-cuerpos-legales-con-el-objeto-18546-34": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "904baafed7d85fe93492552c649f4730a57a9544c78d0596d3cb5a0ccdc16a35",
+  "content": "ef30af702c3b1fde381dde5f1c6d5777ee691b05a0361b639a9cfde8bd990a9c",
   "generated": "2026-10-11",
   "key": "18546-34",
   "ready": false,
-  "sha": "7e701336faba86211f531ab012133130a18e1d05058fcc1400100ecb8e027eb4",
+  "sha": "dae59baaf10abd76e117d087c79129edd96dbc9592ed874571db847e18c6dcf8",
   "title": "Modifica diversos cuerpos legales, con el objeto de regular la gestación por subrogación altruista"
  },
  "cl-modifica-el-codigo-penal-con-el-objeto-de-tipifi-18572-07": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "8faf179a7ff7e330cf576c3bc52d8e75e96fe3ca5e851cbcbb93e28d80a48990",
+  "content": "4e432869660a25049285ef31e0287712aa59b3d0a11f12efffbe4d775264ab8d",
   "generated": "2026-10-11",
   "key": "18572-07",
   "ready": false,
-  "sha": "d9df213c6bdbf06f4a8602ac8286b2ce9450d0d2c3a255a80aec4b44352a6480",
+  "sha": "91537e337036c4bc9b54416e8c23c1f6a989125addad9d8f2597c6d8476b1e6d",
   "title": "Modifica el Código Penal, con el objeto de tipificar la incitación pública o apología a la explotación, abuso sexual o pornografía infantil, y consagrar una circunstancia agravante en el caso de que la víctima posea una condición de discapacidad o neurodivergencia"
  },
  "cl-modifica-el-codigo-penal-para-incorporar-los-del-18579-07": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "2d3d4cca5b576e61f4e7d4ba407188cb62c4099466ad7b6554bc611cc40f73a9",
+  "content": "2a321c4950c385961b4d77862b41a46b20cbafecd6e21a254ba66582759ac0ad",
   "generated": "2026-10-11",
   "key": "18579-07",
   "ready": false,
-  "sha": "71953c8c17daf991dc29ecfe32f7a72a7975622302e378b8d524730614f50796",
+  "sha": "a0917bbf81f50d3eaed234b49671f146397e261e6a3cafef31155ac55be186ce",
   "title": "Modifica el Código Penal, para incorporar los delitos de atentados graves contra la dignidad y la igualdad e incitación pública al odio"
  },
  "cl-modifica-el-codigo-penal-para-sancionar-supuesto-18568-07": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "25a48eec3f32eb124a7090b831f224e9fd0da7fac8fe971789e6cf116dc42c66",
+  "content": "5720846af72d84587342f684a1a6d3d93ad5b5099350368d6b5aaac8d318008c",
   "generated": "2026-10-11",
   "key": "18568-07",
   "ready": false,
-  "sha": "205bb44df2084edcd9aaf8b6f8d3c9ff3ffb2de4f846bf5a6a18cc48f6d604d6",
+  "sha": "207c2e968465f70c237b2ae77a764a0d66aa06059863cd02434355699a6491ba",
   "title": "Modifica el Código Penal para sancionar supuestos de acceso a sustancias o medicamentos abortivos"
  },
  "cl-modifica-la-ley-n-19-638-sobre-constitucion-juri-18540-06": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-15 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "892f6abcd68c79942ca714481f3edce0608f376da56e4a34a56ca849a2036ff5",
+  "content": "c78319f189f68c101daf40059b1f27e10b8baecff8072a0e3bac28b7e4a2022f",
   "generated": "2026-10-11",
   "key": "18540-06",
   "ready": false,
-  "sha": "b9497ca3a438ac73a27288af4ac5d2b3bc0dba013d917289c8fc8f0df5b524c7",
+  "sha": "527f366b10393fa1cf768f9a7c5c484bfc4992166c28e76012f804d4bbfffcb2",
   "title": "Modifica la ley N°19.638, sobre constitución jurídica de las iglesias y organizaciones religiosas, para simplificar la obtención de la personalidad jurídica de las entidades religiosas y garantizar su igualdad de trato ante los órganos del Estado."
  }
 }

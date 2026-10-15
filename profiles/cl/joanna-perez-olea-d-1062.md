@@ -18,16 +18,20 @@ Chile, Cámara de Diputadas y Diputados. From the parliamentary monitor's store;
 - DEM (Partido Demócratas Chile): 5 September 2023 to 10 March 2026 (the Cámara's militancias)
 - DEM (Partido Demócratas Chile): 11 March 2026 to 10 March 2030 (the Cámara's militancias)
 
-## Votes on our ground (14)
+## Votes on our ground (98)
 
-Recorded positions (14): “En Contra” 8, “Abstención” 3, “Afirmativo” 3.
-By area (every vote): parental rights and education: “En Contra” 3; marriage and family: “En Contra” 2; prostitution and trafficking: “Abstención” 3, “Afirmativo” 3, “En Contra” 3.
+Recorded positions (98): “Afirmativo” 65, “Abstención” 16, “En Contra” 12, “No Vota” 5.
+By area (every vote): gender medicine and children: “Afirmativo” 4, “Abstención” 1, “En Contra” 1, “No Vota” 1; sex-based rights: “Afirmativo” 10, “Abstención” 3, “En Contra” 1; parental rights and education: “Afirmativo” 45, “Abstención” 8, “En Contra” 6, “No Vota” 1; free speech and civil liberties: “Afirmativo” 2, “En Contra” 1; marriage and family: “Abstención” 3, “En Contra” 2, “No Vota” 1; surrogacy and embryology: “Afirmativo” 2; prostitution and trafficking: “Afirmativo” 4, “Abstención” 3, “En Contra” 3, “No Vota” 2.
 
-Every vote:
+The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 7 Jul 2026 | En Contra | DEM (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 6 Oct 2026 | No Vota | DEM (on the day, militancias) | Boletín N° 16948-07 Indicación renovada del diputado Marcos Barraza para agregar un inciso final nuevo al artículo 411 bis A del Código Pen… | prostitution and trafficking, tier 2 |
+| 23 Sep 2026 | En Contra | DEM (on the day, militancias) | Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso fi… · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | free speech and civil liberties, tier 1 |
+| 8 Sep 2026 | Afirmativo | DEM (on the day, militancias) | Boletín N° 16709-11 | parental rights and education, surrogacy and embryology |
+| 7 Sep 2026 | Afirmativo | DEM (on the day, militancias) | Boletín N° 16708-11 | surrogacy and embryology |
+| 7 Jul 2026 | En Contra | DEM (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… · their vote meant: to reject that amendment, leaving the bill on creating new schools without the added article on demand estimates (read by the free session judge) | marriage and family, tier 1 |
 | 16 Jun 2026 | Abstención | DEM (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo transitorio al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | Abstención | DEM (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo 3° al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | Afirmativo | DEM (on the day, militancias) | Boletín N° 16857-07 Artículo 2 del proyecto, en los términos propuestos por la Comisión de Seguridad Ciudadana, que consta en la página 7 d… | prostitution and trafficking |
@@ -41,6 +45,10 @@ Every vote:
 | 21 Apr 2026 | En Contra | DEM (on the day, militancias) | Boletín N° 18156-04 Indicación renovada que reemplaza el numeral 2) del artículo 5 del proyecto, por uno del siguiente tenor: “2) Incorpóre… | parental rights and education, tier 2 |
 | 21 Apr 2026 | En Contra | DEM (on the day, militancias) | Boletín N° 18156-04 Artículo 87 ter, incorporado por el artículo 2 del proyecto, con la indicación renovada, que agrega un nuevo inciso seg… | parental rights and education, tier 2 |
 | 21 Apr 2026 | En Contra | DEM (on the day, militancias) | Boletín N° 18156-04 Indicación renovada que sustituye el inciso final del artículo 16 J incorporado por el artículo 1 del proyecto, por uno… | marriage and family, tier 2 |
+| 26 Jan 2026 | No Vota | DEM (on the day, militancias) | Boletín N° 16781-04 Proposición de la Comisión Mixta recaída en el proyecto de ley, originado en mociones y mensaje, “Sobre convivencia, bu… | parental rights and education |
+| 20 Jan 2026 | Afirmativo | DEM (on the day, militancias) | Boletín N° 16781-04 Enmienda del Senado que agrega un nuevo artículo 17 del proyecto, junto con las disposiciones transitorias decima a déc… | parental rights and education |
+
+78 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Attendance
 

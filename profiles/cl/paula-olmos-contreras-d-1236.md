@@ -14,16 +14,20 @@ Chile, Cámara de Diputadas y Diputados. From the parliamentary monitor's store;
 
 - PDG (Partido de la Gente): 11 March 2026 to 10 March 2030 (the Cámara's militancias)
 
-## Votes on our ground (14)
+## Votes on our ground (18)
 
-Recorded positions (14): “Afirmativo” 7, “En Contra” 7.
-By area (every vote): parental rights and education: “Afirmativo” 2, “En Contra” 1; marriage and family: “Afirmativo” 1, “En Contra” 1; prostitution and trafficking: “En Contra” 5, “Afirmativo” 4.
+Recorded positions (18): “Afirmativo” 10, “En Contra” 8.
+By area (every vote): parental rights and education: “Afirmativo” 3, “En Contra” 1; free speech and civil liberties: “Afirmativo” 1; marriage and family: “Afirmativo” 1, “En Contra” 1; surrogacy and embryology: “Afirmativo” 2; prostitution and trafficking: “En Contra” 6, “Afirmativo” 4.
 
 Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 7 Jul 2026 | En Contra | PDG (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 6 Oct 2026 | En Contra | PDG (on the day, militancias) | Boletín N° 16948-07 Indicación renovada del diputado Marcos Barraza para agregar un inciso final nuevo al artículo 411 bis A del Código Pen… | prostitution and trafficking, tier 2 |
+| 23 Sep 2026 | Afirmativo | PDG (on the day, militancias) | Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso fi… · their vote meant: to adopt the amendment or part put to the vote (“Boletín N° 18584-25 Indicación renovada de la diputada Schneider y…”) on the text “Modifica el Código Penal para ampliar el ámbito de aplicación del delito de interrupción…” (by rule, from the vote's wording and the bill) | free speech and civil liberties, tier 1 |
+| 8 Sep 2026 | Afirmativo | PDG (on the day, militancias) | Boletín N° 16709-11 | parental rights and education, surrogacy and embryology |
+| 7 Sep 2026 | Afirmativo | PDG (on the day, militancias) | Boletín N° 16708-11 | surrogacy and embryology |
+| 7 Jul 2026 | En Contra | PDG (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… · their vote meant: to reject that amendment, leaving the bill on creating new schools without the added article on demand estimates (read by the free session judge) | marriage and family, tier 1 |
 | 16 Jun 2026 | Afirmativo | PDG (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo transitorio al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | En Contra | PDG (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo 3° al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | Afirmativo | PDG (on the day, militancias) | Boletín N° 16857-07 Artículo 2 del proyecto, en los términos propuestos por la Comisión de Seguridad Ciudadana, que consta en la página 7 d… | prostitution and trafficking |

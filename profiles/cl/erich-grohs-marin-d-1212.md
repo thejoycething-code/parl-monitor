@@ -14,16 +14,20 @@ Chile, Cámara de Diputadas y Diputados. From the parliamentary monitor's store;
 
 - PNL (Partido Nacional Libertario): 11 March 2026 to 10 March 2030 (the Cámara's militancias)
 
-## Votes on our ground (14)
+## Votes on our ground (18)
 
-Recorded positions (14): “En Contra” 10, “Afirmativo” 3, “Abstención” 1.
-By area (every vote): parental rights and education: “En Contra” 3; marriage and family: “En Contra” 2; prostitution and trafficking: “En Contra” 5, “Afirmativo” 3, “Abstención” 1.
+Recorded positions (18): “En Contra” 12, “Afirmativo” 5, “Abstención” 1.
+By area (every vote): parental rights and education: “En Contra” 3, “Afirmativo” 1; free speech and civil liberties: “En Contra” 1; marriage and family: “En Contra” 2; surrogacy and embryology: “Afirmativo” 2; prostitution and trafficking: “En Contra” 6, “Afirmativo” 3, “Abstención” 1.
 
 Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 7 Jul 2026 | En Contra | PNL (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 6 Oct 2026 | En Contra | PNL (on the day, militancias) | Boletín N° 16948-07 Indicación renovada del diputado Marcos Barraza para agregar un inciso final nuevo al artículo 411 bis A del Código Pen… | prostitution and trafficking, tier 2 |
+| 23 Sep 2026 | En Contra | PNL (on the day, militancias) | Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso fi… · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | free speech and civil liberties, tier 1 |
+| 8 Sep 2026 | Afirmativo | PNL (on the day, militancias) | Boletín N° 16709-11 | parental rights and education, surrogacy and embryology |
+| 7 Sep 2026 | Afirmativo | PNL (on the day, militancias) | Boletín N° 16708-11 | surrogacy and embryology |
+| 7 Jul 2026 | En Contra | PNL (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… · their vote meant: to reject that amendment, leaving the bill on creating new schools without the added article on demand estimates (read by the free session judge) | marriage and family, tier 1 |
 | 16 Jun 2026 | En Contra | PNL (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo transitorio al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | En Contra | PNL (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo 3° al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | Afirmativo | PNL (on the day, militancias) | Boletín N° 16857-07 Artículo 2 del proyecto, en los términos propuestos por la Comisión de Seguridad Ciudadana, que consta en la página 7 d… | prostitution and trafficking |

@@ -17,15 +17,19 @@ Chile, Cámara de Diputadas y Diputados. From the parliamentary monitor's store;
 - PSC (Partido Social Cristiano): 11 March 2026 to 30 August 2026 (the Cámara's militancias)
 - IND (Independientes): 31 August 2026 to 10 March 2030 (the Cámara's militancias)
 
-## Votes on our ground (14)
+## Votes on our ground (95)
 
-Recorded positions (14): “En Contra” 9, “Afirmativo” 3, “Abstención” 1, “No Vota” 1.
-By area (every vote): parental rights and education: “En Contra” 3; marriage and family: “En Contra” 1, “No Vota” 1; prostitution and trafficking: “En Contra” 5, “Afirmativo” 3, “Abstención” 1.
+Recorded positions (95): “No Vota” 47, “En Contra” 29, “Afirmativo” 12, “Abstención” 7.
+By area (every vote): gender medicine and children: “Afirmativo” 2, “En Contra” 2, “No Vota” 2; sex-based rights: “No Vota” 6, “Abstención” 4, “Afirmativo” 2, “En Contra” 1; parental rights and education: “No Vota” 39, “En Contra” 19, “Afirmativo” 2; free speech and civil liberties: “Abstención” 1, “No Vota” 1; marriage and family: “No Vota” 3, “Abstención” 1, “Afirmativo” 1, “En Contra” 1; surrogacy and embryology: “No Vota” 2; prostitution and trafficking: “En Contra” 6, “Afirmativo” 5, “Abstención” 1.
 
-Every vote:
+The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
+| 6 Oct 2026 | En Contra | IND (on the day, militancias) | Boletín N° 16948-07 Indicación renovada del diputado Marcos Barraza para agregar un inciso final nuevo al artículo 411 bis A del Código Pen… | prostitution and trafficking, tier 2 |
+| 23 Sep 2026 | Abstención | IND (on the day, militancias) | Boletín N° 18584-25 Indicación renovada de la diputada Schneider y los diputados Salinas, Pinilla y Araya, Jaime, para agregar un inciso fi… | free speech and civil liberties, tier 1 |
+| 8 Sep 2026 | No Vota | IND (on the day, militancias) | Boletín N° 16709-11 | parental rights and education, surrogacy and embryology |
+| 7 Sep 2026 | No Vota | IND (on the day, militancias) | Boletín N° 16708-11 | surrogacy and embryology |
 | 7 Jul 2026 | No Vota | PSC (on the day, militancias) | Boletín N° 16743-04 Indicación renovada, de la diputada Emilia Schneider, que agrega el siguiente número 4 nuevo al artículo primero del pr… | marriage and family, tier 1 |
 | 16 Jun 2026 | En Contra | PSC (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo transitorio al proyecto. | prostitution and trafficking |
 | 16 Jun 2026 | En Contra | PSC (on the day, militancias) | Boletín N° 16857-07 Indicación del diputado José Antonio Rivas para agregar un nuevo artículo 3° al proyecto. | prostitution and trafficking |
@@ -40,6 +44,10 @@ Every vote:
 | 21 Apr 2026 | En Contra | PSC (on the day, militancias) | Boletín N° 18156-04 Indicación renovada que reemplaza el numeral 2) del artículo 5 del proyecto, por uno del siguiente tenor: “2) Incorpóre… | parental rights and education, tier 2 |
 | 21 Apr 2026 | En Contra | PSC (on the day, militancias) | Boletín N° 18156-04 Artículo 87 ter, incorporado por el artículo 2 del proyecto, con la indicación renovada, que agrega un nuevo inciso seg… | parental rights and education, tier 2 |
 | 21 Apr 2026 | En Contra | PSC (on the day, militancias) | Boletín N° 18156-04 Indicación renovada que sustituye el inciso final del artículo 16 J incorporado por el artículo 1 del proyecto, por uno… | marriage and family, tier 2 |
+| 26 Jan 2026 | Afirmativo | PSC (on the day, militancias) | Boletín N° 16781-04 Proposición de la Comisión Mixta recaída en el proyecto de ley, originado en mociones y mensaje, “Sobre convivencia, bu… | parental rights and education |
+| 20 Jan 2026 | No Vota | PSC (on the day, militancias) | Boletín N° 16781-04 Enmienda del Senado que agrega un nuevo artículo 17 del proyecto, junto con las disposiciones transitorias decima a déc… | parental rights and education |
+
+75 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Attendance
 

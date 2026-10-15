@@ -24,7 +24,7 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 29 Jan 2025 | Si | Partido democratas chile (on the day, BCN) | Proyecto de ley, iniciado en Moción de los Honorables Senadores señoras Núñez y Órdenes, y señores Castro González, Gahona y Macaya, en pri… · their vote meant: to pass the text “Modifica la ley N° 20.418, que fija normas sobre información, orientación y prestaciones…” as a whole (by rule, from the vote's wording and the bill) | parental rights and education, surrogacy and embryology, tier 1 |
+| 29 Jan 2025 | Si | Partido democratas chile (on the day, BCN) | Proyecto de ley, iniciado en Moción de los Honorables Senadores señoras Núñez y Órdenes, y señores Castro González, Gahona y Macaya, en pri… · their vote meant: voted to pass at first stage the bill amending the fertility regulation law to promote information and education about infertility (read by the free session judge) | parental rights and education, surrogacy and embryology, tier 1 |
 
 ## Notes
 
