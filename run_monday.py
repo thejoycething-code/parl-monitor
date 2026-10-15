@@ -50,6 +50,43 @@ def summarise_edition(markdown, week, edition=None, canvas_url=None, tracker_url
     return "\n".join(lines), [], []
 
 
+def whatson_reread_and_judge(week, judge_max=40, chunk=20, log=print):
+    """Read What's On close to publication, then score what it added with the
+    FREE session judge (round 2, 16 October 2026; no paid AI API).
+
+    1. run_weekly.refresh_whatson stores the window's matched events,
+       unscored (no model).
+    2. tools/session_judge.sh tools/uk_whatson_judge.py: Claude Code on the
+       Mini, plan allowance, at most `judge_max` items. Where claude is
+       missing or not signed in (the GitHub backup run), it exits 3 with a
+       [gap] line and nothing is scored: the render shows those items on
+       rules alone and the Sunday pull's judge scores them next week.
+    Returns the event ids the re-read saw (None when it failed)."""
+    from src import db, filter as filt
+    from src.http import HttpClient
+    import subprocess as _sp
+    ws = datetime.date.fromisoformat(week)
+    conn = db.init_db(db.connect(os.path.join(ROOT, "data", run_weekly._db_name(week))))
+    try:
+        client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
+        tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
+        wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
+        seen = run_weekly.refresh_whatson(client, conn, tax, wl, ws, ws + datetime.timedelta(days=6), log=log)
+    finally:
+        conn.close()
+    try:
+        done = _sp.run(["bash", os.path.join(ROOT, "tools", "session_judge.sh"),
+                        os.path.join(ROOT, "tools", "uk_whatson_judge.py"), str(judge_max), str(chunk)],
+                       cwd=ROOT, stdout=_sp.PIPE, stderr=_sp.STDOUT, timeout=1800)
+        lines = [ln.strip() for ln in (done.stdout or b"").decode("utf-8", "replace").splitlines() if ln.strip()]
+        for ln in lines:
+            if ln.startswith(("session judge:", "[gap]", "  [gap]")) or "[gap]" in ln:
+                log("whatson judge: {0}".format(ln))
+    except Exception as exc:                                # noqa: BLE001
+        log("whatson judge: did not run ({0}); items render on rules alone".format(exc))
+    return seen
+
+
 def tracker_url():
     base = (run_weekly.load_settings().get("partner_site_url") or "").rstrip("/")
     return base + "/mp-votes.html" if base else None
@@ -127,7 +164,9 @@ def main():
     except Exception as exc:
         print("devolved judge: failed ({0}); edition unaffected".format(exc))
 
-    path, edition = run_weekly.render_edition(week, run_weekly._db_name(week), with_edition=True)
+    seen = whatson_reread_and_judge(week)
+    path, edition = run_weekly.render_edition(week, run_weekly._db_name(week), with_edition=True,
+                                              whatson_live=seen)
     with open(path, "r", encoding="utf-8") as handle:
         markdown = handle.read()
 

@@ -34,7 +34,7 @@ class SummariseTests(unittest.TestCase):
             tracker_url="https://x/mp-votes.html")
         self.assertTrue(summary.startswith("*On our issues, from Mon 19 Oct* · Edition 10"))
         self.assertIn("*BIG DATE* *Thu 22 Oct* · `LORDS` <https://whatson.parliament.uk/event/cal56747|"
-                      "Puberty blockers debate (Baroness Deech)>", summary)
+                      "Baroness Deech: Puberty blockers debate>", summary)
         self.assertLess(summary.index("*THIS WEEK*"), summary.index("*FURTHER AFIELD*"))
         self.assertIn("Mon 19 · `NI ASSEMBLY` Conversion Practices Bill", summary)
         self.assertIn("Tue 27 · `DEADLINE` Work-based immigration, evidence closes", summary)

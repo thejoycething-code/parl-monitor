@@ -107,6 +107,7 @@ class Edition:
     forward_note: str = None      # "Holyrood and Senedd: forward business not collected yet."
     latest_votes: list = field(default_factory=list)   # dicts: date/where/title/url/result
     devolved_board: list = field(default_factory=list)  # dicts: title/where/stage/next/areas/url
+    key_questions: list = field(default_factory=list)   # countdown.key_questions clusters
     whatson_live: set = None      # event ids the Monday re-read saw; None = no re-read
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
 
@@ -1348,20 +1349,15 @@ def render_latest_votes(edition):
             rows.append({"date": v.get("dated"), "where": where, "title": title,
                          "result": v.get("result")})
     listed = {v.get("url") for v in rows if v.get("url")}
+    listed |= {p.get("url") for v in rows for p in v.get("parts") or [] if p.get("url")}
     week_lines = [l for l in (edition.votes or []) if not (l.url and l.url in listed)]
     if not week_lines and not rows:
         return None
     from src import countdown
     out = ["## Latest votes on our issues", ""]
     out.extend(_fmt_line(l) for l in week_lines)
-    for v in rows:
-        title = v.get("title") or ""
-        if v.get("url"):
-            title = "[{0}]({1})".format(title, v["url"])
-        result = v.get("result")
-        out.append("- {0} · **{1}** · {2}{3}".format(
-            countdown.day_label(v.get("date"))[4:], v.get("where") or "", title,
-            ", " + result if result else ""))
+    for v in countdown.group_votes(rows) if not any("parts" in v for v in rows) else rows:
+        out.append("- " + countdown.vote_line(v))
     out.append("")
     return "\n".join(out)
 
@@ -1436,6 +1432,10 @@ def render(edition):
     out.append("")
     parts.append("\n".join(out))
 
+    block = countdown.render_key_questions(edition.key_questions)
+    if block:
+        parts.append(block)
+
     from src import decisions as _decisions
     block = _decisions.render(edition.decisions) if edition.decisions else None
     if block:
@@ -1458,14 +1458,9 @@ def render(edition):
         blocks.append(_render_section("Early day motions", edition.edms, 5))
         blocks.append(_render_section("Statements and announcements", edition.statements, None))
     blocks.append(render_mp_section(edition.mp_notes, edition.spoke))
-    announced = render_announced(edition)
-    if announced:
-        announced = announced.replace("**Also announced this week**, not matched by our keywords",
-                                      "## Also announced, not on our issues", 1)
-        announced = announced.replace("**Announced for the return**", "## Announced for the return", 1)
-        announced = re.sub(r"^## Announced for the return \(week of ([^)]*)\), not matched by our keywords",
-                           r"## Announced for the return (week of \1), not on our issues", announced, flags=re.M)
-    blocks.append(announced)
+    # "Also announced, not on our issues" was removed in round 2 (Chris,
+    # 16 October 2026); render_announced stays for anything that calls it.
+
     for b in blocks:
         if b:
             parts.append(_demote(b))

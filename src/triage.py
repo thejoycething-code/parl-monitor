@@ -408,11 +408,31 @@ def pending_items(conn, watchlist=None):
     rows = conn.execute(
         "SELECT id, title, issue_areas, matched_terms, tier, extra FROM items WHERE triage_score IS NULL"
     ).fetchall()
+    # Round 2 (16 October 2026): an item on a watched Bill carries the board's
+    # "why we track it" line, so the judge reads a Health Bill committee day
+    # in the light of NC142 and NC143, not as generic NHS business.
+    watched = {}
+    for bid, spec in ((getattr(watchlist, "bills_raw", None) or {}).items() if watchlist else []):
+        if (spec or {}).get("why"):
+            watched[str(bid)] = spec
+            watched[(spec.get("title") or "").lower()] = spec
     items = []
     for r in rows:
         matched = json.loads(r["matched_terms"] or "[]")
+        text = evidence_text(r["extra"])
+        spec = None
+        if watched:
+            try:
+                extra = json.loads(r["extra"]) if r["extra"] else {}
+            except ValueError:
+                extra = {}
+            spec = watched.get(str(extra.get("bill_id"))) if extra.get("bill_id") else None
+            spec = spec or next((watched[t.lower()] for t in matched if t and t.lower() in watched), None)
+        if spec:
+            text = (text + " | " if text else "") + "watched bill, why we track it: {0}: {1}".format(
+                spec.get("title"), spec.get("why"))
         items.append(TriageItem(
-            id=r["id"], title=r["title"], text=evidence_text(r["extra"]), tier=r["tier"],
+            id=r["id"], title=r["title"], text=text, tier=r["tier"],
             issue_areas=json.loads(r["issue_areas"] or "[]"),
             watchlist_hit=any(t in entity_names for t in matched),
         ))
