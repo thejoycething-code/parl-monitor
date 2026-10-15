@@ -1,0 +1,69 @@
+{
+ "resultado": {
+  "banco": "MATE",
+  "consulta": "(PL)[TIPO]  E  (1117)[NUME]  E  (2023)[ANO]",
+  "noOcorrencias": 1,
+  "noDocumentos": 1,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "-@publ,tipo,-@nume",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false,
+  "listaItem": [
+   {
+    "dominio": "Remissivo",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "1117",
+    "ano": "2023",
+    "autor": "Deputado Leleco Pimentel                   PT\n",
+    "ementa": "Declara como patrimônio histórico, cultural, religioso, turístico, paisagístico e social, de natureza material e imaterial de Minas Gerais a Capela de Santo Amaro do Botafogo, construção seiscentista que está entre as mais antigas do Estado, pertencente à Basílica do Pilar, em Ouro Preto.",
+    "observacao": "Distribuído a 2 comissões: CJU CTU.",
+    "situacao": "Transformado em norma jurídica",
+    "siglaSituacao": "TNJUR",
+    "situacaoGeral": "Proposições aprovadas",
+    "siglaSituacaoGeral": "MAPRV",
+    "dataPublicacao": "2023-08-10",
+    "proposicao": "PL 1117 2023 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Arquivo",
+    "norma": "LEI 25987 2026 - Lei Ordinária",
+    "linkLegislacao": {
+     "url": "/legislacao/mineira/LEI/25987/2026",
+     "rotulo": "LEI 25987 2026 - Lei Ordinária",
+     "tipo": "LEI",
+     "numero": "25987",
+     "ano": "2026"
+    },
+    "arquivamento": "20260720",
+    "dataUltimaAcao": "2026-07-17",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 20,
+      "data": "2026-07-01",
+      "local": "Secretaria-Geral da Mesa",
+      "historico": "Ofício 1135 2026 SGM ao Governador do Estado, encaminhando a Proposição de Lei 26952 2026 para sanção.\n\nData do envio: 1 7 2026.\nData máxima para sanção: 22 7 2026.\nProposição de lei publicada no DL em 2 7 2026, pág 6."
+     },
+     {
+      "passo": 21,
+      "data": "2026-07-17",
+      "local": "Governador do Estado",
+      "historico": "Proposição de lei sancionada.\nLei 25987 publicada no Diário do Executivo em 18 7 2026."
+     }
+    ],
+    "proposicaoLei": {
+     "descricao": "PRL 26952 2026"
+    },
+    "autoresEstruturados": [
+     {
+      "id": 12552,
+      "nome": "Deputado Leleco Pimentel",
+      "partido": "PT"
+     }
+    ]
+   }
+  ]
+ }
+}

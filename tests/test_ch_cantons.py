@@ -342,7 +342,7 @@ class OpenDataTests(unittest.TestCase):
         self.assertEqual(a["title"], "Ermöglichung von anonymen Geburten")
         self.assertEqual(a["url"], "https://grosserrat.bs.ch/?gnr=26.5228")
         self.assertEqual(a["source_url"],
-                         "https://data.bs.ch/explore/dataset/100311/?refine.signatur_ges=26.5228")
+                         "https://data.bs.ch/explore/assets/100311/?refine=signatur_ges%3A26.5228")
         q = acts["bs/26.5411"]
         self.assertEqual((q["presented"], q["question"], q["initiative"]),
                          ("2026-09-23", True, "Amina Trevisan (SP)"))
@@ -415,6 +415,51 @@ class OpenDataTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             C.gribs_rows('{"error": 1}')
 
+    def test_gribs_members_committees_and_assignments(self):
+        """15 October 2026: adr (members) and zuw (committee assignments,
+        named by gre), from Peter Frankenbach's further exports."""
+        raw = load("bs_gribs_adr.json")
+        roster = C.gribs_roster(raw)
+        # Name and party only: adr's addresses, phones and e-mails are never read.
+        self.assertTrue(all(len(v) == 3 for v in roster.values()))
+        self.assertEqual(roster["15004065"], ("Amina", "Trevisan", "SP"))
+        self.assertIsNone(roster["15003947"][2])          # not a member: no party
+        ges = C.gribs_geschaefte(C.gribs_rows(fixture("bs_gribs_ges.json")), roster)
+        sigs = {r["laufnr"]: r["signatur_ges"] for r in ges}
+        committees = C.gribs_committees(load("bs_gribs_gre.json"))
+        self.assertEqual(committees["811"], "Gesundheits- und Sozialkommission")
+        com, events = C.gribs_zuweisungen(load("bs_gribs_zuw.json"), sigs, committees,
+                                          "2026-08-29", "2026-10-13")
+        # Only bodies gre names count: the Regierungsrat's assignments are not committees.
+        self.assertEqual(com, {"25.1234": "Gesundheits- und Sozialkommission"})
+        self.assertEqual(events, [])
+        # A completed assignment in the window is a step (one row of the
+        # fixture, with its erledigt date moved into the window).
+        rows = [dict(r, erledigt="1791936000", status="A") if r["uni_nr_an"] == "811" else r
+                for r in load("bs_gribs_zuw.json")]
+        com, events = C.gribs_zuweisungen(rows, sigs, committees, "2026-08-29", "2026-10-14")
+        self.assertEqual(events, [{"signatur_ges": "25.1234", "datum": "2026-10-14",
+                                   "text": "Zuweisung an Gesundheits- und Sozialkommission "
+                                           "(Überweisung): erledigt"}])
+        self.assertEqual(com["25.1234"], "Gesundheits- und Sozialkommission")
+        docs = C.gribs_dokumente(load("bs_gribs_dok.json"), sigs, "2026-08-29", "2026-10-14")
+        steps = C.gribs_vorgaenge(load("bs_gribs_vor.json"), load("bs_gribs_siz.json"), sigs,
+                                  "2026-08-29", "2026-10-14")
+        acts = by_key(C.parse_bs_api(ges, docs, steps, today="2026-10-14", since="2026-08-29",
+                                     source=C.BS_GES_URL, assignments=events, committees=com))
+        a = acts["bs/25.1234"]
+        self.assertEqual(a["committee"], "Gesundheits- und Sozialkommission")
+        self.assertEqual((a["status_date"], a["status"]),
+                         ("2026-10-14", "Zuweisung an Gesundheits- und Sozialkommission "
+                                        "(Überweisung): erledigt (In Bearbeitung)"))
+        # The first author's party comes from adr.
+        self.assertEqual(acts["bs/26.5411"]["initiative"], "Amina Trevisan (SP)")
+        self.assertEqual(acts["bs/26.5383"]["initiative"], "Eric Weber (VA)")
+        # Voters' parties by member number; the Fraktion at the vote is kept as printed.
+        votes = C.gribs_vote_parties(C.parse_bs_api_votes(load("bs_ods_abstimmungen.json")), roster)
+        p = [p for v in votes for p in v["positions"] if p["member"] == "Franz-Xaver Leonhardt"][0]
+        self.assertEqual((p["parl_group"], p["party"]), ("Mitte-EVP", "Mitte"))
+
     def test_basel_stadt_votes_with_every_members_vote(self):
         votes = {v["key"]: v for v in C.parse_bs_api_votes(load("bs_ods_abstimmungen.json"))}
         v = votes["bs/v/0009609-20260923-212113"]
@@ -423,7 +468,7 @@ class OpenDataTests(unittest.TestCase):
         self.assertEqual(len(v["positions"]), 12)
         self.assertEqual(v["positions"][0], {"member": "Melanie Eberhard", "member_id": "15004054",
                                              "parl_group": "SP", "position": "Ja"})
-        self.assertIn("data.bs.ch/explore/dataset/100186", v["source_url"])
+        self.assertIn("data.bs.ch/explore/assets/100186", v["source_url"])
         positions = {p["position"] for x in votes.values() for p in x["positions"]}
         self.assertTrue(positions <= set(C.BS_POSITIONS.values()))
 
@@ -473,7 +518,7 @@ class OpenDataTests(unittest.TestCase):
                                       "neuestes Dokument: Beschluss des Landrats vom 10.09.2026 "
                                       "(10.09.2026)")
         self.assertEqual(p["url"], C.BL_URL.format("b914110cadc9481d94fde8044593a14b"))
-        self.assertEqual(p["source_url"], "https://data.bl.ch/explore/dataset/13090/")
+        self.assertEqual(p["source_url"], "https://data.bl.ch/explore/assets/13090/")
         # A Vorlage answering an interpellation is shown as the interpellation.
         i = acts["bl/2026/4870"]
         self.assertEqual((i["kind"], i["question"], i["initiative"]),
@@ -527,7 +572,7 @@ class OpenDataTests(unittest.TestCase):
         self.assertEqual(v["positions"][0]["parl_group"], "FDP")
         self.assertEqual({p["position"] for p in v["positions"]}, {"Ja", "Nein", "Enthaltung", "Abwesend"})
         self.assertTrue(v["key"].startswith("bl/v/2026-09-10/"))
-        self.assertEqual(v["source_url"], "https://data.bl.ch/explore/dataset/13080/")
+        self.assertEqual(v["source_url"], "https://data.bl.ch/explore/assets/13080/")
         # A vote on business the map does not hold keeps its printed title, no act.
         o = [x for x in votes if not x["act_key"]][0]
         self.assertEqual((o["yes"], o["no"], o["abstain"]), (3, 2, 0))
@@ -784,6 +829,9 @@ class MainTests(unittest.TestCase):
             (g("dok", "json"), fixture("bs_gribs_dok.json")),
             (g("vor", "json"), fixture("bs_gribs_vor.json")),
             (g("siz", "json"), fixture("bs_gribs_siz.json")),
+            (g("adr", "json"), fixture("bs_gribs_adr.json")),
+            (g("zuw", "json"), fixture("bs_gribs_zuw.json")),
+            (g("gre", "json"), fixture("bs_gribs_gre.json")),
             (C.BS_ODS + "100186/", fixture("bs_ods_abstimmungen.json"))]
 
     def test_basel_stadt_from_the_grand_councils_exports(self):
@@ -794,6 +842,11 @@ class MainTests(unittest.TestCase):
                 "SELECT substr(source_url, 1, 24) FROM ch_canton_acts")}
             seen["vote_src"] = {r[0] for r in conn.execute(
                 "SELECT source_url FROM ch_canton_divisions")}
+            seen["committee"] = conn.execute(
+                "SELECT committee FROM ch_canton_acts WHERE act_key='bs/25.1234'").fetchone()[0]
+            seen["party"] = tuple(conn.execute(
+                "SELECT parl_group, party FROM ch_canton_votes WHERE member='Franz-Xaver Leonhardt'")
+                .fetchone())
         rc, gaps, stored, base, votes, inner = self.run_main(
             self.gribs_pages(), ["bs"], robots={"grosserrat.bs.ch": self.GRIBS_ROBOTS,
                                                 "data.bs.ch": "User-agent: *\nDisallow: /api/\n"},
@@ -802,15 +855,19 @@ class MainTests(unittest.TestCase):
         self.assertEqual(stored, {"bs": 7})
         self.assertEqual((base, votes), (0, 2))
         self.assertEqual(seen["src"], {"https://grosserrat.bs.ch"})   # the Grand Council as source
-        self.assertEqual(seen["vote_src"], {"https://data.bs.ch/explore/dataset/100186/"})
+        self.assertEqual(seen["vote_src"], {"https://data.bs.ch/explore/assets/100186/"})
         # robots.txt is asked for the Grand Council's host (it allows /component/), not for
         # data.bs.ch (written permission); one request per table, no data.bs.ch business read.
         self.assertIn("grosserrat.bs.ch", self.serving.robots_asked)
         self.assertNotIn("data.bs.ch", self.serving.robots_asked)
         gribs = [u for u in inner.urls if "grosserrat.bs.ch" in u]
-        self.assertEqual(len(gribs), 4)
+        self.assertEqual(len(gribs), 7)     # ges, adr, zuw, gre, dok, vor, siz
         self.assertFalse(any("/100311/" in u or "/100313/" in u or "/100314/" in u
                              for u in inner.urls))
+        self.assertTrue(any("chosentable=zuw" in u for u in gribs))
+        self.assertTrue(any("chosentable=adr" in u for u in gribs))
+        self.assertEqual(seen["committee"], "Gesundheits- und Sozialkommission")
+        self.assertEqual(seen["party"], ("Mitte-EVP", "Mitte"))
 
     def test_basel_stadt_reads_the_csv_when_the_json_fails(self):
         g = C.BS_GRIBS.format
@@ -820,6 +877,16 @@ class MainTests(unittest.TestCase):
             pages, ["bs"], robots={"grosserrat.bs.ch": self.GRIBS_ROBOTS})
         self.assertEqual((rc, gaps, stored), (0, [], {"bs": 7}))
         self.assertTrue(any(u.endswith("format=csv") for u in inner.urls))
+
+    def test_basel_stadt_without_assignments_or_members_is_a_gap_each(self):
+        pages = [p for p in self.gribs_pages() if "chosentable=zuw" not in p[0]
+                 and "chosentable=adr" not in p[0]]
+        rc, gaps, stored, _, votes, _inner = self.run_main(
+            pages, ["bs"], robots={"grosserrat.bs.ch": self.GRIBS_ROBOTS})
+        self.assertEqual((rc, stored, votes), (3, {"bs": 7}, 2))
+        self.assertEqual(len(gaps), 2)
+        self.assertIn("members export (adr)", gaps[0])
+        self.assertIn("committee assignments (zuw, gre)", gaps[1])
 
     def test_basel_stadt_exports_refused_by_robots_step_down(self):
         rc, gaps, stored, _, _, inner = self.run_main(
@@ -959,7 +1026,8 @@ class EditionTests(unittest.TestCase):
                           "yes, no, abstain, url, areas, matched_terms, tier, source_url, counts_from) "
                           "VALUES ('bs/v/9609','bs','bs/26.5228','2026-10-09','Abstimmung',2,1,0,'u',"
                           "'[1]','[]',2,'https://data.bs.ch/explore/dataset/100186/','published')")
-        self.conn.executemany("INSERT INTO ch_canton_votes VALUES ('bs/v/9609',?,?,?,?)",
+        self.conn.executemany("INSERT INTO ch_canton_votes (vote_key, member, member_id, parl_group, "
+                              "position) VALUES ('bs/v/9609',?,?,?,?)",
                               [("A B", "1", "SP", "Ja"), ("C D", "2", "SP", "Nein"),
                                ("E F", "3", "SP", "Ja"), ("G H", "4", "SVP", "Nein")])
         self.conn.execute("INSERT INTO ch_canton_divisions (vote_key, canton, act_key, date, subject, "
@@ -970,14 +1038,16 @@ class EditionTests(unittest.TestCase):
         self.conn.commit()
         got = {it["key"]: it for it in ch_ed.canton_items(self.conn, "2026-10-06", "2026-10-13", {})}
         act = " ".join(got["bs/26.5228"]["lines"])
-        self.assertIn("Source: [data.bs.ch](https://data.bs.ch/explore/dataset/100311/"
-                      "?refine.signatur_ges=26.5228) (CC BY 4.0", act)
+        # Rows stored with the old /explore/dataset/ links are shown without the
+        # portal's redirect (15 October 2026).
+        self.assertIn("Source: [data.bs.ch](https://data.bs.ch/explore/assets/100311/"
+                      "?refine=signatur_ges%3A26.5228) (CC BY 4.0", act)
         vote = " ".join(got["bs/v/9609"]["lines"])
         self.assertIn("2 for, 1 against", vote)
         self.assertIn("By Fraktion", vote)
         self.assertIn("SP 2-1", vote)
         self.assertIn("4 member positions stored. Against their group's majority: C D (SP)", vote)
-        self.assertIn("Source: [data.bs.ch](https://data.bs.ch/explore/dataset/100186/)", vote)
+        self.assertIn("Source: [data.bs.ch](https://data.bs.ch/explore/assets/100186/)", vote)
         self.assertEqual(len(got["bs/v/9609"]["positions"]), 4)
         tg = " ".join(got["tg/v/x"]["lines"])
         self.assertIn("Antrag GFK 70, Antrag Wyss 46 (tallied from the members' votes; data.tg.ch "
@@ -985,20 +1055,20 @@ class EditionTests(unittest.TestCase):
         self.assertIn("Source: [data.tg.ch]", tg)
         (_, intro, _items, cover), = ch_ed.cantons(self.conn, "2026-10-06", "2026-10-13", {})
         text = " ".join(cover)
-        for url in ("https://data.bs.ch/explore/dataset/100311/", "https://data.bs.ch/explore/dataset/100186/",
+        for url in ("https://data.bs.ch/explore/assets/100311/", "https://data.bs.ch/explore/assets/100186/",
                     "https://data.tg.ch/explore/dataset/sk-stat-140/",
                     "https://data.tg.ch/explore/dataset/sk-stat-136/"):
             self.assertIn(url, text)
         self.assertIn("written permission", text)
         self.assertIn("CC BY 4.0", text)
-        for url in ("https://data.bl.ch/explore/dataset/13090/",
-                    "https://data.bl.ch/explore/dataset/13080/"):
+        for url in ("https://data.bl.ch/explore/assets/13090/",
+                    "https://data.bl.ch/explore/assets/13080/"):
             self.assertIn(url, text)
         self.assertIn("Landrat Basel-Landschaft is read from data.bl.ch", text)
         self.assertNotIn("Basel-Landschaft and St. Gallen", text)
         self.assertIn("Basel-Landschaft's carry every member's vote", " ".join(intro))
         line = ch_ed.source_line("bl", "https://data.bl.ch/explore/dataset/13080/")
-        self.assertEqual(line, "Source: [data.bl.ch](https://data.bl.ch/explore/dataset/13080/) "
+        self.assertEqual(line, "Source: [data.bl.ch](https://data.bl.ch/explore/assets/13080/) "
                                "(free use, source must be cited (opendata.swiss terms_by), "
                                "Landeskanzlei des Kantons Basel-Landschaft).")
 

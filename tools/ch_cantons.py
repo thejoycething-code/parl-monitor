@@ -52,7 +52,12 @@ official host of its own whose robots.txt allows it (asked every run):
       grosserrat.bs.ch/component/gribs (offered by its Parlamentsdienst,
       Peter Frankenbach; robots.txt allows /component/): the whole
       Geschaefte table (ges, JSON, the CSV if the JSON fails), its documents
-      (dok) and steps (vor, dated by siz), diffed against the store. Votes,
+      (dok) and steps (vor, dated by siz), diffed against the store. Since
+      15 October 2026 also zuw (committee assignments: the committee a
+      business sits with, named by the gre export, and each completed
+      assignment as a step) and adr (members: the first author's party and
+      each voter's party; only number, name and party are read). Frankenbach
+      allowed a daily download (data refreshed about 03:00); we read weekly. Votes,
       and the business if an export fails, from data.bs.ch (see WRITTEN
       PERMISSIONS below); the last fallback is the Grand Council's
       pages on grosserrat.bs.ch (its robots.txt
@@ -319,8 +324,10 @@ POLITE_HOSTS = ("data.bs.ch", "data.tg.ch", "data.bl.ch", "grosserrat.bs.ch")
 POLITE_S = 3.0              # seconds between two requests to one of these hosts
 BS_SETS = {"geschaefte": "100311", "dokumente": "100313", "vorgaenge": "100314",
            "abstimmungen": "100186"}
-BS_DATASET = "https://data.bs.ch/explore/dataset/{0}/"
-BS_ITEM = "https://data.bs.ch/explore/dataset/100311/?refine.signatur_ges={0}"
+# Dataset links go straight to the page (15 October 2026): data.bs.ch and
+# data.bl.ch answer /explore/dataset/<id>/ with a 302 to /explore/assets/<id>/.
+BS_DATASET = "https://data.bs.ch/explore/assets/{0}/"
+BS_ITEM = "https://data.bs.ch/explore/assets/100311/?refine=signatur_ges%3A{0}"
 BS_LICENCE = "CC BY 4.0, Parlamentsdienst des Grossen Rates Basel-Stadt"
 BS_API_DAYS = 45            # businesses begun or ended, documents and steps since then
 BS_VOTE_DAYS = 60           # votes: the first read; later runs start at the newest stored
@@ -352,7 +359,17 @@ BS_VOTE_FIELDS = ("datum,anr,abst_nr,typ,traktandum,subtraktandum,geschaeft,sign
 # The exporter has no votes table: votes stay on data.bs.ch 100186.
 BS_GRIBS = ("https://grosserrat.bs.ch/component/gribs?chosentable={0}&view=exporter"
             "&Itemid=105&format={1}")
-BS_GRIBS_TABLES = {"geschaefte": "ges", "dokumente": "dok", "vorgaenge": "vor", "sitzungen": "siz"}
+BS_GRIBS_TABLES = {"geschaefte": "ges", "dokumente": "dok", "vorgaenge": "vor", "sitzungen": "siz",
+                   "zuweisungen": "zuw", "personen": "adr", "gremien": "gre"}
+# 15 October 2026: Peter Frankenbach's further exports (email of 13 October
+# 2026; daily download allowed, the data are refreshed nightly about 03:00):
+# zuw (Zuweisungen an Gremien: which committee a business is assigned to,
+# and when that assignment was completed) and adr (Personen / Adressen: the
+# Grand Council's members, for authors' and voters' parties). gre (Gremien,
+# listed on the same public exporter) names the committees zuw refers to by
+# number. adr also carries addresses, phone numbers and e-mail addresses:
+# only the member number, the name and the party are read, in memory, never
+# stored (the exports are not archived either).
 BS_GES_URL = "https://grosserrat.bs.ch/?gnr={0}"      # the Grand Council's page of a business
 BS_GRIBS_STATUS = {"A": "Abgeschlossen", "B": "In Bearbeitung"}
 
@@ -388,7 +405,7 @@ TG_PLAIN = ("Ja", "Nein", "Enthaltung", "Abwesend", "Abwesend/Keine Stimmabgabe"
 BL_ODS = "https://data.bl.ch/api/explore/v2.1/catalog/datasets/"
 BL_SETS = {"geschaefte": "13090", "urheber": "13140", "dokumente": "13130",
            "abstimmungen": "13080"}
-BL_DATASET = "https://data.bl.ch/explore/dataset/{0}/"
+BL_DATASET = "https://data.bl.ch/explore/assets/{0}/"
 BL_LICENCE = ("free use, source must be cited (opendata.swiss terms_by), "
               "Landeskanzlei des Kantons Basel-Landschaft")
 BL_API_DAYS = 45               # business begun or ended, documents since then
@@ -1079,14 +1096,17 @@ def _num(v):
         return None
 
 
-def parse_bs_api(rows, docs=(), steps=(), today=None, since=None, source=BS_ITEM, keep=()):
+def parse_bs_api(rows, docs=(), steps=(), today=None, since=None, source=BS_ITEM, keep=(),
+                 assignments=(), committees=None):
     """Acts from data.bs.ch: Geschaefte (100311, one row per co-author), each
     with its newest dated document (100313) or Grosser Rat step (100314) up
     to today as its status, in the dataset's own words. The Grand Council's
     own exports are mapped to the same rows (gribs_*) and read here too, with
     `source` their item link; `keep` names business numbers kept whatever
-    the window (closed since we stored them)."""
+    the window (closed since we stored them). `assignments` (gribs_zuweisungen
+    events) are steps too, and `committees` gives each business its committee."""
     today = today or datetime.date.today().isoformat()
+    committees = committees or {}
     biz = {}
     for r in rows or []:
         sig = (r.get("signatur_ges") or "").strip()
@@ -1110,6 +1130,10 @@ def parse_bs_api(rows, docs=(), steps=(), today=None, since=None, source=BS_ITEM
         events.setdefault(sig, []).append(
             (day, "Grosser Rat, Sitzung vom {0}: {1}".format(_dmy(day),
                                                            text(v.get("vermerk")) or "traktandiert")))
+    for z in assignments or []:
+        sig, day = z.get("signatur_ges"), z.get("datum")
+        if sig and day and day <= today:
+            events.setdefault(sig, []).append((day, z["text"]))
     out = []
     for sig, b in biz.items():
         r = b["row"]
@@ -1144,7 +1168,7 @@ def parse_bs_api(rows, docs=(), steps=(), today=None, since=None, source=BS_ITEM
             "label": "{0} {1}".format(kind, sig), "title": words or text(r.get("titel_ges")),
             "title_fr": None, "presented": presented, "status": (status or "")[:300] or None,
             "status_date": status_date, "dated": True, "initiative": who or None,
-            "committee": None, "url": r.get("url_ges") or BS_URL.format(sig),
+            "committee": committees.get(sig), "url": r.get("url_ges") or BS_URL.format(sig),
             "source_url": source.format(sig), "seq": None,
             "question": kind in BS_API_QUESTIONS})
     return out
@@ -1215,8 +1239,65 @@ def gribs_day(v):
     return iso(s)
 
 
-def gribs_geschaefte(rows):
-    """The ges export as rows of data.bs.ch 100311 (for parse_bs_api)."""
+def gribs_roster(rows):
+    """The adr export -> {member number: (first name, name, party)}. Only
+    those three fields are read: adr also prints addresses, phone numbers
+    and e-mail addresses, which are never kept."""
+    out = {}
+    for r in rows or []:
+        nr = str(r.get("uni_nr") or "").strip()
+        first, name = (r.get("vorname") or "").strip(), (r.get("name") or "").strip()
+        if nr and name:
+            party = (r.get("partei_kname") or "").strip()
+            out[nr] = (first, name, party if party and party.lower() != "keine" else None)
+    return out
+
+
+def gribs_committees(rows):
+    """The gre export -> {body number: name} ('Gesundheits- und Sozialkommission')."""
+    return {str(r.get("uni_nr")): re.sub(r"\s+", " ", r.get("name") or "").strip()
+            for r in rows or [] if r.get("uni_nr") and (r.get("name") or "").strip()}
+
+
+def gribs_zuweisungen(rows, sigs, committees, since=None, today=None):
+    """The zuw export -> ({signatur: committee}, [assignment events]).
+
+    A business's committee is the one its open assignment (status B) names,
+    else the last committee it was assigned to; only assignments to a body
+    the gre export names as a Gremium count (the Regierungsrat and the
+    plenary are not committees). An assignment completed (erledigt) since..
+    today is an event, in parse_bs_api's step rows: the committee's name and
+    the assignment's own words. zuw carries no date of assignment."""
+    today = today or datetime.date.today().isoformat()
+    by_sig, events = {}, []
+    for r in rows or []:
+        sig = sigs.get(str(r.get("ges_laufnr") or ""))
+        body = committees.get(str(r.get("uni_nr_an") or ""))
+        if not sig or not body:
+            continue
+        try:
+            order = int(r.get("idnr") or 0)
+        except ValueError:
+            order = 0
+        by_sig.setdefault(sig, []).append((order, (r.get("status") or "").strip(), body))
+        done = gribs_day(r.get("erledigt"))
+        if _in(done, since, today):
+            words = re.sub(r"\s+", " ", r.get("titel") or "").strip()
+            events.append({"signatur_ges": sig, "datum": done,
+                           "text": "Zuweisung an {0}{1}: erledigt".format(
+                               body, " ({0})".format(words) if words else "")})
+    committee = {}
+    for sig, got in by_sig.items():
+        got.sort()
+        open_ = [b for _o, st, b in got if st == "B"]
+        committee[sig] = open_[-1] if open_ else got[-1][2]
+    return committee, events
+
+
+def gribs_geschaefte(rows, roster=None):
+    """The ges export as rows of data.bs.ch 100311 (for parse_bs_api). With
+    the adr roster, the first author's name and party (gr_urheber)."""
+    roster = roster or {}
     out = []
     for r in rows or []:
         sig = (r.get("signatur") or "").strip()
@@ -1229,6 +1310,10 @@ def gribs_geschaefte(rows):
                     "status_ges": BS_GRIBS_STATUS.get((r.get("status") or "").strip(),
                                                       (r.get("status") or "").strip() or None),
                     "titel_ges": title, "ga_rr_gr": kind, "url_ges": BS_GES_URL.format(sig)})
+        who = roster.get(str(r.get("gr_urheber") or "").strip())
+        if who:
+            out[-1].update({"vorname_urheber": who[0], "name_urheber": who[1],
+                            "partei_kname_urheber": who[2]})
     return out
 
 
@@ -1614,9 +1699,9 @@ def store_vote(conn, v, today, tax=None):
         conn.execute("DELETE FROM ch_canton_votes WHERE vote_key=?", (v["key"],))
         conn.executemany(
             "INSERT OR REPLACE INTO ch_canton_votes (vote_key, member, member_id, parl_group, "
-            "position) VALUES (?,?,?,?,?)",
-            [(v["key"], p["member"], p.get("member_id"), p.get("parl_group"), p.get("position"))
-             for p in v["positions"] if p.get("member")])
+            "position, party) VALUES (?,?,?,?,?,?)",
+            [(v["key"], p["member"], p.get("member_id"), p.get("parl_group"), p.get("position"),
+              p.get("party")) for p in v["positions"] if p.get("member")])
 
 
 def store_all(conn, acts, tax, today, baseline=False):
@@ -1949,6 +2034,18 @@ def gribs_get(client, table):
                                           archive=False))
 
 
+def gribs_vote_parties(votes, roster):
+    """Each member's party (adr) on their position, by member number; the
+    Fraktion at the vote stays as data.bs.ch printed it, and stands in for
+    nothing: a member the roster lacks keeps no party."""
+    for v in votes:
+        for p in v.get("positions") or []:
+            who = roster.get(str(p.get("member_id") or ""))
+            if who and who[2]:
+                p["party"] = who[2]
+    return votes
+
+
 def _stored_bs(conn):
     if conn is None:
         return {}
@@ -1963,11 +2060,36 @@ def fetch_baselstadt_gribs(client, conn=None, today=None, log=print, budget=None
     if those fail), and the votes from data.bs.ch 100186."""
     today = today or datetime.date.today().isoformat()
     since = _since(today, BS_API_DAYS)
-    ges = gribs_geschaefte(gribs_get(client, BS_GRIBS_TABLES["geschaefte"]))
+    gaps = 0
+
+    def missed(what, e):
+        nonlocal gaps
+        detail = "{0}: the Grand Council's {1} not read ({2})".format(CANTONS["bs"], what, str(e)[:160])
+        if conn is not None:
+            _gap(conn, today, detail, log=log)
+        else:
+            log("  [gap] " + detail)
+        gaps += 1
+
+    ges_rows = gribs_get(client, BS_GRIBS_TABLES["geschaefte"])
+    # The members (adr, 15 October 2026): authors' and voters' parties.
+    roster = {}
+    try:
+        roster = gribs_roster(gribs_get(client, BS_GRIBS_TABLES["personen"]))
+    except (FetchError, ValueError) as e:
+        missed("members export (adr); authors' and voters' parties left out", e)
+    ges = gribs_geschaefte(ges_rows, roster)
     if not ges:
         raise ValueError("the Grand Council's Geschaefte export has no rows")
     sigs = {r["laufnr"]: r["signatur_ges"] for r in ges if r.get("laufnr")}
-    gaps = 0
+    # Committee assignments (zuw, named by gre, 15 October 2026).
+    committees, assignments = {}, []
+    try:
+        committees, assignments = gribs_zuweisungen(
+            gribs_get(client, BS_GRIBS_TABLES["zuweisungen"]),
+            sigs, gribs_committees(gribs_get(client, BS_GRIBS_TABLES["gremien"])), since, today)
+    except (FetchError, ValueError) as e:
+        missed("committee assignments (zuw, gre); committees left out", e)
     try:
         docs = gribs_dokumente(gribs_get(client, BS_GRIBS_TABLES["dokumente"]), sigs, since, today)
         steps = gribs_vorgaenge(gribs_get(client, BS_GRIBS_TABLES["vorgaenge"]),
@@ -1986,10 +2108,12 @@ def fetch_baselstadt_gribs(client, conn=None, today=None, log=print, budget=None
             log("  ch-cantons: Basel-Stadt documents and steps not read ({0})".format(str(e2)[:160]))
             docs, steps = [], []
     keep = gribs_closed_since_stored(ges, _stored_bs(conn))
-    acts = parse_bs_api(ges, docs, steps, today=today, since=since, source=BS_GES_URL, keep=keep)
+    acts = parse_bs_api(ges, docs, steps, today=today, since=since, source=BS_GES_URL, keep=keep,
+                        assignments=assignments, committees=committees)
     votes, part = [], 0
     try:
         votes, part = bs_api_votes(client, conn, today, log=log, budget=budget)
+        gribs_vote_parties(votes, roster)
     except (FetchError, ValueError, TypeError, AttributeError) as e:
         detail = "{0}: votes not read from data.bs.ch ({1})".format(CANTONS["bs"], str(e)[:160])
         if conn is not None:

@@ -484,6 +484,153 @@ class Edition(unittest.TestCase):
         self.assertIsNone(brs_edition.notice(self.conn, TODAY, dm=False))
 
 
+class AlmgClient(FakeClient):
+    """ALMG's open-data API (dadosabertos.almg.gov.br), answered from the
+    calls made live on 15 October 2026 (allowed by robots.txt; trimmed)."""
+
+    EMPTY_MEETINGS = b'{"resultadoPesquisaReunioesPlenario": {"tamanhoPagina": 20, "numeroOcorrencias": 0}}'
+    NOT_COMPLETE = b'{"reuniao": {"reuniao": {"id": 1, "resultadoCompleto": false}}}'
+
+    def get_bytes(self, url, feed, slug, **kw):
+        if "dadosabertos.almg.gov.br" not in url:
+            return super().get_bytes(url, feed, slug, **kw)
+        self.urls.append(url)
+        if any(f in url for f in self.fail):
+            raise FetchError(url, feed, slug, 1, "timed out")
+        q = dict(part.split("=", 1) for part in url.split("?", 1)[1].split("&")) if "?" in url else {}
+        path = url.split("/api/v2/", 1)[1].split("?", 1)[0]
+
+        def covers(day):
+            return q.get("ini", "99") <= day <= q.get("fim", "00")
+        if path == "deputados/em_exercicio":
+            return fixture("almg_api_deputados.json")
+        if path == "proposicoes/pesquisa/direcionada":
+            if q.get("tipo") == "PL" and covers("20260814"):
+                return fixture("almg_api_pl_20260814.json")
+            if q.get("tipo") == "PEC" and covers("20260814"):
+                return fixture("almg_api_pec_20260809_20260815.json")
+            return fixture("almg_api_empty.json")
+        if path.startswith("proposicoes/"):
+            name = "almg_api_" + path.split("/", 1)[1].replace("/", "_").lower() + ".json"
+            if os.path.exists(os.path.join(FIX, name)):
+                return fixture(name)
+            return fixture("almg_api_none.json")
+        if path == "plenario/reunioes/pesquisa":
+            return (fixture("almg_api_plenario_20260621_20260627.json") if covers("20260623")
+                    else self.EMPTY_MEETINGS)
+        if path == "plenario/reunioes/detalhes/2026/06/23/14:00":
+            return fixture("almg_api_plenario_detalhes_20260623.json")
+        if path.startswith("plenario/reunioes/detalhes/"):
+            return self.NOT_COMPLETE
+        raise FetchError(url, feed, slug, 1, "HTTP Error 404: no fixture")
+
+
+class MinasGeraisApi(unittest.TestCase):
+    """15 October 2026: ALMG's open-data API, never paging (robots.txt still
+    disallows p=, tp=, ord= and ordenacao=)."""
+
+    DAY = "2026-08-20"
+
+    def setUp(self):
+        self._cap = S.MG_API_FILL_CAP
+        S.MG_API_FILL_CAP = 2
+
+    def tearDown(self):
+        S.MG_API_FILL_CAP = self._cap
+
+    def run_mg(self, conn, client):
+        return S.run(conn, ["mg"], tax(), self.DAY, drain.Budget(600), lambda: client,
+                     now=self.DAY + "T10:00:00", workers=1, sleep=lambda s: None)
+
+    def test_url_builder_refuses_paging_and_sorting(self):
+        self.assertEqual(S.mg_api_url("proposicoes/pesquisa/direcionada", tipo="PL", ini="20260814",
+                                      fim="20260814", formato="json"),
+                         "https://dadosabertos.almg.gov.br/api/v2/proposicoes/pesquisa/direcionada"
+                         "?tipo=PL&ini=20260814&fim=20260814&formato=json")
+        for bad in ({"p": 2}, {"tp": 100}, {"ord": 0}, {"ordenacao": 1}):
+            with self.assertRaises(ValueError):
+                S.mg_api_url("proposicoes/pesquisa/direcionada", tipo="PL", **bad)
+
+    def test_parsers(self):
+        items, n, size = S.parse_mg_api_search(json.loads(fixture("almg_api_pl_20260814.json")))
+        self.assertEqual((n, size, len(items)), (100, 20, 20))
+        b = S.parse_mg_api_item(items[0])
+        self.assertEqual(b["bill_key"], "mg/PL 6067/2026")
+        self.assertEqual(b["authors"], "Thiago Cota (PDT)")
+        self.assertEqual((b["presented"], b["status_date"]), ("2026-08-14", "2026-08-14"))
+        self.assertEqual(b["status"], "Aguardando designação de relator em comissão")
+        self.assertEqual(b["committees"], "Comissão de Constituição e Justiça")
+        self.assertEqual(b["url"], "https://www.almg.gov.br/projetos-de-lei/PL/6067/2026")
+        votes = S.parse_mg_api_plenary(json.loads(fixture("almg_api_plenario_detalhes_20260623.json")))
+        self.assertEqual([v["bill_key"] for v in votes],
+                         ["mg/PL 4172/2025", "mg/PL 948/2023", "mg/PL 1117/2023"])
+        self.assertTrue(all(v["yes"] is None and v["body"] == "plenary" for v in votes))
+        meetings, n, _s = S.parse_mg_api_meetings(json.loads(
+            fixture("almg_api_plenario_20260621_20260627.json")))
+        self.assertEqual(n, 4)
+        self.assertEqual(meetings[1], ("2026-06-23", "14:00", "ordinaria"))
+        members = S.parse_mg_api_deputies(json.loads(fixture("almg_api_deputados.json")))
+        self.assertIn(("mg/12193", "mg", "Adalclever Lopes", "PV"), members)
+
+    def test_bills_votes_and_members_from_the_api(self):
+        conn = store()
+        client = AlmgClient()
+        (_res, gaps) = self.run_mg(conn, client)
+        # Never a paging or sorting parameter; never the website.
+        self.assertFalse([u for u in client.urls if S.MG_API_FORBIDDEN.search(u)])
+        self.assertFalse([u for u in client.urls if "www.almg.gov.br" in u])
+        # The overflowing week was split down to the day.
+        pl = [u for u in client.urls if "direcionada" in u and "tipo=PL&" in u]
+        self.assertIn("ini=20260814&fim=20260814", " ".join(pl))
+        # The day's first page, then the rest by number (two, the test's cap).
+        b = conn.execute("SELECT * FROM brs_bills WHERE bill_key='mg/PL 6067/2026'").fetchone()
+        self.assertEqual((b["source"], b["authors"], b["presented"]), ("mg", "Thiago Cota (PDT)", "2026-08-14"))
+        for key in ("mg/PL 6043/2026", "mg/PL 6042/2026", "mg/PL 6041/2026", "mg/PEC 68/2026"):
+            self.assertTrue(conn.execute("SELECT 1 FROM brs_bills WHERE bill_key=?", (key,)).fetchone(), key)
+        self.assertEqual(conn.execute("SELECT COUNT(*) FROM brs_bills WHERE uf='mg' AND year=2026").fetchone()[0],
+                         20 + 2 + 2)
+        # The rest of the day is one gap line, carried to the next run.
+        self.assertEqual(gaps, 1)
+        detail = conn.execute("SELECT detail FROM gaps WHERE feed='br-states'").fetchone()[0]
+        self.assertIn("78 PL(s) published on 2026-08-14 not read yet", detail)
+        self.assertIn("continues from PL 6040/2026", detail)
+        meta = brs_store.read_meta(conn, "mg")
+        self.assertEqual(meta["route"], "api")
+        self.assertEqual(meta["api"]["pending"], [{"kind": "PL", "day": "2026-08-14", "next": 6040,
+                                                   "need": 78}])
+        self.assertEqual(meta["api"]["through"], self.DAY)
+        # Plenary results: the bill on our ground (pre-natal care, 2023) is
+        # read by number and stored with its vote; the other is not kept.
+        b = conn.execute("SELECT * FROM brs_bills WHERE bill_key='mg/PL 948/2023'").fetchone()
+        self.assertEqual(json.loads(b["areas"]), [1])
+        votes = [tuple(r) for r in conn.execute("SELECT vote_key, result, yes FROM brs_votes ORDER BY 1")]
+        self.assertIn(("mg/p8522/PL 948/2023/8",
+                       "Aprovado em 2º turno na forma do Substitutivo nº 1 ao vencido em 1º turno.", None),
+                      votes)
+        self.assertFalse([v for v in votes if "4172" in v[0]])
+        # Deputies in office, by ALMG id, with party.
+        self.assertEqual(conn.execute("SELECT party FROM brs_members WHERE member_key='mg/12193'")
+                         .fetchone()[0], "PV")
+        # The next run continues the day where this one stopped.
+        client2 = AlmgClient()
+        self.run_mg(conn, client2)
+        self.assertIn("https://dadosabertos.almg.gov.br/api/v2/proposicoes/PL/6040/2026?formato=json",
+                      client2.urls)
+        self.assertNotIn("https://dadosabertos.almg.gov.br/api/v2/proposicoes/PL/6042/2026?formato=json",
+                         client2.urls)
+
+    def test_api_down_falls_back_to_the_website(self):
+        conn = store()
+        client = AlmgClient(fail=("dadosabertos.almg.gov.br",))
+        S.run(conn, ["mg"], tax(), TODAY, drain.Budget(600), lambda: client,
+              now=TODAY + "T10:00:00", workers=1, sleep=lambda s: None)
+        self.assertEqual(sum("dadosabertos" in u for u in client.urls), 1)
+        self.assertTrue(conn.execute("SELECT 1 FROM brs_bills WHERE bill_key='mg/PL 6070/2026'").fetchone())
+        gaps = [r[0] for r in conn.execute("SELECT detail FROM gaps WHERE feed='br-states'")]
+        self.assertTrue(any("ALMG open-data API not usable this run" in g for g in gaps))
+        self.assertEqual(brs_store.read_meta(conn, "mg")["route"], "site")
+
+
 class WatchlistSeed(unittest.TestCase):
     """config/watchlist-br-states.yaml, seeded 13 October 2026: exact bill
     keys ('<uf>/<type> <number>/<year>') with areas and a why."""

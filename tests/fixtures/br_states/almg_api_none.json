@@ -1,0 +1,15 @@
+{
+ "resultado": {
+  "banco": "MATE",
+  "consulta": "(PL)[TIPO]  E  (5830)[NUME]  E  (2026)[ANO]",
+  "noOcorrencias": 0,
+  "noDocumentos": 0,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "-@publ,tipo,-@nume",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false
+ }
+}

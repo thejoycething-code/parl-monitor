@@ -1,0 +1,49 @@
+{
+ "resultado": {
+  "banco": "MATE",
+  "consulta": "(PL)[TIPO]  E  (6042)[NUME]  E  (2026)[ANO]",
+  "noOcorrencias": 1,
+  "noDocumentos": 1,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "-@publ,tipo,-@nume",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false,
+  "listaItem": [
+   {
+    "dominio": "Tramitação",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "6042",
+    "ano": "2026",
+    "autor": "Deputada Ana Paula Siqueira                PT\n",
+    "ementa": "Institui a política estadual de incentivo, fomento e fortalecimento da indústria musical de Minas Gerais - Minas da Música.",
+    "situacao": "Anexado",
+    "siglaSituacao": "ANXDO",
+    "situacaoGeral": "Outras situações",
+    "siglaSituacaoGeral": "MOUTR",
+    "dataPublicacao": "2026-08-14",
+    "proposicao": "PL 6042 2026 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "dataUltimaAcao": "2026-08-12",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 1,
+      "data": "2026-08-12",
+      "local": "Plenário",
+      "historico": "Proposição recebida em Plenário.\nPublicado no DL em 14 8 2026, pág 102.\nAnexe-se ao PL 5450 2025, nos termos do parágrafo segundo do artigo 173 do Regimento Interno."
+     }
+    ],
+    "autoresEstruturados": [
+     {
+      "id": 19150,
+      "nome": "Deputada Ana Paula Siqueira",
+      "partido": "PT"
+     }
+    ]
+   }
+  ]
+ }
+}

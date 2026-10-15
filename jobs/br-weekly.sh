@@ -89,7 +89,7 @@ rc=0
 python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 # The state assemblies (tools/br_states.py, docs/brazil-regions-scope.md): the
 # bills, stages and published votes of ALESP (open-data files), ALMG (its
-# bill search), ALERJ (its Notes view) and the SAPL houses (Acre, Alagoas,
+# open-data API since 15 October 2026, never paging; its bill search as fallback), ALERJ (its Notes view) and the SAPL houses (Acre, Alagoas,
 # Amazonas, Paraíba, Piauí, Rondônia, Tocantins; Roraima and Maranhão tried),
 # and, by the alternative routes of 13 October 2026, ALRN, ALECE, ALEPE and
 # ALEPA's bills from their own data on other hosts and the laws Paraná and

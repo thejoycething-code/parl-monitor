@@ -218,6 +218,9 @@ ADDED_COLUMNS = (
     ("ch_canton_acts", "source_url", "TEXT"),
     ("ch_canton_divisions", "source_url", "TEXT"),
     ("ch_canton_divisions", "counts_from", "TEXT"),   # 'published' / 'tallied'
+    # 15 October 2026: the member's party (Basel-Stadt: the Grand Council's
+    # adr export), beside the Fraktion at the vote (parl_group).
+    ("ch_canton_votes", "party", "TEXT"),
 )
 
 

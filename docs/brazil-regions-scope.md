@@ -35,7 +35,7 @@ connections from abroad.
 |---|---|---|---|---|---|---|
 | SP | ALESP | Open-data files (repositorioDados), daily | zipped XML | allows | yes | **yes**: bills, authors with party, current stage, committee votes with each member's vote |
 | MG | ALMG | Website bill search (/atividade-parlamentar/projetos-de-lei/) | HTML, 10 a page | allows (only /atividade_parlamentar/ with an underscore is disallowed) | yes, but slow and intermittent (see below) | **yes**: bills, authors with party, situação; bill pages for bills on our ground |
-| MG | ALMG | Open-data API dadosabertos.almg.gov.br/ws | JSON/XML | **Disallow: /** (only the documentation allowed) | | no: robots.txt |
+| MG | ALMG | Open-data API dadosabertos.almg.gov.br/api/v2/ | JSON/XML | **allows /api/v2/ since 14 October 2026** (changed at our request, protocolo 126599) but still **disallows paging and sorting** (`*?*p=`, `*?*tp=`, `*?*ord=`, `*?*ordenacao=`) | yes | **yes, primary since 15 October 2026**: bills, authors with party, situação, committee, last action; plenary results per bill; deputies with party. Never pages (see "ALMG open-data API") |
 | RJ | ALERJ | Lotus Notes view scpro2327.nsf/Internet/LeiInt | HTML, 15 a page | none (404) | yes, slow, drops connections | **yes**: bills, author, committees, date |
 | BA | ALBA | www.al.ba.gov.br / www.alba.ba.gov.br | | TLS handshake times out / self-signed certificate | no | no |
 | PR | ALEP | consultas.assembleia.pr.leg.br (JHipster app) | JSON behind the app | allows | yes | **no: every search needs a reCAPTCHA token** (never bypassed); second pass: **adopted laws via the Casa Civil (`pr`)**; third pass: **bills, stages and results via ALEP's open-data API over plain HTTP (`alep`)**, the one exception |
@@ -90,7 +90,7 @@ only, an artifact; runs 38332427738 and 38334238732).
 | UF | Routes tried | Outcome |
 |---|---|---|
 | PR | ALEP's bill search (consultas.assembleia.pr.leg.br): reCAPTCHA. ALEP's **documented open-data API** (transparencia → Dados Abertos: `POST /proposicao/filtrar`, `GET /proposicao/{id}`, `/norma-legal/...`) at `http://webservices.assembleia.pr.leg.br/api/public`: works, but **plain HTTP only** (its https port presents a self-signed "BLACKHOLE" certificate and answers 403, from the laptop and from GitHub; the same paths on consultas over https demand the reCAPTCHA token). The repository never fetches over plain HTTP (`tests/test_db_state.PlainHttpTests`). Diários da Assembleia page: an archive to 2011 only. Infolep: the staff intranet. LexML (below). **Casa Civil's Sistema Estadual de Legislação** (www.legislacao.pr.gov.br, no robots.txt: 404): the year list of laws, a form POST, 482 laws of 2026 on one page. | **Built (`pr`): adopted laws** (Lei, Lei Complementar, Emenda Constitucional), 3 requests a run. Waiting on Chris: ALEP's API over HTTP, or ask ALEP to serve it over https. |
-| MG | Open-data API: robots.txt disallows (respected). Diário do Legislativo: same host as the website. The website and every almg.gov.br host timed out from the laptop on 13 October; from GitHub "network unreachable". | The existing website reader now **retries** (30 s, then 90 s, within the budget); once a type's search has failed even so, the other types get one try each. |
+| MG | Open-data API: robots.txt disallowed it until 14 October 2026; ALMG then allowed /api/v2/ at our request (paging still disallowed), and it is the primary route since 15 October 2026. Diário do Legislativo: same host as the website. The website and every almg.gov.br host timed out from the laptop on 13 October; from GitHub "network unreachable". | The existing website reader now **retries** (30 s, then 90 s, within the budget); once a type's search has failed even so, the other types get one try each. |
 | RN | www.al.rn.leg.br answers now (it did not this morning). Its Transparência Legislativa app (transparencialegislativa.al.rn.leg.br) is a React app that loads JSON from `api-transparencialegislativa.al.rn.leg.br/elegis-api-transp-legislativa/` (robots.txt answers the app's HTML: no rules). `processo?tipoPropositura=` lists bills newest first with author, party and publication stage; `processo/ultimas-votacoes` the plenary results. | **Built (`rn`)**: PL, PLC, PDL, PEC, 50 a page, plus plenary results (no tallies printed). |
 | CE | ALECE's transparency API (Swagger, transparencia.al.ce.gov.br/api): contracts and payments only. **Its proposições lists** (www2.al.ce.gov.br/legislativo/proposicoes/, linked from the transparency portal; no robots.txt): one search (POST, `escolha=ano`) returns every bill of a year and type, in passage (T) or decided (D), with author, law number and result. Roll calls: "Votações nominais" PDFs and spreadsheets (phase 2). | **Built (`ce`)**: PL, PLC, PEC, PDL; 8 requests a run. The lists print no dates: a new bill is dated the day first listed (the first read is a seed). |
 | PE | dadosabertos.alepe.pe.gov.br: the documented endpoints are members, staff and contracts, but ALEPE's own proposições app (proposicoes.alepe.pe.gov.br) reads `/api/v1/proposicoes/projetos/?ano=` from the same open-data host (no robots.txt): every projeto of a year, one XML. | **Built (`pe`)**: PLO, PLC, PEC, PDL with authors and publication date; no stage. |
@@ -303,7 +303,60 @@ recess). The large files are not archived to data/raw (they are the
 Assembly's own, re-downloadable; the read is recorded in brs_reads).
 ALESP does not publish plenary roll calls as open data.
 
-### ALMG (Minas Gerais): the website's bill search
+### ALMG (Minas Gerais): the open-data API (primary since 15 October 2026)
+
+ALMG rewrote `dadosabertos.almg.gov.br/robots.txt` at our written request
+(Centro de Atendimento ao Cidadão, protocolo 126599, 14 October 2026;
+recorded in `src/robots_guard.PERMISSIONS` with `asks_robots=True` and in
+docs/robots-runtime.md). It now allows `/documentacao/`, `/api/ajuda/` and
+`/api/v2/`, and still disallows `/api/v2/*?*p=`, `*?*ord=`, `*?*tp=`,
+`*?*ordenacao=` and everything else. We asked whether paging is acceptable;
+no answer yet. So `fetch_mg_api` (tools/br_states.py) **never pages or
+sorts**:
+
+- **Bills**: `proposicoes/pesquisa/direcionada?formato=json&tipo=<PL|PLC|PEC>&ini=<AAAAMMDD>&fim=<AAAAMMDD>&sitTram=2`,
+  page 1 only, at the API's default page size (**20**, measured 15 October
+  2026; it cannot be raised without `tp=`). One query per week from the
+  last read (a week of overlap; a first read covers 60 days); a week whose
+  `noOcorrencias` exceeds `tamanhoPagina` is split in halves down to single
+  days. ALMG publishes bills in batches: 51 PLs on 25 June, 33 on 2 July,
+  34 on 9 July and **100 on 14 August 2026**, so a single day often holds
+  more than one page. Such a day keeps its page (the default order is type,
+  year, number descending: the highest numbers) and the rest are read **one
+  by one by number** (`proposicoes/PL/<n>/<year>?formato=json`, no other
+  query), walking down from the lowest number listed until the day's count
+  is reached or an already-read bill is met, at most 150 a run. What the cap
+  leaves is a gap line ("N PL(s) published on <day> not read yet ...") and
+  is carried in `brs_reads.meta` to the next run.
+- **Moved bills**: bills on our ground or watched that a run's searches did
+  not list are re-read by number (at most 40 a run, rotating), and only
+  their stage is updated.
+- **Plenary results**: `plenario/reunioes/pesquisa?formato=json&ini=&fim=`
+  (weekly, split when over a page), then `plenario/reunioes/detalhes/<y>/<m>/<d>/<hh:mm>?formato=json`
+  for each ordinária and extraordinária meeting: every PL, PLC and PEC on the
+  Ordem do Dia with its recorded result ("Aprovado em 1º turno na forma do
+  Substitutivo nº 1"). Results only: **the API publishes no plenary
+  votações nominais** (no member's vote, no tally). A voted bill neither
+  listed nor stored is classified from the ementa the meeting prints and,
+  when on our ground or watched, read by number and stored with its vote.
+- **Deputies**: `deputados/em_exercicio?formato=json`, id, name and party
+  (`brs_members`, keyed `mg/<ALMG id>`); bill authors use the same ids.
+- **Not read**: committee per-member votes (the committee results carry
+  them only rarely, at about 450 KB a bill); the Diário do Legislativo.
+
+ALMG's documented limits are kept: one request at a time, 1.5 s apart (they
+allow two at once, one second apart). Measured 15 October 2026: a first
+read (60 days) is about 65 requests when nothing is published (the election
+recess: no bill since 14 August); a busy week adds a few splits and up to
+150 bill-by-bill reads. If the API cannot be used on a run (robots.txt
+unreachable or refusing, or the host down), the website search below is
+read instead and one gap line says so.
+
+If ALMG confirms paging and lifts the Disallow lines, the date splitting
+and the number walk can give way to ordinary paging (`p=`), and the page
+size could be raised (`tp=`).
+
+### ALMG (Minas Gerais): the website's bill search (fallback)
 
 `/atividade-parlamentar/projetos-de-lei/?pesquisou=true&tipo=<5 PL|6 PLC|9 PEC>&ano=<year>&ordem=<0 date|3 last action>&pagina=<n>`:
 ten bills a page, each with number, ementa (or, where a bill has none, its
@@ -319,9 +372,8 @@ into its election recess).
 The ALMG host answered normally in the morning and then timed out from the
 laptop for over an hour (robots.txt included; the guard used its saved
 copy, under 24 hours old). The step records a gap and the next run
-retries. The open-data API (dadosabertos.almg.gov.br/ws/...) would be far
-better, but its robots.txt disallows everything except the documentation,
-and is respected (Waiting on Chris, below).
+retries. Since 15 October 2026 this is the fallback; the open-data API
+above is read first.
 
 ### ALERJ (Rio de Janeiro): Lotus Notes
 
@@ -447,8 +499,12 @@ every route tried.)
 
 ## Waiting on Chris
 
-1. **ALMG's open-data API**: its robots.txt disallows everything; the
-   website search is used instead. Ask ALMG to allow it, or decide that a
+1. ~~**ALMG's open-data API**~~: done 15 October 2026. ALMG changed its
+   robots.txt at our request (protocolo 126599) and the API is now the
+   primary route (see "ALMG open-data API"). Still open: our question whether
+   paging (`p=`, `tp=`) is acceptable; until robots.txt allows it the reader
+   never pages. History: its robots.txt disallowed everything; the
+   website search was used instead. Ask ALMG to allow it, or decide that a
    documented open-data API is exempt (the repository's rule today: no).
    Contact (13 October 2026, branch `access-routes`; nothing sent): ALMG
    publishes no email for the open-data service; its portal points to the

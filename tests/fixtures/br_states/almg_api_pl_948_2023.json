@@ -1,0 +1,69 @@
+{
+ "resultado": {
+  "banco": "MATE",
+  "consulta": "(PL)[TIPO]  E  (948)[NUME]  E  (2023)[ANO]",
+  "noOcorrencias": 1,
+  "noDocumentos": 1,
+  "tamanhoPagina": 20,
+  "numPagina": 1,
+  "ordenacao": "-@publ,tipo,-@nume",
+  "dataHora": {
+   "date": "2026-10-15"
+  },
+  "erro": false,
+  "listaItem": [
+   {
+    "dominio": "Remissivo",
+    "tipoProjeto": "PROJETO DE LEI",
+    "siglaTipoProjeto": "PL",
+    "numero": "948",
+    "ano": "2023",
+    "autor": "Deputada Alê Portela                       PL\n",
+    "ementa": "Dispõe acerca do programa estadual de acompanhamento pré-natal e pós- parto em casos de gestantes com transtorno do espectro autista - TEA - no âmbito do Estado.",
+    "observacao": "Distribuído a 4 comissões: CJU DPD SAU FFO.",
+    "situacao": "Transformado em norma jurídica",
+    "siglaSituacao": "TNJUR",
+    "situacaoGeral": "Proposições aprovadas",
+    "siglaSituacaoGeral": "MAPRV",
+    "dataPublicacao": "2023-06-29",
+    "proposicao": "PL 948 2023 - PROJETO DE LEI",
+    "regime": "Deliberação em dois turnos no Plenário",
+    "local": "Arquivo",
+    "norma": "LEI 25986 2026 - Lei Ordinária",
+    "linkLegislacao": {
+     "url": "/legislacao/mineira/LEI/25986/2026",
+     "rotulo": "LEI 25986 2026 - Lei Ordinária",
+     "tipo": "LEI",
+     "numero": "25986",
+     "ano": "2026"
+    },
+    "arquivamento": "20260720",
+    "dataUltimaAcao": "2026-07-17",
+    "listaHistoricoTramitacoes": [
+     {
+      "passo": 22,
+      "data": "2026-07-01",
+      "local": "Secretaria-Geral da Mesa",
+      "historico": "Ofício 1135 2026 SGM ao Governador do Estado, encaminhando a Proposição de Lei 26951 2026 para sanção.\n\nData do envio: 1 7 2026.\nData máxima para sanção: 22 7 2026.\nProposição de lei publicada no DL em 2 7 2026, pág 6."
+     },
+     {
+      "passo": 23,
+      "data": "2026-07-17",
+      "local": "Governador do Estado",
+      "historico": "Proposição de lei sancionada.\nLei 25986 publicada no Diário do Executivo em 18 7 2026."
+     }
+    ],
+    "proposicaoLei": {
+     "descricao": "PRL 26951 2026"
+    },
+    "autoresEstruturados": [
+     {
+      "id": 16234,
+      "nome": "Deputada Alê Portela",
+      "partido": "PL"
+     }
+    ]
+   }
+  ]
+ }
+}

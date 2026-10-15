@@ -35,11 +35,13 @@ route (VIA below), so the edition shows it the week it is published.
 VOTES. brs_votes holds one row per recorded vote ON A BILL STORED HERE:
 ALESP's committee votes (each member's vote is published, brs_positions)
 and the SAPL houses' plenary tallies (registrovotacao: yes, no, abstentions
-and the result; no names). Only votes on bills on our ground or watched
+and the result; no names); ALMG's plenary results from its open-data API
+(15 October 2026: the result only, keyed 'mg/p<meeting id>/<bill> <n>/<year>/<order>'). Only votes on bills on our ground or watched
 keep positions, so the store stays small.
 
 MEMBERS. brs_members: a deputy's name and party as the source prints them
-(ALESP deputados.xml, ALMG's author lines, a SAPL house's autor), nothing
+(ALESP deputados.xml, ALMG's API deputies and authors keyed 'mg/<ALMG id>'
+(its website route keys authors by name), a SAPL house's autor), nothing
 else: no biography, contact or family details are read into the store.
 """
 
