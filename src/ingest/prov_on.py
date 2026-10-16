@@ -540,6 +540,11 @@ def _is_name_cell(text):
 
 _READING = re.compile(r"^(First|Second|Third) Reading of Bill (Pr\d+|\d+)\b", re.I)
 _TIME_ALLOC = re.compile(r"allocation of time on Bill (Pr\d+|\d+)", re.I)
+# "Motion for closure on [the motion for] Third Reading of Bill 39, ..." names
+# its own bill. Read as context, it took the bill and stage of the item before
+# it ("The Bill passed." ends that item): 9 May 2017's closure on Bill 39 was
+# stored as Bill 84's third reading (medical assistance in dying, area 2).
+_CLOSURE = re.compile(r"^Motion for closure on\b(?:.*?\bReading of Bill (Pr\d+|\d+)\b)?", re.I)
 _BILL_ITEM = re.compile(r"^Bill (Pr\d+|\d+), (.+)$")
 # "Lost of the following division" is the record's own slip (28 November
 # 2022, Bill 4); it is read as "on".
@@ -620,6 +625,14 @@ def parse_vp(events):
         if r:
             stage, bill = r.group(1).title() + " Reading", bill_number(r.group(2))
             title = text[r.end():].lstrip(" ,").strip(" .")
+            if title:
+                titles.setdefault(bill, title)
+            context = [text]
+            continue
+        c = _CLOSURE.match(text)
+        if c:
+            stage, bill = "Closure", bill_number(c.group(1)) if c.group(1) else None
+            title = text[c.end():].lstrip(" ,").strip(" .") if bill else ""
             if title:
                 titles.setdefault(bill, title)
             context = [text]

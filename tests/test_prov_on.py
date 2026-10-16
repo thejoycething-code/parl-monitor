@@ -209,6 +209,37 @@ class OldLayoutTests(unittest.TestCase):
                          (3, 0, ["Albanese", "Arnott", "Miller (Parry Sound-Muskoka)"], []))
 
 
+class ClosureTests(unittest.TestCase):
+    """A closure motion names its own bill and stage. 9 May 2017's deferred
+    votes: closure on Bill 84 (medical assistance in dying), Bill 84's third
+    reading, "The Bill passed.", then closure on Bill 39. The second closure
+    was stored as Bill 84's third reading, so it took Bill 84's area 2."""
+
+    def test_each_closure_is_on_its_own_bill(self):
+        ds = on.parse_vp(on.vp_events(fx("on_vp_20170509_closure.html")))[0]
+        self.assertEqual([(d["stage"], d["bill_number"], d["yeas"], d["nays"]) for d in ds],
+                         [("Closure", "84", 48, 39), ("Third Reading", "84", 61, 26),
+                          ("Closure", "39", 49, 39), ("Third Reading", "39", 75, 13)])
+        self.assertTrue(ds[2]["question"].startswith("Motion for closure on Third Reading of Bill 39"),
+                        ds[2]["question"])
+
+    def test_the_motion_for_wording_and_a_closure_on_no_bill(self):
+        def one(text):
+            html = ('<table><tr><td colspan="2"><p>Third Reading of Bill 7, An Act.</p></td></tr>'
+                    '<tr><td colspan="2"><p>The Bill passed.</p></td></tr>'
+                    '<tr><td colspan="2"><p>' + text + '</p></td></tr>'
+                    '<tr><td colspan="2"><p>Carried on the following division:-</p></td></tr>'
+                    '<tr><td colspan="4"><p>AYES / POUR - 1</p></td></tr><tr><td><p>Albanese</p></td></tr>'
+                    '<tr><td colspan="4"><p>NAYS / CONTRE - 1</p></td></tr><tr><td><p>Arnott</p></td></tr>'
+                    '<tr><td colspan="2"><p>The question was then put.</p></td></tr></table>')
+            d = on.parse_vp(on.vp_events(html))[0][0]
+            return d["stage"], d["bill_number"]
+        self.assertEqual(one("Motion for closure on the motion for Second Reading of Bill 180, An Act."),
+                         ("Closure", "180"))
+        self.assertEqual(one("Motion for closure on the amendment to the motion regarding report writing."),
+                         ("Closure", None))
+
+
 def frags_of(name):
     return [tuple(f) for f in json.loads(fx(name))]
 
