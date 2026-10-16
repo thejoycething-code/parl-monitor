@@ -1823,6 +1823,17 @@ alternatives tried are in docs/robots-runtime.md ("Government documents:
 blocked hosts"); each scope doc has a "Government consultations and
 publications (gov_docs, 16 October 2026)" section with its routes and counts.
 
+Decisions taken 16 October 2026 (Chris; branch approvals-1016):
+- Portugal: the Diário da República feeds are read DAILY by the daily job
+  into the ledger `data/gov-docs-daily/pt.json` (no store; the weekly
+  gov_docs step stores the ledger's acts), so no issue is missed.
+- Ireland: gov.ie probed from GitHub's runners (probe-hosts.yml): the same
+  CloudFront 403 to robots.txt. Blocked everywhere; consultations stay a gap
+  (docs/robots-runtime.md).
+- Germany: the member-intel committee flags approved and extended
+  (health 1, 2, 3, 10; legal affairs 5, 7, 9, 10; family and Kinderkommission
+  6, 9; human rights 8).
+
 Open points for Chris:
 - DOCUMENTED_APIS candidates (not added): KOOP SRU (repository.overheid.nl,
   robots.txt `Disallow: /`, would open Dutch Staatscourant and consultations

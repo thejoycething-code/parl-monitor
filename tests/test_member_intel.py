@@ -158,6 +158,22 @@ class Flags(unittest.TestCase):
         self.assertIsNone(mi.flag(flags, "ch", "Swiss eMobility"))
         self.assertIsNone(mi.flag(flags, "xx", "anything"))
 
+    def test_germany_committees_approved_16_october(self):
+        flags = mi.load_flags()
+        cases = {
+            "Ausschuss für Gesundheit": (1, 2, 3, 10),
+            "Ausschuss für Recht und Verbraucherschutz": (5, 7, 9, 10),
+            "Ausschuss für Bildung, Familie, Senioren, Frauen und Jugend": (6, 9),
+            "Kommission zur Wahrnehmung der Belange der Kinder (Kinderkommission)": (6, 9),
+            "Ausschuss für Menschenrechte und humanitäre Hilfe": (8,),
+        }
+        for name, areas in cases.items():
+            got = mi.flag(flags, "de", name)
+            self.assertIsNotNone(got, name)
+            self.assertEqual(got[0], areas, name)
+        self.assertIsNone(mi.flag(flags, "de", "Verteidigungsausschuss"))
+        self.assertIsNone(mi.flag(flags, "de", "Ausschuss für Verkehr"))
+
     def test_every_rule_compiles_and_names_its_areas(self):
         for cc, rules in mi.load_flags().items():
             for pat, areas, why in rules:

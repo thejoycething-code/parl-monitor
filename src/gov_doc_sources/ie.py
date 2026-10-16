@@ -20,8 +20,9 @@ publications"):
     publishes a machine-readable list of consultations with closing dates;
     each would be its own HTML scraper for a handful of items a year. Left
     as later options;
-  * GitHub's runners: gov.ie from a hosted runner is still untested (a
-    one-off probe workflow is the next step, as the scope doc says).
+  * GitHub's runners (16 October 2026, probe-hosts.yml, honest UA): the
+    same CloudFront 403 to robots.txt, so the listing was not asked. No
+    network we use can read gov.ie (docs/robots-runtime.md).
 
 STATUTORY INSTRUMENTS (code 'isb'). www.irishstatutebook.ie (Office of the
 Attorney General) lists every SI of a year on one page,
