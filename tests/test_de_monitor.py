@@ -320,7 +320,8 @@ class DeadlineSectionTests(unittest.TestCase):
         conn = _conn()
         self._pet(conn, "1", "Eine Petition", "2026-09-27")   # 4 days
         text = _render(conn)
-        self.assertIn("## Open for co-signature (1)", text)
+        # The countdown layout (16 October 2026): the PETITIONS block.
+        self.assertIn("## Petitions · open for co-signature (1)", text)
         self.assertIn("2026-09-27 (5 days, RED)", text)
 
     def test_the_bands_match_westminsters_thresholds(self):
@@ -443,10 +444,12 @@ class DecisionsBlockTests(unittest.TestCase):
     def test_the_block_renders_under_top_lines(self):
         text = _render(_conn())
         self.assertIn("## Decisions needed", text)
-        self.assertLess(text.index("## Top lines"),
-                        text.index("## Decisions needed"))
-        self.assertLess(text.index("## Decisions needed"),
-                        text.index("## Week ahead"))
+        # The countdown layout (16 October 2026): Decisions needed closes the
+        # countdown's blocks, just before Reference (where Top lines now sit);
+        # the countdown's tables replace the old Week ahead.
+        self.assertLess(text.index("## Decisions needed"), text.index("## Reference"))
+        self.assertLess(text.index("## Reference"), text.index("### Top lines"))
+        self.assertNotIn("Week ahead", text)
 
     def test_it_uses_its_OWN_log_not_westminsters(self):
         """The owners differ -- most German questions are the German team's --
@@ -483,12 +486,13 @@ class ForwardFocusTests(unittest.TestCase):
         _vorgang(conn, "1", "Schon beantwortet", stand="Beantwortet")
         _vorgang(conn, "2", "Noch im Ausschuss", stand="Überwiesen")
         text = _render(conn)
-        self.assertLess(text.index("## Coming up"),
-                        text.index("## Concluded and lapsed"))
+        # Under Reference since the countdown layout (16 October 2026).
+        self.assertLess(text.index("### Coming up"),
+                        text.index("### Concluded and lapsed"))
         # Scoped to the Coming up SECTION, not to everything before
         # Concluded: the bills board sits between them and legitimately
         # lists closed bills too.
-        coming = text.split("## Coming up")[1].split("\n## ")[0]
+        coming = text.split("### Coming up")[1].split("\n### ")[0]
         self.assertIn("Noch im Ausschuss", coming)
         self.assertNotIn("Schon beantwortet", coming)
 

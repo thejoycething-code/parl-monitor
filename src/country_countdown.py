@@ -96,6 +96,9 @@ WHERE = {
     "hr": (), "hr_default": "SABOR",
     "hu": (), "hu_default": "ORSZÁGGYŰLÉS",
     "mx": ((r"senado", "SENADO"),), "mx_default": "DIPUTADOS",
+    # Germany (16 October 2026, tools/de_monitor.py): the shared agenda reads
+    # the Bundestag only (src/agendas/de.py); a Bundesrat row would say so.
+    "de": ((r"^bundesrat", "BUNDESRAT"),), "de_default": "BUNDESTAG",
 }
 
 # A regional parliament's tag: the template filled with the row's region
@@ -103,7 +106,7 @@ WHERE = {
 REGION_TAG = {"at": "LANDTAG {region}", "ch": "CANTON {region}", "it": "CONSIGLIO {region}",
               "es": "PARLAMENTO {region}", "pl": "SEJMIK {region}", "br": "ASSEMBLEIA {region}",
               "mx": "CONGRESO {region}", "ar": "LEGISLATURA {region}", "be": "{body}",
-              "fr": "{body}", "nl": "PROVINCIE {region}", "pt": "{body}"}
+              "fr": "{body}", "nl": "PROVINCIE {region}", "pt": "{body}", "de": "LANDTAG {region}"}
 
 # A body whose name says it is a regulator or agency, not the government.
 _REGULATOR = re.compile(r"\b(autoriteit|authority|agentur|agence|ag[êe]ncia|agencia|beh[öo]rde|"
@@ -234,8 +237,8 @@ def _detail(body, kind):
     b = ce.clean(body)
     low = b.lower()
     if kind == "plenary" or low in ("plenary", "pleno", "plenário", "plenaire", "séance publique",
-                                    "assembly"):
-        return "plenary" if low in ("plenary", "pleno", "plenário", "plenaire", "assembly", "") \
+                                    "assembly", "plenum"):
+        return "plenary" if low in ("plenary", "pleno", "plenário", "plenaire", "assembly", "plenum", "") \
             else b
     # 'Câmara, Comissão de ...' / 'Senado, committee': the chamber is the tag.
     b = re.sub(r"^(câmara|senado|camera|senato|nationalrat|bundesrat)\s*,\s*", "", b, flags=re.I)

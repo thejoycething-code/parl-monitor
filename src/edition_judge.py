@@ -43,6 +43,11 @@ DROP_REASON = "scored 0 by the judge"
 EDITION_CCS = ("es", "it", "fr", "nl", "be", "at", "ch", "pl", "pt", "hr", "sk", "hu", "br",
                "ar", "mx")
 LATAM_CCS = tuple(latam.COLLECTED) + ("ve", "nic")
+# Editions rendered by their own monitor whose countdown rows (agenda points,
+# deadlines) this judge reads, and nothing else: Germany (tools/de_monitor.py,
+# 16 October 2026), whose Vorgänge, votes and petitions the German judge
+# scores in the de_* tables (tools/de_triage.py on the session judge).
+FORWARD_CCS = ("de",)
 # The judge counts as running while it has scored within this many days; the
 # Latam alerts hold an unscored tier-1 item for it only then (tools/latam_alerts.py).
 ALIVE_DAYS = 14

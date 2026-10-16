@@ -46,6 +46,13 @@ rc=0
   # gov_docs, before the edition, so the countdown's deadline rows are this
   # week's. Never fatal: a source that failed is a [gap] line and a gaps row.
   bash tools/gov_docs_step.sh de
+  # The shared agenda (tools/country_agenda.py, src/agendas/de.py): the
+  # plenary Tagesordnung dated by its sitting days and the committees'
+  # sittings, read BEFORE the edition since its countdown layout (16 October
+  # 2026) builds the sitting-days line and the tables from it. A failure is a
+  # [gap]; the edition renders from the last run.
+  python3 tools/country_agenda.py de \
+    || echo "  [gap] the shared agenda step failed for de"
   python3 tools/de_monitor.py --edition --dm
 ) || rc=1
 
@@ -63,11 +70,8 @@ python3 tools/make_de_votes.py \
 # THE SHARED COUNTRY FRAMEWORKS (16 October 2026, branch de-ca-gaps), read
 # through the reader adapter src/editions/de.py; each failure is a [gap]
 # line, never the run's, and none of them touches the German edition above.
-# The week ahead in the shared agenda table (tools/country_agenda.py,
-# src/agendas/de.py): the plenary Tagesordnung for the coming sitting week
-# and the committees' sittings, for the daily sweep and the profiles.
-python3 tools/country_agenda.py de \
-  || echo "  [gap] the shared agenda step failed for de"
+# The shared agenda (tools/country_agenda.py de) now runs before the edition,
+# above; the daily sweep and the profiles read the same run.
 # Member intelligence (tools/member_intel.py, src/member_intel.fetch_de):
 # every Bundestag committee's members from the Bundestag's own committee
 # pages (about 80 requests, robots.txt asked); last week's rows stand on a

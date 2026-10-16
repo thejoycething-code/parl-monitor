@@ -200,6 +200,13 @@ jobs:
         # partner deploy, behind the site's passphrase, and are committed
         # below so that deploy carries them.
         run: python3 tools/de_issues.py | tee /tmp/de-issues.log
+      - name: The shared agenda (the countdown's sitting days and tables)
+        # Before the edition since its countdown layout (16 October 2026):
+        # tools/country_agenda.py de, src/agendas/de.py. A [gap] on failure,
+        # never a red run; the edition renders from the last run.
+        run: |
+          python3 tools/country_agenda.py de | tee /tmp/de-shared.log \
+            || echo "  [gap] the shared agenda step failed for de" | tee -a /tmp/de-shared.log
       - name: Write the German edition and DM the summary
         run: python3 tools/de_monitor.py --edition --dm | tee /tmp/de-monitor.log
       - name: Build the 5CA sheets
@@ -220,7 +227,7 @@ jobs:
         run: |
           python3 tools/make_de_votes.py | tee /tmp/de-votes.log \
             || echo "  [gap] de-votes: the vote page failed; last week's stands" | tee -a /tmp/de-votes.log
-      - name: The shared frameworks (agenda, member intelligence, profiles, vote briefs)
+      - name: The shared frameworks (member intelligence, profiles, vote briefs)
         # 16 October 2026 (branch de-ca-gaps): the same steps as
         # jobs/de-weekly.sh, through the reader adapter src/editions/de.py.
         # Each is a [gap] on failure, never a red run.
@@ -229,8 +236,6 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_DM_USER_ID: U05LJP0BT61
         run: |
-          python3 tools/country_agenda.py de | tee /tmp/de-shared.log \
-            || echo "  [gap] the shared agenda step failed for de" | tee -a /tmp/de-shared.log
           python3 tools/member_intel.py de | tee -a /tmp/de-shared.log \
             || echo "  [gap] member-intel: de not fully read; last week's rows kept" | tee -a /tmp/de-shared.log
           python3 tools/member_profiles.py de | tee -a /tmp/de-shared.log \
