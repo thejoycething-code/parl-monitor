@@ -551,3 +551,60 @@ other plain-HTTP POST or path on that host), `tests/test_db_state.py`
 reclassify line, the collector's reserve), `tools/coverage.py` (two
 freshness rows, two awaiting-first-run rows), `docs/brazil-scope.md`,
 `docs/country-parity-handover.md`.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/br.py` reads what each assembly has BOOKED (plenary
+sessions with their pauta or ordem do dia, committee meetings with their
+pauta) into `regional_agenda`, through the shared collector
+(`python3 tools/regional_agenda.py br`). Region codes are the lower-case
+UFs of `src/brs_store.STATES`. Every route below was probed live from the
+laptop on 16 October 2026, robots.txt read first, honest User-Agent. Not
+wired into any job yet.
+
+2026 is an election year (run-off 25 October): plenaries are thin and most
+pautas are published a day or two ahead, so the first run found few named
+items. The readers are built for the normal rhythm.
+
+| UF | Route | Format | Reaches | robots.txt | First run (16 Oct) |
+|---|---|---|---|---|---|
+| SP | `legis-api-portal-prd.al.sp.gov.br`: `sessoes-plenarias/consulta?dataInicial=&dataFinal=` (sessions of the window), `sessoes-plenarias/<id>/ordem-do-dia` or `/pauta` (HTML inside JSON, one block per propositura), `colegiado/reunioes?dataInicio=&dataFim=` and `colegiado/reuniao/<id>/pauta` | JSON (the API the portal's own SPA loads; found in its bundle `sessao-plenaria-api-*.js`) | sessions booked to late November (solemn sessions); pautas on the day | no robots.txt (404); www.al.sp.gov.br disallows only /web, /StaticFile and a few repositories | 15 items to 23 Nov, 1 on our ground (PL 875/2026, "Estatuto Paulista de Defesa da Vida desde a concepção", in pauta for amendments) |
+| MG | `dadosabertos.almg.gov.br/api/v2/comissoes/reunioes/pesquisa?ini=&fim=` and `plenario/reunioes/pesquisa`, then `plenario/reunioes/detalhes/<y>/<m>/<d>/<hh:mm>` | JSON, 20 a page, never paged: a range holding more is split by date | committee meetings two weeks ahead; plenaries convened a day ahead | allowed since 14 October 2026 at our request; paging and sorting still disallowed (the reader refuses to build such a URL) | 4 items to 28 Oct (two audiências públicas with their purpose, two booked meetings) |
+| RJ | `www2.alerj.rj.gov.br/ordemdodia/` (month calendar, days with a pauta marked) and `pauta/?op=D&data=Y;M;D` | HTML, about 30 s a request | the current month (the next month is an ASP.NET postback); pautas posted about a week ahead in normal weeks | www2 robots.txt answers the home page (no rules) | nothing booked after 15 October |
+| PR | `transparencia.assembleia.pr.leg.br/plenario/pautas/{ordem-do-dia,ccj,comissoes-tematicas}/ajax?page=1` (the JSON the portal's pautas.js loads) and each sitting's PDF on `storage2.assembleia.pr.leg.br` | JSON + PDF (pypdf; "Item N – ..." blocks) | as published (sessions so far posted the week before) | allows all (`Disallow:` empty) | no session or meeting in the window (the last were 13 October and 25 August) |
+| PE | `www.alepe.pe.gov.br/agenda` (form POST `operacao=lerAgendaMensal`, month and year) and `/ordem-do-dia/` (POST `operacao=lerOrdem`, the date) then `/detalhe-ordem-do-dia/?docid=` | HTML | plenaries booked to the month's end, committee hearings, solemn meetings; the ordem do dia on the day | allows all | 12 items to 29 Oct (9 plenaries booked, 2 committee hearings, 1 solemn meeting) |
+| CE | `www.al.ce.gov.br/agenda?datetimes=dd/mm/yy - dd/mm/yy` | HTML, one page for the window | solemn sessions and committee hearings weeks ahead | disallows only `/banco-de-imagens/download/` | 6 items to 27 Oct |
+| PA | `www.alepa.pa.gov.br/Home/Page/PautasdoPlenario` (dated list) and `/Legislativo/DetalhesPauta?Id=` | HTML | pautas posted shortly before the session | allows all | nothing after 13 October |
+| PB, AM, AL, PI, RO, TO, AC | SAPL REST API: `/api/sessao/sessaoplenaria/?data_inicio__gte=<today>&page_size=100`, then for up to two sessions with a published pauta `/api/sessao/ordemdia/?sessao_plenaria=<id>&page_size=100` | JSON | sessions are created close to the day | allows /api/, **Crawl-delay: 60** (honoured: about a minute a request, so the seven houses are asked in parallel on the first SAPL region's turn) | no session booked after today in any house |
+
+Not read, and what was tried:
+
+- **Bahia**: ALBA's own ordem do dia, pauta and committee "resumo de
+  pauta" pages stop in July 2025 and point to `albalegis.nopapercloud.com.br`
+  (SPL), which answers 403 to robots.txt and to every page. No route.
+- **Rio Grande do Sul, Espírito Santo, Distrito Federal, Amapá**: robots.txt
+  timed out from the laptop on 16 October (150 to 185 s), as from GitHub's
+  runners on 13 October.
+- **Santa Catarina**: its hosts answer GitHub's runners only; this step
+  runs where they do not.
+- **Goiás**: `portal.al.go.leg.br/agenda?data=YYYY-MM-DD` answers (robots.txt
+  allows it) but is one page a day of solemn sessions, talks and events with
+  no pauta; not built (56 requests a run for little business).
+- **Maranhão**: `sapl.al.ma.leg.br` times out from outside Brazil; not
+  asked, so the SAPL houses stay inside the clock. **Roraima**: its SAPL
+  answers 403 to robots.txt (blocked). **Mato Grosso**: answers GitHub's
+  runners only; its SAPL held nothing recent on 13 October.
+- **Rio Grande do Norte**: the site shows session photo albums; the
+  Transparência Legislativa API read for bills has no agenda endpoint found.
+- **Mato Grosso do Sul**: the ordem do dia appears only as news items; the
+  bill system sits behind a proof-of-work captcha (never bypassed).
+- **Sergipe**: atas and audio of past sessions only.
+
+Live run (16 October 2026, scratch store): 14 of 27 regions read, 37 items,
+1 on our ground, 11 to be announced, no gaps; 183 s wall time (the SAPL
+houses' minute each, in parallel, and ALERJ's slow calendar).
+THROTTLES: SAPL hosts 60 s, ALERJ 5 s, the others 1.5 to 2 s.
+
+Privacy: ALMG's committee-meeting replies carry each invited guest's name and
+CPF number (`listaConvidados`); the reader never reads them and the test
+fixtures have them removed.

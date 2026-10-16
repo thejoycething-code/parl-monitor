@@ -570,6 +570,49 @@ CREATE TABLE IF NOT EXISTS sd_agenda (
   first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS sd_agenda_dated ON sd_agenda (dated);
+-- Regional parliaments' FORWARD business (16 October 2026): UK parity for
+-- the devolved forward agendas, one table for every country's regional
+-- parliaments (German Landtage, Austrian Landtage, Swiss cantons, Belgian
+-- regions and communities, Canadian provinces, Australian states, US
+-- states, Spanish autonomous parliaments, Italian regional councils,
+-- Brazilian assemblies, Mexican state congresses ...). One row per agenda
+-- item (or one per booked sitting whose agenda is not yet published:
+-- item_type 'to be announced'). sp_agenda's conventions: business text
+-- classified in the country's (or region's) language, areas/matched_terms
+-- JSON, first_seen survives a re-read, last_seen is the run that saw it,
+-- and a meeting/day/window read in full replaces its rows (an item the
+-- source no longer lists is removed). A region that could not be read
+-- keeps its rows and records a gap. Written by tools/regional_agenda.py
+-- (src/regional_agenda.py, one source module per country in
+-- src/regional_agendas/). regional_agenda_runs: one row per region per run
+-- (status read | gap | no-route | blocked | skipped), the coverage line's source.
+CREATE TABLE IF NOT EXISTS regional_agenda (
+  key TEXT PRIMARY KEY,           -- <cc>:<region>:<meeting or date/body>:<item>
+  cc TEXT NOT NULL,               -- 'de', 'ca', 'us' ...
+  region TEXT NOT NULL,           -- the region's code ('BY', 'on', 'CA', 'cat')
+  region_name TEXT,               -- 'Bayern', 'Ontario', 'California'
+  body TEXT NOT NULL,             -- 'Plenum' / the chamber / the committee's name
+  dated TEXT NOT NULL,            -- YYYY-MM-DD
+  item_time TEXT, item_order INTEGER,
+  meeting_id TEXT,                -- the source's id for the sitting/meeting
+  business TEXT NOT NULL,         -- the item's own words
+  detail TEXT, item_type TEXT,    -- src/regional_agenda.item_type
+  reference TEXT,                 -- a printed document/bill number, when one
+  url TEXT, source TEXT,          -- the route ('parlis-tagesordnung', 'order-paper')
+  lang TEXT,                      -- the taxonomy language the text was read in
+  areas TEXT, matched_terms TEXT,
+  first_seen TEXT NOT NULL, last_seen TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS regional_agenda_dated ON regional_agenda (cc, dated);
+CREATE INDEX IF NOT EXISTS regional_agenda_region ON regional_agenda (cc, region, dated);
+CREATE TABLE IF NOT EXISTS regional_agenda_runs (
+  cc TEXT NOT NULL, region TEXT NOT NULL, run_date TEXT NOT NULL,
+  status TEXT NOT NULL,           -- read | gap | no-route | blocked | skipped
+  items INTEGER, on_ground INTEGER,
+  horizon TEXT,                   -- the latest dated item read
+  note TEXT,                      -- the route, or why there is none
+  PRIMARY KEY (cc, region, run_date)
+);
 -- One row per Hansard sitting already fetched, so a re-run costs nothing --
 -- the same job ni_store.dates_present does for rosters.
 -- Profiles for devolved members, added 2026-08-29. Westminster members have
@@ -2148,6 +2191,8 @@ TABLES = (
     "ni_agenda",
     "sp_agenda",
     "sd_agenda",
+    "regional_agenda",
+    "regional_agenda_runs",
     "sp_scored",
     "dv_contact",
     "dv_post",

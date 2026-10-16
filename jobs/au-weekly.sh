@@ -60,8 +60,9 @@ rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-# The third argument keeps the debates' 10 minutes and the states' 8 (below).
-python3 tools/au_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 1080)" || rc=$?
+# The third argument keeps the debates' 10 minutes, the states' 8 and the
+# forward regional agendas' 5 (below).
+python3 tools/au_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 1380)" || rc=$?
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "au-rollcalls failed (exit $rc); no edition, nothing published"
   exit "$rc"
@@ -94,6 +95,11 @@ python3 tools/au_debates.py --budget-seconds 600 || echo "  [gap] au-debates exi
 # edition: last week's rows stand.
 python3 tools/au_states.py --budget-seconds "$(bash tools/collector_budget.sh 480 "$SECONDS")" \
   || echo "  [gap] au-states: the states layer recorded gaps or failed; last week's rows stand"
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the states' and territories' notice papers, sitting calendars and committee
+# hearings into regional_agenda, for the countdown. At most five minutes (kept
+# back from the collector's budget above); never the run's.
+bash tools/regional_agenda_step.sh au "$SECONDS"
 
 JUDGE="${AU_JUDGE:-}"
 if [ -z "$JUDGE" ] && [ -z "${GITHUB_ACTIONS:-}" ] && command -v gh >/dev/null 2>&1; then

@@ -1,0 +1,122 @@
+{
+ "content": [
+  {
+   "id": 50000000418631,
+   "nuOrdem": 1,
+   "idReuniao": 1000007732,
+   "tituloReuniao": "7ª Reunião Ordinária",
+   "processoDadosView": {
+    "idProcesso": 1000688617,
+    "idTipoProcesso": 3,
+    "nuTipo": 5,
+    "nuTipoAno": 2026,
+    "txDescricao": "PR 5/2026",
+    "txEmenta": "Institui a \"Medalha Paulista de Honra ao Mérito Agropecuário\".",
+    "txNomeAutores": "Fabiana Bolsonaro"
+   },
+   "status": {
+    "idStatus": 3,
+    "txNome": "Não deliberado"
+   },
+   "reuniaoItemDeliberacao": {
+    "idReuniaoItemDeliberacao": null,
+    "detalhes": null,
+    "presidenteVotacao": null,
+    "txDeliberacao": null,
+    "votos": []
+   },
+   "vistas": null,
+   "urlParecer": null,
+   "documentosAnalise": null,
+   "documentosVoto": null,
+   "documentoParecer": null
+  },
+  {
+   "id": 50000000386381,
+   "nuOrdem": 2,
+   "idReuniao": 1000007732,
+   "tituloReuniao": "7ª Reunião Ordinária",
+   "processoDadosView": {
+    "idProcesso": 1000688701,
+    "idTipoProcesso": 3,
+    "nuTipo": 6,
+    "nuTipoAno": 2026,
+    "txDescricao": "PR 6/2026",
+    "txEmenta": "Institui o \"Prêmio Adelaide José Vaz\".",
+    "txNomeAutores": "Thiago Auricchio"
+   },
+   "status": {
+    "idStatus": 3,
+    "txNome": "Não deliberado"
+   },
+   "reuniaoItemDeliberacao": {
+    "idReuniaoItemDeliberacao": null,
+    "detalhes": null,
+    "presidenteVotacao": null,
+    "txDeliberacao": null,
+    "votos": []
+   },
+   "vistas": null,
+   "urlParecer": null,
+   "documentosAnalise": null,
+   "documentosVoto": null,
+   "documentoParecer": null
+  },
+  {
+   "id": 50000000418632,
+   "nuOrdem": 3,
+   "idReuniao": 1000007732,
+   "tituloReuniao": "7ª Reunião Ordinária",
+   "processoDadosView": {
+    "idProcesso": 1000485400,
+    "idTipoProcesso": 1,
+    "nuTipo": 200,
+    "nuTipoAno": 2023,
+    "txDescricao": "PL 200/2023",
+    "txEmenta": "Denomina \"Raimundo Antônio da Costa Jinkings\" o túnel localizado no km 75,700, sentido capital-interior, da Rodovia SP-070.",
+    "txNomeAutores": "Carlos Giannazi"
+   },
+   "status": {
+    "idStatus": 3,
+    "txNome": "Não deliberado"
+   },
+   "reuniaoItemDeliberacao": {
+    "idReuniaoItemDeliberacao": null,
+    "detalhes": null,
+    "presidenteVotacao": null,
+    "txDeliberacao": null,
+    "votos": []
+   },
+   "vistas": null,
+   "urlParecer": null,
+   "documentosAnalise": null,
+   "documentosVoto": null,
+   "documentoParecer": null
+  }
+ ],
+ "pageable": {
+  "pageNumber": 0,
+  "pageSize": 20,
+  "sort": {
+   "unsorted": false,
+   "sorted": true,
+   "empty": false
+  },
+  "offset": 0,
+  "unpaged": false,
+  "paged": true
+ },
+ "totalPages": 5,
+ "totalElements": 84,
+ "last": false,
+ "numberOfElements": 20,
+ "size": 20,
+ "number": 0,
+ "sort": {
+  "unsorted": false,
+  "sorted": true,
+  "empty": false
+ },
+ "first": true,
+ "empty": false
+}

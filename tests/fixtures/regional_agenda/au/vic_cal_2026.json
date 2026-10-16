@@ -1,0 +1,1645 @@
+{
+  "result": [
+    {
+      "type": 10,
+      "popover": {
+        "label": "New Year's Day"
+      },
+      "details": null,
+      "id": 1,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-01-01",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Australia Day"
+      },
+      "details": null,
+      "id": 2,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-01-26",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Labour Day"
+      },
+      "details": null,
+      "id": 3,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-03-09",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Good Friday"
+      },
+      "details": null,
+      "id": 4,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-04-03",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Easter Sunday"
+      },
+      "details": null,
+      "id": 5,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-04-05",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Easter Monday"
+      },
+      "details": null,
+      "id": 6,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-04-06",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "King's Birthday"
+      },
+      "details": null,
+      "id": 7,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-06-08",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "ANZAC Day"
+      },
+      "details": null,
+      "id": 8,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-04-25",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Friday before the AFL Grand Final"
+      },
+      "details": null,
+      "id": 9,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-09-25",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Melbourne Cup"
+      },
+      "details": null,
+      "id": 10,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-11-03",
+      "order": 1
+    },
+    {
+      "type": 40,
+      "popover": {
+        "label": "Victorian State Election"
+      },
+      "details": null,
+      "id": 11,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "backgroundColor": "#DE7C44"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-11-28",
+      "order": 5
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Christmas Day"
+      },
+      "details": null,
+      "id": 12,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-12-25",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Boxing Day"
+      },
+      "details": null,
+      "id": 13,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-12-26",
+      "order": 1
+    },
+    {
+      "type": 10,
+      "popover": {
+        "label": "Boxing Day (Additional Public Holiday)"
+      },
+      "details": null,
+      "id": 14,
+      "highlight": {
+        "fillMode": "outline",
+        "style": {
+          "borderWidth": "0",
+          "backgroundColor": "#465CC8",
+          "borderRadius": "0"
+        },
+        "contentStyle": {
+          "color": "white"
+        }
+      },
+      "dates": "2026-12-28",
+      "order": 1
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Decommissioning Oil and Gas Infrastructure",
+      "id": 15,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-11",
+          "end": "2026-02-11"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Electricity Supply for Electric Vehicles",
+      "id": 16,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-12",
+          "end": "2026-02-12"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Electricity Supply for Electric Vehicles",
+      "id": 17,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-13",
+          "end": "2026-02-13"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Performance of the Victorian integrity agencies 2023/24 and 2024/25",
+      "id": 18,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-16",
+          "end": "2026-02-16"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the Early Childhood Education and Care Sector in Victoria",
+      "id": 19,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-24",
+          "end": "2026-02-24"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the Early Childhood Education and Care Sector in Victoria",
+      "id": 20,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-25",
+          "end": "2026-02-25"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Electricity Supply for Electric Vehicles",
+      "id": 21,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-26",
+          "end": "2026-02-26"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Electricity Supply for Electric Vehicles",
+      "id": 22,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-02-27",
+          "end": "2026-02-27"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Performance of the Victorian integrity agencies 2023/24 and 2024/25",
+      "id": 23,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-02",
+          "end": "2026-03-02"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Decommissioning Oil and Gas Infrastructure",
+      "id": 24,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-06",
+          "end": "2026-03-06"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the Early Childhood Education and Care Sector in Victoria",
+      "id": 25,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-10",
+          "end": "2026-03-10"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the Early Childhood Education and Care Sector in Victoria",
+      "id": 26,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-11",
+          "end": "2026-03-11"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Public School Funding",
+      "id": 27,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-12",
+          "end": "2026-03-12"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Electricity Supply for Electric Vehicles",
+      "id": 28,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-12",
+          "end": "2026-03-12"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into student pathways to in-demand industries",
+      "id": 29,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-20",
+          "end": "2026-03-20"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into voting centre accessibility",
+      "id": 30,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-23",
+          "end": "2026-03-23"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into renewable and affordable energy for apartments",
+      "id": 31,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-24",
+          "end": "2026-03-24"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into Public School Funding",
+      "id": 32,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-25",
+          "end": "2026-03-25"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into student pathways to in-demand industries",
+      "id": 33,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-25",
+          "end": "2026-03-25"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into student pathways to in-demand industries",
+      "id": 34,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-26",
+          "end": "2026-03-26"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into voting centre accessibility",
+      "id": 35,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-03-27",
+          "end": "2026-03-27"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026 summer fires across Victoria",
+      "id": 36,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-04-21",
+          "end": "2026-04-21"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026 summer fires across Victoria",
+      "id": 37,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-04-22",
+          "end": "2026-04-22"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026 summer fires across Victoria",
+      "id": 38,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-04-24",
+          "end": "2026-04-24"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026 summer fires across Victoria",
+      "id": 39,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-04-30",
+          "end": "2026-04-30"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into renewable and affordable energy for apartments",
+      "id": 40,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-04-30",
+          "end": "2026-04-30"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026 summer fires across Victoria",
+      "id": 41,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-01",
+          "end": "2026-05-01"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026 summer fires across Victoria",
+      "id": 42,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-06",
+          "end": "2026-05-06"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for The development and expansion of waste-to-energy (WtE) infrastructure in Victoria",
+      "id": 43,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-07",
+          "end": "2026-05-07"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for The development and expansion of waste-to-energy (WtE) infrastructure in Victoria",
+      "id": 44,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-08",
+          "end": "2026-05-08"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into enhancing Victorian university governance",
+      "id": 45,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-14",
+          "end": "2026-05-14"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 46,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-15",
+          "end": "2026-05-15"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into enhancing Victorian university governance",
+      "id": 47,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-15",
+          "end": "2026-05-15"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 48,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-18",
+          "end": "2026-05-18"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 49,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-19",
+          "end": "2026-05-19"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 50,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-20",
+          "end": "2026-05-20"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 51,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-21",
+          "end": "2026-05-21"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 52,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-22",
+          "end": "2026-05-22"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the 2026-27 budget estimates",
+      "id": 53,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-25",
+          "end": "2026-05-25"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the Early Childhood Education and Care Sector in Victoria",
+      "id": 54,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-25",
+          "end": "2026-05-25"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for The development and expansion of waste-to-energy (WtE) infrastructure in Victoria",
+      "id": 55,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-05-26",
+          "end": "2026-05-26"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into enhancing Victorian university governance",
+      "id": 56,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-06-05",
+          "end": "2026-06-05"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into enhancing Victorian university governance",
+      "id": 57,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-06-05",
+          "end": "2026-06-05"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into claims made through the Transport Accident Commission (TAC)",
+      "id": 58,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-06-09",
+          "end": "2026-06-09"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into claims made through the Transport Accident Commission (TAC)",
+      "id": 59,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-06-10",
+          "end": "2026-06-10"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into anti-LGBTIQA+ hate crimes in Victoria",
+      "id": 60,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-06-24",
+          "end": "2026-06-24"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into anti-LGBTIQA+ hate crimes in Victoria",
+      "id": 61,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-06-25",
+          "end": "2026-06-25"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 30,
+      "popover": {
+        "label": "Hearing"
+      },
+      "details": "Hearing for Inquiry into the Early Childhood Education and Care Sector in Victoria",
+      "id": 62,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#D9DFF4",
+          "borderColor": "#CFD7F1"
+        },
+        "contentStyle": {
+          "color": "#465CC8"
+        }
+      },
+      "dates": [
+        {
+          "start": "2026-08-03",
+          "end": "2026-08-03"
+        }
+      ],
+      "order": 2
+    },
+    {
+      "type": 60,
+      "popover": {
+        "label": "Assembly Only"
+      },
+      "details": null,
+      "id": 63,
+      "highlight": {
+        "style": {},
+        "contentStyle": {
+          "color": "#0f172a"
+        },
+        "class": "calendar-bg-assembly bg-no-repeat bg-top bg-contain"
+      },
+      "dates": [
+        "2026-05-05"
+      ],
+      "order": 4
+    },
+    {
+      "type": 70,
+      "popover": {
+        "label": "Council Only"
+      },
+      "details": null,
+      "id": 64,
+      "highlight": {
+        "style": {},
+        "contentStyle": {
+          "color": "#0f172a"
+        },
+        "class": "calendar-bg-council bg-no-repeat bg-bottom bg-contain"
+      },
+      "dates": [
+        "2026-08-14",
+        "2026-08-28"
+      ],
+      "order": 4
+    },
+    {
+      "type": 50,
+      "popover": {
+        "label": "Both Houses"
+      },
+      "details": null,
+      "id": 65,
+      "highlight": {
+        "fillMode": "solid",
+        "style": {
+          "borderWidth": "2px",
+          "backgroundColor": "#ffffff",
+          "borderColor": "#465CC8"
+        },
+        "contentStyle": {
+          "color": "#0f172a"
+        },
+        "class": "calendar-bg-both"
+      },
+      "dates": [
+        "2026-02-03",
+        "2026-02-04",
+        "2026-02-05",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-03-03",
+        "2026-03-04",
+        "2026-03-05",
+        "2026-03-17",
+        "2026-03-18",
+        "2026-03-19",
+        "2026-03-31",
+        "2026-04-01",
+        "2026-04-02",
+        "2026-05-12",
+        "2026-05-13",
+        "2026-06-02",
+        "2026-06-03",
+        "2026-06-04",
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-07-28",
+        "2026-07-29",
+        "2026-07-30",
+        "2026-08-11",
+        "2026-08-12",
+        "2026-08-13",
+        "2026-08-25",
+        "2026-08-26",
+        "2026-08-27",
+        "2026-09-08",
+        "2026-09-09",
+        "2026-09-10",
+        "2026-09-22",
+        "2026-09-23",
+        "2026-09-24"
+      ],
+      "order": 3
+    }
+  ],
+  "error": null
+}

@@ -230,3 +230,38 @@ data beyond the introducers' names the Landtage print on each document.
 
 No new Mini job: the step runs inside `jobs/at-weekly.sh` (Mini first,
 `.github/workflows/at-weekly.yml` as the backup), so nothing to install.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+Branch `regional-agenda`: `src/regional_agendas/at.py`, read by
+`tools/regional_agenda.py at` into `regional_agenda` (src/regional_agenda.py).
+Not wired into `jobs/at-weekly.sh` yet. Region codes are the ones in
+`src/atl_store.py` (`wien`, `wien-gr`, `noe`, `ooe`, `stmk`, `sbg`, `vbg`,
+`bgld`, plus `tir` and `ktn`). Every route below was probed live on 16 October
+2026 from the laptop, robots.txt read first, honest user agent, a handful of
+requests per host at least 1.2 s apart. A sitting whose agenda is not out yet
+is stored once as 'to be announced'.
+
+| Land | Route | Format | Reaches | robots.txt | Status |
+|---|---|---|---|---|---|
+| Wien (Landtag) | `www.wien.gv.at/politik/rathaus-sitzungstermine` (the Landtag list) + INFODAT `/infodat/suchergebnisse?committees=L&sessionDayFrom=<today>&sessionDayTo=<until>` | HTML list; server-rendered table, 20 a page | dates to end 2027; INFODAT rows only once assigned to a sitting | allows both (bars only `/infodat/ergli`, `/infodat/sukri`) | reader; written answers (Antwort) are left out, so today all 3 sittings are TBA |
+| Wien (Gemeinderat) | the same, Gemeinderat list, `committees=G` | as above | as above | as above | reader; 4 sittings TBA |
+| Niederösterreich | `noe-landtag.gv.at/sitzungen` (next sitting days) + `/sitzungen/XX/<date>` (Tagesordnung, 404 until published, about a week ahead) | TYPO3 HTML | next sitting with full agenda (22 Oct, 15 points with Ltg.-number and committee motion), later dates TBA | `Allow: /` | reader |
+| Oberösterreich | `www.land-oberoesterreich.gv.at/60566.htm` (Sitzungstermine 2026/2027) | HTML | every sitting to Dec 2027 | allowed | reader, dates only: the Tagesordnung is on `landtag.ooe.gv.at`, whose certificate (CN ltstream01.noproxy.ooe.gv.at, HARICA chain) does not verify; never fetched |
+| Steiermark | `pallast2.stmk.gv.at/pallast-p/api/pub/materials/meetings/next/30` (the JSON the Landtag's own site loads) + `/pallast-p/pub/meeting?ref=<uuid>` for meetings whose invitation is out | JSON; JSF HTML | plenary and committee days to July 2027; agenda of the next plenary (28 points with EZ) and of each committee day | no robots.txt (none on the host) | reader |
+| Salzburg | `www.salzburg.gv.at/pol/landtag/lt-termine` (Haussitzungen / Ausschusssitzungen table) | HTML (also an ICS of 1.2 MB, not used) | to Dec 2027 | allowed | reader, dates only: LPI (`service.salzburg.gv.at/lpi`) robots.txt still answers 503 |
+| Tirol | `www.tirol.gv.at/landtag/sitzungen/landtagssitzungen/` and `.../ausschusssitzungen/` (the "next sitting / next committee days" sentences) | HTML | the next plenary (4 to 5 Nov, the reserve day left out) and committee days (21 to 23 Oct) | allowed | reader, dates only: `lte.tirol.gv.at` disallows every robot; the Terminplan is a PDF |
+| Vorarlberg | `vorarlberg.at/web/landtag/tagesordnungen` (headings "LANDTAGSSITZUNG am ...", "AUSSCHUSSSITZUNGEN am ...") | Liferay HTML | the next sitting and committee days | allowed (bars `/documents/`, `/o/`, `/suche/`, not used) | reader, dates; the agenda (posted the Thursday before) is not parsed yet: no live example on 16 Oct |
+| Burgenland | `www.bgld-landtag.at/landtagssitzungen/termine-landtagssitzungen-<year>/` + `/landtagssitzungen/xxiii-gp-tagesordnungen/` (index) + the sitting's agenda page | TYPO3 HTML | every Landtag and committee date of the year; a listed agenda item by item | allowed | reader (22 Oct agenda not listed yet: TBA) |
+| Kärnten | `www.ktn.gv.at/Politik/Landtag` | | | `User-agent: * Disallow: /` (Google, Bing only) | blocked; `landtag.ktn.gv.at`, `landtag-ktn.gv.at`, `www.kaernten.gv.at` do not resolve |
+
+**Live run, 16 October 2026** (scratch DB, 56 days, 32 s wall time): 9 of 10
+read, 78 items, 34 to be announced, 0 on our ground (the only published
+agendas, NÖ 22 Oct and Steiermark 20 Oct, are budgets, audit reports and
+health-service questions). Throttles: 1.5 s for www.wien.gv.at,
+pallast2.stmk.gv.at and noe-landtag.gv.at (1 s elsewhere, the client default).
+
+**Next steps worth doing:** Vorarlberg's agenda asset once one is live;
+Oberösterreich's Tagesordnung if landtag.ooe.gv.at gets a certificate that
+verifies (or the same agenda appears on www.land-oberoesterreich.gv.at);
+Salzburg's LPI agendas once its robots.txt answers.

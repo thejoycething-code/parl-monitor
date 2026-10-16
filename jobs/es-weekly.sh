@@ -38,8 +38,9 @@ rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-# The third argument keeps 300 s for the regional step below.
-python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+# The third argument keeps 300 s for the regional step below and 300 for
+# the forward regional agendas.
+python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 # The regional layer (tools/es_regions.py, docs/spain-regions-scope.md): the
 # seventeen communities' laws from the BOE's open-data summaries and the bills
 # in passage that Andalucía, Canarias, La Rioja, Cantabria and the Corts
@@ -51,6 +52,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/es_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
     || echo "  [gap] es-regions: the regional layer recorded gaps or failed; last run's rows stand"
 fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the regional parliaments' upcoming plenary and committee agendas, orders of
+# the day and session calendars into regional_agenda, for the countdown. At
+# most five minutes (kept back from the collector's budget above); a region
+# not read is a [gap] line and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh es "$SECONDS"
 # What a vote is ON, not just its title (16 October 2026, tools/amendment_text.py,
 # src/amendtext_es.py): for votes whose titles only name an amendment, motion or
 # order of the day, the amendments publications of each bill's BOCG (the XV Congreso is dissolved: nothing new until a new one sits), matched with the country's taxonomy; a tier-1 term in

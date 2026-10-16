@@ -1,0 +1,28 @@
+{
+ "content": [],
+ "pageable": {
+  "pageNumber": 0,
+  "pageSize": 50,
+  "sort": {
+   "unsorted": true,
+   "sorted": false,
+   "empty": true
+  },
+  "offset": 0,
+  "unpaged": false,
+  "paged": true
+ },
+ "totalPages": 0,
+ "totalElements": 0,
+ "last": true,
+ "numberOfElements": 0,
+ "size": 50,
+ "number": 0,
+ "sort": {
+  "unsorted": true,
+  "sorted": false,
+  "empty": true
+ },
+ "first": true,
+ "empty": true
+}

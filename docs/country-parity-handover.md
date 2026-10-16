@@ -406,7 +406,7 @@ publish seen".
 | Debate report (report and social copy after a debate, DM for approval, canvas) | yes (`tools/debate_report.py`, one paid call) | no | no | no | **built** 11 Oct (`tools/country_debate_report.py`, `src/country_debatereport.py`, branch `ukp2-debate-report`, manual) for the five countries whose speeches we store: NL, CH, AT, FR, BE. English report from templates over the record (no paid AI): speakers on our ground with a verbatim source-language passage each, translations by a person or the free session judge (`--queue-out`/`--queue-in` via `tools/session_judge.sh`), the debated bill's votes (found by the reference in the title, `--item` or a debate pack) and the latest on the same ground with tallies, group splits and vote meanings; clip pack linked. AWAITING SIGN-OFF, no verdicts, until the readings shown are confirmed. DM to Chris alone; `--approve --by NAME` records approval against the files; `--publish` makes the canvas with the UK's code, shared with Chris alone (never a channel), rewritten in place on a re-run. Samples `docs/debate-report-samples/` |
 | Words since the last vote (`since_last_vote.py`) | yes | no | no | no | **built** 11 Oct (`tools/country_since_vote.py`, `src/country_since_vote.py`, branch `ukp2-since-last-vote`, manual) for the countries with speeches and votes: NL, CH, AT, FR, BE. Per area, each member's last recorded vote on it (watched or tier 1, procedure never) and their speeches since, with excerpts. Drift is named only once the vote's reading is CONFIRMED and a person or the free session judge has read the words (`--queue-out` / `--reads`, `read_by` required, a read goes stale when new words arrive); before that "awaiting sign-off", ranked by recency and volume. Group votes (NL shows of hands, AT) never name drift. Optional profile section: `tools/member_profiles.py <cc> --since-vote` (off in the weeklies). Samples `docs/since-vote-samples/` (CH, FR, BE; the published store holds no NL votes or speeches and no AT speeches yet) |
 | Health summary, Drive | health DM; briefs and debate footage on Drive | health DM | health DM | health DM | **built** 11 Oct (branch `ukp-health-drive`): the 07:30 health DM has one compact section per region (Europe, Latam) plus shared jobs, failed and stale jobs first, step gaps by step, editions behind, the countries' overdue sources (`src/country_health.py`); briefs as Sheets from the UK template and real debate packs on Drive under `Country editions/<Country>/` in the Automated Briefs shared drive, a step of the Sunday `editions-session-judge` (`tools/country_drive.py`, ledger `data/country-drive.json`, at most 30 new sheets a run) |
-| Regional / state parliaments | devolved | Länder (part) | US states: Open States free tier (watched and tier-1 bills first) plus direct feeds for KS, CA, TX, PA, MO, AR (#161, #166) and a GitHub-side step for NJ, MA, MI (#176; NY on Open States; LegiScan built, dropped: no key); AU states: bills or Acts for all eight (#167), divisions with every member's vote for NSW, Vic, SA, Tas, ACT and Qld (#172, #177), none for WA or NT (no route) | provinces; Senate committees and committee reports (#157) | All as steps of existing weeklies, robots.txt asked every run. Spain all 17 via the BOE plus four bill lists (#137); Peru 25 regions + Lima (#138); Mexico 13 state congresses plus gazette routes for SLP, Campeche, Durango, Querétaro and Puebla (via the SCJN reform list), about 58% of the population (#141, #155, #158); Austria 7 Landtage + Vienna's Gemeinderat (#142, #152); Italy 4 councils + Senate amendment texts from the Senate's GitHub (#143, #159); Poland journals 15/16, registers 13/16, Family Charter terms, watchlist (#162, #168); Argentina SAIJ laws for all 24 + bills from 11 chambers (#163; Santa Fe Diputados and both Salta chambers #173, Salta's intake from PDFs #179); Switzerland 10 of 26 cantons (#164; BS, BL, SG, TG and Aargau's adopted acts #177); Belgium Flemish, Walloon, Brussels and COCOM, FWB in part, Flemish votes by member (#165); Brazil 17 of 27 assemblies (16, about 73% of the population, after #169 and #174; Santa Catarina on GitHub #176; Paraná's bills over the one HTTP exception #178). Gaps and blocks in each regional scope doc |
+| Regional / state parliaments | devolved | Länder (part) | US states: Open States free tier (watched and tier-1 bills first) plus direct feeds for KS, CA, TX, PA, MO, AR (#161, #166) and a GitHub-side step for NJ, MA, MI (#176; NY on Open States; LegiScan built, dropped: no key); AU states: bills or Acts for all eight (#167), divisions with every member's vote for NSW, Vic, SA, Tas, ACT and Qld (#172, #177), none for WA or NT (no route) | provinces; Senate committees and committee reports (#157) | All as steps of existing weeklies, robots.txt asked every run. Spain all 17 via the BOE plus four bill lists (#137); Peru 25 regions + Lima (#138); Mexico 13 state congresses plus gazette routes for SLP, Campeche, Durango, Querétaro and Puebla (via the SCJN reform list), about 58% of the population (#141, #155, #158); Austria 7 Landtage + Vienna's Gemeinderat (#142, #152); Italy 4 councils + Senate amendment texts from the Senate's GitHub (#143, #159); Poland journals 15/16, registers 13/16, Family Charter terms, watchlist (#162, #168); Argentina SAIJ laws for all 24 + bills from 11 chambers (#163; Santa Fe Diputados and both Salta chambers #173, Salta's intake from PDFs #179); Switzerland 10 of 26 cantons (#164; BS, BL, SG, TG and Aargau's adopted acts #177); Belgium Flemish, Walloon, Brussels and COCOM, FWB in part, Flemish votes by member (#165); Brazil 17 of 27 assemblies (16, about 73% of the population, after #169 and #174; Santa Catarina on GitHub #176; Paraná's bills over the one HTTP exception #178). Gaps and blocks in each regional scope doc **Forward agendas (16 October 2026):** one shared table `regional_agenda` (tools/regional_agenda.py, a step of fourteen weeklies), readers for 174 of 295 regional parliaments (3,400 rows on the first scratch run); see "Regional forward agendas" near the end |
 | Vote meanings (what a Yes and a No meant) | yes (`meaning_aye`/`meaning_no`, written by hand) | no | no | no | **built** 11 Oct (`src/vote_meanings.py`, `tools/vote_meanings.py`, branch `ukp-meanings`): every watched and tier-1 vote in the 21 countries with recorded votes, rules first, then the free session judge after the editions' scores within the same ~100 items a week; stored per division (`vote_meanings`); a person overrides in `config/vote-meanings-<cc>.yaml`; shown in editions, the Latam monitor, vote briefs, profiles, debate packs and the 5CA readings guides |
 | Later phases, set A (item 6) | | | | | **built 10 Oct** (branch `parity-phases-a`): FR5 Senat votes and dossiers, NL4 Eerste Kamer votes and bills, IT2 dati.camera.it for the Camera, CH6 Swiss Italian texts, SK6 Slovak bill documents |
 
@@ -1888,3 +1888,82 @@ job; the agenda steps already run in each weekly. Not converted: the Latam
 monthly (tools/latam_monitor.py: a monthly digest of thirteen countries;
 only Panama's and Honduras's agendas are stored, so most tables would be
 empty; left for a decision).
+
+## Regional forward agendas: UK parity for "upcoming regional agendas" (16 October 2026, branch `regional-agenda`)
+
+The devolved forward agendas (sp_agenda / sd_agenda, PR #204) generalised to
+every country whose regional parliaments we follow: **one table,
+`regional_agenda`** (src/db.py has the columns: cc, region, region_name,
+body, dated, item_time, item_order, meeting_id, business, detail, item_type,
+reference, url, source, lang, areas, matched_terms, first_seen, last_seen),
+plus `regional_agenda_runs` (one row per region per run: read, gap,
+no-route, blocked or skipped, with the route or the reason). Built in
+`src/regional_agenda.py` (store, classification in each country's or
+region's language, item types, "to be announced" rows for booked sittings
+with no subject yet, replacement of a re-read window/meeting/day, gap lines)
+with one module per country in `src/regional_agendas/<cc>.py`; collector
+`tools/regional_agenda.py <cc>`, run by `tools/regional_agenda_step.sh <cc>
+"$SECONDS"` in the existing weeklies (DE, AT, CH, BE, ES, IT, PL, AR, PE, BR,
+AU, the provinces', Mexico's GitHub collect; US inline). **No new Mini job.**
+The countdown layout that renders it is another agent's work. Coverage:
+`regional_agenda` heartbeat (excused empty until 31 October).
+
+First run against a scratch store, 16 October 2026 (56 days ahead; US rows
+from the US build's live run the same day, not re-asked to spare the Open
+States key's day):
+
+| Country | Regions with a reader | Regions with rows | Rows | On our ground | To be announced | Blocked / no route |
+|---|---|---|---|---|---|---|
+| Germany | 15 of 16 | 15 | 623 | 6 | 413 | SL (host unreachable); SN, BE, ST give sittings only; RP's agenda PDFs refused (below) |
+| Austria | 9 of 10 | 9 | 78 | 0 | 34 | Kärnten (robots.txt: Google and Bing only) |
+| Switzerland | 21 of 26 | 19 | 875 | 23 | 88 | FR (robots.txt), AG (decision below); NE, JU, SH no route |
+| Belgium | 6 of 8 | 4 | 509 | 16 | 0 | PDG (Cloudflare); VGC PDFs only |
+| Spain | 7 of 17 | 7 | 249 | 3 | 84 | MD, GA, NC, AS (bot walls); CM, MC, EX (robots.txt); PV, IB (no answer); RI |
+| Italy | 8 of 22 | 8 | 173 | 10 | 20 | LOM, PUG (robots.txt), BAS, VEN (Akamai); 10 no route |
+| Canada | 10 of 13 | 7 | 278 | 3 | 64 | PEI (Radware CAPTCHA), Yukon (Cloudflare); Nunavut no route |
+| Australia | 3 of 8 | 2 | 156 | 8 | 31 | NSW, ACT, NT (Cloudflare), QLD, WA (Azure WAF) |
+| United States | 50 of 50 | 16 | 222 | 0 | 84 | none (24 states rotate weekly to spare the free key) |
+| Brazil | 14 of 27 | 4 | 37 | 1 | 11 | RR (403); 12 no route (unreachable from outside Brazil, GitHub-only, or nothing published) |
+| Mexico | 5 of 32 | 1 | 1 | 0 | 1 | PUE, SLP, DGO, CAM blocked; 23 publish nothing ahead or do not answer the UK |
+| Poland | 10 of 16 | 9 | 162 | 0 | 8 | 6 no route; eSesja behind a Cloudflare check |
+| Argentina | 3 of 24 | 2 | 37 | 0 | 10 | MZA, CAT, SC blocked; 18 no route |
+| Peru | 13 of 26 | 0 | 0 | 0 | 0 | 13 no route (Facebook or nothing) |
+
+On our ground in that first read, for example: Ontario Bills 15 and 137
+(children's online safety) and 132 (paediatric palliative care), Tasmania's
+Conversion Practices Prohibition Bill (second reading, 27 October), São
+Paulo's PL 875/2026 (Estatuto de Defesa da Vida desde a concepção), Zürich's
+Standesinitiative against conversion practices, Geneva's initiative for free
+contraception, Bavaria's prostitution-ban ordinances, Toscana's motions on
+the niqab and parental leave. Routes per region: each regional scope doc's
+"Forward agenda (regional_agenda, 16 October 2026)" section and
+docs/robots-runtime.md "Regional forward agendas".
+
+Waiting on Chris:
+
+1. **OpenParlData.ch** (a third-party republisher, CC BY 4.0, robots.txt
+   allows us) serves fifteen Swiss cantons' agendas. **Aargau is left out**
+   while its own host refuses us (blocked until you decide whether to ask its
+   Parlamentsdienst). Is a republisher acceptable for the rest? A courtesy
+   note to info@openparldata.ch is suggested.
+2. **Rheinland-Pfalz:** dokumente.landtag.rlp.de's robots.txt answers a 302
+   to an HTML page, which src/robots_guard reads as unreachable (Disallow:
+   /), so RP gives sittings only. RFC 9309 would follow the redirect and find
+   no rules; changing the shared guard is a decision, not made here.
+3. Vocabulary seen in passing: taxonomy-es leaves bare "familia" out (a
+   Valencian PNL "sobre el papel de la familia" did not match);
+   taxonomy-fr did not match COCOF's resolution on pregnancy, birth and
+   parenthood rights.
+4. One robots.txt slip during the Spanish probing: a single request to
+   datos.comunidad.madrid's CKAN API after probe_refusal said it was
+   disallowed; nothing further fetched (recorded in the Spain scope doc).
+
+Notes for the runner: pypdf is needed for agenda PDFs (BY, BW, NI, SH, TH,
+MV, HH, Wallonia, Brussels, Campania, Paraná, Yucatán, Buenos Aires);
+without it those sittings stay "to be announced" and the run note says so.
+Each country's step finished inside five minutes on the laptop (longest:
+Brazil 224 s with seven SAPL houses at Crawl-delay 60 in parallel; Germany
+177 s; Canada 130 s). São Paulo's ordem do dia lists every pending item (843
+on 14 October), so a São Paulo session in the window adds several hundred
+rows: the renderer should filter by ground.
+

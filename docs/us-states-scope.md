@@ -798,3 +798,117 @@ empty tables until the first run.
 7. **Which states first in the edition.** All fifty are printed by state
    alphabetically; a salience order (states with live fights first) is a
    one-line change if wanted.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+UK parity for "upcoming regional agendas": committee hearings and floor
+sessions from today to as far ahead as each state publishes (the collector's
+56 days), in `regional_agenda` (`src/regional_agenda.py`). Module
+`src/regional_agendas/us.py`, tests `tests/test_regional_agenda_us.py` on live
+replies of 16 October 2026 (trimmed). Region codes are the store's lower-case
+postal codes (`us_states_store.STATES`); DC is not read (the decision is the
+fifty). Taxonomy `taxonomy.yaml` (`us`). Not wired into any job yet.
+
+### Routes
+
+| Route | States | URL pattern | Format | Reach | robots.txt |
+|---|---|---|---|---|---|
+| Open States API v3 `/events` (documented API, team's free key) | 48 (all but WA and TX) | `v3.openstates.org/events?jurisdiction=<cc>&after=<today>&before=<horizon+1>&per_page=20&page=<n>&include=agenda&include=participants&include=sources`, key only in `X-API-KEY` | JSON: events with status, start (UTC), location, participants, agenda items with the bills each takes (identifier and title) | as far as each state posts: 2 to 8 weeks (Colorado and Minnesota to 7 and 8 December, Pennsylvania 10 November, most a week or two) | documented API (`DOCUMENTED_APIS`), not asked |
+| Washington Legislature web services | WA | `wslwebservices.leg.wa.gov/CommitteeMeetingService.asmx/GetCommitteeMeetings?beginDate=&endDate=`, then `GetCommitteeMeetingItems?agendaId=` per meeting | XML (documented SOAP service, HTTP GET binding) | the whole window: 11 meetings to 9 December, items to 2 December | robots.txt 404 (no rules); asked every run |
+| Texas Legislature Online upcoming-meetings RSS | TX | `capitol.texas.gov/MyTLO/RSS/RSS.aspx?Type=upcomingmeetings{house,senate,joint}` | RSS 2.0 | what TLO posts (none on 16 October: interim, the 90th convenes 12 January 2027) | allowed (`/MyTLO/RSS/` not disallowed); the notices under `/tlodocs/` are NOT read (`Disallow: /TLODOCS/`), so a Texas meeting is a booked slot linked to its notice |
+
+**Open States `/events` on the free tier.** It answers on the default tier
+(same 10 a minute, 250 a UTC day as `/bills`), but `jurisdiction` is required
+(`"must provide 'jurisdiction' parameter"`, so one request per state) and
+`per_page` is capped at 20 (`"invalid per_page, must be in [1, 20]"`; both
+refusals count against the day). `jurisdiction=pa` (the postal code) works.
+
+**The key** is the one `tools/us_states.py` reads, by the same mechanism:
+`openstates_api_key` in `config/secrets.yaml` or `OPENSTATES_API_KEY`
+(`publish.load_secrets`). It travels only as the `X-API-KEY` header (keyed
+replies are not archived by `src/http.py`; the module archives the JSON body
+itself, which never carries the key). No key: one [gap] under the first Open
+States state and a "not read: no Open States key" note on the rest.
+
+**The day's quota, shared with the bills step.** That step spends 2 + 68 to
+90 keyed requests in a sitting week (a handful in recess), never more than 150
+a run or 225 a UTC day (ledger `uss_api_ledger`). This module spends **at most
+30 a run** (`OS_CALLS`), 6.5 s apart. **Measured on 16 October 2026: 26
+requests** for 24 states (two of them two pages), 195 s for the whole run
+including Washington and Texas. Worst case on a Friday: 150 + 30 = 180 of the
+225 cap. Once the core passes the store to readers (`ctx.conn`, a core change
+requested) every request is written to the same ledger before it
+is sent and none is sent past 225; until then the 30-a-run cap is the guard.
+A 429 ends Open States for the rest of the run (the other states say so).
+
+**Which states a run asks.** Every run: California, Florida, New York,
+Pennsylvania, Illinois, Ohio, Georgia, North Carolina, Michigan, New Jersey
+(`PRIORITY`). The other 38 Open States states turn weekly, 14 a run (the slice
+moves with the ISO week, so every state is asked at least once in three
+weeks; a test checks all 48 are covered within four). A state not asked keeps
+its stored rows and its run row says "not asked this run". With 30 calls and
+6 held back for second pages, a state with more than 60 events in the window
+is read to its third page and the days before the last event seen are the
+unit replaced (`window(today, last day - 1)`), with a [gap] line.
+
+**Parsing.** Times are converted from UTC to the capital's zone (the date
+too, so an evening hearing is not moved a day). The body is the event's own
+name (it carries the subcommittee or working group) unless that is generic
+("JOINT HEARING") or the committee's name without its chamber
+("Judiciary" for "House Judiciary"), when the committee participant is used.
+An agenda point that only says the meeting takes some bills ("Meeting of the
+Assembly Labor Committee", "Voting meeting on SB 1431 and any other
+business") becomes one item per bill, "<identifier>: <title>", so the
+taxonomy reads the title. A hearing on a named subject keeps its words with
+the bills as detail. "COMMITTEE AGENDA - ...", "Meeting", "TBD", "Bills under
+consideration" with no bill, or a description that repeats the committee's
+name are a booked slot (to be announced). Cancelled events are left out, so a
+re-read removes them. Stream links, meeting passwords and contact lines are
+cut from the business text.
+
+### Live run (16 October 2026, laptop, scratch database)
+
+Open States replies 26 (of the 30 allowed), Washington 1 + 10 agenda
+requests, Texas 3 feeds; wall time 195 s; no gaps. The final parser was then
+replayed over the same day's archived Open States replies (no new keyed
+requests) with Washington and Texas fetched again: **222 items in 16 states,
+84 to be announced, 0 on our ground** (interim season: audit, budget,
+pensions, study committees; classification checked on known terms).
+
+| State | Items | To be announced | Horizon | Note |
+|---|---|---|---|---|
+| CA | 8 | 4 | 28 Oct | interim joint and oversight hearings |
+| PA | 24 | 5 | 10 Nov | House and Senate committees with bills |
+| NJ | 20 | 1 | 22 Oct | one item per bill |
+| GA | 10 | 10 | 29 Oct | study committees, no agendas yet |
+| NC | 2 | 2 | 20 Oct | Child Fatality Task Force committees |
+| WA | 35 | 5 | 2 Dec | direct; JLARC, pensions, transportation |
+| CO | 65 | 7 | 7 Dec | Joint Budget Committee briefings |
+| CT, HI, IN, IA, LA, MA, MD, ME, MN | 58 | 50 | to 8 Dec | |
+| FL, NY, IL, OH, MI, TX, DE, ID, KS, KY | 0 | 0 | | read, nothing posted |
+
+New York, Ohio, Michigan and Illinois returned nothing on 16 October. Open
+States' events scrapers do not run for every state; Illinois's veto session
+and New York's hearings may simply not be scraped. Those states have no
+second route here: NY's Senate API needs a key and answers only US
+networks (Christopher: "skip NY"); Ohio and Georgia's web services time out
+from the UK; Michigan, New Jersey and Massachusetts answer only GitHub (no
+GitHub workflow work in this round, so their legislatures' own calendars are
+not read; Open States `/events` is their only forward route and it answered
+for NJ and MA). Florida's committee meeting notices on `flsenate.gov`
+(`/Session/` allowed, Crawl-delay 10) are HTML only and Florida's interim
+committee weeks start after the 17 November organisation session: a
+candidate for a direct reader if Open States stays empty.
+
+### Not built, and why
+
+- **Constitutionally fixed convening dates** (California 7 December 2026,
+  Florida's organisation session 17 November, Texas 12 January 2027,
+  Washington 11 January 2027) are not invented as booked slots: only what a
+  feed publishes is stored.
+- **Pennsylvania's own meeting schedule** (`palegis.us/house/committees/
+  meeting-schedule`, robots.txt open) is Open States' source and Open States
+  parses it well (two requests a run); a direct reader would save those two.
+- **Virginia LIS** (its API needs a registered key), **North Carolina**
+  (403 from the UK), **Georgia** SOAP (times out from the UK and GitHub):
+  Open States `/events` only.

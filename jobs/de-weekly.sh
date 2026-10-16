@@ -49,6 +49,12 @@ rc=0
   python3 tools/de_monitor.py --edition --dm
 ) || rc=1
 
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the sixteen Landtage' upcoming plenary and committee agendas into regional_agenda,
+# for the countdown. At most five minutes; a region not read is a [gap] line
+# and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh de "$SECONDS"
+
 # The 5CA sheets (tools/de_5ca.py, data/5ca/de-5ca-bundestag-*.csv) and the
 # vote page (tools/make_de_votes.py, partner_site/de-votes.html): offline, from
 # the store as it stands, seconds to run, as the US, Irish and Australian

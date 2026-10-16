@@ -1,0 +1,143 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:PUBLISH
+PRODID:-//SD.NET RIM v1.0//DE
+CALSCALE:GREGORIAN
+X-WR-CALNAME:SD.NET RIM
+X-WR-TIMEZONE:Europe/Berlin
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261027T093000
+DTEND;TZID=Europe/Berlin:20261027T163000
+SUMMARY:Gemeinsame Sitzung der Haushalts- und Finanzausschüsse (Land und Stadt)
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZRrRroPboCPldLZG2vQrsq0\n\nBemerkung:\nBeratungen Nachtragshaushalt 2026
+UID:2026105437
+LOCATION:Börsenhof A, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 416
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261027T093000
+DTEND;TZID=Europe/Berlin:20261027T163000
+SUMMARY:Gemeinsame Sitzung der Haushalts- und Finanzausschüsse (Land und Stadt)
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZXsFbgdZEqExIcvzwKr8rFI\n\nBemerkung:\nBeratungen Nachtragshaushalt 2026
+UID:2026105438
+LOCATION:Börsenhof A, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 416
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261027T140000
+DTEND;TZID=Europe/Berlin:20261027T150000
+SUMMARY:Vorstand
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZfbNinPouOb9aIFyeVUtKL8
+UID:2026104889
+LOCATION:Börsenhof C, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 105
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261027T150000
+DTEND;TZID=Europe/Berlin:20261027T170000
+SUMMARY:Staatliche Deputation für Arbeit
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZSfnbIaVMtUdSlOFP3U09lA
+UID:2026105178
+LOCATION:N.N., , wird noch bekanntgegeben
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261027T150000
+DTEND;TZID=Europe/Berlin:20261027T170000
+SUMMARY:Städtische Deputation für Arbeit
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZeaPxo91arGm8b4n6GXsjHk
+UID:2026105188
+LOCATION:N.N., , wird noch bekanntgegeben
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261028T140000
+DTEND;TZID=Europe/Berlin:20261028T160000
+SUMMARY:Rechtsausschuss
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZZY0yGfxigyqssY23ma-7S8
+UID:2026104909
+LOCATION:Börsenhof A, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 301 B-C
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261028T140000
+DTEND;TZID=Europe/Berlin:20261028T160000
+SUMMARY:Ausschuss für die Angelegenheiten der Häfen im Lande Bremen
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZZp8nxLeGIheBUewMu4jon0
+UID:2026104930
+LOCATION:Börsenhof A, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 416
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261028T140000
+DTEND;TZID=Europe/Berlin:20261028T160000
+SUMMARY:Staatliche Deputation für Kultur
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZfLzN2QekU-vk2JT6k-wqDw
+UID:2026105002
+LOCATION:N.N., , keine Angabe
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261028T140000
+DTEND;TZID=Europe/Berlin:20261028T160000
+SUMMARY:Städtische Deputation für Kultur
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZUs2h0E6vEIbOuveU07rLLs
+UID:2026105006
+LOCATION:N.N., , keine Angabe
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261028T160000
+DTEND;TZID=Europe/Berlin:20261028T180000
+SUMMARY:Staatliche Deputation für Wirtschaft und Häfen
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZZSmsnhLAEcTggXy9F4qPcs
+UID:2026105021
+LOCATION:N.N., , wird noch bekanntgegeben
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261028T160000
+DTEND;TZID=Europe/Berlin:20261028T180000
+SUMMARY:Städtische Deputation für Wirtschaft und Häfen
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZUdozRjVTLOePnXUi0dUE24
+UID:2026105032
+LOCATION:N.N., , wird noch bekanntgegeben
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261030T140000
+DTEND;TZID=Europe/Berlin:20261030T170000
+SUMMARY:Ausschuss für Petitionen (Land)
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZeAxlq3dhTkQ_a1XGskwVJE\n\nBemerkung:\nAchtung: Raumänderung!
+UID:2026105159
+LOCATION:Börsenhof A, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 416
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20261016T094359Z
+DTSTART;TZID=Europe/Berlin:20261030T140000
+DTEND;TZID=Europe/Berlin:20261030T170000
+SUMMARY:Ausschuss für Petitionen und Bürgerbeteiligung (Stadt)
+DESCRIPTION:Link zur Tagesordnung: https://sd.bremische-buergerschaft.de/tops/?__=UGhVM0hpd2NXNFdFcExjZf2w6NQJI0KD531nQwXGbgQ\n\nBemerkung:\nAchtung: Raumänderung!
+UID:2026105169
+LOCATION:Börsenhof A, Am Markt 20 (Eingang Dieter-Klink-Platz), 28195 Bremen, Raum 416
+END:VEVENT
+END:VCALENDAR

@@ -216,3 +216,38 @@ Shared files touched: `src/db.py` (TABLES), `src/pe_store.py`, `src/latam.py`,
   `config/watchlist-pe.yaml`, keyed by norm_key), for sumillas no term catches.
 - The Peru weekly job picks the step up when this branch is on main; nothing
   to install.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/pe.py`, run by `tools/regional_agenda.py pe` (the
+step in the Peru weekly is the lead's). Probed live from the laptop on 16
+October 2026, robots.txt read first (gob.pe disallows only /admin/ and
+?sheet= URLs), honest user agent, 3 s between requests.
+
+The councils publish their session agendas mostly as PDFs or Facebook posts
+(Facebook is not a route). The one machine-readable list is gob.pe's
+publication type **'Agenda de Sesión de Consejo Regional'**
+(`/institucion/<slug>/informes-publicaciones/tipos/91-agenda-de-sesion-de-consejo-regional`;
+Lima Metropolitana's 'Agenda de Sesión de Concejo Municipal', type 93): one
+entry per agenda or convocation, the sitting's date in the entry's own
+words ('... del 15 de Octubre del 2026'), the agenda itself a PDF. Each
+sitting in the window is one 'to be announced' item with the entry's title
+and summary; a 'Reprogramada' convocation is dropped for the new one.
+
+Measured, one request per institution: 13 of 26 have used the type. Newest
+upload: Lima region 7 October (the 15 October sitting, a week ahead), Piura
+11 September (on the sitting day), Ica 31 August (convocations a few days
+ahead), Lambayeque 24 February, Arequipa 6 February, Ayacucho 18 June, Cusco
+May 2025, Moquegua November 2024, Tumbes March 2024, Amazonas March 2023,
+Lima Metropolitana January 2023, Callao January 2023, La Libertad July 2020.
+These thirteen are read every run (cheap; a council that resumes is caught).
+The other thirteen (Cajamarca, Junín, Puno, Áncash, Loreto, San Martín,
+Huánuco, Ucayali, Apurímac, Huancavelica, Tacna, Pasco, Madre de Dios) have
+never used it: no route. Also looked at: gob.pe's 'Agenda' page per
+institution (the governor's or mayor's own diary, not the council; empty for
+Lima and Arequipa, an iframe of servicios.regionpiura.gob.pe for Piura).
+
+**Live run** (scratch store, 16 October 2026, 56 days): 13 of 26 read, 0
+items (no council had posted a sitting after today), 51 s, no gap. The
+route is honest but thin: expect a sitting or two a month, mostly from Lima
+region and Ica.

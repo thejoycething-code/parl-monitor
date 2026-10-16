@@ -289,3 +289,33 @@ intake about 30 s); the weekly step's 420 s budget is unchanged.
   (taxonomy-es v0.4, above).
 - ~~Salta Diputados' intake~~: read from the Asuntos Entrados PDFs since 13
   October 2026 (`sal-dip-ae`, above).
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/ar.py`, run by `tools/regional_agenda.py ar` (the
+step in `jobs/ar-weekly.sh` is the lead's). Probed live from the laptop on
+16 October 2026, robots.txt read first, honest user agent.
+
+| Code | Route | Format | Horizon (live run) | robots.txt |
+|---|---|---|---|---|
+| caba | parlamentaria.legislatura.gob.ar `/webservices/Json.asmx/GetAgendasMesCurso` (POST start/end, the agenda days in a range), `GetAgendasDiaById` (POST idAgenda: each committee meeting with hour, room, notes, and expedientes when the temario is loaded) and `GetSesionesMesCurso` (sessions booked): the web services the site's own calendar (`pages/calendar.js`) calls. Protocol and cultural events (no committee) left out | XML | 19 October (agenda days are published one or two working days ahead) | 404, no rules |
+| ba | www.hcdiputados-ba.gov.ar home page activity list (about ten days ahead): committee meetings with date, hour and room, and each 'orden del día' PDF on intranet.hcdiputados-ba.gov.ar/reuniones/, whose ASUNTO is read with pypdf (each expediente 'D-2521/25-26' with its extract; the addressees, the signature and the authors' names are never kept). Without pypdf the meeting is to be announced; after one failed PDF the others are not asked that run | HTML + PDF | 22 October | 404, no rules (both hosts) |
+| cba | legislaturacba.gob.ar `/agenda/` (JetEngine month calendar of 'eventos' posts) and `/wp-json/wp/v2/eventos?include=<ids>` (each meeting's temario: 'Proyecto de Ley 47973/L/26, iniciado por ...'); the visitors' list is cut. The calendar page shows the current month only | HTML + JSON | nothing booked after 14 October yet | allows all but /wp-admin/ |
+
+Not read, and what was tried: Santa Fe (Diputados' home answers our client
+with its own JSON; its `eventos_calendario` was empty; SIEL has no agenda;
+the Senate does not answer), Mendoza (Senate 403; Diputados asks a 60 s
+crawl delay and lists business only in PDF diaries), Buenos Aires Senate
+(reCAPTCHA on its forms, never bypassed), Catamarca (403), Santa Cruz
+(robots.txt '/*?'), and the rest, whose legislatures publish orders of the
+day as PDFs, news posts or not at all (each region's note in the module).
+
+**Live run** (scratch store, 16 October 2026, 56 days): the first run took
+496 s because parlamentaria.legislatura.gob.ar's robots.txt timed out
+(TLS handshake; the guard's patient read, then 'blocked' for that run) and
+the Buenos Aires PDF host failed after four attempts (since then one failed
+PDF stops the PDFs for the run). The second run, minutes later: 3 of 3
+readers, 37 items (CABA 8, Buenos Aires 29, Córdoba 0), 10 to be
+announced, 50 s. None on our ground (provincial anniversaries, transport
+and energy bills, a budget briefing). Throttles: 3 s CABA and Córdoba, 5 s
+both Buenos Aires hosts (as tools/ar_regions.py).

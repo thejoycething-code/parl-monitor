@@ -1,0 +1,8 @@
+{
+  "result": null,
+  "error": {
+    "title": "There were no events found in the selected year",
+    "description": "Please try a different year.",
+    "details": []
+  }
+}

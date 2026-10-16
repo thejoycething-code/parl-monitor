@@ -1,0 +1,44 @@
+{
+ "pagination": {
+  "links": {
+   "next": null,
+   "previous": null
+  },
+  "previous_page": null,
+  "next_page": null,
+  "start_index": 1,
+  "end_index": 1,
+  "total_entries": 1,
+  "total_pages": 1,
+  "page": 1
+ },
+ "results": [
+  {
+   "id": 1415,
+   "__str__": "32ª Sessão Ordinária  da 4ª Sessão Legislativa da 20ª Legislatura",
+   "metadata": {},
+   "cod_andamento_sessao": 1,
+   "painel_aberto": false,
+   "data_inicio": "2026-10-14",
+   "hora_inicio": "09:30",
+   "hora_fim": "13:30",
+   "numero": 32,
+   "data_fim": "2026-10-14",
+   "url_audio": "",
+   "url_video": "",
+   "upload_pauta": "http://sapl.al.pb.leg.br/media/sapl/public/sessaoplenaria/1415/pauta/ordem_do_dia_14.10.2026_32a_sessao_ordinaria.pdf",
+   "upload_ata": null,
+   "upload_anexo": "http://sapl.al.pb.leg.br/media/sapl/public/sessaoplenaria/1415/anexo/expediente_14.10.2026.pdf",
+   "iniciada": false,
+   "finalizada": false,
+   "interativa": false,
+   "tema_solene": "",
+   "data_ultima_atualizacao": "2026-10-14T09:32:44.327938-03:00",
+   "publicar_pauta": true,
+   "tipo": 1,
+   "sessao_legislativa": 70,
+   "legislatura": 20,
+   "correspondencias": []
+  }
+ ]
+}

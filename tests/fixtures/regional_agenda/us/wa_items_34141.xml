@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCommitteeMeetingItem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://WSLWebServices.leg.wa.gov/">
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Agenda</HearingType>
+    <HearingTypeDescription>Agenda</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>Approval of September Minutes.</ItemDescription>
+    <Order>1</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>1</SortOrderString>
+  </CommitteeMeetingItem>
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Agenda</HearingType>
+    <HearingTypeDescription>Agenda</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>DRS CEM Benchmarking.</ItemDescription>
+    <Order>2</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>2</SortOrderString>
+  </CommitteeMeetingItem>
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Agenda</HearingType>
+    <HearingTypeDescription>Agenda</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>PERS and TRS Ad Hoc COLA.</ItemDescription>
+    <Order>3</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>3</SortOrderString>
+  </CommitteeMeetingItem>
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Agenda</HearingType>
+    <HearingTypeDescription>Agenda</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>Plan 1 Benefit Improvement Funding.</ItemDescription>
+    <Order>1</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>a</SortOrderString>
+  </CommitteeMeetingItem>
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Agenda</HearingType>
+    <HearingTypeDescription>Agenda</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>Ad Hoc COLA Policy Options.</ItemDescription>
+    <Order>2</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>b</SortOrderString>
+  </CommitteeMeetingItem>
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Public</HearingType>
+    <HearingTypeDescription>Public Hearing</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>WSPRS Survivor Medical (Remote Testimony Available).</ItemDescription>
+    <Order>1</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>1</SortOrderString>
+  </CommitteeMeetingItem>
+  <CommitteeMeetingItem>
+    <AgendaId>34141</AgendaId>
+    <HearingType>Public</HearingType>
+    <HearingTypeDescription>Public Hearing</HearingTypeDescription>
+    <BillId />
+    <ItemDescription>Public Comment (Remote Testimony Available).</ItemDescription>
+    <Order>2</Order>
+    <Biennium>2025-26</Biennium>
+    <SortOrderString>2</SortOrderString>
+  </CommitteeMeetingItem>
+</ArrayOfCommitteeMeetingItem>

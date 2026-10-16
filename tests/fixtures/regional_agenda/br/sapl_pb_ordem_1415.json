@@ -1,0 +1,62 @@
+{
+ "pagination": {
+  "links": {
+   "next": "http://sapl.al.pb.leg.br/api/sessao/ordemdia/?page=2&sessao_plenaria=1415",
+   "previous": null
+  },
+  "previous_page": null,
+  "next_page": 2,
+  "start_index": 1,
+  "end_index": 10,
+  "total_entries": 278,
+  "total_pages": 28,
+  "page": 1
+ },
+ "results": [
+  {
+   "id": 100718,
+   "__str__": "Ordem do Dia/Expediente: 1 - Veto nº 390 de 2025 em 32ª Sessão Ordinária  da 4ª Sessão Legislativa da 20ª Legislatura",
+   "metadata": {},
+   "data_ordem": "2026-10-14",
+   "observacao": "Veto Total por inconstitucionalidade ao Projeto de Lei nº 740/2023, de autoria do Deputado Eduardo Carneiro, que \"dispõe\r\nsobre a cassação de alvará de funcionamento de estabelecimento que comercializar,\r\nadquirir, transportar, estocar ou revender produtos oriundos de cargas roubadas nо\r\nEstado da Paraíba.\".",
+   "numero_ordem": 1,
+   "resultado": "",
+   "tipo_votacao": 2,
+   "votacao_aberta": false,
+   "registro_aberto": false,
+   "sessao_plenaria": 1415,
+   "materia": 144459,
+   "tramitacao": null
+  },
+  {
+   "id": 100719,
+   "__str__": "Ordem do Dia/Expediente: 2 - Veto nº 429 de 2026 em 32ª Sessão Ordinária  da 4ª Sessão Legislativa da 20ª Legislatura",
+   "metadata": {},
+   "data_ordem": "2026-10-14",
+   "observacao": "Veto Parcial por inconstitucionalidade ao Projeto de Lei n° 1.551/2023, de autoria do Deputado Eduardo\r\nCarneiro, que \"Institui o mês de agosto como Mês da Primeira Infância, no Estado\r\nda Paraíba.”.",
+   "numero_ordem": 2,
+   "resultado": "",
+   "tipo_votacao": 2,
+   "votacao_aberta": false,
+   "registro_aberto": false,
+   "sessao_plenaria": 1415,
+   "materia": 147507,
+   "tramitacao": null
+  },
+  {
+   "id": 100720,
+   "__str__": "Ordem do Dia/Expediente: 3 - Projeto de Lei Ordinária nº 7851 de 2026 em 32ª Sessão Ordinária  da 4ª Sessão Legislativa da 20ª Legislatura",
+   "metadata": {},
+   "data_ordem": "2026-10-14",
+   "observacao": "CONCEDE O TÍTULO DE CIDADÃO PARAIBANO AO ILUSTRE SENHOR DR. LUIZ PAULINO DE LIMA JÚNIOR, EM RECONHECIMENTO AOS RELEVANTES SERVIÇOS PRESTADOS AO ESTADO DA PARAÍBA.",
+   "numero_ordem": 3,
+   "resultado": "",
+   "tipo_votacao": 1,
+   "votacao_aberta": false,
+   "registro_aberto": false,
+   "sessao_plenaria": 1415,
+   "materia": 152335,
+   "tramitacao": null
+  }
+ ]
+}

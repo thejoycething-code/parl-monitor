@@ -1,0 +1,243 @@
+{
+"results": [
+{
+"id": "ocd-event/b2a91ec8-a5d8-437f-b79e-f70931f0a371",
+"name": "JOINT HEARING",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:ca/government",
+"name": "California",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-20T17:30:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "University of California, Los Angeles",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.senate.ca.gov/calendar?startDate=2026-10-16&endDate=2026-12-15&committeeHearings=1",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "participant",
+"name": "Senate Joint Legislative Committee on Climate Change Policies Committee",
+"entity_type": "organization"
+},
+{
+"note": "chair",
+"name": "S IRWIN AND SCHIAVO",
+"entity_type": "person"
+}
+],
+"agenda": [
+{
+"description": "COMMITTEE AGENDA - JOINT HEARING JOINT LEGISLATIVE COMMITTEE ON CLIMATE CHANGE POLICIES AND ASSEMBLY SELECT COMMITTEE ON ELECTRIC VEHICLES AND CHARGING INFRASTRUCTURE",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "host",
+"name": "Senate Joint Legislative Committee on Climate Change Policies Committee",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/ccc261a3-691b-4f7f-b842-dd23d0b0ac40",
+"name": "Joint Hearing Joint Legislative Committee On Climate Change Policies And Assembly Select Committee On Electric Vehicles And Charging Infrastructure",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:ca/government",
+"name": "California",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-20T17:30:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Collins Conference Room",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.assembly.ca.gov/schedules-publications/daily-file",
+"note": ""
+},
+{
+"url": "https://www.assembly.ca.gov/api/dailyfile/agenda/20442",
+"note": ""
+}
+],
+"participants": [],
+"agenda": [
+{
+"description": "Electric Vehicle Deployment in California",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "host",
+"name": "Joint Hearing Joint Legislative Committee On Climate Change Policies And Assembly Select Committee On Electric Vehicles And Charging Infrastructure",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/e5ce6e43-4d9f-4656-bf94-3581e64271a5",
+"name": "Utilities And Energy",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:ca/government",
+"name": "California",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-20T20:30:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "1021 O Street, Room 1100",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.assembly.ca.gov/schedules-publications/daily-file",
+"note": ""
+},
+{
+"url": "https://www.assembly.ca.gov/api/dailyfile/agenda/20443",
+"note": ""
+}
+],
+"participants": [],
+"agenda": [
+{
+"description": "California’s Utility Wildfire Safety Regime",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "host",
+"name": "Utilities And Energy",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/5c6714cc-5b85-4129-9e16-c2962d9effb3",
+"name": "Utilities and Energy",
+"classification": "committee"
+}
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/c7456e62-0bca-4e1e-9203-b57c69c38862",
+"name": "Privacy, Digital Technologies, and Consumer Protection",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:ca/government",
+"name": "California",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-21T16:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "1021 O Street, Room 1200",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.senate.ca.gov/calendar?startDate=2026-10-16&endDate=2026-12-15&committeeHearings=1",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "participant",
+"name": "Senate Privacy, Digital Technologies, and Consumer Protection Committee",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/57b6b339-9d1a-4411-904f-9cfd7a1cfc4e",
+"name": "Privacy, Digital Technologies and Consumer Protection",
+"classification": "committee"
+}
+},
+{
+"note": "chair",
+"name": "CABALDON",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/8833976f-b95a-45bf-bbd9-ccdb66946d20",
+"name": "Christopher Cabaldon"
+}
+}
+],
+"agenda": [
+{
+"description": "COMMITTEE AGENDA - Privacy, Digital Technologies, and Consumer Protection",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "host",
+"name": "Senate Privacy, Digital Technologies, and Consumer Protection Committee",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/57b6b339-9d1a-4411-904f-9cfd7a1cfc4e",
+"name": "Privacy, Digital Technologies and Consumer Protection",
+"classification": "committee"
+}
+}
+],
+"media": []
+}
+]
+}
+],
+"pagination": {
+"per_page": 20,
+"page": 1,
+"max_page": 1,
+"total_items": 8
+}
+}

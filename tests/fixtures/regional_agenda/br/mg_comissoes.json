@@ -1,0 +1,308 @@
+{
+ "resultadoPesquisa": {
+  "tamanhoPagina": 20,
+  "numeroPagina": 1,
+  "numeroOcorrencias": 4,
+  "totalPaginas": 1,
+  "ordenacao": "data_asc, hora_asc, id_asc, id_asc",
+  "dataHora": "2026-10-16",
+  "lista": [
+   {
+    "comissao": {
+     "id": 1260,
+     "nome": "Comissão Extraordinária de Defesa da Habitação e da Reforma Urbana",
+     "tipoComissao": {
+      "id": 7,
+      "descricao": "Comissão Extraordinária",
+      "comissaoDeliberacao": "S",
+      "comissaoSuplente": "S"
+     },
+     "dataInicio": "2025-02-25",
+     "diaReuniao": 3,
+     "horaReuniao": "11:00",
+     "nomeCompleto": "Comissão Extraordinária de Defesa da Habitação e da Reforma Urbana",
+     "nomeReduzido": "Defesa da Habitação e da Reforma Urbana",
+     "playlist": "PLUCq_zFD6m5rGR1vi_ECNnAAwcWpRL45_"
+    },
+    "tipoReuniao": {
+     "id": 1,
+     "descricao": "Ordinária"
+    },
+    "data": "2026-10-20",
+    "hora": "11:00",
+    "numero": 7,
+    "id": 47290,
+    "pautaCompleta": "S",
+    "resultadoCompleto": "N",
+    "reuniaoOcorrida": "A",
+    "sigiloServidor": "N",
+    "reuniaoDesconvocada": "N",
+    "reuniaoDebatePublico": "N",
+    "dataUltimaAlteracaoPauta": "2026-10-01",
+    "matriculaServidorAlteracaoPauta": 6563,
+    "audienciaPublica": "N",
+    "comConvidado": "N",
+    "audicaoConvidadosCancelada": "N",
+    "local": {
+     "id": 25,
+     "descricao": "Auditório",
+     "interno": "S"
+    },
+    "tituloParte1": "1ª Parte (Expediente)",
+    "corpoParte1": "Leitura e aprovação da ata;Leitura da correspondência e da matéria recebida;Designação de relator;",
+    "tituloParte2": "2ª Parte (Ordem do Dia)",
+    "dataExibicaoConvidados": "2018-06-11"
+   },
+   {
+    "comissao": {
+     "id": 849,
+     "nome": "Educação, Ciência e Tecnologia",
+     "tipoComissao": {
+      "id": 1,
+      "descricao": "Comissão Permanente",
+      "comissaoDeliberacao": "S",
+      "comissaoSuplente": "S"
+     },
+     "dataInicio": "2010-12-20",
+     "diaReuniao": 3,
+     "horaReuniao": "10:00",
+     "nomeCompleto": "Comissão de Educação, Ciência e Tecnologia",
+     "nomeReduzido": "Educação",
+     "playlist": "PLUCq_zFD6m5rAA0aU5bmqcfKrNVlLooQq"
+    },
+    "tipoReuniao": {
+     "id": 2,
+     "descricao": "Extraordinária"
+    },
+    "data": "2026-10-26",
+    "hora": "18:00",
+    "numero": 61,
+    "id": 47183,
+    "requerimentos": [
+     {
+      "tipo": {
+       "id": 29,
+       "descricao": "Requerimento de Comissão",
+       "sigla": "RQC",
+       "acompanhamento": "N",
+       "pesquisaDirigida": "S",
+       "idGrupoTipoProposicao": 12
+      },
+      "numero": 23306,
+      "ano": 2026,
+      "dataRecebimento": "2026-08-25",
+      "ementa": "Requer seja realizada audiência pública na Escola Estadual Coronel Juca Pinto, em Belo Horizonte, para a qual sejam convidados o secretário de Estado de Educação e representantes do Comando-Geral da Polícia Militar, do Ministério Público, da Defensoria Pública e do Colegiado Escolar, a fim de debater os impactos da implantação de unidade do Colégio Tiradentes na escola e ouvir a comunidade escolar sobre a medida."
+     }
+    ],
+    "finalidade": "Debater os impactos da implantação de unidade do Colégio Tiradentes da Polícia Militar na Escola Estadual Coronel Juca Pinto, em Belo Horizonte, e ouvir a comunidade escolar sobre a medida.",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "N",
+    "reuniaoOcorrida": "A",
+    "quantidadeConvidados": 3,
+    "sigiloServidor": "N",
+    "reuniaoDesconvocada": "N",
+    "reuniaoDebatePublico": "N",
+    "dataUltimaAlteracaoPauta": "2026-09-03",
+    "matriculaServidorAlteracaoPauta": 23879,
+    "audienciaPublica": "S",
+    "comConvidado": "N",
+    "audicaoConvidadosCancelada": "N",
+    "local": {
+     "id": 26,
+     "descricao": "Externo",
+     "interno": "N"
+    },
+    "municipio": {
+     "id": 6200,
+     "nome": "Belo Horizonte",
+     "uf": "MG"
+    },
+    "tituloParte1": "1ª Parte (Expediente)",
+    "corpoParte1": "Leitura e aprovação da ata;Leitura da correspondência e da matéria recebida;Designação de relator;",
+    "tituloParte2": "2ª Parte (Ordem do Dia)",
+    "localReuniaoExterna": "Escola Estadual Coronel Juca Pinto - Avenida Bueno Siqueira, 180 - Bairro Universitário",
+    "dataExibicaoConvidados": "2018-06-11",
+    "tagIndexacao": {
+     "id": 8621,
+     "tipo": {
+      "id": 2,
+      "nome": "Localização"
+     },
+     "descricao": "26/10/2026 18:00 -Comissão de Educação, Ciência e Tecnologia - Reunião Extraordinária",
+     "pai": {
+      "id": 2034,
+      "tipo": {
+       "id": 2,
+       "nome": "Localização"
+      },
+      "descricao": "Reuniões de Comissão",
+      "assinaturaBoletim": "N",
+      "assinaturaRss": "N",
+      "assinalavel": "N"
+     },
+     "assinaturaBoletim": "N",
+     "assinaturaRss": "N",
+     "qualificador": {
+      "id": "REUNIAO_COMISSAO",
+      "nome": "Reunião de comissão"
+     },
+     "valQualificador": "2.849.20261026.18:00",
+     "assinalavel": "S"
+    }
+   },
+   {
+    "comissao": {
+     "id": 1260,
+     "nome": "Comissão Extraordinária de Defesa da Habitação e da Reforma Urbana",
+     "tipoComissao": {
+      "id": 7,
+      "descricao": "Comissão Extraordinária",
+      "comissaoDeliberacao": "S",
+      "comissaoSuplente": "S"
+     },
+     "dataInicio": "2025-02-25",
+     "diaReuniao": 3,
+     "horaReuniao": "11:00",
+     "nomeCompleto": "Comissão Extraordinária de Defesa da Habitação e da Reforma Urbana",
+     "nomeReduzido": "Defesa da Habitação e da Reforma Urbana",
+     "playlist": "PLUCq_zFD6m5rGR1vi_ECNnAAwcWpRL45_"
+    },
+    "tipoReuniao": {
+     "id": 1,
+     "descricao": "Ordinária"
+    },
+    "data": "2026-10-27",
+    "hora": "11:00",
+    "numero": 8,
+    "id": 47291,
+    "pautaCompleta": "S",
+    "resultadoCompleto": "N",
+    "reuniaoOcorrida": "A",
+    "sigiloServidor": "N",
+    "reuniaoDesconvocada": "N",
+    "reuniaoDebatePublico": "N",
+    "dataUltimaAlteracaoPauta": "2026-10-01",
+    "matriculaServidorAlteracaoPauta": 6563,
+    "audienciaPublica": "N",
+    "comConvidado": "N",
+    "audicaoConvidadosCancelada": "N",
+    "local": {
+     "id": 25,
+     "descricao": "Auditório",
+     "interno": "S"
+    },
+    "tituloParte1": "1ª Parte (Expediente)",
+    "corpoParte1": "Leitura e aprovação da ata;Leitura da correspondência e da matéria recebida;Designação de relator;",
+    "tituloParte2": "2ª Parte (Ordem do Dia)",
+    "dataExibicaoConvidados": "2018-06-11"
+   },
+   {
+    "comissao": {
+     "id": 3,
+     "nome": "Assuntos Municipais e Regionalização",
+     "tipoComissao": {
+      "id": 1,
+      "descricao": "Comissão Permanente",
+      "comissaoDeliberacao": "S",
+      "comissaoSuplente": "S"
+     },
+     "dataInicio": "1990-06-07",
+     "diaReuniao": 3,
+     "horaReuniao": "16:00",
+     "nomeCompleto": "Comissão de Assuntos Municipais e Regionalização",
+     "nomeReduzido": "Assuntos Municipais",
+     "playlist": "PLUCq_zFD6m5oGaNYLfmNnIzvDT6YERm-N"
+    },
+    "tipoReuniao": {
+     "id": 2,
+     "descricao": "Extraordinária"
+    },
+    "data": "2026-10-28",
+    "hora": "10:00",
+    "numero": 5,
+    "id": 47182,
+    "requerimentos": [
+     {
+      "tipo": {
+       "id": 29,
+       "descricao": "Requerimento de Comissão",
+       "sigla": "RQC",
+       "acompanhamento": "N",
+       "pesquisaDirigida": "S",
+       "idGrupoTipoProposicao": 12
+      },
+      "numero": 11924,
+      "ano": 2024,
+      "dataRecebimento": "2024-12-17",
+      "ementa": "Requer seja realizada audiência pública para debater os transtornos causados aos municípios pelos constantes atrasos nas viagens intermunicipais operadas pela empresa Viação Pássaro Verde."
+     }
+    ],
+    "finalidade": "Debater os transtornos causados aos municípios pelos constantes atrasos nas viagens intermunicipais operadas pela empresa Viação Pássaro Verde.",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "N",
+    "reuniaoOcorrida": "A",
+    "quantidadeConvidados": 20,
+    "sigiloServidor": "N",
+    "reuniaoDesconvocada": "N",
+    "reuniaoDebatePublico": "N",
+    "dataUltimaAlteracaoPauta": "2026-10-09",
+    "matriculaServidorAlteracaoPauta": 29804,
+    "audienciaPublica": "S",
+    "comConvidado": "N",
+    "audicaoConvidadosCancelada": "N",
+    "local": {
+     "id": 25,
+     "descricao": "Auditório",
+     "interno": "S"
+    },
+    "tituloParte1": "1ª Parte (Expediente)",
+    "corpoParte1": "Leitura e aprovação da ata;Leitura da correspondência e da matéria recebida;Designação de relator;",
+    "tituloParte2": "2ª Parte (Ordem do Dia)",
+    "dataExibicaoConvidados": "2018-06-11",
+    "tagIndexacao": {
+     "id": 8637,
+     "tipo": {
+      "id": 2,
+      "nome": "Localização"
+     },
+     "descricao": "28/10/2026 10:00 -Comissão de Assuntos Municipais e Regionalização - Reunião Extraordinária",
+     "pai": {
+      "id": 2034,
+      "tipo": {
+       "id": 2,
+       "nome": "Localização"
+      },
+      "descricao": "Reuniões de Comissão",
+      "assinaturaBoletim": "N",
+      "assinaturaRss": "N",
+      "assinalavel": "N"
+     },
+     "assinaturaBoletim": "N",
+     "assinaturaRss": "N",
+     "qualificador": {
+      "id": "REUNIAO_COMISSAO",
+      "nome": "Reunião de comissão"
+     },
+     "valQualificador": "2.3.20261028.10:00",
+     "assinalavel": "S"
+    },
+    "proposicoesEmDebate": [
+     {
+      "tipo": {
+       "id": 29,
+       "descricao": "Requerimento de Comissão",
+       "sigla": "RQC",
+       "acompanhamento": "N",
+       "pesquisaDirigida": "S",
+       "idGrupoTipoProposicao": 12
+      },
+      "numero": 11924,
+      "ano": 2024,
+      "dataRecebimento": "2024-12-17",
+      "ementa": "Requer seja realizada audiência pública para debater os transtornos causados aos municípios pelos constantes atrasos nas viagens intermunicipais operadas pela empresa Viação Pássaro Verde."
+     }
+    ]
+   }
+  ]
+ }
+}

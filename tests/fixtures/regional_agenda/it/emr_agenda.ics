@@ -1,0 +1,203 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Plone.org//NONSGML plone.app.event//EN
+X-WR-TIMEZONE:Europe/Rome
+BEGIN:VEVENT
+SUMMARY:Audizione degli Enti di formazione accreditati che realizzano i pe
+ rcorsi di istruzione e formazione professionale in Commissione Giovani
+DTSTART;TZID=Europe/Rome:20261001T100000
+DTEND;TZID=Europe/Rome:20261001T130000
+DTSTAMP:20261016T115315Z
+UID:900553e4cea94a1aa6710261bc85a578@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20260925T094749Z
+LAST-MODIFIED:20260929T115821Z
+URL:https://www.assemblea.emr.it/agenda/settembre/audizione-degli-enti-di-
+ formazione-accreditati-che-realizzano-i-percorsi-di-istruzione-e-formazion
+ e-professionale-in-commissione-giovani
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Legge sulla cultura e partecipazione alla Fondazione Museo Naziona
+ le dell'ebraismo italiano e della Shoah in Commissione cultura
+DTSTART;TZID=Europe/Rome:20261001T140000
+DTEND;TZID=Europe/Rome:20261001T160000
+DTSTAMP:20261016T115315Z
+UID:279010ceb3d747d0bd76a7f8f0d8a9e4@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20260925T094409Z
+LAST-MODIFIED:20260929T115800Z
+URL:https://www.assemblea.emr.it/agenda/settembre/legge-sulla-cultura-e-pa
+ rtecipazione-alla-fondazione-museo-nazionale-dellebraismo-italiano-e-della
+ -shoah-in-commissione-cultura
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Celiachia: leggi su cure\, prevenzione e rilevanza sociale in Comm
+ issione Salute
+DTSTART;TZID=Europe/Rome:20261005T100000
+DTEND;TZID=Europe/Rome:20261005T120000
+DTSTAMP:20261016T115315Z
+UID:5a178eb504f747509d642603319b6f0c@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261002T081202Z
+LAST-MODIFIED:20261002T081250Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/celiachia-leggi-su-cure-pr
+ evenzione-e-rilevanza-sociale-in-commissione-salute
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Relazione su misure post emergenziali e interrogazioni in Commissi
+ one Territorio
+DTSTART;TZID=Europe/Rome:20261006T100000
+DTEND;TZID=Europe/Rome:20261006T110000
+DTSTAMP:20261016T115315Z
+UID:44fe588ca9654147b6770fba55da077b@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261006T085649Z
+LAST-MODIFIED:20261006T085703Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/relazione-su-misure-post-e
+ mergenziali-e-interrogazioni-in-commissione-territorio
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Progetti di legge su microcredito sociale e Fondazione Nazionale e
+ braismo in discussione in Assemblea
+DTSTART;TZID=Europe/Rome:20261007T100000
+DTEND;TZID=Europe/Rome:20261007T183000
+DTSTAMP:20261016T115315Z
+UID:848213c229a84395ae5fbaa6bea12553@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261006T082639Z
+LAST-MODIFIED:20261006T092028Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/progetti-di-legge-su-micro
+ credito-sociale-e-fondazione-nazionale-ebraismo-in-discussione-in-assemble
+ a
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Bilancio per il 2025 e audizione vertice Tper in Commissione
+DTSTART;TZID=Europe/Rome:20261007T143000
+DTEND;TZID=Europe/Rome:20261007T170000
+DTSTAMP:20261016T115315Z
+UID:202f5547289d407794df72ce093200d9@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261006T090933Z
+LAST-MODIFIED:20261006T090948Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/bilancio-per-il-2025-e-aud
+ izione-vertice-tper-in-commissione
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Commissione Giovani: Comitato regionale per la pace e nuova discip
+ lina su cooperazione internazionale
+DTSTART;TZID=Europe/Rome:20261008T100000
+DTEND;TZID=Europe/Rome:20261008T120000
+DTSTAMP:20261016T115315Z
+UID:bc87130c95154bef82afec426e511a9f@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261002T082234Z
+LAST-MODIFIED:20261002T082256Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/commissione-giovani-comita
+ to-regionale-per-la-pace-e-nuova-disciplina-su-cooperazione-internazionale
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Legge quadro su cultura in Commissione Parità
+DTSTART;TZID=Europe/Rome:20261008T140000
+DTEND;TZID=Europe/Rome:20261008T160000
+DTSTAMP:20261016T115315Z
+UID:74db49b4b3c34250b14184c622288ef3@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261002T081633Z
+LAST-MODIFIED:20261002T081653Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/legge-quadro-su-cultura-in
+ -commissione-parita
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Udienza conoscitiva su celiachia: prevenzione\, cura e riconoscime
+ nto rilevanza sociale
+DTSTART;TZID=Europe/Rome:20261013T100000
+DTEND;TZID=Europe/Rome:20261013T130000
+DTSTAMP:20261016T115315Z
+UID:ad1de4bf85904aa9bca5207ef9fb4791@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261008T132635Z
+LAST-MODIFIED:20261008T132706Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/udienza-conoscitiva-su-cel
+ iachia-prevenzione-cura-e-riconoscimento-rilevanza-sociale
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Lupi a Rimini\, Electrolux a Forlì e impianti fotovoltaici in Com
+ missione Politiche economiche
+DTSTART;TZID=Europe/Rome:20261013T143000
+DTEND;TZID=Europe/Rome:20261013T163000
+DTSTAMP:20261016T115315Z
+UID:58b20de2e0e740dfbc301ab1d17c60ae@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261008T133909Z
+LAST-MODIFIED:20261008T133931Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/lupi-a-rimini-electrolux-a
+ -forli-e-impianti-fotovoltaici-in-commissione-politiche-economiche
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Rete ferroviaria Comacchio\, individuazione aree idonee\, alloggi 
+ Erp in Commissione Territorio
+DTSTART;TZID=Europe/Rome:20261014T100000
+DTEND;TZID=Europe/Rome:20261014T120000
+DTSTAMP:20261016T115315Z
+UID:7138da4f1cd6415cae1e8bbd7416f1b5@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261008T133427Z
+LAST-MODIFIED:20261008T133442Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/rete-ferroviaria-comacchio
+ -individuazione-aree-idonee-alloggi-erp-in-commissione-territorio
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Cooperazione internazionale\, Comitato regionale per la pace in di
+ scussione in Commissione Giovani
+DTSTART;TZID=Europe/Rome:20261015T100000
+DTEND;TZID=Europe/Rome:20261015T120000
+DTSTAMP:20261016T115315Z
+UID:5e6751a5bd5746ca893126ee32e7585a@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261008T134350Z
+LAST-MODIFIED:20261008T134407Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/cooperazione-internazional
+ e-comitato-regionale-per-la-pace-in-discussione-in-commissione-giovani
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Progetti di legge su celiachia e interrogazioni in Commissione Sal
+ ute
+DTSTART;TZID=Europe/Rome:20261019T100000
+DTEND;TZID=Europe/Rome:20261019T120000
+DTSTAMP:20261016T115315Z
+UID:ab6d09d896c648f3b0ed085445471559@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261016T084209Z
+LAST-MODIFIED:20261016T084225Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/progetti-di-legge-su-celia
+ chia-e-interrogazioni-in-commissione-salute
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Due giorni di Aula: progetti di legge su cultura\, prevenzione arr
+ esto cardiaco e impianti fonti rinnovabili
+DTSTART;TZID=Europe/Rome:20261020T093000
+DTEND;TZID=Europe/Rome:20261021T173000
+DTSTAMP:20261016T115315Z
+UID:8af901ff696648e3b6c41b8440449689@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261016T083507Z
+LAST-MODIFIED:20261016T083522Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/due-giorni-di-aula-progett
+ i-di-legge-su-cultura-prevenzione-arresto-cardiaco-e-impianti-fonti-rinnov
+ abili-1
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:In Commissione cultura discussione sull'adesione all'Associazione 
+ Vie e Cammini di Francesco e clausola valutativa sui cimiteri storici
+DTSTART;TZID=Europe/Rome:20261022T143000
+DTEND;TZID=Europe/Rome:20261022T163000
+DTSTAMP:20261016T115315Z
+UID:2a963c3b48ff4038b930fda13e6aae1c@assemblealegislativa-cm.localhost:110
+ 00
+CREATED:20261016T084613Z
+LAST-MODIFIED:20261016T084641Z
+URL:https://www.assemblea.emr.it/agenda/ottobre/in-commissione-cultura-dis
+ cussione-sulladesione-allassociazione-vie-e-cammini-di-francesco-e-clausol
+ a-valutativa-sui-cimiteri-storici
+END:VEVENT
+END:VCALENDAR

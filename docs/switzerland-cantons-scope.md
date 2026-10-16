@@ -547,3 +547,68 @@ two `AWAITING_STEP_UNTIL` entries), `config/watchlist-ch.yaml` (the
 `source_url`, `counts_from`), `src/db.py` (one name in `TABLES`).
 13 October 2026 (`bs-gribs`): `src/editions/ch.py` (`OWN_EXPORTS`,
 `OWN_SOURCES`, the Basel-Stadt source line).
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+Branch `regional-agenda`: `src/regional_agendas/ch.py`, read by
+`tools/regional_agenda.py ch` into `regional_agenda` (src/regional_agenda.py).
+Not wired into `jobs/ch-weekly.sh` yet. Region codes are `tools/ch_cantons.py`'s
+(lower-case canton abbreviations). Probed live on 16 October 2026, robots.txt
+read first, honest user agent, low volume.
+
+**The finding: OpenParlData.ch covers sixteen cantons in three requests.**
+`api.openparldata.ch/v1` (the opendata.ch association's harmonised API of
+Swiss parliaments, beta, CC BY 4.0, attribution "Source: OpenParlData.ch";
+robots.txt allows `/v1/`) has `meetings` (booked sittings, sessions and their
+half-day sittings, some committees) and `agendas` (the order of business, with
+the business number and language). One read per run is shared by every
+OpenParlData canton (cached on the run's ctx): meetings of the sixteen cantons
+newest first (`sort_by=-begin_date`, 500 a page, the API ignores date filters),
+the agenda items of the meetings in the window (`meeting_id=<ids>`), the names
+of their bodies (`groups`). If the API fails, all sixteen are gaps and keep
+their rows; the failure is not retried per canton. **For Chris / the lead:**
+OpenParlData republishes data some cantons keep behind robots.txt on their own
+hosts (Aargau's `www.ag.ch/grossrat`, the Opendatasoft `/api/` portals). We
+read OpenParlData's host, whose robots.txt allows us; this is the "official
+open data elsewhere" pattern, but it is a third party, not the canton: worth a
+yes/no, and worth a courtesy note to info@openparldata.ch.
+
+**Lead's decision (16 October 2026): Aargau is left out of the OpenParlData
+read** (fifteen cantons, not sixteen) and is `blocked` until Chris decides
+whether to ask its Parlamentsdienst: its own host refuses the whole Grosser
+Rat section, and reading it through a republisher would step round that
+refusal. The Opendatasoft cantons are different: Basel-Stadt,
+Basel-Landschaft and Thurgau granted written permission, and St. Gallen is
+already read from its own allowed host (`www.ratsinfo.sg.ch`). The general
+question (is a third-party republisher acceptable for the rest) stays with
+Chris.
+
+| Canton | Route | Format | Reaches (live run) | robots.txt | Status |
+|---|---|---|---|---|---|
+| Zürich | `parlzhcdws.cmicloud.ch/parlzh3/cdws/Index/SITZUNGENDETAIL/searchdetails?q=datum_start >= "<today> 00:00:00" and datum_start <= "<until> 23:59:59"` (the index kantonsrat.zh.ch's own calendar asks) | XML; committee Traktanden structured, the Kantonsrat's from the Traktandenliste document's full text in the same reply | every Kantonsrat and committee sitting to 10 Dec; 19 Oct Traktandenliste (144 points, the whole pending list as published); committee agendas for the next week | 404 (no rules) | reader |
+| Bern, Luzern, Uri, Schwyz, Obwalden, Nidwalden, Glarus, Solothurn, Basel-Stadt, Basel-Landschaft, Appenzell AR, Appenzell IR, St. Gallen, Graubünden, Thurgau (Aargau left out, above) | OpenParlData `meetings` + `agendas` + `groups` | JSON | sessions to Dec 2026; agendas: BE winter session (116 business, de/fr paired), BS 21 Oct (108), BL 22 Oct (72), SO 3 Nov (34), SG winter session (26), GR Oct (23, de/it/rm paired), GL, SZ, AI, AR, TG; LU, UR, OW, NW dates only (TBA) | allows | reader (shared) |
+| Genève | `ge.ch/grandconseil/sessions/seances/<year>/` (sessions, sitting days, order-of-the-day link) + `/grandconseil/sessions/seances-odj-lion/<n>/?session=<n>` | HTML | the 29 Oct to 6 Nov session's order of the day (146 points with object numbers); November and December sittings TBA | none (no rules) | reader |
+| Vaud | `www.vd.ch/gc/seances-du-grand-conseil` (sittings list) + `/detail-seance/seance-gc/<id>` | HTML | a sitting appears when its order of the day is out; none listed for the window on 16 Oct; the calendar is a PDF (not read) | allowed | reader (0 rows today) |
+| Ticino | `www4.ti.ch/poteri/gc/attivita/ordine-del-giorno/` + `.../calendario-delle-sedute` | HTML | 26 Oct order of the day (19 points), later sessions TBA | allowed (the acts search stays disallowed, not used) | reader |
+| Valais | `parlement.vs.ch/api/fe/v1/parl_sessions?...&limit=3` + `parl_session?id=<id>` (the JSON its app loads) | JSON | November session dates (TBA; its sittings programme is empty until published) | empty (no rules) | reader |
+| Zug | `kr-geschaefte.zug.ch/gast/traktandenlisten` + `/gast/traktandenlisten/<id>` | HTML | a Traktandenliste dated in the window; none yet on 16 Oct; the sitting calendar is a PDF | allowed | reader (0 rows today) |
+| Fribourg | `www.fr.ch/de/gr` allowed, but `www.fr.ch/fr/...`, and `www.parlinfo.fr.ch/de/sessionen/sitzung/` (redirects to `www.fr.ch/node/1374236`) are disallowed | | | disallows `/fr/`, `/search/`, `?page`, `/node/` | blocked; OpenParlData has no Fribourg meetings |
+| Neuchâtel | `www.ne.ch/autorites/grand-conseil/ordres-du-jour` | PDFs only (ODJ, session plan) | | allowed | no-route (a PDF reader would do it) |
+| Jura | `www.jura.ch/fr/Autorites/PLT/Calendrier-des-seances-plenieres/...` | nested archive pages, no list of coming sittings found | | allowed | no-route |
+| Schaffhausen | `sh.ch` Kantonsrat pages answered 404 (and 500 on 13 Oct) | | | allowed | no-route |
+
+**Live run, 16 October 2026** (scratch DB, 56 days, 26 s wall time): 22 of 26
+read, 877 items, 90 to be announced (68 of them Zürich committee sittings),
+23 on our ground, among them Zürich's "Standesinitiative: Konversionsmassnahmen
+wirksam verbieten" (19 Oct, KR-Nr. 376/2026), Geneva's popular initiative "Pour
+une contraception gratuite" and a bill amending its asylum implementing law
+(LaLAsi), Bern's motions on femicide monitoring and palliative care
+funding, Basel-Stadt's sex-work and trafficking motions, Graubünden's domestic
+violence law. Throttles: 1.5 s for api.openparldata.ch, ge.ch and
+parlement.vs.ch.
+
+**Next steps worth doing:** a PDF reader (pypdf is used elsewhere) would add
+Neuchâtel's orders of the day and the Vaud, Zug, Tirol-style calendars;
+Basel-Stadt's own GRIBS exports list `gr_sitzung`, `gr_tagesordnung` and
+`gr_tagesordnung_pos` (offered by the Parlamentsdienst) as an official fallback
+for OpenParlData; Luzern's session pages on www.lu.ch for its Traktanden.

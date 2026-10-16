@@ -534,6 +534,122 @@ replaced by a legitimate alternative.
 | HR | esavjetovanja.gov.hr | a Blazor Server app, content only over a websocket | the government's open-data copy of the consultations on data.gov.hr (refreshed about monthly) |
 | CO | www.diariooficial.gov.co | does not resolve | SUCOP drafts (mirrored) |
 
+## Regional forward agendas (16 October 2026)
+
+`tools/regional_agenda.py <cc>` (src/regional_agenda.py, one module per
+country in src/regional_agendas/), a step of each regional weekly through
+`tools/regional_agenda_step.sh`. Every request goes through
+`src.robots_guard.guard` (robots.txt asked per host per run and on every
+redirect hop; documented APIs pass unasked as everywhere else). A refused
+route is a region with status `blocked`; a region with no permitted,
+readable route is `no-route`, each with its note, printed every run and
+kept in `regional_agenda_runs`. The per-region detail is in each regional
+scope doc's "Forward agenda (regional_agenda, 16 October 2026)" section.
+
+| Module | Host (path) | Kind | Asks robots.txt | Notes |
+|---|---|---|---|---|
+| regional_agendas/us | v3.openstates.org (/events) | API | no (documented API) | free key in the X-API-KEY header only; at most 30 a run, 6.5 s apart, written to the uss_api_ledger before sending (225 a UTC day shared with tools/us_states.py) |
+| regional_agendas/us | wslwebservices.leg.wa.gov (/CommitteeMeetingService.asmx/) | API | yes | robots.txt 404 (no rules); the Legislature's documented web service, HTTP GET binding |
+| regional_agendas/us | capitol.texas.gov (/MyTLO/RSS/RSS.aspx) | scraper | yes | allowed (/MyTLO/RSS/ not disallowed); /TLODOCS/ is disallowed, so meeting notices are linked, never fetched (each meeting a booked slot) |
+| regional_agendas/es | www.parlamentodeandalucia.es (/webdinamica/portal-web-parlamento/actividadparlamentaria/agendasemanal.do, calendariodesesiones.do) | scraper | yes | allows all |
+| regional_agendas/es | www.parlament.cat (/web/actualitat/agenda/, /web/actualitat/ordre-dia/, /web/composicio/ple-parlament/calendari-anual/) | scraper | yes | allows /web; /apl, /ext, /pls disallowed (never read) |
+| regional_agendas/es | www.cortsvalencianes.es (/es/actividad/actualidad/agenda) | scraper | yes | Drupal default; agenda paths allowed |
+| regional_agendas/es | www.ccyl.es (/Agenda/Semana, /Agenda/Evento, /Actividad/PlenosPrevistos) | scraper | yes | disallows /*agenda.do*, /*agenda.html*, /*.rss$; these paths allowed |
+| regional_agendas/es | www.parcan.es (/actividad/calendario/, /reuniones/futuras.py, /reuniones/asuntos.py) | scraper | yes | Crawl-delay 3 honoured; /api/, /api2/ disallowed (never read) |
+| regional_agendas/es | www.cortesaragon.es (/Semana-actual.2237.0.html, /Proxima-semana.2335.0.html, /Acto-programado.2319.0.html, /fileadmin/_DMZMedia/comunicacion/web/varios/calendario.csv) | scraper + CSV | yes | /*?id=* disallowed (index.php?id= never used; realurl paths instead) |
+| regional_agendas/es | parlamento-cantabria.es (/agenda-semana) | scraper | yes | Drupal default; allowed |
+| regional_agendas/es | Madrid, Galicia, Navarra, Asturias (bot walls: Sucuri, Akamai, Cloudflare, a bot test); Castilla-La Mancha, Murcia, Extremadura (robots.txt) | - | - | blocked, never bypassed; País Vasco, Illes Balears no answer from the UK; La Rioja no readable route |
+| regional_agendas/at | www.wien.gv.at (/politik/rathaus-sitzungstermine, /infodat/suchergebnisse) | scraper | yes | allowed; /infodat/ergli and /infodat/sukri disallowed, never used |
+| regional_agendas/at | noe-landtag.gv.at (/sitzungen, /sitzungen/XX/<date>) | scraper | yes | Allow: / |
+| regional_agendas/at | www.land-oberoesterreich.gv.at (/60566.htm) | scraper | yes | allowed; landtag.ooe.gv.at (Tagesordnung) not fetched: its certificate does not verify (never bypassed) |
+| regional_agendas/at | pallast2.stmk.gv.at (/pallast-p/api/pub/materials/meetings/next/, /pallast-p/pub/meeting) | API/scraper | yes | no robots.txt on the host (no rules) |
+| regional_agendas/at | www.salzburg.gv.at (/pol/landtag/lt-termine) | scraper | yes | allowed; service.salzburg.gv.at (LPI) robots.txt answers 503, not used |
+| regional_agendas/at | www.tirol.gv.at (/landtag/sitzungen/) | scraper | yes | allowed; lte.tirol.gv.at Disallow: / (not used) |
+| regional_agendas/at | vorarlberg.at (/web/landtag/tagesordnungen) | scraper | yes | allowed (/documents/, /o/, /suche/ barred, not used) |
+| regional_agendas/at | www.bgld-landtag.at (/landtagssitzungen/) | scraper | yes | allowed |
+| regional_agendas/at | www.ktn.gv.at | - | yes | User-agent: * Disallow: / (Google and Bing only): Kärnten blocked |
+| regional_agendas/ch | api.openparldata.ch (/v1/meetings, /v1/agendas, /v1/groups) | open data API | yes | allowed; CC BY 4.0 ("Source: OpenParlData.ch"); a third-party republisher, read for fifteen cantons (Aargau left out while its own host refuses us; question with Chris) |
+| regional_agendas/ch | parlzhcdws.cmicloud.ch (/parlzh3/cdws/Index/SITZUNGENDETAIL/searchdetails) | API | yes | robots.txt 404 (no rules); the index kantonsrat.zh.ch's own calendar asks |
+| regional_agendas/ch | ge.ch (/grandconseil/sessions/seances/, /grandconseil/sessions/seances-odj-lion/) | scraper | yes | no rules |
+| regional_agendas/ch | www.vd.ch (/gc/seances-du-grand-conseil) | scraper | yes | allowed |
+| regional_agendas/ch | www4.ti.ch (/poteri/gc/attivita/ordine-del-giorno/, /calendario-delle-sedute) | scraper | yes | allowed; the acts search stays disallowed, not used |
+| regional_agendas/ch | parlement.vs.ch (/api/fe/v1/parl_sessions, /api/fe/v1/parl_session) | API (the app's JSON) | yes | empty robots.txt (no rules) |
+| regional_agendas/ch | kr-geschaefte.zug.ch (/gast/traktandenlisten) | scraper | yes | allowed |
+| regional_agendas/ch | www.fr.ch, www.parlinfo.fr.ch | - | yes | /fr/, /search/, ?page and /node/ disallowed (parlinfo redirects to /node/): Fribourg blocked |
+| regional_agendas/be | ws.vlpar.be (/e/opendata/verg/komende, /verg/<id>/agd) | API | no (documented API) | DOCUMENTED_APIS; covers the coming week only |
+| regional_agendas/be | www.parlement-wallonie.be (/opendata/agenda_od.php) | open data | no (documented API) | DOCUMENTED_APIS |
+| regional_agendas/be | nautilus.parlement-wallon.be (/Archives/<ses>/ODJS, ODJC PDFs) | scraper | yes | allowed; orders of the day via pypdf |
+| regional_agendas/be | www.parlement.brussels (/agenda/) | scraper | yes | only GPTBot disallowed |
+| regional_agendas/be | weblex.irisnet.be (/display_pdf.php?info=convoc_fr) | scraper | yes | allowed; weblex.brussels (the linked host) has a mismatched TLS certificate, never bypassed |
+| regional_agendas/be | www.pfwb.be (/agenda, /agendas/*) | scraper | yes | empty Disallow |
+| regional_agendas/be | www.parlementfrancophone.brussels (/agenda, /agenda/convocations/*) | scraper | yes | empty Disallow |
+| regional_agendas/be | pdg.be | - | yes | Cloudflare 403, robots.txt included: blocked |
+| regional_agendas/it | www.consiglio.regione.lazio.it (/, ?vw=homeCommissioni) | scraper | yes | allowed; the Aula odg views (?vw=elencolavoriaula, tbl_lavori_aula_odg2) are disallowed and not read |
+| regional_agendas/it | www.cr.campania.it (/atti-e-documenti/DG-attivita/ordine-del-giorno-prossime-sedute, /crccmsintegrationservices/...prendiDocumento) | scraper | yes | allowed; Crawl-delay 10 honoured |
+| regional_agendas/it | www.ars.sicilia.it (/agenda/lavori-aula, /agenda/sedute-commissioni, /agenda/{aula,commissione}/YYYYMMDD) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/it | www.assemblea.emr.it (/agenda/ics_view) | iCalendar | yes | allowed; only search paths disallowed |
+| regional_agendas/it | www.consiglio.regione.toscana.it (/aula/prox-sedute.aspx, /default.aspx?nome=odg_seduta) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/it | www.consiglio.marche.it (/attivita/assemblea/sedute/) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/it | www.consiglio.provincia.tn.it (/attivita/convocazioni/Pages/Convocazioni-per-data.aspx) | scraper | yes | allowed; /opendata/ and /normattiva/ disallowed, not used |
+| regional_agendas/it | www.consiglioregionale.calabria.it (/, /portale/Istituzione/Commissioni/VisualizzaOdG) | scraper | yes | allowed |
+| regional_agendas/it | Lombardia, Puglia (robots.txt Disallow: /), Basilicata (/consiglio-api disallowed), Veneto (Akamai 403) | - | yes | blocked, never bypassed |
+| regional_agendas/ca | www.ola.org (/en/legislative-business/house-documents/..., /en/ajax/calendar-month/<date>) | scraper | yes | only /*? disallowed; path URLs only |
+| regional_agendas/ca | www.assnat.qc.ca (/fr/travaux-parlementaires/calendrier-travaux.html[?Date=]) | scraper | yes | allowed; /json/ and /scripts/ disallowed and not used (so the calendar JSON is not read) |
+| regional_agendas/ca | www.leg.bc.ca (/parliamentary-business/parliamentary-calendar) | scraper | yes | Drupal standard; allowed |
+| regional_agendas/ca | www.assembly.ab.ca (/assembly-business/assembly-records/order-papers, /assembly-business/committees), docs.assembly.ab.ca (/LADDAR_files/docs/houserecords/op/) | scraper | yes | sitemap line only |
+| regional_agendas/ca | www.legassembly.sk.ca (/api/days, /api/documents), docs.legassembly.sk.ca (/legdocs/Assembly/Orders/) | API (the site's calendar JSON) | yes | robots.txt 404 (no rules) |
+| regional_agendas/ca | www.gov.mb.ca (/legislature/business/orderpaper.pdf, sessional_order_<y>.pdf, /legislature/committees/meeting_notices.html and notice PDFs) | scraper | yes | `*` allows /legislature/; named AI crawlers refused, our UA not (as for prov_collect, 2 Oct) |
+| regional_agendas/ca | www.legnb.ca (/en/calendar/<y>-<m>) | scraper | yes | Crawl-delay 10, honoured |
+| regional_agendas/ca | nslegislature.ca (/get-involved/calendar/ical/legislative-assembly, /ical/committee) | iCalendar | yes | Crawl-delay 10, honoured |
+| regional_agendas/ca | www.assembly.nl.ca (/HouseBusiness/OrderPapers/) | scraper | yes | allowed |
+| regional_agendas/ca | www.ntassembly.ca (/file/orders, /committees/upcoming-meeting-dates) | scraper | yes | allowed |
+| regional_agendas/ca | www.assembly.pe.ca (Radware CAPTCHA), yukonassembly.ca (Cloudflare 403) | - | - | blocked, never bypassed; Nunavut publishes no order paper ahead (no-route) |
+| regional_agendas/au | www.parliament.vic.gov.au (/api/calendar/twelve-months) | API (the page's JSON) | yes | names only Facebook crawlers; 2 s throttle |
+| regional_agendas/au | dynamic-content-api.parliament.sa.gov.au (/api/documentlibrary, /api/GetFileDownloadLink), prodinterappst.blob.core.windows.net | API | yes | robots.txt 404 (no rules) |
+| regional_agendas/au | search.parliament.tas.gov.au (/search/quicksearch/<y>/sittingdays.html, the Notice Papers database search, its .docx files) | scraper (search engine) | yes | robots.txt 404 (no rules) |
+| regional_agendas/au | NSW, ACT, NT (Cloudflare 403), QLD, WA (Azure WAF 403) | - | - | blocked, never bypassed; NSW's API host carries only past Hansard |
+| regional_agendas/de (NW) | www.landtag.nrw.de (/cms/render/live/.../kalender/contentArea/*, /home/der-landtag/tagesordnungen/) | scraper | yes | allowed (old MM documents, the document search and videos disallowed, not used) |
+| regional_agendas/de (BY) | www.bayern.landtag.de (/aktuelles/tagesordnungen/, /webangebot3/views/tagesordnungdirektanzeige/) | scraper | yes | allowed (/webangebot2/Vorgangsmappe, /service/suche, eID disallowed, not used) |
+| regional_agendas/de (BW) | www.landtag-bw.de (/resource/calendar/.../terminkalender.ics, /de/aktuelles/tagesordnungen, /resource/blob/) | iCalendar + scraper | yes | allows everything |
+| regional_agendas/de (NI) | www.landtag-niedersachsen.de (/fileadmin/calendar_abo/, /rss/, /parlamentsdokumente/) | iCalendar + RSS | yes | allowed |
+| regional_agendas/de (HE) | hessischer-landtag.de (/termine/) | scraper | yes | allowed |
+| regional_agendas/de (SN) | www.landtag.sachsen.de (/de/aktuelles/plenarsitzungen/, /ausschusssitzungen/) | scraper | yes | lists allowed; /de/aktuelles/sitzungskalender (agendas, ics) disallowed and never fetched; edas.landtag.sachsen.de disallows all: sittings only |
+| regional_agendas/de (BE) | www.parlament-berlin.de (/termine/ical/) | iCalendar | yes | allowed (/opendata/, /suche/, Pari2013 disallowed, not used): sittings only |
+| regional_agendas/de (BB) | www.landtag.brandenburg.de (/cms/detail.php RSS, /sixcms/detail.php) | RSS + scraper | yes | allows everything |
+| regional_agendas/de (HB) | sd.bremische-buergerschaft.de (/termine/ics/, /tops/) | iCalendar + scraper | yes | allowed; *.pdf disallowed, never fetched |
+| regional_agendas/de (HH) | www.hamburgische-buergerschaft.de (/aktuelles/termine/...!search, /resource/blob/) | scraper | yes | allowed |
+| regional_agendas/de (MV) | www.landtag-mv.de (/plenum-und-ausschuesse/plenum/aktuelle-plenarwoche, /fileadmin/) | scraper | yes | allowed |
+| regional_agendas/de (RP) | api.landtag-rlp.de (/api/meeting/filteredList) | API (the site's own) | yes | robots.txt 404 (no rules); dokumente.landtag.rlp.de's robots.txt answers a 302 to an HTML page, which the guard reads as unreachable, so the Einladung PDFs are refused (sittings only; question for Chris in the handover) |
+| regional_agendas/de (ST) | www.landtag.sachsen-anhalt.de (/service/terminuebersichten) | scraper | yes | allowed: plenary dates only |
+| regional_agendas/de (SH) | www.landtag.ltsh.de (dayMonthKalenderGetter.jsp, /infothek/wahl20/plenum/, /export/sites/ltsh/) | JSON + scraper | yes | allowed |
+| regional_agendas/de (TH) | www.thueringer-landtag.de (/fileadmin/calendar_abo/, /plenum/sitzungstermine/, /uploads/tx_tltcalendar/) | iCalendar + scraper | yes | allowed |
+| regional_agendas/de (SL) | www.landtag-saar.de | - | yes | robots.txt unreachable (TCP timeout): nothing fetched (no-route) |
+| regional_agendas/br | legis-api-portal-prd.al.sp.gov.br (/sessoes-plenarias/, /colegiado/) | API (the ALESP portal's own JSON) | yes | robots.txt 404 (no rules); www.al.sp.gov.br disallows only /web, /StaticFile and some repositories |
+| regional_agendas/br | dadosabertos.almg.gov.br (/api/v2/comissoes/reunioes/pesquisa, /api/v2/plenario/reunioes/) | open data | yes | /api/v2/ allowed since 14 October 2026 at our request; paging and sorting (p=, tp=, ord=, ordenacao=) still disallowed and never built |
+| regional_agendas/br | www2.alerj.rj.gov.br (/ordemdodia/, /ordemdodia/pauta/) | scraper | yes | robots.txt answers the home page (no rules); about 30 s a request; 5 s throttle |
+| regional_agendas/br | transparencia.assembleia.pr.leg.br (/plenario/pautas/*/ajax), storage2.assembleia.pr.leg.br (PDFs) | scraper (portal JSON + PDFs) | yes | empty Disallow |
+| regional_agendas/br | www.alepe.pe.gov.br (/agenda, /ordem-do-dia/ POST; /detalhe-ordem-do-dia/) | scraper | yes | empty Disallow |
+| regional_agendas/br | www.al.ce.gov.br (/agenda) | scraper | yes | only /banco-de-imagens/download/ disallowed |
+| regional_agendas/br | www.alepa.pa.gov.br (/Home/Page/PautasdoPlenario, /Legislativo/DetalhesPauta) | scraper | yes | allows all |
+| regional_agendas/br | sapl.al.{pb,am,al,pi,ro,to,ac}.leg.br (/api/sessao/sessaoplenaria/, /api/sessao/ordemdia/) | API (SAPL REST) | yes | /api/ allowed; Crawl-delay 60 honoured (the seven houses are asked in parallel, one request at a time per house); sapl.al.rr.leg.br answers 403 to robots.txt: blocked |
+| regional_agendas/mx | congresoyucatan.gob.mx (/, /gaceta/sesiones-pleno/, /storage/uploadCey/*.pdf) | scraper + PDF | yes | empty Disallow |
+| regional_agendas/mx | www.congresojal.gob.mx (/agenda-parlamentaria/mes/) | scraper | yes | Crawl-delay 10 honoured; path allowed |
+| regional_agendas/mx | www.congresochihuahua.gob.mx (/sesiones.php, /ordenDia.php) | scraper | yes | names search engines and AI bots only; others allowed |
+| regional_agendas/mx | www.congresoqroo.gob.mx (/agenda/, /ordenesdia/) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/mx | www.cbcs.gob.mx (/, the Orden del Día category) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/mx | Puebla (Cloudflare), San Luis Potosí (Sucuri), Durango (Wordfence geo block), Campeche (robots.txt Disallow: /) | - | - | blocked, never bypassed; CDMX's certificate names another host (robots.txt unreadable, nothing fetched) |
+| regional_agendas/pl | bip.mazovia.pl (/pl/bip/sejmik/sesje-sejmiku/, /komisje-sejmiku/planowane-posiedzenia.html) | scraper | yes | allowed |
+| regional_agendas/pl | bip.slaskie.pl (/sejmik_wojewodztwa/sesje_sejmiku/projekty_uchwal/) | scraper | yes | allowed; slow host, 3 s |
+| regional_agendas/pl | bip.malopolska.pl (/api/menu/437636/articles, /api/articles/<id>) | the BIP app's JSON | yes | allowed (only admin and listed article pages disallowed) |
+| regional_agendas/pl | bip.pomorskie.eu (/api/articles/60421, .docx downloads) | the BIP app's JSON + DOCX | yes | allowed |
+| regional_agendas/pl | bip.dolnyslask.pl (/api/articles/107616, /api/articles/99529) | the BIP app's JSON | yes | allowed |
+| regional_agendas/pl | sejmik.podkarpackie.pl (/prace-sejmiku/sesje, /prace-sejmiku/posiedzenia-komisji, /images/sesje_7/*.docx) | scraper + DOCX | yes | allowed (Joomla system folders and /api/ disallowed, not used) |
+| regional_agendas/pl | bip.kujawsko-pomorskie.pl, bip.lodzkie.pl, bip.warmia.mazury.pl, bip.wzp.pl (sitting notices and porządek obrad pages) | scraper | yes | allowed; *.esesja.pl stays behind a Cloudflare bot check, never bypassed |
+| regional_agendas/ar | parlamentaria.legislatura.gob.ar (/webservices/Json.asmx/GetAgendasMesCurso, GetAgendasDiaById, GetSesionesMesCurso) | the site calendar's XML web service | yes | robots.txt 404 (no rules); 3 s |
+| regional_agendas/ar | www.hcdiputados-ba.gov.ar (/), intranet.hcdiputados-ba.gov.ar (/reuniones/OD_*.pdf) | scraper + PDF | yes | robots.txt 404 (no rules); 5 s |
+| regional_agendas/ar | legislaturacba.gob.ar (/agenda/, /wp-json/wp/v2/eventos) | scraper + WordPress REST | yes | allows all but /wp-admin/; 3 s |
+| regional_agendas/pe | www.gob.pe (/institucion/<slug>/informes-publicaciones/tipos/91-agenda-de-sesion-de-consejo-regional, 93- for Lima Metropolitana) | scraper | yes | allowed (/admin/ and ?sheet= disallowed only); 3 s |
+
 ## Tests
 
 `tests/test_robots_runtime.py`: the API exemption (a documented API is never

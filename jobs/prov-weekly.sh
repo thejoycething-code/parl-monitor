@@ -48,6 +48,12 @@ python3 tools/prov_speeches.py --prov on --resume --budget-seconds 600 || rc=1
 python3 tools/prov_speeches.py --prov nb --resume --budget-seconds 900 || rc=1
 python3 tools/prov_speeches.py --prov nl --resume --budget-seconds 480 || rc=1
 python3 tools/prov_speeches.py --prov qc --resume --budget-seconds 600 || rc=1
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the provincial and territorial legislatures' upcoming plenary and committee agendas into regional_agenda,
+# for the countdown. At most five minutes (order papers,
+# calendars, committee notices); a region not read is a [gap] line
+# and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh ca "$SECONDS"
 
 # The judge, only on Christopher's yes (repository variable PROV_JUDGE = on).
 # Its backlog on 9 October 2026 was 426 items, about $1.01 (--dry-run).

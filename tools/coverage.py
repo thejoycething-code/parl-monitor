@@ -375,6 +375,14 @@ FEEDS = [
     # weekly; de_agenda, the edition's own committee table, is watched above).
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
+    # Regional parliaments' forward agendas (16 October 2026,
+    # src/regional_agenda.py): one table, written by a step of fourteen
+    # weeklies (DE, AT, CH, BE, ES, IT, PL, AR, PE, BR, AU, US, the provinces',
+    # Mexico's). Every item still listed is re-stamped, and a sitting
+    # calendar's booked dates are rows too, so the table moves every week
+    # whatever the parliaments do.
+    ("regional_agenda", "last_seen", 7, 4, "Regional parliaments' forward agendas "
+     "(a step of each regional weekly)"),
     # The new countries' petitions and consultations (11 October 2026,
     # src/petitions.py): one table, written by a step of eleven weeklies (FR,
     # AT, CH, IT, PT, PL, BE, NL, BR, AR, CO). Every item a run lists is
@@ -1494,6 +1502,9 @@ AWAITING_STEP_UNTIL = {
                  "on merge; it fills on its first Sunday run"),
     "atl_items": ("2026-10-24", "the Landtage step (tools/at_landtage.py) joins the Austria "
                   "weekly on merge; it fills on its next run"),
+    "regional_agenda": ("2026-10-31", "the forward regional-agenda step "
+                        "(tools/regional_agenda_step.sh) joins fourteen weeklies on merge; it "
+                        "fills on the first of them"),
     "country_agenda": ("2026-10-24", "the week-ahead step (tools/country_agenda.py) joins "
                        "twelve country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "

@@ -52,7 +52,7 @@ rc=0
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
 # The third argument keeps the cantons' 7 minutes (below) out of it.
-python3 tools/ch_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 420)" || rc=$?
+python3 tools/ch_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 720)" || rc=$?
 # The cantonal parliaments (CH7, tools/ch_cantons.py,
 # docs/switzerland-cantons-scope.md): Zuerich, Bern, Geneva, Vaud and Ticino
 # into ch_canton_acts / ch_canton_divisions, before the edition, which shows them
@@ -65,6 +65,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
     echo "  [gap] the cantonal parliaments step failed (exit $r); last week's acts stand"
   fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the regional parliaments' upcoming plenary and committee agendas, orders of
+# the day and session calendars into regional_agenda, for the countdown. At
+# most five minutes (kept back from the collector's budget above); a region
+# not read is a [gap] line and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh ch "$SECONDS"
 fi
 # What was said and asked in the chamber (tools/ch_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.

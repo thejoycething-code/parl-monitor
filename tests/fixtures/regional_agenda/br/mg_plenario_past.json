@@ -1,0 +1,243 @@
+{
+ "resultadoPesquisaReunioesPlenario": {
+  "tamanhoPagina": 20,
+  "numeroPagina": 1,
+  "numeroOcorrencias": 7,
+  "dataHora": "2026-10-16T06:52:36.999",
+  "listaReuniaoPlenario": [
+   {
+    "dia": "2026-10-01",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 2,
+     "nome": "Sem quorum",
+     "numeraReuniao": "N"
+    },
+    "horaInicioReuniao": "14:04",
+    "horaTerminoReuniao": "14:05",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8575,
+    "reuniaoOcorrida": "N",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   },
+   {
+    "dia": "2026-10-06",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 2,
+     "nome": "Sem quorum",
+     "numeraReuniao": "N"
+    },
+    "horaInicioReuniao": "14:15",
+    "horaTerminoReuniao": "14:16",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8576,
+    "reuniaoOcorrida": "N",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   },
+   {
+    "dia": "2026-10-07",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 2,
+     "nome": "Sem quorum",
+     "numeraReuniao": "N"
+    },
+    "horaInicioReuniao": "14:15",
+    "horaTerminoReuniao": "14:16",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8577,
+    "reuniaoOcorrida": "N",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   },
+   {
+    "dia": "2026-10-08",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 2,
+     "nome": "Sem quorum",
+     "numeraReuniao": "N"
+    },
+    "horaInicioReuniao": "14:02",
+    "horaTerminoReuniao": "14:03",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8578,
+    "reuniaoOcorrida": "N",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   },
+   {
+    "dia": "2026-10-13",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 2,
+     "nome": "Sem quorum",
+     "numeraReuniao": "N"
+    },
+    "horaInicioReuniao": "14:11",
+    "horaTerminoReuniao": "14:12",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8579,
+    "reuniaoOcorrida": "N",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   },
+   {
+    "dia": "2026-10-14",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 1,
+     "nome": "Com quorum",
+     "numeraReuniao": "S"
+    },
+    "numReuniao": 34,
+    "textoObservacao": "Eleição para o cargo de 3º-secretário da Mesa da Assembleia.",
+    "horaInicioReuniao": "14:11",
+    "horaTerminoReuniao": "15:56",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8584,
+    "reuniaoOcorrida": "S",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   },
+   {
+    "dia": "2026-10-15",
+    "hora": "14:00",
+    "tipoReuniao": {
+     "id": 1,
+     "nome": "ORDINÁRIA",
+     "reuniaoDependenteQuorum": "S",
+     "reuniaoNumerada": "S",
+     "reuniaoEditalConvocacao": "N",
+     "indConsultaWeb": "S",
+     "playlist": "PLUCq_zFD6m5pn4duCalTNeab8NoJ9Zznr"
+    },
+    "tipoQuorum": {
+     "id": 2,
+     "nome": "Sem quorum",
+     "numeraReuniao": "N"
+    },
+    "horaInicioReuniao": "14:15",
+    "horaTerminoReuniao": "14:16",
+    "reuniaoDesconvocada": "N",
+    "pautaCompleta": "S",
+    "resultadoCompleto": "S",
+    "idReuniao": 8585,
+    "reuniaoOcorrida": "N",
+    "local": {
+     "id": 1,
+     "descricao": "Plenário",
+     "interno": "S"
+    },
+    "ordemDoDiaImportada": false,
+    "editalImportado": false,
+    "resultadosImportados": false
+   }
+  ]
+ }
+}

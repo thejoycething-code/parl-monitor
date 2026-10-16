@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCommitteeMeeting xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://WSLWebServices.leg.wa.gov/">
+  <CommitteeMeeting>
+    <AgendaId>33499</AgendaId>
+    <Agency>Other</Agency>
+    <Committees>
+      <Committee>
+        <Id>21488</Id>
+        <Name>Committee to Hear SAO Performance Audits</Name>
+        <LongName>Other Committee to Hear SAO Performance Audits</LongName>
+        <Agency>Other</Agency>
+        <Acronym>I900</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 4 and Virtual</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-11-04T13:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>0001-01-01T00:00:00</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes />
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>33501</AgendaId>
+    <Agency>Other</Agency>
+    <Committees>
+      <Committee>
+        <Id>21488</Id>
+        <Name>Committee to Hear SAO Performance Audits</Name>
+        <LongName>Other Committee to Hear SAO Performance Audits</LongName>
+        <Agency>Other</Agency>
+        <Acronym>I900</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 4 and Virtual</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-12-02T13:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>0001-01-01T00:00:00</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes />
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>33489</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-5</Id>
+        <Name>JLARC - Joint Legislative Audit &amp; Review Committee</Name>
+        <LongName>Joint JLARC - Joint Legislative Audit &amp; Review Committee</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>JLARC</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 4 and Virtual</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-12-02T10:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>2025-12-09T12:48:57.903</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes>To view committee meetings or access the committee meeting documents, visit the Legislature's committee schedules, agendas, and documents website: https://app.leg.wa.gov/committeeschedules  See https://app.leg.wa.gov/CSI/Joint for how to register for remote public testimony.</Notes>
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>34143</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-4</Id>
+        <Name>Select Committee on Pension Policy</Name>
+        <LongName>Joint Select Committee on Pension Policy</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>SCPP</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 1</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-11-17T10:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>0001-01-01T00:00:00</RevisedDate>
+    <ContactInformation>(360) 786-6140</ContactInformation>
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes>To view committee meetings or access the committee meeting documents, visit the Legislature's committee schedules, agendas, and documents website: https://app.leg.wa.gov/committeeschedules  See https://app.leg.wa.gov/CSI/Joint for how to register for remote public testimony.</Notes>
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>34144</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-4</Id>
+        <Name>Select Committee on Pension Policy</Name>
+        <LongName>Joint Select Committee on Pension Policy</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>SCPP</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 1</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-11-17T13:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>0001-01-01T00:00:00</RevisedDate>
+    <ContactInformation>(360) 786-6140</ContactInformation>
+    <CommitteeType>Executive Committee</CommitteeType>
+    <Notes>To view committee meetings or access the committee meeting documents, visit the Legislature's committee schedules, agendas, and documents website: https://app.leg.wa.gov/committeeschedules  See https://app.leg.wa.gov/CSI/Joint for how to register for remote public testimony.</Notes>
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>34141</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-4</Id>
+        <Name>Select Committee on Pension Policy</Name>
+        <LongName>Joint Select Committee on Pension Policy</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>SCPP</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 2</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-10-20T10:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>2026-10-09T12:10:30.193</RevisedDate>
+    <ContactInformation>(360) 786-6140</ContactInformation>
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes>To view committee meetings or access the committee meeting documents, visit the Legislature's committee schedules, agendas, and documents website: https://app.leg.wa.gov/committeeschedules  See https://app.leg.wa.gov/CSI/Joint for how to register for remote public testimony.</Notes>
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>34142</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-4</Id>
+        <Name>Select Committee on Pension Policy</Name>
+        <LongName>Joint Select Committee on Pension Policy</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>SCPP</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 2</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-10-20T12:30:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>2026-10-09T12:10:39.12</RevisedDate>
+    <ContactInformation>(360) 786-6140</ContactInformation>
+    <CommitteeType>Executive Committee</CommitteeType>
+    <Notes>To view committee meetings or access the committee meeting documents, visit the Legislature's committee schedules, agendas, and documents website: https://app.leg.wa.gov/committeeschedules  See https://app.leg.wa.gov/CSI/Joint for how to register for remote public testimony.</Notes>
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>34290</AgendaId>
+    <Agency>Other</Agency>
+    <Committees>
+      <Committee>
+        <Id>-141</Id>
+        <Name>Statute Law Committee</Name>
+        <LongName>Other Statute Law Committee</LongName>
+        <Agency>Other</Agency>
+        <Acronym>SLC</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Newhouse INB 140 and virtual</Room>
+    <Building>215 Sid Snyder Ave SW</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-11-16T10:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>2026-10-14T08:34:36.387</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes />
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>33552</AgendaId>
+    <Agency>Other</Agency>
+    <Committees>
+      <Committee>
+        <Id>18059</Id>
+        <Name>Citizen Commission for Performance Measurement of Tax Preferences</Name>
+        <LongName>Other Citizen Commission for Performance Measurement of Tax Preferences</LongName>
+        <Agency>Other</Agency>
+        <Acronym>TAX</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 3 and Virtual</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-10-20T10:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>2026-10-14T08:52:18.753</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes>View meeting materials: https://jlarc.azureedge.net/documents/Agendas/Citizen%20Commission/2026/October_20_2026_Agenda.pdf
+
+Watch meeting and provide testimony: https://www.tvw.org/watch/?clientID=9375922947&amp;eventID=2026101135
+- Sign up to testify in person or via Zoom: https://app.leg.wa.gov/csi/Agency
+- Submit written testimony by email (jlarc@leg.wa.gov) or to PO Box 40910, Olympia, WA 98504. 
+
+For more information:
+Visit the Citizen Commission for Performance Measurement of Tax Preferences website: leg.wa.gov/committees/CitizenCommission</Notes>
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>34187</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-140</Id>
+        <Name>Joint Transportation Committee</Name>
+        <LongName>Joint Joint Transportation Committee</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>JTC</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Senate Hearing Rm 1</Room>
+    <Building>J.A. Cherberg Building</Building>
+    <Address>Olympia, WA</Address>
+    <City>Olympia</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-12-09T09:00:00</Date>
+    <Cancelled>true</Cancelled>
+    <RevisedDate>2026-10-14T13:31:13.643</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes />
+  </CommitteeMeeting>
+  <CommitteeMeeting>
+    <AgendaId>33821</AgendaId>
+    <Agency>Joint</Agency>
+    <Committees>
+      <Committee>
+        <Id>-140</Id>
+        <Name>Joint Transportation Committee</Name>
+        <LongName>Joint Joint Transportation Committee</LongName>
+        <Agency>Joint</Agency>
+        <Acronym>JTC</Acronym>
+        <Phone />
+      </Committee>
+    </Committees>
+    <Room>Tacoma Convention Center</Room>
+    <Building>1500 Commerce Street</Building>
+    <Address>Tacoma, WA</Address>
+    <City>Tacoma</City>
+    <State>WA</State>
+    <ZipCode>0</ZipCode>
+    <Date>2026-11-19T10:00:00</Date>
+    <Cancelled>false</Cancelled>
+    <RevisedDate>2026-10-15T15:06:52.15</RevisedDate>
+    <ContactInformation />
+    <CommitteeType>Full Committee</CommitteeType>
+    <Notes>To view committee meetings or access the committee meeting documents, visit the Legislature's committee schedules, agendas, and documents website: https://app.leg.wa.gov/committeeschedules  See https://app.leg.wa.gov/CSI/Joint for how to register for remote public testimony.</Notes>
+  </CommitteeMeeting>
+</ArrayOfCommitteeMeeting>

@@ -1,0 +1,48 @@
+{
+ "success": true,
+ "data": {
+  "24/08/2026 - 30/08/2026": [
+   {
+    "id": 1256,
+    "publicado": true,
+    "titulo": "25ª REUNIÃO ORDINÁRIA (Pauta 25.08.2026) *8h30*",
+    "data_publicacao": "2026-08-25T21:10:00.000000Z",
+    "data_sessao": "2026-08-25T11:30:00.000000Z",
+    "arquivo": "ccj/mt7qc4v5_8152.pdf",
+    "acessos": 0,
+    "transmissao": false,
+    "created_at": "2026-08-24T21:09:57.000000Z",
+    "updated_at": "2026-08-24T21:10:23.000000Z",
+    "deleted_at": null,
+    "url": "https://storage2.assembleia.pr.leg.br/file/public-media/ccj/mt7qc4v5_8152.pdf",
+    "arquivos": [
+     {
+      "id": 479761,
+      "model_type": "App\\Models\\Legislativo\\LegCcj",
+      "model_id": "1256",
+      "collection_name": "anexos",
+      "file_path": "ccj/anexos/mt7qc4xe_7549.pdf",
+      "disk": "public",
+      "file_name": "mt7qc4xe_7549.pdf",
+      "mime_type": "application/pdf",
+      "size": 171010,
+      "custom_properties": {
+       "nome_exibicao": "2026.08.25  PAUTA SUPLEMENTAR DA 25ª SESSÃO ORDINARIA"
+      },
+      "created_at": "2026-08-24T21:09:57.000000Z",
+      "updated_at": "2026-08-24T21:09:57.000000Z",
+      "deleted_at": null,
+      "titulo": "2026.08.25  PAUTA SUPLEMENTAR DA 25ª SESSÃO ORDINARIA",
+      "posicao": 0,
+      "extension": "pdf",
+      "url": "https://storage2.assembleia.pr.leg.br/file/public-media/ccj/anexos/mt7qc4xe_7549.pdf",
+      "arquivo": "ccj/anexos/mt7qc4xe_7549.pdf",
+      "type": null,
+      "tipo_arquivo": "pdf"
+     }
+    ],
+    "data_sessao_formatado": "25/08/2026"
+   }
+  ]
+ }
+}

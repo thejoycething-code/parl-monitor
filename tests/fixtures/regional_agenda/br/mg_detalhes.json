@@ -1,0 +1,174 @@
+{
+ "reuniao": {
+  "reuniao": {
+   "id": 8584,
+   "data": "2026-10-14",
+   "hora": "14:00",
+   "numero": 34,
+   "tipo": {
+    "id": 1,
+    "descricao": "ORDINÁRIA",
+    "idCategoria": 0
+   },
+   "descricao": "34ª Reunião Ordinária de Plenário",
+   "observacao": "Eleição para o cargo de 3º-secretário da Mesa da Assembleia.",
+   "pautaCompleta": true,
+   "resultadoCompleto": true,
+   "situacao": {
+    "codigo": "OCORRIDA",
+    "descricao": "Ocorrida"
+   },
+   "reuniaoDesconvocada": false,
+   "textoEncerramento": "Próxima reunião de Plenário: amanhã, dia 15, ordinária às 14 horas.",
+   "incluirObservacao": "2"
+  },
+  "segundaParte": {
+   "titulo": "2ª Parte",
+   "descricao": "Ordem do Dia",
+   "primeiraFase": {
+    "titulo": "1ª Fase"
+   },
+   "SegundaFase": {
+    "titulo": "2ª Fase",
+    "ordemDoDia": [
+     {
+      "ordem": 1,
+      "turno": {
+       "codigo": 0,
+       "descricao": "Turno Único"
+      },
+      "tipoApreciacao": {
+       "codigo": 1,
+       "descricao": "Discussão"
+      },
+      "apreciacaoSobreParecer": false,
+      "parecerPelaInconstitucionalidade": false,
+      "ordemResultado": 1,
+      "faixaConstitucional": false,
+      "primeiraFaseReuniao": false,
+      "urgencia": "Faixa Constitucional",
+      "proposicao": {
+       "id": 249924,
+       "tipo": {
+        "id": 6,
+        "descricao": "Veto",
+        "idCategoria": 0,
+        "sigla": "VET"
+       },
+       "numero": 35,
+       "ano": 2026,
+       "ementaOuAssunto": "Veto parcial à Proposição de Lei Complementar nº 196, que dispõe sobre o Quadro de Pessoal da Advocacia-Geral do Estado de Minas Gerais e dá outras providências.",
+       "autoria": [
+        {
+         "id": 0,
+         "sequencia": 1,
+         "primeiroSignatario": true,
+         "nome": "Governador do Estado"
+        }
+       ]
+      },
+      "descricao": "Discussão - Turno Único",
+      "tramitacoes": [
+       {
+        "sequencia": 1,
+        "textoTramitacao": "Esgotado o prazo constitucional sem emissão de parecer."
+       }
+      ]
+     },
+     {
+      "ordem": 2,
+      "turno": {
+       "codigo": 2,
+       "descricao": "2º Turno"
+      },
+      "tipoApreciacao": {
+       "codigo": 2,
+       "descricao": "Votação"
+      },
+      "apreciacaoSobreParecer": false,
+      "parecerPelaInconstitucionalidade": false,
+      "ordemResultado": 2,
+      "faixaConstitucional": false,
+      "primeiraFaseReuniao": false,
+      "proposicao": {
+       "id": 206243,
+       "tipo": {
+        "id": 1,
+        "descricao": "Projeto de Lei",
+        "idCategoria": 0,
+        "sigla": "PL."
+       },
+       "numero": 873,
+       "ano": 2023,
+       "ementaOuAssunto": "Dispõe sobre a criação do programa Atenção aos Cuidadores de Pessoas com Deficiência, Doentes ou Idosos.",
+       "autoria": [
+        {
+         "id": 0,
+         "sequencia": 1,
+         "primeiroSignatario": true,
+         "idDeputado": 28863,
+         "nome": "Deputada Chiara Biondini"
+        }
+       ]
+      },
+      "descricao": "Votação - 2º Turno",
+      "tramitacoes": [
+       {
+        "sequencia": 1,
+        "textoTramitacao": "A Comissão do Trabalho opina pela aprovação do projeto na forma do vencido em 1º turno."
+       }
+      ]
+     },
+     {
+      "ordem": 3,
+      "turno": {
+       "codigo": 2,
+       "descricao": "2º Turno"
+      },
+      "tipoApreciacao": {
+       "codigo": 2,
+       "descricao": "Votação"
+      },
+      "apreciacaoSobreParecer": false,
+      "parecerPelaInconstitucionalidade": false,
+      "ordemResultado": 3,
+      "faixaConstitucional": false,
+      "primeiraFaseReuniao": false,
+      "proposicao": {
+       "id": 227357,
+       "tipo": {
+        "id": 1,
+        "descricao": "Projeto de Lei",
+        "idCategoria": 0,
+        "sigla": "PL."
+       },
+       "numero": 3317,
+       "ano": 2025,
+       "ementaOuAssunto": "Reconhece como de relevante interesse cultural do Estado a Rota Turística do Queijo Minas Artesanal.",
+       "autoria": [
+        {
+         "id": 0,
+         "sequencia": 1,
+         "primeiroSignatario": true,
+         "idDeputado": 18857,
+         "nome": "Deputado Bosco"
+        }
+       ]
+      },
+      "descricao": "Votação - 2º Turno",
+      "tramitacoes": [
+       {
+        "sequencia": 1,
+        "textoTramitacao": "A Comissão de Cultura opina pela aprovação do projeto na forma do vencido em 1º turno."
+       }
+      ]
+     }
+    ]
+   },
+   "terceiraFase": {
+    "titulo": "3ª Fase"
+   }
+  },
+  "hashAtualizacao": 1226385821
+ }
+}
