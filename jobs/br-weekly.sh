@@ -86,7 +86,7 @@ rc=0
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
 # The third argument keeps 600 s for the state-assemblies step below.
-python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
+python3 tools/br_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 900)" || rc=$?
 # The state assemblies (tools/br_states.py, docs/brazil-regions-scope.md): the
 # bills, stages and published votes of ALESP (open-data files), ALMG (its
 # open-data API since 15 October 2026, never paging; its bill search as fallback), ALERJ (its Notes view) and the SAPL houses (Acre, Alagoas,
@@ -103,6 +103,11 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/br_states.py --budget-seconds "$(bash tools/collector_budget.sh 600 "$SECONDS")" "${BR_STATES_ARGS[@]}" \
     || echo "  [gap] br-states: the state assemblies recorded gaps or failed; last run's rows stand"
 fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the state assemblies' upcoming plenary and committee agendas into regional_agenda,
+# for the countdown. At most five minutes; a region not read is a [gap] line
+# and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh br "$SECONDS"
 # What was said and asked in the chamber (tools/br_chamber.py, parity layer 5):
 # time-boxed to what is left of the hour, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh br "$SECONDS"

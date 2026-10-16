@@ -299,6 +299,14 @@ case "$GH_STATES_MODE" in
       | tee "$LOG/us-states-github.log" ;;
 esac
 
+# Forward regional agendas (tools/regional_agenda.py us, 16 October 2026):
+# the state legislatures' upcoming floor sessions and committee hearings into
+# regional_agenda, for the countdown, after the state readers. Never the
+# run's: a state not read is a [gap] line and keeps its stored rows.
+if [ -n "${GITHUB_ACTIONS:-}" ]; then RA_BUDGET=300; else RA_BUDGET=600; fi
+python3 tools/regional_agenda.py us --budget-seconds "$RA_BUDGET" | tee "$LOG/us-regional-agenda.log" \
+  || echo "  [gap] the forward state agendas step ended with gaps; stored rows stand"
+
 # The Congressional Record (phase 3a, 9 October 2026): floor speeches on our
 # ground, before the judge (which scores them) and the edition (its Floor
 # debate section). Keyed: without CONGRESS_API_KEY it is one [gap] line and

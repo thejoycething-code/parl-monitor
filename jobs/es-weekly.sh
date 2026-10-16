@@ -39,7 +39,7 @@ rc=0
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
 # The third argument keeps 300 s for the regional step below.
-python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 # The regional layer (tools/es_regions.py, docs/spain-regions-scope.md): the
 # seventeen communities' laws from the BOE's open-data summaries and the bills
 # in passage that Andalucía, Canarias, La Rioja, Cantabria and the Corts
@@ -51,6 +51,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/es_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
     || echo "  [gap] es-regions: the regional layer recorded gaps or failed; last run's rows stand"
 fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the regional parliaments' upcoming plenary and committee agendas, orders of
+# the day and session calendars into regional_agenda, for the countdown. At
+# most five minutes (kept back from the collector's budget above); a region
+# not read is a [gap] line and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh es "$SECONDS"
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.

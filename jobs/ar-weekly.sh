@@ -58,7 +58,7 @@ fi
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
 # The third argument keeps the provincial step's 300 s (below) out of it.
-python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" "${years[@]}" || rc=$?
+python3 tools/ar_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" "${years[@]}" || rc=$?
 # PROVINCIAL LEGISLATURES (13 October 2026, docs/argentina-regions-scope.md):
 # the 24 jurisdictions' laws through SAIJ (four JSON pages) and Buenos Aires
 # province's normative system, and the bills of eight legislatures (Diputados
@@ -74,6 +74,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/ar_regions.py --budget-seconds "$(bash tools/collector_budget.sh 420 "$SECONDS")" \
     || echo "  [gap] ar-regions recorded gaps or failed; the next run retries"
 fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the regional parliaments' upcoming plenary and committee agendas, orders of
+# the day and session calendars into regional_agenda, for the countdown. At
+# most five minutes (kept back from the collector's budget above); a region
+# not read is a [gap] line and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh ar "$SECONDS"
 # The week ahead (src/agenda.py, tools/country_agenda.py): the Senate's agenda
 # read into the store after the collector, so its expedientes match this week's
 # store and the edition below shows it. Its failure is a [gap] line, never the run's.

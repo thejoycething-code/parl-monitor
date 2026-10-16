@@ -264,6 +264,11 @@ jobs:
         if: always() && steps.fetch.outcome == 'success' && (github.event_name == 'schedule' || inputs.provinces == '')
         timeout-minutes: 20
         run: python3 tools/prov_speeches.py --prov qc --resume --budget-seconds 600 | tee /tmp/prov-sp-qc.log
+      # Forward regional agendas (16 October 2026), as jobs/prov-weekly.sh runs
+      # them: order papers, calendars and committee notices into
+      # regional_agenda for the countdown, at most five minutes, never fatal.
+      - name: Forward agendas (provinces and territories)
+        run: bash tools/regional_agenda_step.sh ca 0 | tee /tmp/prov-regional-agenda.log
 
       # --- The judge, only on Christopher's yes ---------------------------------
       # tools/prov_triage.py runs only when the repository variable PROV_JUDGE

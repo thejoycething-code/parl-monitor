@@ -43,7 +43,7 @@ rc=0
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
 # The third argument keeps the regional step's 300 s (PE4, below) out of it.
-python3 tools/pe_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 300)" || rc=$?
+python3 tools/pe_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 # X8 (10 October 2026): the Tribunal Constitucional's press notes on rulings
 # and hearings (tools/pe_courts.py; Crawl-delay 30 s, about four minutes).
 # Gaps go to the store; a failure never stops the run.
@@ -63,6 +63,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/pe_regions.py --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" \
     || echo "  [gap] pe-regions recorded gaps or failed; the next run retries"
 fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the regional parliaments' upcoming plenary and committee agendas, orders of
+# the day and session calendars into regional_agenda, for the countdown. At
+# most five minutes (kept back from the collector's budget above); a region
+# not read is a [gap] line and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh pe "$SECONDS"
 # X7 (10 October 2026): Tesseract over the scan-only vote records
 # (tools/pe_ocr.py). Without tesseract it prints one [skip] line and exits 0.
 # Gaps go to the store; a failure never stops the run.

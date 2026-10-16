@@ -72,6 +72,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
     echo "  [gap] mx-states: the state congresses step failed (exit $src); last run's rows stand"
   fi
 fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the state congresses' upcoming plenary and committee agendas into regional_agenda,
+# for the countdown. At most five minutes (on GitHub, where this job runs, the cap
+# stands); a region not read is a [gap] line
+# and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh mx "$SECONDS"
 if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "mx-rollcalls failed (exit $rc)"
   exit "$rc"

@@ -48,7 +48,7 @@ rc=0
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
 # The third argument keeps the regional councils' 5 minutes and the Senate
 # amendment texts' 5 minutes (below) out of it.
-python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
+python3 tools/it_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 900)" || rc=$?
 # The regional councils (IT3, tools/it_regions.py, docs/italy-regions-scope.md):
 # Lombardia, Campania, Marche and the Provincia autonoma di Trento into
 # it_reg_acts, before the edition, which shows them in a section of their own.
@@ -60,6 +60,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
     echo "  [gap] the regional councils step failed (exit $r); last week's acts stand"
   fi
+# Forward regional agendas (tools/regional_agenda_step.sh, 16 October 2026):
+# the regional parliaments' upcoming plenary and committee agendas, orders of
+# the day and session calendars into regional_agenda, for the countdown. At
+# most five minutes (kept back from the collector's budget above); a region
+# not read is a [gap] line and keeps its stored rows, never the run's.
+bash tools/regional_agenda_step.sh it "$SECONDS"
 fi
 # The Senate's amendment texts (12 October 2026, tools/it_senato_amendments.py,
 # src/it_amendments.py): for the Senate acts with votes on our ground, the
