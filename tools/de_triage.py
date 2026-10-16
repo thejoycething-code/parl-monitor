@@ -196,8 +196,13 @@ def queue_out(conn, path, today, limit, log=print):
         triage.SYSTEM_PROMPT_DE, PASS, log=log, total=len(queued))
 
 
-def queue_in(conn, path, today, log=print):
-    """Apply a filled-in queue strictly; bank the verdicts as a session's."""
+DEFAULT_DB = os.path.join(ROOT, "data", "parl-monitor.db")
+
+
+def queue_in(conn, path, today, log=print, export=True):
+    """Apply a filled-in queue strictly; bank the verdicts as a session's.
+    export=False (any store but the real one, e.g. a --db dry run) banks in
+    that store only and never rewrites the repo's data/eval/<week>.jsonl."""
     seen = {it.id: it for it in pending(conn)}
     got = session_queue.queue_in_rows(
         conn, path, QUEUE_MARKER, {t: v[0] for t, v in SOURCES.items()}, PASS, "de",
@@ -211,7 +216,8 @@ def queue_in(conn, path, today, log=print):
                           [triage.TriageResult(id=r.id, score=r.score, areas=[], why_it_matters=r.why)
                            for r in results],
                           session_queue.SESSION_MODEL, "session", triage.SYSTEM_PROMPT_DE)
-            evalbank.export(conn, week)
+            if export:
+                evalbank.export(conn, week)
         except Exception as exc:                            # noqa: BLE001
             log("  [gap] de-triage: banking the session verdicts failed: {0}".format(str(exc)[:120]))
     return got
@@ -222,7 +228,8 @@ def _arg(name, default=None):
 
 
 def main():
-    conn = db.init_db(db.connect(_arg("--db", os.path.join(ROOT, "data", "parl-monitor.db"))))
+    db_path = _arg("--db", DEFAULT_DB)
+    conn = db.init_db(db.connect(db_path))
     ensure_columns(conn)
     if "--queue-out" in sys.argv:
         queue_out(conn, _arg("--queue-out"), _arg("--date", datetime.date.today().isoformat()),
@@ -230,7 +237,8 @@ def main():
         conn.close()
         return 0
     if "--queue-in" in sys.argv:
-        got = queue_in(conn, _arg("--queue-in"), _arg("--date", datetime.date.today().isoformat()))
+        got = queue_in(conn, _arg("--queue-in"), _arg("--date", datetime.date.today().isoformat()),
+                       export=os.path.abspath(db_path) == os.path.abspath(DEFAULT_DB))
         conn.close()
         return 1 if got is None else 0
     if "--rescore" in sys.argv:

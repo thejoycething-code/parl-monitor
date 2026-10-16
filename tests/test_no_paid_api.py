@@ -204,6 +204,8 @@ class GermanJudgeTests(_Store, unittest.TestCase):
         self.assertIn("test why-line", row[1])
         banked = self.conn.execute("SELECT mode FROM judge_verdicts WHERE item_id='de_documents:d2'").fetchone()
         self.assertEqual(banked[0], "session")
+        # a --db store (a dry run) never writes the repo's eval export
+        self.assertFalse(os.path.exists(os.path.join(self.tmp.name, "eval")))
         # once ever: the same file applied again is refused, not rewritten
         rc, out = self.run_main(self.mod, ["de_triage.py", "--db", self.path, "--queue-in", q])
         self.assertIn("already scored", out)
