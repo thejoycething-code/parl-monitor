@@ -34,7 +34,7 @@ import time
 import urllib.error
 from urllib.parse import urlsplit
 
-from src.http import FetchError, slugify
+from src.http import ROBOTS_MAX_REDIRECTS, FetchError, slugify
 
 MIN_THROTTLE = 1.1
 
@@ -82,6 +82,22 @@ def _takes_timeout(fn):
     except (TypeError, ValueError):
         return False
     return any(p.name == "timeout" or p.kind is p.VAR_KEYWORD for p in params)
+
+
+_HTML_START = re.compile(r"^\s*(?:<!--.*?-->\s*)*<(?:!doctype\s+html|html|head|body)\b", re.I | re.S)
+_ROBOTS_LINE = re.compile(r"^\s*(?:user-agent|disallow|allow)\s*:", re.I | re.M)
+
+
+def looks_like_html(text):
+    """True for an HTML document where a robots.txt was asked for: it opens
+    with <!DOCTYPE html>, <html>, <head> or <body> (after a BOM, blank lines
+    or comments) and carries no line-initial robots field. A real robots.txt
+    served as text/html still parses: the test is the body, never the
+    Content-Type."""
+    if not text:
+        return False
+    body = text.lstrip("\ufeff")
+    return bool(_HTML_START.match(body[:4096])) and not _ROBOTS_LINE.search(body)
 
 
 def robots_cache_path(cache_dir, scheme, host):
@@ -138,6 +154,11 @@ def read_robots(client, scheme, host, feed, log=print, budget=None, cache_dir=AU
       * a timeout or connection error is retried: ROBOTS_ATTEMPTS (3) in all,
         ROBOTS_BACKOFF (5 s, 15 s) between them;
       * a 4xx means no rules (RFC 9309 2.3.1.2), at once;
+      * redirects are followed, at most ROBOTS_MAX_REDIRECTS (5) of them, to
+        any host (src/http); more than five is "unavailable": no rules. A
+        read that ends on an HTML page (a redirect to a home page, an app
+        shell) has no robots groups: no rules (16 October 2026, Chris). A
+        real robots file reached by redirect is honoured like any other;
       * a 5xx answered promptly is retried ONCE after ROBOTS_5XX_WAIT (RFC
         9309 allows treating it as temporary) and is then Disallow: /;
       * the whole read is bounded: ROBOTS_HOST_BUDGET (150 s) per host, and
@@ -185,6 +206,15 @@ def read_robots(client, scheme, host, feed, log=print, budget=None, cache_dir=AU
                 text = client.get_text(url, feed, slug, archive=False)
         except FetchError as exc:
             code = _status(exc)
+            if isinstance(code, int) and 300 <= code < 400:
+                # More than ROBOTS_MAX_REDIRECTS (5) redirects: RFC 9309
+                # 2.3.1.2 lets a crawler take the file as unavailable, which
+                # 2.3.1.3 reads as no rules (16 October 2026, Chris).
+                log("  {0}: robots.txt redirected more than {1} times; read as "
+                    "unavailable (no rules, RFC 9309 2.3.1.2)".format(host, ROBOTS_MAX_REDIRECTS))
+                if cache_dir:
+                    _save_cache(cache_dir, scheme, host, "", code, wall())
+                return "", None
             if isinstance(code, int) and 400 <= code < 500:
                 if cache_dir:
                     _save_cache(cache_dir, scheme, host, "", code, wall())
@@ -216,6 +246,14 @@ def read_robots(client, scheme, host, feed, log=print, budget=None, cache_dir=AU
                 client.max_retries = saved
         if attempts > 1:
             log("  {0}: robots.txt read on attempt {1}".format(host, attempts))
+        if looks_like_html(text):
+            # A robots.txt request that ends on a web page -- a redirect to
+            # the home page (dokumente.landtag.rlp.de), a portal's app shell
+            # answering every path -- has no robots groups: no rules (RFC
+            # 9309 2.2: a body without valid groups restricts nothing; 16
+            # October 2026, Chris). Said once, so the log shows why.
+            log("  {0}: robots.txt answered a web page, not a robots file; no rules".format(host))
+            text = ""
         if cache_dir:
             _save_cache(cache_dir, scheme, host, text, 200, wall())
         return text, None

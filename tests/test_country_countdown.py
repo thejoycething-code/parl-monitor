@@ -251,6 +251,26 @@ class Blocks(Base):
         self.assertIn("| Tue 20 Oct | LANDTAG STEIERMARK |", text)
         self.assertIn("Landtag Steiermark: on its agenda Tue 20 Oct", text)
         self.assertNotIn(cc_.REGIONAL_NOTE, text)
+        self.assertNotIn("OpenParlData", text)          # no attribution owed
+
+    def test_openparldata_rows_carry_the_cc_by_attribution(self):
+        """Chris, 16 October 2026: OpenParlData.ch (CC BY 4.0) for the Swiss
+        cantons, attributed wherever its rows are shown."""
+        self.conn.execute("CREATE TABLE regional_agenda (cc TEXT, region TEXT, body TEXT, dated TEXT, "
+                          "business TEXT, item_type TEXT, url TEXT, source TEXT, areas TEXT, "
+                          "matched_terms TEXT, first_seen TEXT, last_seen TEXT)")
+        from src.regional_agendas import ch as ch_ra
+        self.conn.executemany("INSERT INTO regional_agenda VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
+            ("ch", "Bern", "Grosser Rat", "2026-10-20", "Motion Sterbehilfe in Heimen", "Motion",
+             None, ch_ra.OPD_SOURCE, "[2]", "[]", TODAY, TODAY),
+            ("ch", "Zürich", "Kantonsrat", "2026-10-21", "Postulat Leihmutterschaft", "Postulat",
+             None, "parlzhcdws.cmicloud.ch", "[10]", "[]", TODAY, TODAY)])
+        ch = country(cc="ch", name="Switzerland", taxonomies=(("taxonomy-atch.yaml", "ch"),),
+                     items=lambda *a: [], watchlist=lambda config_dir=None: {})
+        text = self.render(ch)
+        self.assertIn("Cantonal agendas marked Bern: Source: OpenParlData.ch "
+                      "(https://openparldata.ch), CC BY 4.0.", text)
+        self.assertNotIn("marked Bern, Zürich", text)
 
 
 class Reference(Base):

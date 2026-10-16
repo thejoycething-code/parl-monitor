@@ -141,14 +141,17 @@ links the current plenary week's Tagesordnung PDF
 election only the constituent sitting of 20 October was booked; the
 Zeitplan PDFs (2026, 2027 draft) are graphical. robots.txt: allowed.
 
-**RP Rheinland-Pfalz** (reader, mostly sittings). The site's own meeting API,
+**RP Rheinland-Pfalz** (reader). The site's own meeting API,
 `https://api.landtag-rlp.de/api/meeting/filteredList?from=<ms>&to=<ms>&useOR=true&sortOrder=asc&amount=10000`
 (the apiUrl the page declares; robots.txt on that host answers 404, so
 allowed): every plenary and committee meeting with an HTML note that links the
 Einladung PDF on dokumente.landtag.rlp.de about a week ahead. That host's
-robots.txt redirects (302) to an HTML page, which src/robots_guard treats as
-unreachable, so the PDFs are refused and those sittings stay 'to be announced'
-with a gap line (see the core change asked for in the lead's report).
+robots.txt redirects (302, twice) to the Landtag's HTML home page. Until 16
+October 2026 src/robots_guard treated that as unreachable and the PDFs were
+refused; Chris then approved reading it as no rules (RFC 9309), so the
+Einladung PDFs are read and their TOPs listed (first live run: the Rechtsausschuss
+Einladung of 22 October, three items; meetings without an Einladung yet stay
+'to be announced').
 
 **ST Sachsen-Anhalt** (reader, plenary dates only). `/service/terminuebersichten`
 lists 'Landtagssitzungstermine' for the year. Agendas are PDFs at

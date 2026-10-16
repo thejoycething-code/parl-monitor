@@ -244,6 +244,13 @@ def _is_robots_txt(url):
     return urlsplit(url).path == "/robots.txt"
 
 
+# RFC 9309 2.3.1.2: a robots.txt read follows "at least five consecutive
+# redirects"; past that the file MAY be taken as unavailable (no rules). We
+# follow exactly five (16 October 2026, Chris), in urllib and in the curl
+# fallback alike; src/prov_fetch.read_robots reads a sixth as unavailable.
+ROBOTS_MAX_REDIRECTS = 5
+
+
 def _guard_hop(client_ref, req, new):
     """Ask the client's redirect guards about the hop `new` (a Request),
     remembering the first URL of the chain; raise _RedirectBlocked if any
@@ -252,6 +259,11 @@ def _guard_hop(client_ref, req, new):
         return None
     origin = getattr(req, "_pm_origin", None) or req.full_url
     new._pm_origin = origin
+    new._pm_hops = getattr(req, "_pm_hops", 0) + 1
+    if _is_robots_txt(origin) and new._pm_hops > ROBOTS_MAX_REDIRECTS:
+        raise urllib.error.HTTPError(
+            new.full_url, 310, "robots.txt redirected more than {0} times".format(
+                ROBOTS_MAX_REDIRECTS), None, None)
     client = client_ref()
     # A robots.txt read follows its redirects unasked, wherever they go
     # (RFC 9309 2.3.1.2): asking robots.txt about a hop of a robots.txt read
@@ -786,12 +798,25 @@ class HttpClient:
         curl = shutil.which("curl")
         if not curl:
             raise cause
+        # A robots.txt read follows its redirects (RFC 9309 2.3.1.2), at most
+        # five (16 October 2026): dokumente.landtag.rlp.de answers 302 to the
+        # Landtag's home page, and curl without -L reported "HTTP 302", which
+        # read_robots took for an unreachable host. Any other URL is still
+        # NOT followed here: curl's hops would bypass the redirect guards.
+        follow = (["-L", "--max-redirs", str(ROBOTS_MAX_REDIRECTS), "--proto-redir", "=http,https"]
+                  if _is_robots_txt(url) else [])
         done = subprocess.run(
-            [curl, "-sS", "--max-time", str(int(timeout)),
-             "-w", "\n%{http_code}", "-A", self.user_agent, url],
+            [curl, "-sS", "--max-time", str(int(timeout))] + follow +
+            ["-w", "\n%{http_code}", "-A", self.user_agent, url],
             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         body, _, status = done.stdout.rpartition(b"\n")
         code = status.decode(errors="replace").strip()
+        if follow and code.isdigit() and not code.startswith("2"):
+            # The status, as urllib would have raised it: read_robots needs a
+            # 4xx (no rules), a 5xx (disallow) or a 3xx (redirects exhausted).
+            raise urllib.error.HTTPError(url, int(code), "HTTP {0} via curl{1}".format(
+                code, " (curl exit {0})".format(done.returncode) if done.returncode else ""),
+                None, None)
         if done.returncode != 0 or not code.startswith("2"):
             # Report what curl actually saw. Re-raising the TLS error here
             # would blame the handshake for an HTTP 403 or 404, which is

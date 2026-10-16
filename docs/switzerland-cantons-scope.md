@@ -579,9 +579,18 @@ whether to ask its Parlamentsdienst: its own host refuses the whole Grosser
 Rat section, and reading it through a republisher would step round that
 refusal. The Opendatasoft cantons are different: Basel-Stadt,
 Basel-Landschaft and Thurgau granted written permission, and St. Gallen is
-already read from its own allowed host (`www.ratsinfo.sg.ch`). The general
-question (is a third-party republisher acceptable for the rest) stays with
-Chris.
+already read from its own allowed host (`www.ratsinfo.sg.ch`).
+
+**Chris's decision (16 October 2026): OpenParlData.ch is approved** for every
+canton it covers other than Aargau (CC BY 4.0, robots.txt allows us; no
+courtesy note). Aargau stays `blocked`. Attribution travels with the data:
+each row stores "OpenParlData.ch meetings + agendas (CC BY 4.0, Source:
+OpenParlData.ch)" as its source, and the Switzerland countdown prints
+"Cantonal agendas marked <cantons>: Source: OpenParlData.ch
+(https://openparldata.ch), CC BY 4.0." in its coverage notes whenever a table
+shows one of those rows (src/country_countdown.ATTRIBUTIONS). Count: the
+reader takes fifteen cantons through OpenParlData (the table below; Chris's
+note said fourteen, the code lists fifteen without Aargau).
 
 | Canton | Route | Format | Reaches (live run) | robots.txt | Status |
 |---|---|---|---|---|---|

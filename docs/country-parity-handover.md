@@ -1942,14 +1942,15 @@ docs/robots-runtime.md "Regional forward agendas".
 Waiting on Chris:
 
 1. **OpenParlData.ch** (a third-party republisher, CC BY 4.0, robots.txt
-   allows us) serves fifteen Swiss cantons' agendas. **Aargau is left out**
-   while its own host refuses us (blocked until you decide whether to ask its
-   Parlamentsdienst). Is a republisher acceptable for the rest? A courtesy
-   note to info@openparldata.ch is suggested.
+   allows us) serves fifteen Swiss cantons' agendas. **Decided 16 October
+   2026 (Chris): approved for all of them except Aargau**, which stays
+   blocked; no courtesy note. The countdown prints the CC BY attribution
+   under any table with an OpenParlData row.
 2. **Rheinland-Pfalz:** dokumente.landtag.rlp.de's robots.txt answers a 302
-   to an HTML page, which src/robots_guard reads as unreachable (Disallow:
-   /), so RP gives sittings only. RFC 9309 would follow the redirect and find
-   no rules; changing the shared guard is a decision, not made here.
+   to an HTML page. **Decided 16 October 2026 (Chris):** a robots.txt read
+   that ends on a web page is no rules (RFC 9309), for every host; the
+   laptop's curl fallback now follows robots.txt redirects (at most 5). RP's
+   Einladung PDFs are read (docs/robots-runtime.md).
 3. Vocabulary seen in passing: taxonomy-es leaves bare "familia" out (a
    Valencian PNL "sobre el papel de la familia" did not match);
    taxonomy-fr did not match COCOF's resolution on pregnancy, birth and

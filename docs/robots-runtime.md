@@ -217,6 +217,8 @@ calls, member service and day sweep. robots.txt is now read in ONE place,
 |---|---|
 | 2xx | rules read; the text is saved to `data/robots-cache/` with its fetch time |
 | 4xx | no rules (RFC 9309 2.3.1.2), at once, no retry; saved as "no rules" |
+| 3xx | followed, to any host and unasked, at most 5 hops (`src/http.ROBOTS_MAX_REDIRECTS`, urllib and the curl fallback alike); the file at the end is read as if served at the first URL. A sixth hop: unavailable, so no rules (RFC 9309 2.3.1.2) |
+| 2xx web page | a body that is an HTML document (opens with `<!DOCTYPE html>`/`<html>`/`<head>`/`<body>` and has no line-initial `User-agent`/`Allow`/`Disallow`) has no robots groups: no rules, logged "robots.txt answered a web page, not a robots file; no rules" |
 | timeout or connection error | retried: 3 attempts in all, 45 s each, 5 s then 15 s between them |
 | 5xx answered promptly | retried ONCE after 5 s (RFC 9309 lets us treat it as temporary), then unreachable |
 | still unreachable | a saved copy under 24 hours old stands in (logged); otherwise Disallow: / for the host, one gap, "host skipped" |
@@ -237,6 +239,22 @@ calls, member service and day sweep. robots.txt is now read in ONE place,
   24 hours, so an older copy is ignored and the host is skipped as before.
   A client whose raw directory is not called `raw` (a test double) keeps no
   disk copy.
+
+**A robots.txt that ends on a web page (16 October 2026, Chris).**
+`dokumente.landtag.rlp.de/robots.txt` answers 302 to
+`www.landtag.rlp.de/de/startseitex/`, which answers 302 to the Landtag's home
+page. RFC 9309 follows the redirects and finds no groups: no rules. Two things
+had made it "unreachable" instead: the laptop's Python cannot negotiate that
+host's TLS, and the curl fallback (`HttpClient._fetch_via_curl`) did not follow
+redirects, so it reported "HTTP 302". The fallback now follows redirects for
+robots.txt URLs only (`-L --max-redirs 5`, http/https only) and raises the
+final status as an HTTP error (so a 404 is no rules and a 503 is still a
+skipped host); any other URL is still not followed by curl, whose hops would
+bypass the redirect guards. Unchanged: 5xx and unreachable = Disallow: /;
+4xx = no rules; every hop of a fetched document's redirect chain is asked of
+its own host's robots.txt. A genuine robots file reached by redirect is
+honoured. Tests: `tests/test_robots_redirects.py`
+(RobotsTxtRedirectToPageTests, LooksLikeHtmlTests, CurlFallbackRedirectTests).
 
 ## Counts
 
@@ -619,7 +637,7 @@ scope doc's "Forward agenda (regional_agenda, 16 October 2026)" section.
 | regional_agendas/de (HB) | sd.bremische-buergerschaft.de (/termine/ics/, /tops/) | iCalendar + scraper | yes | allowed; *.pdf disallowed, never fetched |
 | regional_agendas/de (HH) | www.hamburgische-buergerschaft.de (/aktuelles/termine/...!search, /resource/blob/) | scraper | yes | allowed |
 | regional_agendas/de (MV) | www.landtag-mv.de (/plenum-und-ausschuesse/plenum/aktuelle-plenarwoche, /fileadmin/) | scraper | yes | allowed |
-| regional_agendas/de (RP) | api.landtag-rlp.de (/api/meeting/filteredList) | API (the site's own) | yes | robots.txt 404 (no rules); dokumente.landtag.rlp.de's robots.txt answers a 302 to an HTML page, which the guard reads as unreachable, so the Einladung PDFs are refused (sittings only; question for Chris in the handover) |
+| regional_agendas/de (RP) | api.landtag-rlp.de (/api/meeting/filteredList) | API (the site's own) | yes | robots.txt 404 (no rules); dokumente.landtag.rlp.de's robots.txt answers 302s ending on the Landtag's HTML home page: no rules since 16 October 2026 (Chris), so the Einladung PDFs are read |
 | regional_agendas/de (ST) | www.landtag.sachsen-anhalt.de (/service/terminuebersichten) | scraper | yes | allowed: plenary dates only |
 | regional_agendas/de (SH) | www.landtag.ltsh.de (dayMonthKalenderGetter.jsp, /infothek/wahl20/plenum/, /export/sites/ltsh/) | JSON + scraper | yes | allowed |
 | regional_agendas/de (TH) | www.thueringer-landtag.de (/fileadmin/calendar_abo/, /plenum/sitzungstermine/, /uploads/tx_tltcalendar/) | iCalendar + scraper | yes | allowed |
