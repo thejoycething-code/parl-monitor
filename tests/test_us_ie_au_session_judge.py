@@ -335,7 +335,7 @@ class SlotTests(unittest.TestCase):
     other way round)."""
 
     JUDGES = ("prov-session-judge", "editions-session-judge", "us-session-judge", "ie-session-judge",
-              "au-session-judge", "uk-session-judge", "europe-session-judge")
+              "au-session-judge", "uk-session-judge", "europe-session-judge", "brief-narratives")
 
     def test_the_slots(self):
         want = {"us-session-judge": {(5, 19, 30)}, "ie-session-judge": {(5, 18, 30)},

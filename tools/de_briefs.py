@@ -262,8 +262,7 @@ def render(subject, fields, mb, today, drafted, paid_off=False):
     lines = ["# Campaigns Brief (DRAFT): {0}".format(name), ""]
     if not drafted and paid_off:
         # PAID AI OFF (16 October 2026): not a failure, a decision.
-        lines.append("> **NARRATIVE NOT DRAFTED: the paid AI is off (src/paid_ai.py). "
-                     "Every prose field below is a placeholder for the campaigner to write.**")
+        lines.append("> **{0}**".format(mb.NARRATIVE_PENDING_NOTE))
         lines.append("")
     elif not drafted:
         lines.append("> **{0}**".format(
@@ -382,9 +381,15 @@ def render(subject, fields, mb, today, drafted, paid_off=False):
 
 
 def write_brief(conn, subject, mb, api_key, today):
+    """Write one German brief and its brief_log row (status kept on a rewrite).
+
+    The narrative the free session judge drafted (tools/brief_narratives.py)
+    is used first; the paid draft only behind BRIEF_NARRATIVE_PAID=1."""
+    from src import brief_narratives
     got = facts(conn, subject)
     subject["_facts"] = got
-    fields = mb.draft_narrative(subject, got, api_key)
+    fields = (brief_narratives.stored(conn, subject["slug"])
+              or mb.draft_narrative(subject, got, api_key))
     drafted = bool(fields)
     body = render(subject, fields or {}, mb, today, drafted, paid_off=not api_key)
     if not os.path.isdir(BRIEFS_DIR):
@@ -478,7 +483,7 @@ def main():
         written += 1
         failed += 0 if drafted else 1
         print("  {0}  {1}".format(os.path.relpath(path, ROOT),
-                                  "" if drafted else "(narrative not drafted: paid AI off)"
+                                  "" if drafted else "(narrative not drafted yet: queued for the session judge)"
                                   if not api_key else "(NARRATIVE DRAFT FAILED)"))
     print("de-briefs: {0} brief(s) written{1}.".format(
         written,
