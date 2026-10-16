@@ -256,7 +256,7 @@ class GovukParsingTests(unittest.TestCase):
         urls = [d.url for d in docs]
         self.assertFalse([u for u in urls if "/siteassets/" in u])
         wg = next(d for d in docs if "Women and Girls" in d.title)
-        self.assertEqual(wg.doc_type, "ofcom_call_for_input")
+        self.assertEqual(wg.doc_type, "consultation")      # the edition reads it as a deadline
         self.assertEqual(wg.extra_text, "online safety")
         self.assertEqual(wg.opening_date, "2026-09-09")
 
@@ -289,6 +289,8 @@ class GovukSweepTests(unittest.TestCase):
         wg = next(r for t, r in titles.items() if "Women and Girls" in t)
         self.assertEqual((wg["closing_date"], wg["source"], wg["organisation"]), ("2026-11-04", "ofcom", "Ofcom"))
         self.assertIn("Guidance on NHS staff facilities", titles)
+        self.assertEqual(titles["Guidance on NHS staff facilities"]["doc_type"], "guidance")
+        self.assertEqual(titles["Guidance on NHS staff facilities"]["source"], "nhs-england")
         # "Ofcom" alone on Ofcom's own pages is not our ground
         self.assertFalse([t for t in titles if "Competition Act" in t or "1.4 GHz" in t])
         # Ofcom statements are not opened for a closing date

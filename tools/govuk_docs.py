@@ -163,7 +163,7 @@ class Doc:
 
     @property
     def is_consultation(self):
-        return self.doc_type in CONSULTATION_TYPES or self.doc_type.startswith("ofcom_")
+        return self.doc_type in CONSULTATION_TYPES or self.doc_type == "consultation"
 
 
 # --- GOV.UK ---------------------------------------------------------------
@@ -214,8 +214,10 @@ def parse_ofcom_listing(page):
         low = title.lower()
         if not low.startswith(OFCOM_PREFIXES) and "call for" not in low:
             continue
-        kind = "ofcom_statement" if low.startswith("statement") else (
-            "ofcom_call_for_input" if "call for" in low else "ofcom_consultation")
+        # 'consultation' (calls for evidence and input too) is the word the
+        # edition reads as a deadline (src/countdown.govuk_from_store); a
+        # statement is a publication. source='ofcom' keeps the origin.
+        kind = "ofcom_statement" if low.startswith("statement") else "consultation"
         pub = re.search(r"Published:\s*([^<]+)", body)
         upd = re.search(r"Last updated:\s*([^<]+)", body)
         desc = re.findall(r"<p>(.*?)</p>", body, re.S)
@@ -367,6 +369,13 @@ class Sweep:
                     d.url, FEED, "nhse-" + d.url.rstrip("/").rsplit("/", 1)[-1][:60]))
             except FetchError as exc:
                 self.gap("NHS England page {0} unreadable: {1}".format(d.url, str(exc)[:120]))
+                continue
+            # "Publication type: Guidance" -> doc_type 'guidance', the label
+            # the edition prints; source='nhs-england' keeps the origin.
+            m = re.search(r"Publication type:\s*([A-Za-z][A-Za-z ,&-]{1,40}?)\s+(?:This|The|These|A|An|Link|Summary)\b",
+                          d.description)
+            if m:
+                d.doc_type = m.group(1).strip().lower().replace(" ", "_")
         self.stats["nhs-england"] = len(out)
         return out
 

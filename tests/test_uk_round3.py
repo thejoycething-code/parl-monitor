@@ -418,7 +418,7 @@ class SmallFixTests(unittest.TestCase):
 # -- D: petitions and gov.uk documents ---------------------------------------------
 
 def petitions_table(conn):
-    conn.execute("CREATE TABLE uk_petitions (petition_id INTEGER PRIMARY KEY, title TEXT, state TEXT, "
+    conn.execute("CREATE TABLE IF NOT EXISTS uk_petitions (petition_id INTEGER PRIMARY KEY, title TEXT, state TEXT, "
                  "signatures INTEGER, threshold_reached TEXT, response_date TEXT, debate_date TEXT, url TEXT, "
                  "areas TEXT, matched_terms TEXT, first_seen TEXT, last_seen TEXT)")
     rows = [
@@ -436,7 +436,7 @@ def petitions_table(conn):
 
 
 def govuk_table(conn):
-    conn.execute("CREATE TABLE govuk_docs (base_path TEXT PRIMARY KEY, title TEXT, doc_type TEXT, organisation TEXT, "
+    conn.execute("CREATE TABLE IF NOT EXISTS govuk_docs (base_path TEXT PRIMARY KEY, title TEXT, doc_type TEXT, organisation TEXT, "
                  "public_updated_at TEXT, closing_date TEXT, url TEXT, areas TEXT, matched_terms TEXT, "
                  "first_seen TEXT, last_seen TEXT)")
     rows = [

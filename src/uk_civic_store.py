@@ -44,7 +44,7 @@ SCHEMA = (
         threshold_reached  TEXT,            -- '100k' / '10k' / NULL
         response_date      TEXT,            -- Government response (YYYY-MM-DD)
         debate_date        TEXT,            -- Westminster Hall debate, scheduled or held
-        url                TEXT NOT NULL,
+        url                TEXT,
         areas              TEXT,            -- json list of area numbers
         matched_terms      TEXT,            -- json list of matched terms
         first_seen         TEXT NOT NULL,
@@ -74,7 +74,7 @@ SCHEMA = (
         organisation       TEXT,            -- '; '-joined organisation titles
         public_updated_at  TEXT,            -- YYYY-MM-DD
         closing_date       TEXT,            -- consultations (YYYY-MM-DD)
-        url                TEXT NOT NULL,
+        url                TEXT,
         areas              TEXT,
         matched_terms      TEXT,
         first_seen         TEXT NOT NULL,
