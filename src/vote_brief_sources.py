@@ -41,6 +41,12 @@ Measured costs per run on a sitting day (9-10 October 2026 shapes):
       ground; Camera: 1 Openpolis page + 1 per vote on our ground (its
       positions read 'SEC' until the Camera's record arrives: held).
 
+  ca  House of Commons (16 October 2026): 1 request (the session's division
+      list, every division with its result and tallies) + 1 per division
+      the brief would send (each member's position and caucus). The Senate
+      publishes its votes on web pages read by the weekly: its votes come
+      with the Canada weekly (Tuesdays).
+
 France is NOT read daily: the Assemblée publishes its scrutins only as one
 27 MB nightly zip (docs/france-scope.md), so French votes are briefed after
 the Saturday collection (jobs/fr-weekly.sh). Reading only the zip's newest
@@ -65,7 +71,7 @@ if TOOLS not in sys.path:
 
 from src.http import FetchError  # noqa: E402
 
-DAILY = ("nl", "pl", "ch", "br", "it", "de")
+DAILY = ("nl", "pl", "ch", "br", "it", "de", "ca")
 
 
 def _ground(areas_json, *watched):
@@ -535,6 +541,70 @@ class IT:
         return done
 
 
+# --- Canada -------------------------------------------------------------------------
+
+class CA:
+    """The House of Commons' own XML (tools/ca_rollcalls.py): the session's
+    division list in one request, the divisions on or after `since`
+    classified and stored by the collector's own functions (the English
+    taxonomy, config/watchlist-ca.yaml and its bill keys); member positions,
+    a request per division, only for the votes the brief would send. The
+    House publishes a division the day it is taken. The list is fetched with
+    archive=False, as the weekly does (it is the whole session); the
+    position payloads the brief cites are archived."""
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import ca_rollcalls as car
+        from src import filter as filt
+        session = car.CURRENT_SESSION
+        tax = filt.load_taxonomy(car.TAXONOMY)
+        wl = filt.load_watchlist(car.WATCHLIST)
+        import xml.etree.ElementTree as ET
+        text = client.get_text(car.DIVISIONS.format(session), car.FEED,
+                               "brief-divisions-" + session, archive=False)
+        try:
+            rows = car.parse_divisions(text)
+        except ET.ParseError as exc:
+            raise ValueError("the House's division list did not parse: {0}".format(exc))
+        n = 0
+        for d in rows:
+            if (d.get("date") or "")[:10] < since or d.get("number") is None:
+                continue
+            res = car.classify_division(tax, wl, d["subject"], d["parliament"], d["session"],
+                                        d["bill_number"])
+            car.store_division(conn, d, res, today)
+            n += 1
+        conn.commit()
+        log("ca: {0} House division(s) since {1} of {2} in {3}".format(n, since, len(rows),
+                                                                     session))
+        return n
+
+    @staticmethod
+    def positions(conn, client, today, log=print, keys=None):
+        import ca_rollcalls as car
+        watched = _watch("ca")
+        todo = [r for r in conn.execute(
+            "SELECT division_key, parliament, session, number, areas, bill_number FROM "
+            "ca_divisions WHERE chamber = 'commons' AND positions_fetched = 0").fetchall()
+            if _wanted(keys, r[0], r[4], r[5] and "{0}-{1}/{2}".format(r[1], r[2], r[5])
+                       in watched)]
+        done = 0
+        for key, parl, sess, number, _a, _b in todo:
+            try:
+                text = client.get_text(car.DIVISION.format(parl, sess, number), car.FEED,
+                                       "brief-division-{0}".format(key))
+                got = car.parse_participants(text)
+            except (FetchError, SyntaxError) as exc:     # ET.ParseError is a SyntaxError
+                log("  [gap] ca {0}: positions not read: {1}".format(key, str(exc)[:120]))
+                continue
+            if got:
+                car.store_positions(conn, key, got, today)
+                done += 1
+        conn.commit()
+        return done
+
+
 # --- shared -------------------------------------------------------------------------
 
 def parents_path(cc, directory=None):
@@ -610,7 +680,7 @@ def _watch(cc):
     return {str(k) for k in latam.watchlist(cc)}
 
 
-READERS = {"nl": NL, "pl": PL, "ch": CH, "br": BR, "it": IT, "de": DE}
+READERS = {"nl": NL, "pl": PL, "ch": CH, "br": BR, "it": IT, "de": DE, "ca": CA}
 
 
 def urlencode(**kw):

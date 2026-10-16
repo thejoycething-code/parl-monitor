@@ -589,7 +589,7 @@ class WiringTests(unittest.TestCase):
         self.assertIn("vote-briefs-daily", _read("ops", "install_country_jobs.sh"))
         self.assertFalse(os.path.exists(os.path.join(ROOT, ".github", "workflows",
                                                      "vote-briefs-daily.yml")))
-        self.assertEqual(set(vs.DAILY), {"nl", "pl", "ch", "br", "it", "de"})
+        self.assertEqual(set(vs.DAILY), {"nl", "pl", "ch", "br", "it", "de", "ca"})
 
     def test_the_daily_slots_are_clear_of_every_other_mini_job(self):
         def slots(path):

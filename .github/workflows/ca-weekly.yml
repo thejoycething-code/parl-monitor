@@ -379,6 +379,21 @@ jobs:
         run: |
           python3 tools/ca_5ca.py --all | tee /tmp/ca-5ca.log \
             || echo "  [gap] the 5CA sheets failed; last week's stand" | tee -a /tmp/ca-5ca.log
+      - name: The week ahead (House and Senate agendas)
+        # tools/country_agenda.py ca, as jobs/ca-weekly.sh runs it (16 October
+        # 2026): src/agendas/ca.py into the shared agenda table, robots.txt
+        # asked at run time; before the edition, which renders it.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/country_agenda.py ca | tee /tmp/ca-agenda.log \
+            || echo "  [gap] the week-ahead agenda step failed" | tee -a /tmp/ca-agenda.log
+      - name: Member profiles (profiles/ca/)
+        # tools/member_profiles.py ca through the reader adapter src/editions/ca.py;
+        # committed with the state below. Never posted.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/member_profiles.py ca | tee /tmp/ca-profiles.log \
+            || echo "  [gap] member-profiles: the profiles failed to render; the store is still published" | tee -a /tmp/ca-profiles.log
       - name: Write secrets file
         # The DM goes to Christopher alone (9 October 2026), as for the US and
         # Irish editions. Nothing posts to a channel.
@@ -388,6 +403,15 @@ jobs:
           slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
           slack_dm_user_id: U05LJP0BT61
           EOF
+      - name: Same-day vote briefs (House and Senate divisions)
+        # tools/country_vote_briefs.py --country ca --send, as jobs/ca-weekly.sh
+        # runs it: one DM to Christopher alone; the ledger
+        # data/vote-briefs/ca.json (shared with the Mini's daily job) is
+        # committed with data/.
+        if: always() && steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/country_vote_briefs.py --country ca --send | tee /tmp/ca-vote-briefs.log \
+            || echo "  [gap] vote briefs failed for ca; the next run retries" | tee -a /tmp/ca-vote-briefs.log
       - name: The edition, and its DM to Christopher
         # AFTER the collectors and the judge (tools/ca_monitor.py, 9 October
         # 2026). SPEAKS ONCE A DAY, as jobs/ca-weekly.sh does: an edition
@@ -408,7 +432,7 @@ jobs:
           {
             echo "## Canada weekly"
             echo '```'
-            grep -hE "edition:|dm:|ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-senate-committees:|ca-committee-reports:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|backfill|\[gap\]" \
+            grep -hE "edition:|dm:|ca-rollcalls:|ca-senate:|ca-senate-debates:|ca-committees:|ca-senate-committees:|ca-committee-reports:|ca-courts:|ca-hansard:|ca-petitions:|ca-gazette:|ca-triage:|ca-retag:|ca-agenda:|member-profiles|backfill|\[gap\]" \
               /tmp/ca-*.log 2>/dev/null | head -25 || echo "(no summary lines)"
             echo '```'
             TOTAL=$({ grep -hc "\[gap\]" /tmp/ca-*.log 2>/dev/null \
@@ -439,7 +463,7 @@ jobs:
         run: |
           git config user.name "parl-monitor bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/ editions/
+          git add data/ editions/ profiles/
           git diff --cached --quiet || git commit -m "Canada weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.

@@ -70,7 +70,10 @@ PIPELINES = {
     # morning is the longest legitimate gap.
     "Day sweep": (1, 3, "the day's speeches on our issues, and the radar"),
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
-    "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
+    # 16 October 2026 (branch ca-gaps): also the week ahead (country_agenda,
+    # cc='ca'), member profiles (profiles/ca/) and the vote briefs after the
+    # collectors; the vote pages come with the Sunday editions-session-judge.
+    "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette, week ahead, member profiles, vote briefs"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
     # Scheduled 9 October 2026, Fridays (au-weekly.yml; the Mac Mini first).
     "Australia weekly": (7, 4, "Australia's Federal Parliament: bills, House and Senate divisions"),
@@ -364,7 +367,8 @@ FEEDS = [
     # is re-stamped with its vote, so it gets the same.
     # The new countries' week ahead (10 October 2026, src/agenda.py): one
     # table, written by a step of each country's weekly (NL, PL, CH, BR, IT,
-    # FR, AT, ES, AR; BE, PT, SK from 11 October 2026). Every point a run reads is re-stamped, and the Dutch and
+    # FR, AT, ES, AR; BE, PT, SK from 11 October 2026; Canada, House and Senate,
+    # from 16 October 2026). Every point a run reads is re-stamped, and the Dutch and
     # French agendas are never empty (procedure meetings, study groups), so
     # the table moves every week whatever the councils do.
     # Germany from 16 October 2026 (src/agendas/de.py, a step of the Germany
@@ -1229,7 +1233,8 @@ ON_DEMAND = {
                               "which Monday's deploy ships.",
     "Daily vote briefs": "Mac Mini only (jobs/vote-briefs-daily.sh, 21:40 "
                          "Mon-Fri and 06:40 Tue-Sat London): the Netherlands, "
-                         "Poland, Switzerland, Brazil and Italy read directly "
+                         "Poland, Switzerland, Brazil, Italy and (since 16 "
+                         "October 2026) Canada's House of Commons read directly "
                          "into a throwaway store; it never publishes the "
                          "store, so it stamps no heartbeat, and each "
                          "country's weekly step is its backstop; mini_run.sh "

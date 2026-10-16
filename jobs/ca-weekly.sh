@@ -13,7 +13,17 @@
 # (jobs/prov-session-judge.sh, Wednesdays 16:15). Then
 # the edition and its DM (tools/ca_monitor.py), committed with the state.
 #
-# mini_run: commit editions
+# 16 October 2026 (branch ca-gaps): the shared country frameworks reach
+# Canada through a reader adapter (src/editions/ca.py): the week ahead
+# (tools/country_agenda.py ca, before the edition, which renders it as This
+# week and Further afield), member profiles (profiles/ca/, committed) and the
+# same-day vote briefs after the collectors (data/vote-briefs/ca.json; the
+# daily job briefs the House's divisions the day they are taken). The vote
+# pages, tracker and bill timelines are rebuilt for every country by the
+# Sunday editions-session-judge job (tools/make_country_votes.py), Canada
+# included: no step here.
+#
+# mini_run: commit editions profiles
 set -o pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -57,6 +67,18 @@ python3 tools/ca_triage.py --limit 2000 --budget-seconds 1200 || rc=1
 # anyone. A failure is a gap, never a lost week; last week's sheets stand.
 python3 tools/ca_5ca.py --all || echo "  [gap] the 5CA sheets failed; last week's stand"
 
+# The week ahead (src/agenda.py, src/agendas/ca.py, tools/country_agenda.py):
+# House committee notices, the Projected Order of Business and the sitting
+# calendar, the Senate's committee schedule and Order Paper, into the shared
+# agenda table under cc='ca', robots.txt asked at run time. Before the
+# edition, which renders it. A failure is a [gap] line; last week's read stands.
+python3 tools/country_agenda.py ca || echo "  [gap] the week-ahead agenda step failed"
+# Member profiles (tools/member_profiles.py, src/member_profiles.py): profiles/ca/
+# rewritten from the store just collected; never posted or DMed. A failure
+# is a [gap] line and never costs the store.
+python3 tools/member_profiles.py ca \
+  || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
+
 # The edition (tools/ca_monitor.py, 9 October 2026): editions/ca-monitor-<date>.md
 # from the store just collected and judged, and a DM to Christopher alone.
 # SPEAKS ONCE A DAY, as jobs/us-weekly.sh does: an edition already committed
@@ -64,6 +86,13 @@ python3 tools/ca_5ca.py --all || echo "  [gap] the 5CA sheets failed; last week'
 # so it is rewritten, not resent. On the Mini the Slack token comes from
 # ~/runner/env.
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# House and Senate divisions on our ground (watched, or tier 1) not briefed
+# yet, written to data/briefs/ and sent in one DM to Chris alone,
+# de-duplicated in data/vote-briefs/ca.json (shared with the daily job,
+# committed with data/; the first pass seeds it silently). Never stops the run.
+python3 tools/country_vote_briefs.py --country ca --send \
+  || echo "  [gap] vote briefs failed for ca; the next run retries"
 TODAY=$(date +%Y-%m-%d)
 # Government consultations and publications (tools/gov_docs_step.sh,
 # tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this

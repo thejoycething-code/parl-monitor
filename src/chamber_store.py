@@ -456,7 +456,9 @@ def _speaker(r):
 # has no chamber or debate columns, and its speeches are the German edition's
 # own section (tools/de_monitor.py). src/editions/de.py, a reader for the
 # shared frameworks, gets none from here.
-LEGACY = ("de",)
+# Canada's ca_speeches (src/ca_store.py: Hansard and committee interventions,
+# read by tools/ca_monitor.py) likewise; src/editions/ca.py is a reader too.
+LEGACY = ("de", "ca")
 
 
 def edition_items(conn, cc, since, until, wl):
@@ -535,6 +537,8 @@ def coverage_lines(conn, cc, since, until):
     """What was read in the window: English lines for the edition's Coverage.
     [] when the country has no such tables or read nothing in the window."""
     from src import country_edition as ce
+    if cc in LEGACY:
+        return []
     out = []
     for feed, what, unit in (("speeches", "Said in the chamber", "speeches"),
                              ("questions", "Questions", "questions")):
