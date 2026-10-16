@@ -92,7 +92,9 @@ Every other scraper host answered and allows every sample URL.
 written request from Chris with permission for our targeted use. Chris
 approved acting on them. `src/robots_guard.PERMISSIONS` records each one: the
 URL prefixes it covers (host and path, one Opendatasoft dataset each, never a
-whole host or a whole `/api/`), who granted it, the date, the condition in the
+whole host or a whole `/api/`; the one exception is abgeordnetenwatch.de, a
+keyless API with no datasets, whose permission names `/api/v2/` and our uses
+of it), who granted it, the date, the condition in the
 grantor's words, and a pointer to this section. A URL under a listed prefix
 is fetched with no robots.txt read by every `GuardedClient` (wrapped with or
 without `DOCUMENTED_APIS`) and by `probe_refusal`; the guard logs the
@@ -105,6 +107,7 @@ dataset not listed is asked.
 | data.bs.ch | `/api/explore/v2.1/catalog/datasets/` 100311 (Grosser Rat: Geschäfte), 100313 (Dokumente), 100314 (Vorgänge von Geschäften), 100186 (Live-Abstimmungsergebnisse, members' votes) | Orhan Saeedi, Statistisches Amt Basel-Stadt | 13 Oct 2026 | "Sie können sehr gerne die API benutzen unter Einhaltung der Lizenz. Das heisst sie müssen die Datenquelle irgendwie verlinken." If the API is slow, download in batches. | Licence CC BY 4.0 (Parlamentsdienst des Grossen Rates). Every Basel-Stadt item and vote in the Swiss edition carries a "Source:" link to its dataset (`ch_canton_acts.source_url`, `ch_canton_divisions.source_url`), and the Cantons coverage line links all four datasets. Exports filtered server-side; votes fetched in 14-day batches; 3 s between requests |
 | data.tg.ch | `/api/explore/v2.1/catalog/datasets/` sk-stat-140 (Politische Geschäfte des Grossen Rats), sk-stat-141 (Vorstösserinnen und Vorstösser), sk-stat-136 (Abstimmungen im Grossen Rat, members' votes), sk-stat-139 (Dokumente; listed, not read yet) | Felix Lorenz, Amt für Daten und Statistik (ogd@tg.ch) | 13 Oct 2026 | robots.txt is aimed at crawlers indexing the whole portal; targeted API retrieval of individual datasets is explicitly intended; our client "CitizenGO-ParlMonitor/1.0" may retrieve the Grosser Rat datasets about weekly via the API; the licence allows commercial and non-commercial use. | Licence CC0 1.0. Read once a week by jobs/ch-weekly.sh; votes from the newest stored day on (the first read: the 2024-2028 legislature in quarterly batches). Items carry their dataset link too |
 | data.bl.ch | `/api/explore/v2.1/catalog/datasets/` 13090 (Landratsgeschäfte seit 2017), 13140 (Beteiligungen von Landratsmitgliedern an Vorstössen: authors and co-signatories), 13130 (Unterlagen zu Landratsgeschäften: documents), 13080 (Abstimmungsverhalten der Landratsmitglieder seit 2018: members' votes) | Johannes Hool, Project Manager, Statistisches Amt / Office for Data and Statistics, Finance and Church Directorate, Canton of Basel-Landschaft | 13 Oct 2026 | Client "CitizenGO-ParlMonitor/1.0" is authorised to retrieve the Landrat's open data records, voting results included, via the data.bl.ch API; large-scale retrieval is fine. The robots.txt `/api/` disallow targets generic crawlers; requests to specific, deliberately selected dataset endpoints (`/api/explore/v2.1/catalog/datasets/<id>/records?...`) count as API-client usage and the rule does not apply. No robots.txt change is needed; the email is the confirmation. (Paraphrased.) | Publisher Landeskanzlei des Kantons Basel-Landschaft; licence opendata.swiss `terms_by` (free use, commercial allowed, the source must be cited): every Basel-Landschaft item and vote carries a "Source:" link to its dataset, and the Cantons coverage line links all four. Read once a week by jobs/ch-weekly.sh: exports filtered server-side, business in the last 45 days plus everything in progress, votes from the newest stored day on (the first read: the 2023-2027 legislature in quarterly batches, about 1,100 votes and 97,000 member votes, under two minutes on 13 October 2026); 3 s between requests. The other Landrat datasets (13100 interests, 13110 memberships, 13120 agendas, 13150/13160 bodies) are not listed and are still asked (refused) |
+| www.abgeordnetenwatch.de | `/api/v2/` (the whole keyless API: it has no datasets; the website's pages, and the bare `/api/v2` without the slash, are still asked) | Till Wolschina, Product Owner, abgeordnetenwatch \| Parlamentwatch e.V. (wolschina@abgeordnetenwatch.de) | 16 Oct 2026 | The robots.txt `Disallow: /api/v2/` targets general crawlers and search engines and is not a ban on targeted automated API queries; client "CitizenGO-ParlMonitor/1.0" may use the API as described to them: weekly votes of the Bundestag and the Landtage, MP profiles, daily vote briefs. Conditions: technical limit 30 requests per minute per IP; fair use at most 1 request per second; larger pulls preferably between 22:00 and 06:00; on HTTP 429, throttle and retry after a short wait. (Paraphrased.) | Licence CC0 1.0. Read by `tools/de_rollcalls.py` (weekly: the Bundestag and the sixteen Landtage), `tools/de_profiles.py` (MP profiles and the sitting roster) and `src/vote_brief_sources.DE` (the daily vote briefs, through `tools/country_vote_briefs.py`), all through the guarded client (`robots_guard.guard`), which logs the permission once per run. 2.5 s between requests (24 a minute, under both limits); a 429 is retried with the backoff (2, 8, 20 s) and waits at least the `Retry-After` it carries, capped at 60 s (`src/http.py`). Backfills (`--all`) belong in the night window. **Not covered and still OFF:** the sidejobs endpoint (Nebentätigkeiten, `src/member_intel.DE_SIDEJOBS`), by Chris's decision of 16 October 2026 |
 | dadosabertos.almg.gov.br | `/api/v2/` (recorded with `asks_robots=True`: **not** a skip, see below) | ALMG Centro de Atendimento ao Cidadão (protocolo 126599) | 14 Oct 2026 | At our written request ALMG changed its robots.txt to `Allow: /documentacao/`, `Allow: /api/ajuda/`, `Allow: /api/v2/`, while keeping `Disallow: /api/v2/*?*p=`, `/api/v2/*?*ord=`, `/api/v2/*?*tp=`, `/api/v2/*?*ordenacao=` and `Disallow: /`. We asked whether paging is acceptable; no answer yet. | Read by `tools/br_states.py` (`fetch_mg_api`), Minas Gerais, weekly. robots.txt is still read every run and obeyed: the wildcard rules refuse every paged or sorted URL (Robots and star_rules both match `*` and take the longest rule; `tests/test_robots_runtime.py`, `AlmgRobotsTests`), and the collector's `mg_api_url()` refuses to build one. Searches narrow by publication date (a week, split to days when a week holds more than one page of 20); a day holding more than one page is completed by reading bills one by one by number, and what a run's cap leaves is a gap carried to the next run. ALMG's own limits are kept: one request at a time, 1.5 s apart (they ask for at most two at once and one second between). If ALMG confirms paging and lifts the Disallow lines, paging can replace the date splitting |
 
 Collector: `tools/ch_cantons.py` (`fetch_baselstadt_api`, `fetch_thurgau_api`,
@@ -112,6 +115,16 @@ Collector: `tools/ch_cantons.py` (`fetch_baselstadt_api`, `fetch_thurgau_api`,
 parliament's own pages as before (grosserrat.bs.ch, grgeko.tg.ch,
 baselland.talus.ch) and one gap line says so. Scope:
 docs/switzerland-cantons-scope.md.
+
+**abgeordnetenwatch.de, 16 October 2026.** Replaces the note of 13 October
+("keep reading pending permission": the API was read unguarded as a
+documented open API while permission was requested from
+info@abgeordnetenwatch.de). The Product Owner's written permission is now
+recorded in `PERMISSIONS`, so `tools/de_rollcalls.py`, `tools/de_profiles.py`
+and the German daily vote-brief reader (`src/vote_brief_sources.DE`) moved
+from the unguarded client to the guarded one; the permission is what lets
+`/api/v2/` through (tested: with no permission the guard refuses it, and a
+refused URL is never requested). Scope: docs/germany-scope.md.
 
 **Basel-Stadt, later on 13 October 2026 (branch `bs-gribs`).** The data.bs.ch
 permission above **stands** and is still used: for the votes (100186, every
@@ -198,7 +211,7 @@ refused on a redirect hop:
 | `docs.un.org/en/<symbol>?direct=true` (scanned separately) | `documents.un.org/api/symbol/access` (`Disallow: /api`) | UN drafts and HRC session reports: could not read (docs/un-sources.md) |
 | `www.ourcommons.ca/Content/House/`, `/DocumentViewer/en/`, `/petitions/en/Petition/Details?Petition=`; `www.parl.ca/legisinfo/en/bill/` | a missing page redirects to `/ErrorPage/Default.aspx?...StatusCode=404`, which robots.txt disallows | only pages that do not exist: on a guarded client (`tools/ca_committees.py`, `ca_senate_committees.py`, `ca_committee_reports.py`) such a miss is now a `RobotsRefused` gap naming the ErrorPage instead of the error page; real pages are unaffected. `tools/ca_hansard.py` (an unguarded client, which detects its frontier by a 404) is unchanged |
 | `datos.hcdn.gob.ar/api/` (the bare base) | `http://datos.hcdn.gob.ar/api` (robots.txt answered 500) | none: the collectors' real paths (`/api/3/action/...`) do not redirect |
-| `www.abgeordnetenwatch.de/api/v2` (no slash) | `/api/v2/`, which robots.txt **disallows** (`Disallow: /api/v2/`) | none from the redirect (the real URLs carry the slash), but note: robots.txt disallows the whole API that `tools/de_rollcalls.py` and `tools/de_profiles.py` read, unguarded. Raised with Chris. Decision 13 Oct 2026: keep reading it as a documented open API (CC0, abgeordnetenwatch.de/api) while written permission is requested from info@abgeordnetenwatch.de; requests spaced 2.5 s apart to keep within the API's published 30 requests/minute limit |
+| `www.abgeordnetenwatch.de/api/v2` (no slash) | `/api/v2/`, which robots.txt **disallows** (`Disallow: /api/v2/`) | none from the redirect (the real URLs carry the slash). The API itself (`/api/v2/`, with the slash) is read under abgeordnetenwatch's written permission of 16 October 2026 (see "Written permissions"), through the guarded client; the bare `/api/v2` is not under that prefix and would still be asked (and refused). Until then (decision of 13 Oct 2026) it was read unguarded as a documented open API while permission was requested |
 
 Also seen: `www.nrsr.sk` redirects some https URLs to plain `http://`; the
 hop is asked of robots.txt like any other, but a downgrade is not refused as
@@ -263,7 +276,8 @@ Of the 113 collectors in the #144 list: 76 now ask robots.txt at run time
 robots.txt themselves (`src/agendas/at.py`, which is now also guarded through
 `tools/country_agenda.py`; `tools/fetch_portraits.py`, through
 `src/portraits.Robots`). Not in the #144 list and not changed: `tools/at_rollcalls.py`
-(checks robots.txt), `tools/ca_rollcalls.py`, `tools/de_rollcalls.py`,
+(checks robots.txt), `tools/ca_rollcalls.py`, `tools/de_rollcalls.py` (guarded
+since 16 October 2026, with `tools/de_profiles.py`: see "Written permissions"),
 `tools/eu_rollcalls.py`, `tools/de_courts.py`, `tools/eu_courts.py` (all
 built before 1 October).
 
@@ -379,7 +393,7 @@ stored this week.
 | day_sweep_sources | www.parlamento.pt, www.sabor.hr | scraper | yes | allowed |
 | day_sweep_sources | the rollcall modules' sources | as below | as below | reuses tools/<cc>_rollcalls.py readers; same classification |
 | member_intel (tools/member_intel.py) | api.sejm, dadosabertos, data.assemblee, dati.camera.it/sparql, gegevensmagazijn, ws.parlament.ch, www.parlament.gv.at/Filter/api/ | API | no | API only |
-| vote_brief_sources (via country_vote_briefs) | api.sejm, dadosabertos, dati.camera.it/sparql | API | API | API only |
+| vote_brief_sources (via country_vote_briefs) | api.sejm, dadosabertos, dati.camera.it/sparql; www.abgeordnetenwatch.de/api/v2/ (DE, since 16 October 2026) | API | API; abgeordnetenwatch under written permission | API only; DE reads the guarded client as it comes (no unwrapping), 2.5 s apart |
 
 ### tools/*_rollcalls.py
 

@@ -253,6 +253,39 @@ class LimitedRetryTests(unittest.TestCase):
         self.assertGreater(calls, 2, "gateway errors are transient; keep retrying")
 
 
+class TooManyRequestsTests(unittest.TestCase):
+    """16 October 2026 (abgeordnetenwatch's written permission: on 429,
+    throttle and retry after a short wait). A 429 is retried with the
+    backoff, and waits at least the Retry-After it carries (capped)."""
+
+    def _run(self, headers, outcomes_after):
+        err = urllib.error.HTTPError("https://example.test/x", 429, "slow down", headers, None)
+        opener = ScriptedOpener([err] + outcomes_after)
+        client, rec = make_client(tempfile.mkdtemp(), opener, throttle=0.0)
+        return client, rec, opener
+
+    def test_429_is_retried_after_the_backoff(self):
+        client, rec, opener = self._run({}, [FakeResponse('{"ok": 1}')])
+        self.assertEqual(client.get_json("https://example.test/x", "de", "s"), {"ok": 1})
+        self.assertEqual(len(opener.requests), 2)
+        self.assertEqual(rec.sleeps, [2.0])
+
+    def test_retry_after_is_honoured_when_longer(self):
+        client, rec, _ = self._run({"Retry-After": "15"}, [FakeResponse("[]")])
+        client.get_json("https://example.test/x", "de", "s")
+        self.assertEqual(rec.sleeps, [15.0])
+
+    def test_retry_after_is_capped_and_never_shortens_the_backoff(self):
+        client, rec, _ = self._run({"Retry-After": "3600"}, [FakeResponse("[]")])
+        client.get_json("https://example.test/x", "de", "s")
+        self.assertEqual(rec.sleeps, [http.RETRY_AFTER_CAP_S])
+        client, rec, _ = self._run({"Retry-After": "1"}, [FakeResponse("[]")])
+        client.get_json("https://example.test/x", "de", "s")
+        self.assertEqual(rec.sleeps, [2.0])
+        self.assertEqual(http._retry_after_seconds({"Retry-After": "Wed, 21 Oct 2026 07:28:00 GMT"}),
+                         0.0)
+
+
 class ArchiveFallbackTests(unittest.TestCase):
     """14 Sept 2026: parliament.scot refused the laptop after answering CI that
     morning, and one bill page failed a whole edition render. A response archived

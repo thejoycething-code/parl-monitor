@@ -23,6 +23,22 @@ that reuses the English term lists collects everything and sees nothing.
 `https://www.abgeordnetenwatch.de/api/v2`. Covers the Bundestag (parliament
 id 5) and all sixteen Land parliaments, plus the European Parliament.
 
+**Access (16 October 2026): written permission.** The site's robots.txt
+disallows `/api/v2/`. Till Wolschina (Product Owner, abgeordnetenwatch |
+Parlamentwatch e.V.) wrote that the rule targets general crawlers and search
+engines, not targeted API queries, and that CitizenGO-ParlMonitor/1.0 may
+use the API for weekly votes of the Bundestag and the Landtage, MP profiles
+and daily vote briefs. Conditions: 30 requests a minute per IP (technical
+limit), at most 1 a second (fair use), larger pulls preferably 22:00-06:00,
+on a 429 throttle and retry after a short wait. Recorded in
+`src/robots_guard.PERMISSIONS`; `tools/de_rollcalls.py`,
+`tools/de_profiles.py` and the daily vote-brief reader
+(`src/vote_brief_sources.DE`) read it through the guarded client, 2.5 s
+apart, a 429 retried after the backoff or its Retry-After
+(docs/robots-runtime.md, "Written permissions"). Sidejobs
+(Nebentätigkeiten) stay OFF: Chris's decision. This replaces the decision
+of 13 October 2026 (read unguarded while permission was requested).
+
 * `parliament-periods?parliament=5&type=legislature` -- the legislature id.
   Current: **161, "Bundestag 2025 - 2029"**, 2025-03-25 to 2029-02-22.
 * `polls?field_legislature=161` -- the *namentliche Abstimmungen* (recorded
@@ -393,9 +409,10 @@ reader adapter (`src/editions/de.py`); the German edition is still
   Bundestag's own committee pages (the members fragment each page loads,
   allowed by robots.txt). The Bundestag publishes neither committee seats nor
   Nebentätigkeiten as data (MdB-Stammdaten has neither; the biography XML is
-  under /xml/, disallowed). abgeordnetenwatch's sidejobs are data (CC0) but
-  its API is robots-disallowed and read only under the 13 October decision for
-  votes and profiles: that reader is built and off (`DE_SIDEJOBS=1`).
+  under /xml/, disallowed). abgeordnetenwatch's sidejobs are data (CC0); its
+  API is read under the written permission of 16 October 2026 (votes,
+  profiles, daily vote briefs), but sidejobs stay OFF by Chris's decision:
+  that reader is built and off (`DE_SIDEJOBS=1`).
 - Member profiles: `profiles/de/`, this term's members (a mandate id is per
   term), positions labelled with the Fraktion as stored (X6), committee seats
   flagged on our ground by name (config/member-intel-groups.yaml, the German

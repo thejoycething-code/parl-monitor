@@ -52,8 +52,14 @@ sys.path.insert(0, ROOT)
 
 from src import db  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 API = "https://www.abgeordnetenwatch.de/api/v2"
+HOST = "www.abgeordnetenwatch.de"
+# abgeordnetenwatch's limits (written permission, 16 October 2026): 30
+# requests a minute per IP, fair use at most 1 a second; 2.5 s apart, and a
+# 429 is retried after a wait by src/http.py (Retry-After honoured).
+SPACING_S = 2.5
 MANDATE = API + "/candidacies-mandates/{0}"
 COMMITTEES = API + "/committee-memberships?candidacy_mandate={0}&range_end=50"
 # THE CURRENT HOUSE, one paged list. abgeordnetenwatch returns only the
@@ -268,6 +274,15 @@ def pull(conn, client, today, limit=BATCH, everyone=False, log=print,
     return done, failed, committees, priority_total
 
 
+def make_client(raw_dir, log=print):
+    """The guarded client (robots_guard.guard): /api/v2/ passes under the
+    written permission of 16 October 2026 (robots_guard.PERMISSIONS) with no
+    robots.txt read; any other URL would be asked."""
+    client = guard(HttpClient(raw_dir=raw_dir), "de-profiles", log=log)
+    client.set_host_throttle(HOST, SPACING_S)
+    return client
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--limit", type=int, default=BATCH)
@@ -279,10 +294,7 @@ def main():
     ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
     args = ap.parse_args()
 
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
-    # abgeordnetenwatch.de/api asks for at most 30 requests a minute per IP
-    # (HTTP 429 above it): 2.5 s apart keeps us under it with room.
-    client.set_host_throttle("www.abgeordnetenwatch.de", 2.5)
+    client = make_client(os.path.join(ROOT, "data", "raw"))
     conn = db.init_db(db.connect(args.db))
     today = datetime.date.today().isoformat()
 

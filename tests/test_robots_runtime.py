@@ -80,6 +80,9 @@ class WrittenPermissionTests(unittest.TestCase):
     BS = "https://data.bs.ch/api/explore/v2.1/catalog/datasets/"
     TG = "https://data.tg.ch/api/explore/v2.1/catalog/datasets/"
     BL = "https://data.bl.ch/api/explore/v2.1/catalog/datasets/"
+    AW = "https://www.abgeordnetenwatch.de/api/v2/"
+    # Permissions granted for a whole (keyless, dataset-less) API prefix.
+    API_WIDE = {AW}
 
     def client(self, permissions=None):
         from tests.robots_fakes import RobotsServing
@@ -132,10 +135,16 @@ class WrittenPermissionTests(unittest.TestCase):
                     self.assertIsNone(rg.permission_for(prefix + "x"))
                     self.assertIs(rg.recorded_permission(prefix + "x"), p)
                     continue
+                if prefix in self.API_WIDE:
+                    # A keyless API with no datasets: the permission names the
+                    # API prefix itself (never the website), and its uses.
+                    self.assertIn(prefix.split("/")[2], doc)
+                    continue
                 # host and a dataset path: never a whole host or a whole /api/
                 self.assertRegex(prefix, r"^https://[^/]+/api/explore/v2\.1/catalog/datasets/[^/]+/$")
                 self.assertIn(prefix.split("/datasets/")[1].rstrip("/"), doc)
-        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch", "data.bl.ch", "dadosabertos.almg.gov.br"})
+        self.assertEqual(hosts, {"data.bs.ch", "data.tg.ch", "data.bl.ch", "dadosabertos.almg.gov.br",
+                                 "www.abgeordnetenwatch.de"})
         self.assertIn("Sie können sehr gerne die API benutzen", rg.PERMISSIONS[0].condition)
         self.assertIsNone(rg.probe_refusal(self.BS + "100311/records"))
         self.assertIsNotNone(rg.permission_for(self.TG + "sk-stat-140/exports/json"))
@@ -144,6 +153,63 @@ class WrittenPermissionTests(unittest.TestCase):
         self.assertIn("Johannes Hool", bl.granted_by)
         self.assertEqual(bl.date, "2026-10-13")
         self.assertIsNone(rg.permission_for(self.BL + "13100/records"))   # interests: not listed
+
+
+class AbgeordnetenwatchPermissionTests(unittest.TestCase):
+    """16 October 2026: abgeordnetenwatch.de's Product Owner wrote that its
+    robots.txt Disallow /api/v2/ is aimed at general crawlers, not targeted
+    API queries, and allowed our votes, profiles and daily vote briefs. The
+    API passes unasked; the website's pages are still asked; the German
+    collectors use the guarded client, 2.5 s apart."""
+
+    ROBOTS = "User-agent: *\nDisallow: /api/v2/\nDisallow: /suche\n"
+    AW = WrittenPermissionTests.AW
+
+    def client(self, permissions=None):
+        from tests.robots_fakes import RobotsServing
+        serving = RobotsServing(Routes({"abgeordnetenwatch.de": "{}"}),
+                                {"www.abgeordnetenwatch.de": self.ROBOTS})
+        return rg.guard(serving, "de-rollcalls", log=quiet) if permissions is None else \
+            rg.GuardedClient(serving, "de-rollcalls", log=quiet, permissions=permissions), serving
+
+    def test_the_permission_is_recorded_with_its_conditions(self):
+        p = rg.permission_for(self.AW + "polls?field_legislature=161&range_end=999")
+        self.assertIsNotNone(p)
+        self.assertIn("Till Wolschina", p.granted_by)
+        self.assertEqual(p.date, "2026-10-16")
+        for words in ("30 requests per minute", "1 request per second", "22:00", "429",
+                      "CitizenGO-ParlMonitor/1.0"):
+            self.assertIn(words, p.condition)
+        self.assertFalse(p.asks_robots)
+        self.assertIsNone(rg.permission_for("https://www.abgeordnetenwatch.de/api/v2"))
+        self.assertIsNone(rg.permission_for("https://www.abgeordnetenwatch.de/suche?q=x"))
+        self.assertIsNone(rg.probe_refusal(self.AW + "polls/1"))
+
+    def test_the_api_passes_unasked_the_website_is_asked(self):
+        client, serving = self.client()
+        self.assertEqual(client.get_json(self.AW + "polls/6733?related_data=votes", "de-rollcalls",
+                                         "p"), {})
+        self.assertEqual(serving.robots_asked, [])
+        with self.assertRaises(rg.RobotsRefused):
+            client.get_json("https://www.abgeordnetenwatch.de/suche?q=x", "de-rollcalls", "s")
+        self.assertEqual(serving.robots_asked, ["www.abgeordnetenwatch.de"])
+
+    def test_no_permission_no_skip(self):
+        client, serving = self.client(permissions=())
+        with self.assertRaises(rg.RobotsRefused):
+            client.get_json(self.AW + "polls/1", "de-rollcalls", "p")
+        self.assertEqual(len(serving.inner.asked), 0)
+
+    def test_the_german_collectors_use_the_guarded_client(self):
+        import tempfile
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import de_profiles
+        import de_rollcalls
+        raw = tempfile.mkdtemp()
+        for client in (de_rollcalls.make_client(raw, log=quiet), de_profiles.make_client(raw, log=quiet)):
+            self.assertIsInstance(client, rg.GuardedClient)
+            self.assertEqual(client._client._host_state("www.abgeordnetenwatch.de").min_interval, 2.5)
+            self.assertTrue(client.allowed(self.AW + "candidacies-mandates/1"))
 
 
 class AlmgRobotsTests(unittest.TestCase):

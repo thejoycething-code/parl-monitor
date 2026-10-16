@@ -160,6 +160,21 @@ _LIMITED_RETRY_STATUS = frozenset({500})
 _LIMITED_RETRY_ATTEMPTS = 2
 
 
+# A 429's Retry-After is honoured up to this many seconds; a longer ask is
+# cut to it (the retry then most likely fails and becomes a gap).
+RETRY_AFTER_CAP_S = 60.0
+
+
+def _retry_after_seconds(headers):
+    """A 429's Retry-After as seconds (0.0 when absent, unreadable or an
+    HTTP date), capped at RETRY_AFTER_CAP_S."""
+    try:
+        value = float((headers or {}).get("Retry-After") or 0)
+    except (TypeError, ValueError):
+        return 0.0
+    return max(0.0, min(value, RETRY_AFTER_CAP_S))
+
+
 def _maybe_gunzip(raw, headers):
     """Decompress a gzip-encoded reply (X14).
 
@@ -704,12 +719,18 @@ class HttpClient:
         # 1 initial attempt + up to max_retries further attempts.
         for attempt in range(self.max_retries + 1):
             attempts = attempt + 1
+            wait_at_least = 0.0
             try:
                 return self._request_once(url, timeout, extra_headers)
             except _RedirectBlocked as exc:
                 raise RobotsRefused(url, feed, slug, exc.reason, exc.host_skipped)
             except urllib.error.HTTPError as exc:
                 last_error = exc
+                if exc.code == 429:
+                    # Too many requests: wait at least what the server asks
+                    # (Retry-After in seconds, capped), never less than the
+                    # backoff (16 October 2026, abgeordnetenwatch's condition).
+                    wait_at_least = _retry_after_seconds(exc.headers)
                 self.last_headers = dict(exc.headers.items()) if exc.headers else {}
                 if exc.code not in _RETRYABLE_STATUS:
                     raise FetchError(url, feed, slug, attempts, exc)
@@ -726,7 +747,7 @@ class HttpClient:
                 last_error = exc
 
             if attempt < self.max_retries:
-                self._sleep(self._backoff_delay(attempt))
+                self._sleep(max(self._backoff_delay(attempt), wait_at_least))
 
         raise FetchError(url, feed, slug, attempts, last_error)
 

@@ -681,8 +681,9 @@ DE_ROLE = {"ordentliche mitglieder": "ordentliches Mitglied",
            "stellvertretende mitglieder": "stellvertretendes Mitglied"}
 # abgeordnetenwatch's sidejobs (Nebentätigkeiten as data, CC0): OFF until
 # Chris says yes (DE_SIDEJOBS=1). Its robots.txt disallows /api/v2/; the
-# decision of 13 October 2026 covers the votes and profiles already read
-# while written permission is requested, not a new endpoint.
+# written permission of 16 October 2026 (robots_guard.PERMISSIONS) covers
+# votes, MP profiles and daily vote briefs. Sidejobs stay OFF by Chris's
+# decision of the same day.
 DE_SIDEJOBS = ("https://www.abgeordnetenwatch.de/api/v2/sidejobs?"
                "mandates%5Bentity.parliament_period%5D={0}&range_start={1}&range_end={2}")
 DE_PERIOD = "161"

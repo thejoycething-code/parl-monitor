@@ -182,15 +182,20 @@ class FakeClient:
         self.throttles[host] = seconds
 
 
-class Guarded:
-    """Stands in for the daily job's GuardedClient: refuses everything, holds
-    the plain client underneath as `_client`."""
+AW_ROBOTS = {"www.abgeordnetenwatch.de": "User-agent: *\nDisallow: /api/v2/\n"}
 
-    def __init__(self, client):
-        self._client = client
 
-    def get_json(self, url, *a, **kw):
-        raise FetchError(url, "robots", "x", 0, "robots.txt disallows")
+def Guarded(raw, permissions=None):
+    """The daily job's client: robots_guard.guard() over `raw`, with
+    abgeordnetenwatch's real robots.txt rule (Disallow: /api/v2/). The
+    written permission of 16 October 2026 is what lets the API through."""
+    from tests.robots_fakes import RobotsServing
+    from src import robots_guard as rg
+    serving = RobotsServing(raw, AW_ROBOTS)
+    client = rg.GuardedClient(serving, "country-vote-briefs", log=lambda *a, **k: None,
+                              exempt=rg.DOCUMENTED_APIS, permissions=permissions)
+    client.serving = serving
+    return client
 
 
 def _poll_detail(vid, date, label):
@@ -241,14 +246,25 @@ class VoteBriefTests(unittest.TestCase):
             ("polls/6731", _poll_detail(6731, "2026-10-15", "Brennstoffemissionshandel")),
         ])
         conn = db.init_db(db.connect(":memory:"))
-        n = vs.DE.collect(conn, Guarded(raw), "2026-10-13", TODAY, log=lambda *_a: None)
+        client = Guarded(raw)
+        n = vs.DE.collect(conn, client, "2026-10-13", TODAY, log=lambda *_a: None)
         self.assertEqual(n, 2)
+        self.assertEqual(client.serving.robots_asked, [], "the written permission skips robots.txt")
         self.assertFalse(any("polls/6700" in u for u in raw.calls))
         self.assertEqual(raw.throttles.get("www.abgeordnetenwatch.de"), 2.5)
         got = conn.execute("SELECT vote_id, date FROM de_divisions ORDER BY vote_id").fetchall()
         self.assertEqual([tuple(r) for r in got], [("6731", "2026-10-15"), ("6733", "2026-10-16")])
         self.assertEqual(conn.execute("SELECT party FROM de_members WHERE person_id='2'")
                          .fetchone()[0], "SPD")
+
+    def test_without_the_permission_the_guard_refuses_the_api(self):
+        raw = FakeClient([("parliament-periods", {"data": []})])
+        conn = db.init_db(db.connect(":memory:"))
+        client = Guarded(raw, permissions=())
+        with self.assertRaises(FetchError):
+            vs.DE.collect(conn, client, "2026-10-13", TODAY, log=lambda *_a: None)
+        self.assertEqual(raw.calls, [], "a refused URL is never requested")
+        self.assertEqual(client.serving.robots_asked, ["www.abgeordnetenwatch.de"])
 
     def test_a_failed_list_is_a_gap_line(self):
         raw = FakeClient([])
