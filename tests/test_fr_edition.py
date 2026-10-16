@@ -102,10 +102,13 @@ class FrenchEdition(unittest.TestCase):
         self.assertIn("1 procedural vote", self.text)
 
     def test_week_ahead_and_fr4_standing_note(self):
-        ahead = self.text.split("## Week ahead")[1].split("## Coverage")[0]
-        self.assertIn("DLR5L17N55023", ahead)
-        self.assertIn("Réunion de commission on 14 October 2026", ahead)
-        self.assertIn("*Aide à mourir: decrees to watch*", ahead)
+        # The countdown (16 October 2026): the scheduled act is a row of This
+        # week, the FR4 note a pending row, both from fr.timeline_extra.
+        ahead = self.text.split("## This week")[1].split("## Reference")[0]
+        self.assertIn("DLR5L17N55023", ahead)                 # in the dossier's link
+        self.assertIn("| Wed 14 Oct | ASSEMBLÉE NATIONALE |", ahead)
+        self.assertIn("Réunion de commission", ahead)
+        self.assertIn("| Standing note | GOVT | [Aide à mourir: decrees to watch]", ahead)
         self.assertIn("Haute Autorité de santé", ahead)
 
     def test_note_keeps_a_quiet_week_from_hiding_fr4(self):

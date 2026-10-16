@@ -61,8 +61,13 @@ import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-AHEAD_DAYS = 14          # what the edition shows
-FETCH_DAYS = 21          # what the collector reads: a week's slack for a late run
+AHEAD_DAYS = 14          # the classic week-ahead section and the DM's week-ahead line
+# What the collector reads. 16 October 2026: 63 days (9 weeks), so the
+# countdown's Further afield table (src/country_countdown.py: the next Monday
+# to 8 weeks on) is filled wherever the source publishes that far; a source
+# that publishes less simply returns less. A module may cap its own crawl
+# (Poland's per-day committee requests: src/agendas/pl.COMMITTEE_DAYS).
+FETCH_DAYS = 63
 MAX_LINES_DETAIL = 260
 
 SCHEMA = (
