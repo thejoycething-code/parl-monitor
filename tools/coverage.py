@@ -367,6 +367,8 @@ FEEDS = [
     # FR, AT, ES, AR; BE, PT, SK from 11 October 2026). Every point a run reads is re-stamped, and the Dutch and
     # French agendas are never empty (procedure meetings, study groups), so
     # the table moves every week whatever the councils do.
+    # Germany from 16 October 2026 (src/agendas/de.py, a step of the Germany
+    # weekly; de_agenda, the edition's own committee table, is watched above).
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
     # The new countries' petitions and consultations (11 October 2026,
@@ -752,8 +754,10 @@ from src import chamber_store as _chamber  # noqa: E402
 # moves every week; the newest stamp over all seven is what this watches. Each
 # source's own stamp is in mi_runs (cc, source, last_seen) and the weekly log's
 # "member-intel <cc>:" line says what it read.
+# Germany joined on 16 October 2026 (branch de-ca-gaps): the Bundestag's
+# committee seats, a step of the Germany weekly.
 FEEDS += [("mi_runs", "last_seen", 7, 4,
-           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
+           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT DE weeklies)")]
 
 # France's HATVP declarations of interests (11 October 2026, tools/fr_hatvp.py,
 # src/fr_hatvp.py), a step of the France weekly: at most every four weeks it
@@ -1224,7 +1228,10 @@ ON_DEMAND = {
                          "Panama, Honduras and Uruguay (the Latam ones "
                          "through the Latam alerts' ledger) "
                          "(src/country_day_sweep.py), one DM for both; the "
-                         "weekly collections remain its backstop.",
+                         "weekly collections remain its backstop. Germany "
+                         "since 16 October 2026: the Bundestag's recorded "
+                         "votes (abgeordnetenwatch), DIP's Vorgänge and the "
+                         "Bundestag's agenda.",
     "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
                        "21:10 London daily): sends the new country editions "
                        "and the Latam monthly whose review window has ended "

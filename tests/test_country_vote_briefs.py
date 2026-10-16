@@ -573,7 +573,9 @@ class WiringTests(unittest.TestCase):
             job = _read("jobs", "mx-collect.sh" if cc == "mx" else "{0}-weekly.sh".format(cc))
             self.assertIn("python3 tools/country_vote_briefs.py --country {0} --send".format(cc), job)
             step = job.index("country_vote_briefs.py")
-            self.assertLess(job.index("|| rc=$?"), step, cc)       # after the collector
+            # after the collector ('|| rc=1' in the older weeklies: Germany's)
+            mark = "|| rc=$?" if "|| rc=$?" in job else "|| rc=1"
+            self.assertLess(job.index(mark), step, cc)
             if "latam_alerts.py --country" in job:
                 self.assertLess(step, job.index("python3 tools/latam_alerts.py --country"), cc)
 
@@ -587,7 +589,7 @@ class WiringTests(unittest.TestCase):
         self.assertIn("vote-briefs-daily", _read("ops", "install_country_jobs.sh"))
         self.assertFalse(os.path.exists(os.path.join(ROOT, ".github", "workflows",
                                                      "vote-briefs-daily.yml")))
-        self.assertEqual(set(vs.DAILY), {"nl", "pl", "ch", "br", "it"})
+        self.assertEqual(set(vs.DAILY), {"nl", "pl", "ch", "br", "it", "de"})
 
     def test_the_daily_slots_are_clear_of_every_other_mini_job(self):
         def slots(path):

@@ -12,7 +12,7 @@
 # DE_TRIAGE_PAID=1 / DE_STANCE_PAID=1 they leave their rows to the free
 # session judge (jobs/europe-session-judge.sh, Mondays 14:30). The edition is DMed.
 #
-# mini_run: commit editions reviews docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html
+# mini_run: commit editions reviews docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html profiles
 set -o pipefail
 cd "$(dirname "$0")/.."
 # The heartbeat (source_runs, stamped when the store is published) is keyed on the
@@ -50,6 +50,32 @@ python3 tools/de_5ca.py --all \
   || echo "  [gap] de-5ca: the 5CA sheets failed; last week's stand"
 python3 tools/make_de_votes.py \
   || echo "  [gap] de-votes: the vote page failed; last week's stands"
+
+# THE SHARED COUNTRY FRAMEWORKS (16 October 2026, branch de-ca-gaps), read
+# through the reader adapter src/editions/de.py; each failure is a [gap]
+# line, never the run's, and none of them touches the German edition above.
+# The week ahead in the shared agenda table (tools/country_agenda.py,
+# src/agendas/de.py): the plenary Tagesordnung for the coming sitting week
+# and the committees' sittings, for the daily sweep and the profiles.
+python3 tools/country_agenda.py de \
+  || echo "  [gap] the shared agenda step failed for de"
+# Member intelligence (tools/member_intel.py, src/member_intel.fetch_de):
+# every Bundestag committee's members from the Bundestag's own committee
+# pages (about 80 requests, robots.txt asked); last week's rows stand on a
+# failure. Nebentätigkeiten stay off (DE_SIDEJOBS) until Chris decides.
+python3 tools/member_intel.py de \
+  || echo "  [gap] member-intel: de not fully read; last week's rows kept"
+# Member profiles (tools/member_profiles.py): profiles/de/, this term's
+# Bundestag members, their recorded positions on our ground and their seats.
+python3 tools/member_profiles.py de \
+  || echo "  [gap] member-profiles: the profiles failed to render; the store is still published"
+# Same-day vote briefs (tools/country_vote_briefs.py, src/country_vote_brief.py):
+# the Bundestag's watched and tier-1 recorded votes not briefed yet (the
+# daily job, jobs/vote-briefs-daily.sh, briefs most of them the day they
+# are taken), one DM to Chris alone, de-duplicated in data/vote-briefs/de.json.
+export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
+python3 tools/country_vote_briefs.py --country de --send \
+  || echo "  [gap] vote briefs failed for de; the next run retries"
 
 WEEK=$(TZ=Europe/London python3 -c "import datetime; t=datetime.date.today(); print((t - datetime.timedelta(days=t.weekday())).isoformat())")
 echo "German judge evaluation for week commencing $WEEK"
