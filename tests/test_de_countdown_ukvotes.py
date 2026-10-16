@@ -270,5 +270,40 @@ class GermanCountdown(unittest.TestCase):
         self.assertIn("*This week*:", text)
 
 
+class NoUKVotesInTheGermanEdition(unittest.TestCase):
+    """Chris, 16 October 2026: the German edition's Recorded votes are German
+    only (Bundestag, Bundesrat, Landtage). The UK's last-week Recorded votes
+    (src/countdown.recorded_votes) belong to the UK edition alone, so a
+    store holding both must never put a Westminster or devolved division
+    into the German edition or its DM."""
+
+    UK_TITLES = ("Health Bill: Report Stage", "Terminally Ill Adults", "Children's Wellbeing",
+                 "Reform UK Debate - grooming gangs", "Preventing Violence Against Women")
+
+    def test_a_shared_store_keeps_uk_divisions_out(self):
+        conn = uk_store()                     # every UK division source filled
+        for stmt in de_store().iterdump():    # and the German store beside it
+            if stmt.startswith("INSERT INTO \"de_") or stmt.startswith("INSERT INTO \"country_agenda"):
+                conn.execute(stmt)
+        conn.commit()
+        md = dm.render_edition(conn, TODAY, write=False)
+        text = md + dm.dm_summary(conn, TODAY)
+        for t in self.UK_TITLES:
+            self.assertNotIn(t, text)
+        for where in ("**Commons**", "**Lords**", "**Holyrood**", "**Senedd**", "**NI Assembly**",
+                      "votes.parliament.uk", "parliament.scot", "record.senedd.wales", "niassembly"):
+            self.assertNotIn(where, text)
+        self.assertNotIn(cd.NO_RECORDED_VOTES, text)
+        votes = md[md.index("### Recorded votes"):]
+        self.assertTrue(votes.startswith("### Recorded votes · Bundestag"))
+        self.assertIn("Monitoring des NIPT", votes)
+
+    def test_the_german_renderer_never_calls_the_uk_section(self):
+        with open(os.path.join(ROOT, "tools", "de_monitor.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        for name in ("recorded_votes(", "westminster_votes", "devolved_votes", "render_recorded_votes"):
+            self.assertNotIn(name, src)
+
+
 if __name__ == "__main__":
     unittest.main()
