@@ -34,8 +34,9 @@ the same pass as petitions (src/petitions.classify). Precision gate, as the
 UK's: a document of a DEADLINE_TYPES type is kept on any match; anything else
 needs tier 1 or a watchlist key, since tier-2 vocabulary ("Kinder", "école")
 would otherwise admit much of an education ministry's output. Only rows on
-our ground (or watched) are stored. Area 11 (migration) is stored, never
-counted as on our ground (src/latam.HIDDEN_AREAS), as everywhere.
+our ground (or watched) are stored. Area 11 (migration) is never counted as
+on our ground (src/latam.HIDDEN_AREAS), as everywhere: a row whose only area
+is 11 is not stored; a row stored for another area keeps 11 in its areas.
 
 DEADLINES. `deadline_rows()` is the contract with the country countdown: a
 row of a DEADLINE_TYPES type, on our ground, whose closing_date falls in the
@@ -401,6 +402,20 @@ def publication_rows(conn, cc, since, until, limit=10):
         "SELECT * FROM gov_docs WHERE cc = ? AND doc_type NOT IN ({0}) AND "
         "COALESCE(published, first_seen) > ? AND COALESCE(published, first_seen) <= ?".format(marks),
         (cc,) + DEADLINE_TYPES + (since, until)).fetchall()]
+    rows = [r for r in rows if latam.areas_of(r["areas"]) or loads(r.get("watch_keys"))]
+    rows.sort(key=lambda r: (r["tier"] or 9, -len(loads(r["matched_terms"])), r["published"] or ""))
+    return rows[:limit]
+
+
+def in_preparation_rows(conn, cc, since, until, limit=10):
+    """Draft bills and regulations on our ground first seen in (since, until]
+    with no closing date published (Poland's government register lists its
+    drafts; the deadlines live on a host that refuses us): neither a deadline
+    nor a publication, so they get their own list."""
+    from src import latam
+    rows = [dict(r) for r in conn.execute(
+        "SELECT * FROM gov_docs WHERE cc = ? AND doc_type IN ('bill_draft', 'regulation_draft') "
+        "AND closing_date IS NULL AND first_seen > ? AND first_seen <= ?", (cc, since, until)).fetchall()]
     rows = [r for r in rows if latam.areas_of(r["areas"]) or loads(r.get("watch_keys"))]
     rows.sort(key=lambda r: (r["tier"] or 9, -len(loads(r["matched_terms"])), r["published"] or ""))
     return rows[:limit]
