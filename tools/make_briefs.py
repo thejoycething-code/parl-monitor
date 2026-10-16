@@ -227,6 +227,16 @@ parliamentary stage has been passed, a vote has happened, or a decision has
 been made unless the facts state it explicitly: "at 2nd reading" means
 AWAITING that stage, not through it.
 
+VERIFY WHAT THE FACTS DO NOT HOLD (Chris, 16 October 2026, after a German
+assisted-suicide draft cited "the legacy of Nazi euthanasia" with nothing in
+the facts behind it). Every factual or historical assertion (a date, a
+number, an event, a law, a named person's action, any history) either comes
+from the supplied facts or ends with [VERIFY]. Values and arguments ("life
+is a gift", "the safeguards cannot hold") may be stated without it. Never
+invent a statistic. A sentence carrying a year, a percentage, a count or a
+historical event or regime (Nazi, Holocaust, apartheid, Soviet...) that the
+facts do not hold is tagged [VERIFY] automatically if you leave it bare.
+
 HOUSE STYLE (set by the campaigner's own refinement of the RE Core Syllabus
 brief, 2026-08-31 - match it):
 - Coin ONE memorable hook phrase that captures the stake (his: "merely one

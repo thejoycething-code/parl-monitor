@@ -520,5 +520,92 @@ class JobTests(unittest.TestCase):
         self.assertNotIn("—", p)
 
 
+class VerifyTaggingTests(Base):
+    """Chris, 16 October 2026: a factual or historical claim the record does
+    not hold ends with [VERIFY]. The PR #213 supervised German assisted-suicide
+    brief cited "the legacy of Nazi euthanasia" with nothing behind it."""
+
+    DE_RECORD = json.dumps({"subject": "Gesetz zur Regelung der Suizidhilfe",
+                            "facts": {"stage": "1. Beratung", "date": "2026-11-06",
+                                      "signatures": 4000}}, ensure_ascii=False)
+    NAZI = ("Germany carries the legacy of Nazi euthanasia, and the law must never forget it.")
+
+    def test_the_nazi_euthanasia_claim_is_tagged(self):
+        fields, tagged = bn.tag_unverified({"injustice": "Life is a gift: no law may end it. " + self.NAZI},
+                                           self.DE_RECORD)
+        self.assertEqual(fields["injustice"], "Life is a gift: no law may end it. Germany carries the "
+                         "legacy of Nazi euthanasia, and the law must never forget it [VERIFY].")
+        self.assertEqual(len(tagged), 1)
+        self.assertEqual(tagged[0]["field"], "injustice")
+        self.assertEqual(tagged[0]["reasons"], ["Nazi"])
+
+    def test_a_supported_history_claim_is_left_alone(self):
+        record = json.dumps({"facts": {"speech": "Die Erinnerung an die NS-Euthanasie verpflichtet uns."}},
+                            ensure_ascii=False)
+        fields, tagged = bn.tag_unverified({"injustice": self.NAZI}, record)
+        self.assertEqual(fields["injustice"], self.NAZI)
+        self.assertEqual(tagged, [])
+        record = json.dumps({"facts": {"speech": "the Nazi programme"}})
+        self.assertEqual(bn.tag_unverified({"injustice": self.NAZI}, record)[1], [])
+
+    def test_years_percentages_and_counts(self):
+        prose = ("The first reading is on 6 November 2026. Over 4,000 people have signed. "
+                 "In 2015 the court struck down the ban. 78% of doctors object. "
+                 "Some 250 clinics would open.")
+        fields, tagged = bn.tag_unverified({"urgency": prose}, self.DE_RECORD)
+        self.assertEqual(fields["urgency"],
+                         "The first reading is on 6 November 2026. Over 4,000 people have signed. "
+                         "In 2015 the court struck down the ban [VERIFY]. 78% of doctors object [VERIFY]. "
+                         "Some 250 clinics would open [VERIFY].")
+        self.assertEqual([t["reasons"] for t in tagged],
+                         [["year 2015"], ["percentage 78%"], ["number 250"]])
+
+    def test_values_tags_scores_and_tim_are_left_alone(self):
+        f = {"arguments": "Care, not killing: palliative care relieves suffering.",
+             "listen": "In 1990 it was different [VERIFY].",
+             "rf4_gain": "The law keeps protecting life.\nScore: 4 - a gain worth 1,000 members.",
+             "tim": "17165 - Stop assisted suicide"}
+        fields, tagged = bn.tag_unverified(f, "{}")
+        self.assertEqual(fields, f)
+        self.assertEqual(tagged, [])
+
+    def test_a_bold_label_is_not_the_claim(self):
+        bg = "**What's next:** The vote follows in 1998."
+        fields, tagged = bn.tag_unverified({"background": bg}, "{}")
+        self.assertEqual(fields["background"], "**What's next:** The vote follows in 1998 [VERIFY].")
+
+    def test_read_back_tags_stores_and_logs(self):
+        self.run_tool(self.tool.queue_out, self.q, 1)
+        fill(self.q, {"uk:" + UK_BILL: answer_text(narrative(
+            injustice=narrative()["injustice"] + " Britain must remember the Holocaust and the "
+                      "eugenics of the 1930s."))})
+        res, log = self.run_tool(self.tool.queue_in, self.q, TODAY)
+        self.assertEqual(res, (1, 0, 0), log)
+        got = bn.stored(self.conn, UK_BILL)
+        self.assertTrue(got["injustice"].endswith("eugenics of the 1930s [VERIFY]."), got["injustice"])
+        # The supported background (6 November, from the record) is untouched.
+        self.assertEqual(got["background"], narrative()["background"])
+        tags = json.loads(self.conn.execute(
+            "SELECT verify_tags FROM brief_narratives WHERE slug = ?", (UK_BILL,)).fetchone()[0])
+        self.assertEqual(len(tags), 1)
+        self.assertEqual(tags[0]["field"], "injustice")
+        self.assertIn("Holocaust", tags[0]["reasons"])
+        self.assertIn("[verify] uk:" + UK_BILL + " injustice: tagged", log)
+
+    def test_an_older_store_gains_the_column(self):
+        conn = sqlite3.connect(":memory:")
+        conn.execute("CREATE TABLE brief_narratives (slug TEXT PRIMARY KEY, builder TEXT NOT NULL, "
+                     "fields TEXT NOT NULL, model TEXT NOT NULL, facts_sha TEXT, drafted_at TEXT)")
+        bn.save(conn, "s", "uk", {"ask": "x"}, {}, "2026-10-16", tagged=[{"field": "ask"}])
+        self.assertIn("ask", conn.execute("SELECT verify_tags FROM brief_narratives").fetchone()[0])
+
+    def test_the_rule_is_in_both_frames(self):
+        for text in (bn.NARRATIVE_PROMPT, bn.HEADER, self.b.mb.DRAFT_SYSTEM):
+            self.assertIn("[VERIFY]", text)
+            self.assertRegex(text.replace("\n", " "), r"(?i)never invent( a)? statistic")
+        self.assertIn("Nazi", self.b.mb.DRAFT_SYSTEM)
+        self.assertNotIn("\u2014", bn.NARRATIVE_PROMPT + self.b.mb.DRAFT_SYSTEM)
+
+
 if __name__ == "__main__":
     unittest.main()
