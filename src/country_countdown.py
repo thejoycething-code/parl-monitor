@@ -252,7 +252,7 @@ def regional_items(conn, cc, today, until):
         return []
     out = []
     for r in _select(conn, "regional_agenda", ("cc", "region", "body", "dated", "business", "item_type",
-                                               "url", "areas", "matched_terms"),
+                                               "url", "source", "areas", "matched_terms"),
                      "WHERE cc = ? AND substr(dated,1,10) >= ? AND substr(dated,1,10) <= ? "
                      "ORDER BY dated", (cc, today, until)):
         areas = ce.areas_of(r["areas"])
@@ -265,8 +265,29 @@ def regional_items(conn, cc, today, until):
                   detail=", ".join(x for x in (ce.clean(r["item_type"]),
                                                ce.clean(r["body"]) if REGION_TAG.get(cc, "").find("{body}") < 0
                                                else "") if x) or None,
-                  region=ce.clean(r["region"]) or ce.clean(r["body"]), keys=[])
+                  region=ce.clean(r["region"]) or ce.clean(r["body"]), keys=[],
+                  source=r["source"])
         out.append(it)
+    return out
+
+
+# Sources whose licence asks for attribution wherever their data is shown
+# (16 October 2026, Chris: OpenParlData.ch for the Swiss cantons). Matched on
+# regional_agenda.source; one coverage line per source with rows in the tables.
+ATTRIBUTIONS = (
+    ("OpenParlData.ch", "Cantonal agendas marked {regions}: Source: OpenParlData.ch "
+                        "(https://openparldata.ch), CC BY 4.0."),
+)
+
+
+def attribution_notes(rows):
+    """The attribution lines for the regional rows a countdown shows."""
+    out = []
+    for needle, text in ATTRIBUTIONS:
+        regions = sorted({(r.item or {}).get("region") or "" for r in rows
+                          if needle in ((r.item or {}).get("source") or "")} - {""})
+        if regions:
+            out.append(text.format(regions=", ".join(regions)))
     return out
 
 
@@ -1041,6 +1062,7 @@ def countdown_notes(conn, country, today, rows, gone, missing, pub_note, kq):
                      .format(" or ".join(missing)))
     if not _table(conn, "regional_agenda"):
         notes.append(REGIONAL_NOTE)
+    notes += attribution_notes(rows)
     if pub_note:
         notes.append(pub_note)
     if gone:

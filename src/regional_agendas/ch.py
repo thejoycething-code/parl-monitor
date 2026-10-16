@@ -62,11 +62,14 @@ LANG_FILE = {"de": DE, "fr": FR, "it": IT}
 # --- OpenParlData ---------------------------------------------------------------
 
 OPD = "https://api.openparldata.ch/v1/"
-# Aargau is NOT read through OpenParlData (lead's decision, 16 October 2026):
-# its own host disallows the whole parliament section and whether to ask its
-# Parlamentsdienst is still with Chris (docs/switzerland-cantons-scope.md,
-# "Waiting on Chris" 3); reading its business through a republisher would
-# step round that refusal. Fifteen cantons.
+# Chris approved OpenParlData.ch for these cantons (16 October 2026; CC BY
+# 4.0, robots.txt allows the API; no courtesy note). The attribution goes with
+# the data: OPD_SOURCE is stored on every row (regional_agenda.source) and the
+# countdown prints "Source: OpenParlData.ch ... CC BY 4.0" under any table
+# that shows one (src/country_countdown.ATTRIBUTIONS).
+# Aargau is NOT read through OpenParlData, and stays blocked (Chris, 16
+# October 2026): its own host disallows the whole parliament section, and
+# reading its business through a republisher would step round that refusal.
 OPD_CANTONS = ("be", "lu", "ur", "sz", "ow", "nw", "gl", "so", "bs", "bl", "ar", "ai", "sg",
                "gr", "tg")
 OPD_PAGE = 500
