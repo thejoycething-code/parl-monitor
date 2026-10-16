@@ -1,4 +1,9 @@
 {
+  "empty:govuk_docs": {
+    "first": "2026-10-16",
+    "reported": "2026-10-16",
+    "reported_age": null
+  },
   "empty:it_senate_amend_acts": {
     "first": "2026-10-13",
     "reported": "2026-10-13",
@@ -17,6 +22,16 @@
   "empty:pe_regional_norms": {
     "first": "2026-10-13",
     "reported": "2026-10-13",
+    "reported_age": null
+  },
+  "empty:uk_petition_counts": {
+    "first": "2026-10-16",
+    "reported": "2026-10-16",
+    "reported_age": null
+  },
+  "empty:uk_petitions": {
+    "first": "2026-10-16",
+    "reported": "2026-10-16",
     "reported_age": null
   }
 }
