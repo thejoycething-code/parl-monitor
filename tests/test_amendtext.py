@@ -132,5 +132,66 @@ class AmendTextTests(unittest.TestCase):
             "SELECT areas FROM xx_divisions WHERE division_key='v1'").fetchone()[0], "[]")
 
 
+class PerAreaGateTests(unittest.TestCase):
+    """16 October 2026 (Chris): the gate adds ONLY the areas whose own tier-1
+    term is in the purpose. an-17-5663, an aide a mourir amendment citing IVG
+    in its purpose and contraception / stem cells in its body, gained areas 1
+    and 10 under the old all-or-nothing gate."""
+
+    TEXTS = {
+        # purpose: abortion (tier 1). body: marriage (tier 1, another area), family planning (tier 2)
+        "v1": ("Removes the abortion time limit.", "and amends the marriage register; family planning ..."),
+        # purpose: family planning (tier 2 only); body: marriage (tier 1): review only
+        "v2": ("Funds family planning clinics.", "a marriage allowance is unaffected"),
+        # purpose names both tier-1 terms: both areas
+        "v3": ("Abortion and marriage registers.", "..."),
+    }
+
+    def setUp(self):
+        self.conn = store()
+        self.conn.execute("UPDATE xx_divisions SET title='Amendment 14' WHERE division_key='v3'")
+        self.reader = FakeReader(self.TEXTS)
+        self.out = {o.key: o for o in at.run(self.conn, self.reader, log=lambda *a: None)}
+
+    def division(self, key):
+        row = self.conn.execute("SELECT areas, matched_terms, tier FROM xx_divisions WHERE division_key=?",
+                                (key,)).fetchone()
+        return json.loads(row[0] or "[]"), json.loads(row[1] or "[]"), row[2]
+
+    def test_only_the_purposes_tier1_area_is_applied(self):
+        o = self.out["v1"]
+        self.assertTrue(o.ledger)
+        self.assertEqual(o.areas, [1, 9])                # the whole match, kept for review
+        self.assertEqual(o.applied, [1])
+        self.assertEqual(o.applied_terms, ["abortion"])
+        self.assertEqual(self.division("v1"), ([1], ["abortion"], 1))
+        saved = self.conn.execute("SELECT areas, ledger FROM amendment_text WHERE division_key='v1'").fetchone()
+        self.assertEqual((json.loads(saved[0]), saved[1]), ([1, 9], 1))
+
+    def test_tier2_purpose_with_tier1_body_is_review_only(self):
+        o = self.out["v2"]
+        self.assertFalse(o.ledger)
+        self.assertEqual(o.applied, [])
+        self.assertEqual(self.division("v2")[0], [11])   # the collector's area, untouched
+
+    def test_every_tier1_area_named_in_the_purpose_applies(self):
+        self.assertEqual(self.out["v3"].applied, [1, 9])
+        self.assertEqual(self.division("v3")[0], [1, 9])
+
+    def test_still_only_adds(self):
+        self.conn.execute("UPDATE xx_divisions SET areas='[2, 9]' WHERE division_key='v1'")
+        at.run(self.conn, self.reader, log=lambda *a: None)
+        self.assertEqual(self.division("v1")[0], [1, 2, 9])
+
+    def test_gated_never_wider_than_the_match(self):
+        tax, wl, _ = self.reader.taxonomy()
+        lk = at.Lookup("ok", texts=[at.entry("A1", "amendment", "A1", None, "Abortion.", "marriage")])
+        result, labels = at.match(lk, tax, wl)
+        narrow = filt.FilterResult(matched_terms=["marriage"], issue_areas=[9], tier=1)
+        self.assertIsNone(at.gated(lk, labels, tax, wl, None, narrow))
+        self.assertEqual(at.gated(lk, labels, tax, wl, None, result).issue_areas, [1])
+        self.assertFalse(at.ledger_ok(lk, ["other"], tax, wl))
+
+
 if __name__ == "__main__":
     unittest.main()

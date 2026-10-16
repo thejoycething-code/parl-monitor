@@ -17,7 +17,9 @@ looked up (store cache first: a vote is read once); a vote not yet read is
 fetched while --budget-seconds and --limit allow (the rest wait for next
 week, said in the log); the taxonomy runs over each text; a match whose
 tier-1 term sits in the text's PURPOSE is applied to the division (areas
-union, terms, tier 1); any other match is stored and listed for review only.
+union, terms, tier 1) for THOSE areas only -- the areas whose own tier-1 term
+is in the purpose; every other area of the text, and any other match, is
+stored and listed for review only.
 Cached matches are re-applied every run with no network, because the
 collector's upsert or --reclassify recomputes a division's areas.
 
@@ -60,7 +62,7 @@ def report(outcomes, cc, names=None, out=sys.stdout):
     names = names or {}
     flagged = [o for o in outcomes if o.ledger]
     review = [o for o in outcomes if o.labels and not o.ledger]
-    new = [o for o in flagged if not set(o.areas) <= set(o.before)]
+    new = [o for o in flagged if not set(o.applied) <= set(o.before)]
     gaps = [o for o in outcomes if o.gap]
     read = [o for o in outcomes if o.status == "ok"]
     skipped = [o for o in outcomes if o.status == "skipped"]
@@ -77,8 +79,11 @@ def report(outcomes, cc, names=None, out=sys.stdout):
         p("\n  NEWLY FLAGGED (gate passed, area new to the vote):")
         for o in sorted(new, key=lambda o: o.date or ""):
             p("    {0}  {1}  {2}".format(o.key, o.date, (o.title or "")[:110]))
-            p("        areas: {0} (before: {1}) | terms: {2}".format(
-                area_names(o.areas), area_names(o.before) or "none", ", ".join(o.terms[:8])))
+            p("        applies: {0} (before: {1}) | terms: {2}".format(
+                area_names(o.applied), area_names(o.before) or "none", ", ".join(o.applied_terms[:8])))
+            rest = [a for a in o.areas if a not in o.applied]
+            if rest:
+                p("        review only (not in the purpose as tier 1): {0}".format(area_names(rest)))
             if o.why:
                 p("        {0}".format(o.why[:200]))
     if review:

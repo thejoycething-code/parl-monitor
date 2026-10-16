@@ -760,7 +760,27 @@ def ledger_ok(lookup, labels, tax, wl):
     clause heading, or the Lords' own explanatory statement when the second
     route found one, can open the ledger.
     """
+    return gated(lookup, labels, tax, wl) is not None
+
+
+def gated(lookup, labels, tax, wl, result=None):
+    """The part of a clause-text match that may enter the ledger, or None.
+
+    Per area (16 October 2026, Chris; the same rule as src/amendtext.gated):
+    only the areas whose own TIER-1 term is in a matched clause's purpose
+    (ledger_ok above says what the purpose is), with only those terms, tier
+    1. A clause whose explanatory statement names an abortion offence and
+    whose body lists other offences enters the ledger on abortion only; the
+    rest of the match stays on the item for triage. Never wider than the
+    whole match (`result`, recomputed when not given)."""
     from src import filter as filt
+    if result is None:
+        result, _ = match(lookup, tax, wl)
+    if not result:
+        return None
+    allowed = set(result.issue_areas or [])
+    terms_ok = set(result.matched_terms or [])
+    areas, terms = set(), []
     for c in lookup.clauses:
         if c.get("label") not in labels:
             continue
@@ -770,9 +790,16 @@ def ledger_ok(lookup, labels, tax, wl):
             purpose = c.get("explanatory") or (c.get("text") or "")[:300]
         if not purpose:
             continue
-        if filt.filter_item(tax, wl, purpose, title="").tier == 1:
-            return True
-    return False
+        text = filt._fold(purpose)
+        for area, tier, term in filt._scan_taxonomy(text.lower(), text, tax):
+            if tier != 1 or area not in allowed or term not in terms_ok:
+                continue
+            areas.add(area)
+            if term not in terms:
+                terms.append(term)
+    if not areas:
+        return None
+    return filt.FilterResult(matched_terms=terms, issue_areas=sorted(areas), tier=1)
 
 
 def match_source(lookup, labels=None):
