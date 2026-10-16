@@ -172,20 +172,25 @@ _TYPES = (
         r"approval of (?:the )?(?:minutes|agenda)|declarations? of interest|"
         r"orden del d[íi]a$|ordine del giorno$|tagesordnung$|"
         r"pase de lista|declaratoria de qu[óo]rum|lectura del orden del d[íi]a)", re.I)),
+    # A motion that follows an interpellation is a motion; a request to
+    # appear (comparecencia, compareixença, audición) is evidence.
+    ("motion", re.compile(r"^(?:debate y votaci[óo]n de la )?moci[óo]n|^moci[óo]|"
+                          r"^proposta de resoluci[óo]|^proposici[óo] no de llei", re.I)),
+    ("committee evidence", re.compile(r"\bcomparecencia|\bcompareixen[çc]a|\bsol·licitud de compareixen", re.I)),
     ("questions", re.compile(
         r"\bfragestunde\b|\baktuelle stunde\b|\banfragen?\b|\bkleine anfrage|\bgro(?:ß|ss)e anfrage|"
         r"\binterpellation|\bquestions?\b(?! of privilege)|question period|question time|"
         r"\bpreguntas?\b|\binterpelaci[óo]n|\binterrogazion|\binterpellanz|"
         r"\bquestion(?:s)? (?:orales?|d'actualit[ée])|\bvragen?\b|\binterpellatie|"
-        r"\bquestion(?:es)? de urgencia|\bperguntas?\b|\bfragen\b", re.I)),
+        r"\bquestion(?:es)? de urgencia|\bperguntas?\b|\bfragen\b|\bpreguntes?\b|\binterpel·laci", re.I)),
     ("petition", re.compile(
-        r"\bpetition|\bpetici[óo]n|\bp[ée]tition|\bpetizion|\bverzoekschrift|"
+        r"\bpetition|(?<!a )\bpetici[óo]n|\bp[ée]tition|\bpetizion|\bverzoekschrift|"
         r"\bpeti[çc][ãa]o|\beingaben\b", re.I)),
     # Before bill stage: a Spanish "proposición no de ley" says "ley".
     ("motion", re.compile(r"proposici[óo]n no de ley|\bpunto de acuerdo|\bmoci[óo]n\b", re.I)),
     ("bill stage", re.compile(
         r"gesetz|lesung\b|\bgesetzentwurf|\bverordnung\b|\bstaatsvertrag|"
-        r"\bproyecto de (?:ley|decreto)|\bproposici[óo]n de ley|\biniciativa (?:de|con proyecto de) (?:ley|decreto)|"
+        r"\bproyecto de (?:ley|decreto)|\bprojecte de llei|\bproposici[óo] de llei|\bproposici[óo]n de ley|\biniciativa (?:de|con proyecto de) (?:ley|decreto)|"
         r"\bdictamen|\bley\b|\breforma(?:s)? (?:a|al|del?) (?:la|el|los|art)|"
         r"\bprojet de (?:loi|d[ée]cret|r[èe]glement)|\bproposition de (?:loi|d[ée]cret)|\bd[ée]cret\b|"
         r"\bprogetto di legge|\bproposta di legge|\bdisegno di legge|\bp\.?d\.?l\.?\b|"
@@ -223,7 +228,7 @@ def item_type(business, committee=False):
 
 
 _PLENARY = re.compile(
-    r"^(?:plen|chamber|house|senate|assembly|legislative|landtag|grand conseil|gran consiglio|"
+    r"^(?:ple\b|plen|chamber|house|senate|assembly|legislative|landtag|grand conseil|gran consiglio|"
     r"kantonsrat|grosser rat|gro(?:ß|ss)er rat|landrat|parlament|pleno|plenário|plenario|"
     r"sesi[óo]n|sess[ãa]o|seduta|assembl|consiglio|conseil|council|congreso|congress|"
     r"general assembly|gemeinderat|vlaams parlement$|parlement de wallonie$|house of)", re.I)
@@ -511,6 +516,9 @@ MONTHS = {
     # pt
     "janeiro": 1, "fevereiro": 2, "março": 3, "marco": 3, "maio": 5, "junho": 6,
     "julho": 7, "setembro": 9, "outubro": 10, "dezembro": 12,
+    # ca
+    "gener": 1, "febrer": 2, "maig": 5, "juny": 6, "juliol": 7, "setembre": 9,
+    "octubre": 10, "desembre": 12,
     # nl
     "januari": 1, "februari": 2, "maart": 3, "mei": 5, "augustus": 8,
 }

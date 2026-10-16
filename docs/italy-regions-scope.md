@@ -178,3 +178,57 @@ store and on the 958 acts of the 12 October regional archive:
 5. **Regional watchlist entries**: add acts by key under `regional:` in
    `config/watchlist-it.yaml` (e.g. the Liberi Subito bills, if they should
    lead even when nothing changes).
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/it.py`, read by `tools/regional_agenda.py it` into
+`regional_agenda` (not wired into a job yet). Probed live from the laptop on
+16 October 2026 with the identified UA, a handful of requests per host,
+robots.txt asked for every request. Codes follow `tools/it_regions.py`
+(lom, cam, mar, tn) and the same three-letter pattern for the rest.
+
+| Code | Council | Route | Format | Reaches | robots.txt | First run (16 Oct) |
+|---|---|---|---|---|---|---|
+| laz | Lazio | home page agenda box (`/`, next week's committee meetings), each committee's `?vw=homeCommissioni&cid=N` page with its next sittings and the numbered 'ordine del giorno' | HTML (Windows-1252) | about a week | allowed; the Aula's agendas (`?vw=elencolavoriaula`, `/binary/.../tbl_lavori_aula_odg2/`) are disallowed and not read | 9 meetings, 11 items to 22 Oct, 5 booked slots |
+| cam | Campania | `/atti-e-documenti/DG-attivita/ordine-del-giorno-prossime-sedute` (convened sittings), the convocation PDF from `/crccmsintegrationservices/rest/services/documentale/prendiDocumento?id=N` | HTML + PDF (pypdf) | as convened (11 November on 16 October) | allowed; Crawl-delay 10 honoured (THROTTLES 10 s) | 1 sitting, 2 items |
+| sic | Sicilia (ARS) | `/agenda/lavori-aula` and `/agenda/sedute-commissioni` (the dates with events are in the page's Drupal settings), then `/agenda/aula/YYYYMMDD` and `/agenda/commissione/YYYYMMDD` (JSON with an HTML fragment, what the calendar loads) | HTML + JSON | the published calendar (to 21 October); orders of the day are 'foglio notizie' PDFs, not read | no robots.txt (404): allowed. The bills search `/icaro/` on dati.ars.sicilia.it stays disallowed | 1 meeting (a cancelled one dropped), booked slot |
+| emr | Emilia-Romagna | `www.assemblea.emr.it/agenda/ics_view` | iCalendar (Plone) | as published (about a week) | allowed (only search paths disallowed) | 3 events to 22 Oct |
+| tos | Toscana | `/aula/prox-sedute.aspx` (the programmed sittings, to January 2027) and `/default.aspx?nome=odg_seduta` (the next sitting's full order of the day, one table per section) | HTML | 3 months of sittings; the order of the day for the next one | no robots.txt (404) | 94 items to 1 Dec, 7 on our ground (niqab ban motion, parental leave, CPR), 6 booked slots |
+| mar | Marche | `/attivita/assemblea/sedute/index.php`, the convened sitting's `odg.php?convocazione=N` | HTML (Windows-1252) | the next sitting | no robots.txt (404) | 1 sitting, 42 items |
+| tn | Trento | `/attivita/convocazioni/Pages/Convocazioni-per-data.aspx` | HTML (SharePoint) | two weeks | allowed (`/opendata/`, `/normattiva/` disallowed, not used) | 8 convocations, booked slots (the order of the day is loaded by script) |
+| cal | Calabria | home page links to each committee's next sitting, `/portale/Istituzione/Commissioni/VisualizzaOdG?Comm=...&DataSeduta=...` | HTML | the next committee sittings | allowed | 4 sittings, 12 items, 2 on our ground |
+
+Not read, with what was tried:
+
+- **lom Lombardia: blocked.** `consiglio.regione.lombardia.it/robots.txt`:
+  `User-agent: *` `Disallow: /` (named search engines only). The council's
+  open data on dati.lombardia.it (Socrata catalogue searched for 'CRL',
+  'seduta', 'ordine del giorno') has acts, amendments, members and laws but
+  no sittings or agenda.
+- **ven Veneto: blocked.** Akamai 403 to every request, robots.txt included.
+- **pug Puglia: blocked.** robots.txt `User-agent: *` `Disallow: /`.
+- **bas Basilicata: blocked.** JavaScript shell over `/consiglio-api`, which
+  robots.txt disallows.
+- **pie, abr, vda, sar, lig: no route.** No answer from the UK (timeouts or
+  refused connections on 16 October, as on 12 October).
+- **umb Umbria: no route.** alumbria.it answers now (it timed out on 12
+  October), but 'odg-assemblea' and 'convocazioni-assemblea' are an Angular
+  app (acta.alumbria.it) with no server-rendered list, and the home page
+  shows only the next four days' events. A later pass could read that
+  widget or ask for the app's API.
+- **fvg Friuli Venezia Giulia: no route.** The home redirects to a 404 for
+  our client; the acts are an ASP.NET postback form; robots.txt disallows
+  `/pagine/attivita/`.
+- **bz Bolzano: no route.** consiglio-bz.org is a 3.6 KB JavaScript shell;
+  its data API was not probed (German and Italian; would need
+  taxonomy-atch as well as taxonomy-it).
+- **taa Trentino-Alto Adige: no route.** Few sittings; `/api/` disallowed.
+- **mol Molise: no route.** HTTP 500 (a self-signed certificate on 12
+  October).
+
+Notes: Campania's convocation PDF is read with pypdf when installed
+(otherwise the sitting is stored with its listed title). A failed committee
+page or order of the day is a gap line and the region's window is then not
+pruned. Live run (laptop, 16 October): 8 of 22 read, 173 items, 9 on our
+ground, 20 booked slots, about 60 seconds (Campania's 10-second crawl
+delay is most of it).

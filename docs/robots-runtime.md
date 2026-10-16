@@ -457,6 +457,67 @@ gap (never a browser UA, a proxy or a challenge bypass):
 | GMC | www.gmc-uk.org home page, robots.txt, `/rss`, `/feed`, `/sitemap.xml`; gmc.citizenspace.com, consultations.gmc-uk.org (do not resolve); gov.uk organisation `general-medical-council` | 403 to everything, robots.txt included; no Citizen Space host; no gov.uk organisation (404) | nothing: declared gap (regulators.BLOCKED). Not yet tried: whether gmc-uk.org answers GitHub's runners (a probe workflow would say; not dispatched from the laptop) |
 | NHS England | www.england.nhs.uk robots.txt, `/feed/`, `/publication/feed/` | the WordPress publication feed answers (RSS 2.0, 10 items a page, `?paged=N`), with NHS England's own topic categories; the feed's descriptions are empty, so each page's summary is read | tools/govuk_docs.py, source 'nhs-england' (first read: "Guidance on NHS staff facilities", 15 October 2026, single-sex facilities). Its statistics also reach gov.uk (organisation `nhs-england`). The Citizen Space consultations listing stays in regulators.py |
 
+## Regional forward agendas (16 October 2026)
+
+`tools/regional_agenda.py <cc>` (src/regional_agenda.py, one module per
+country in src/regional_agendas/), a step of each regional weekly through
+`tools/regional_agenda_step.sh`. Every request goes through
+`src.robots_guard.guard` (robots.txt asked per host per run and on every
+redirect hop; documented APIs pass unasked as everywhere else). A refused
+route is a region with status `blocked`; a region with no permitted,
+readable route is `no-route`, each with its note, printed every run and
+kept in `regional_agenda_runs`. The per-region detail is in each regional
+scope doc's "Forward agenda (regional_agenda, 16 October 2026)" section.
+
+| Module | Host (path) | Kind | Asks robots.txt | Notes |
+|---|---|---|---|---|
+| regional_agendas/us | v3.openstates.org (/events) | API | no (documented API) | free key in the X-API-KEY header only; at most 30 a run, 6.5 s apart, written to the uss_api_ledger before sending (225 a UTC day shared with tools/us_states.py) |
+| regional_agendas/us | wslwebservices.leg.wa.gov (/CommitteeMeetingService.asmx/) | API | yes | robots.txt 404 (no rules); the Legislature's documented web service, HTTP GET binding |
+| regional_agendas/us | capitol.texas.gov (/MyTLO/RSS/RSS.aspx) | scraper | yes | allowed (/MyTLO/RSS/ not disallowed); /TLODOCS/ is disallowed, so meeting notices are linked, never fetched (each meeting a booked slot) |
+| regional_agendas/es | www.parlamentodeandalucia.es (/webdinamica/portal-web-parlamento/actividadparlamentaria/agendasemanal.do, calendariodesesiones.do) | scraper | yes | allows all |
+| regional_agendas/es | www.parlament.cat (/web/actualitat/agenda/, /web/actualitat/ordre-dia/, /web/composicio/ple-parlament/calendari-anual/) | scraper | yes | allows /web; /apl, /ext, /pls disallowed (never read) |
+| regional_agendas/es | www.cortsvalencianes.es (/es/actividad/actualidad/agenda) | scraper | yes | Drupal default; agenda paths allowed |
+| regional_agendas/es | www.ccyl.es (/Agenda/Semana, /Agenda/Evento, /Actividad/PlenosPrevistos) | scraper | yes | disallows /*agenda.do*, /*agenda.html*, /*.rss$; these paths allowed |
+| regional_agendas/es | www.parcan.es (/actividad/calendario/, /reuniones/futuras.py, /reuniones/asuntos.py) | scraper | yes | Crawl-delay 3 honoured; /api/, /api2/ disallowed (never read) |
+| regional_agendas/es | www.cortesaragon.es (/Semana-actual.2237.0.html, /Proxima-semana.2335.0.html, /Acto-programado.2319.0.html, /fileadmin/_DMZMedia/comunicacion/web/varios/calendario.csv) | scraper + CSV | yes | /*?id=* disallowed (index.php?id= never used; realurl paths instead) |
+| regional_agendas/es | parlamento-cantabria.es (/agenda-semana) | scraper | yes | Drupal default; allowed |
+| regional_agendas/es | Madrid, Galicia, Navarra, Asturias (bot walls: Sucuri, Akamai, Cloudflare, a bot test); Castilla-La Mancha, Murcia, Extremadura (robots.txt) | - | - | blocked, never bypassed; País Vasco, Illes Balears no answer from the UK; La Rioja no readable route |
+| regional_agendas/at | www.wien.gv.at (/politik/rathaus-sitzungstermine, /infodat/suchergebnisse) | scraper | yes | allowed; /infodat/ergli and /infodat/sukri disallowed, never used |
+| regional_agendas/at | noe-landtag.gv.at (/sitzungen, /sitzungen/XX/<date>) | scraper | yes | Allow: / |
+| regional_agendas/at | www.land-oberoesterreich.gv.at (/60566.htm) | scraper | yes | allowed; landtag.ooe.gv.at (Tagesordnung) not fetched: its certificate does not verify (never bypassed) |
+| regional_agendas/at | pallast2.stmk.gv.at (/pallast-p/api/pub/materials/meetings/next/, /pallast-p/pub/meeting) | API/scraper | yes | no robots.txt on the host (no rules) |
+| regional_agendas/at | www.salzburg.gv.at (/pol/landtag/lt-termine) | scraper | yes | allowed; service.salzburg.gv.at (LPI) robots.txt answers 503, not used |
+| regional_agendas/at | www.tirol.gv.at (/landtag/sitzungen/) | scraper | yes | allowed; lte.tirol.gv.at Disallow: / (not used) |
+| regional_agendas/at | vorarlberg.at (/web/landtag/tagesordnungen) | scraper | yes | allowed (/documents/, /o/, /suche/ barred, not used) |
+| regional_agendas/at | www.bgld-landtag.at (/landtagssitzungen/) | scraper | yes | allowed |
+| regional_agendas/at | www.ktn.gv.at | - | yes | User-agent: * Disallow: / (Google and Bing only): Kärnten blocked |
+| regional_agendas/ch | api.openparldata.ch (/v1/meetings, /v1/agendas, /v1/groups) | open data API | yes | allowed; CC BY 4.0 ("Source: OpenParlData.ch"); a third-party republisher, read for fifteen cantons (Aargau left out while its own host refuses us; question with Chris) |
+| regional_agendas/ch | parlzhcdws.cmicloud.ch (/parlzh3/cdws/Index/SITZUNGENDETAIL/searchdetails) | API | yes | robots.txt 404 (no rules); the index kantonsrat.zh.ch's own calendar asks |
+| regional_agendas/ch | ge.ch (/grandconseil/sessions/seances/, /grandconseil/sessions/seances-odj-lion/) | scraper | yes | no rules |
+| regional_agendas/ch | www.vd.ch (/gc/seances-du-grand-conseil) | scraper | yes | allowed |
+| regional_agendas/ch | www4.ti.ch (/poteri/gc/attivita/ordine-del-giorno/, /calendario-delle-sedute) | scraper | yes | allowed; the acts search stays disallowed, not used |
+| regional_agendas/ch | parlement.vs.ch (/api/fe/v1/parl_sessions, /api/fe/v1/parl_session) | API (the app's JSON) | yes | empty robots.txt (no rules) |
+| regional_agendas/ch | kr-geschaefte.zug.ch (/gast/traktandenlisten) | scraper | yes | allowed |
+| regional_agendas/ch | www.fr.ch, www.parlinfo.fr.ch | - | yes | /fr/, /search/, ?page and /node/ disallowed (parlinfo redirects to /node/): Fribourg blocked |
+| regional_agendas/be | ws.vlpar.be (/e/opendata/verg/komende, /verg/<id>/agd) | API | no (documented API) | DOCUMENTED_APIS; covers the coming week only |
+| regional_agendas/be | www.parlement-wallonie.be (/opendata/agenda_od.php) | open data | no (documented API) | DOCUMENTED_APIS |
+| regional_agendas/be | nautilus.parlement-wallon.be (/Archives/<ses>/ODJS, ODJC PDFs) | scraper | yes | allowed; orders of the day via pypdf |
+| regional_agendas/be | www.parlement.brussels (/agenda/) | scraper | yes | only GPTBot disallowed |
+| regional_agendas/be | weblex.irisnet.be (/display_pdf.php?info=convoc_fr) | scraper | yes | allowed; weblex.brussels (the linked host) has a mismatched TLS certificate, never bypassed |
+| regional_agendas/be | www.pfwb.be (/agenda, /agendas/*) | scraper | yes | empty Disallow |
+| regional_agendas/be | www.parlementfrancophone.brussels (/agenda, /agenda/convocations/*) | scraper | yes | empty Disallow |
+| regional_agendas/be | pdg.be | - | yes | Cloudflare 403, robots.txt included: blocked |
+| regional_agendas/it | www.consiglio.regione.lazio.it (/, ?vw=homeCommissioni) | scraper | yes | allowed; the Aula odg views (?vw=elencolavoriaula, tbl_lavori_aula_odg2) are disallowed and not read |
+| regional_agendas/it | www.cr.campania.it (/atti-e-documenti/DG-attivita/ordine-del-giorno-prossime-sedute, /crccmsintegrationservices/...prendiDocumento) | scraper | yes | allowed; Crawl-delay 10 honoured |
+| regional_agendas/it | www.ars.sicilia.it (/agenda/lavori-aula, /agenda/sedute-commissioni, /agenda/{aula,commissione}/YYYYMMDD) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/it | www.assemblea.emr.it (/agenda/ics_view) | iCalendar | yes | allowed; only search paths disallowed |
+| regional_agendas/it | www.consiglio.regione.toscana.it (/aula/prox-sedute.aspx, /default.aspx?nome=odg_seduta) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/it | www.consiglio.marche.it (/attivita/assemblea/sedute/) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/it | www.consiglio.provincia.tn.it (/attivita/convocazioni/Pages/Convocazioni-per-data.aspx) | scraper | yes | allowed; /opendata/ and /normattiva/ disallowed, not used |
+| regional_agendas/it | www.consiglioregionale.calabria.it (/, /portale/Istituzione/Commissioni/VisualizzaOdG) | scraper | yes | allowed |
+| regional_agendas/it | Lombardia, Puglia (robots.txt Disallow: /), Basilicata (/consiglio-api disallowed), Veneto (Akamai 403) | - | yes | blocked, never bypassed |
+<!-- regional-agenda-rows -->
+
 ## Tests
 
 `tests/test_robots_runtime.py`: the API exemption (a documented API is never

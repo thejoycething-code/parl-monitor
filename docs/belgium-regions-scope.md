@@ -222,3 +222,42 @@ The proposals as first written (first read, 13 October):
 `tools/coverage.py` (one feed, one awaiting entry, one exemption),
 `docs/robots-runtime.md`, `docs/mac-mini.md`, `docs/belgium-scope.md`,
 `docs/country-parity-handover.md`.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/be.py`, read by `tools/regional_agenda.py be` into
+`regional_agenda` (not wired into a job yet). Probed live from the laptop on
+16 October 2026 with the identified UA, a handful of requests per host;
+every website request asks robots.txt (`src/robots_guard.guard`). Region
+codes are the parliament codes of `tools/be_regions.py`.
+
+| Code | Parliament | Route | Format | Reaches | robots.txt | First run (16 Oct) |
+|---|---|---|---|---|---|---|
+| vl | Vlaams Parlement | `ws.vlpar.be/e/opendata/verg/komende?type=plen` and `?type=comm` (next week's meetings), then `/verg/<id>/agd` per meeting | JSON (documented open data) | the coming week (convened a week ahead) | not asked: `ws.vlpar.be/e/opendata/` is in DOCUMENTED_APIS | 21 meetings, 246 items to 23 Oct, 12 on our ground |
+| pw | Parlement de Wallonie | `opendata/agenda_od.php?f=json&cal=recherche&idleg=12&annee=Y&mois=M` (this month and the next two), the order of the day as a PDF on `nautilus.parlement-wallon.be/Archives/<session>/ODJS|ODJC/` | JSON (documented open data) + PDF (pypdf) | a few days: the agenda appears once the Conference of Presidents has planned the week | opendata not asked (DOCUMENTED_APIS); nautilus has no rule against us | 0 meetings: on 16 October the agenda RSS said the orders of the day were still being planned |
+| bru | Parlement bruxellois | `www.parlement.brussels/agenda/` (this week and next), each meeting's convocation `weblex.irisnet.be/display_pdf.php?info=convoc_fr&key=N` | HTML + PDF (pypdf) | to the end of next week | only GPTBot disallowed; weblex.irisnet.be allows | 7 meetings, 77 items to 21 Oct |
+| cocom | Assemblée réunie (ARCCC) | the same agenda page, meetings marked ARCCC only (a joint PRB/ARCCC plenary is filed under bru) | HTML + PDF | to the end of next week | as bru | 0 meetings in the window |
+| fwb | Parlement de la FWB | `www.pfwb.be/agenda`, each `/agendas/seances-plenieres-<date>-<id>` and `/agendas/commissions-permanentes-<date>-<id>` page (order of the day server-rendered, one item per question) | HTML | about a week | `Disallow:` empty | 6 meetings, 185 items to 21 Oct, 4 on our ground |
+| cocof | Parlement francophone bruxellois | `www.parlementfrancophone.brussels/agenda?navyear=&navmonth=`, the meeting page, its convocation page (the documents on the order of the day) | HTML (Plone) | the current and next month as published | everything allowed | 1 meeting, 1 item (a resolution on pregnancy, birth and parenthood rights) |
+| pdg | Parlament der DG | none | | | pdg.be, www.pdg.be: Cloudflare challenge (HTTP 403), robots.txt included | blocked |
+| vgc | Raad van de VGC | none | | | | no route (PDFs only, no agenda list) |
+
+Notes:
+
+- The Brussels agenda links its convocations on `weblex.brussels`, whose
+  TLS certificate does not match its name (TLS verification is never
+  switched off). The same weblex service answers on `weblex.irisnet.be`,
+  the host every Brussels parliamentary document is published on, so the
+  convocation is read there.
+- The Flemish API has no documented forward query beyond `komende`
+  (`volgende`, date searches and `dagen=` answered 400); `komende` returns
+  the next week's plenary and committee meetings, which is what the
+  Parliament publishes.
+- PDFs (Wallonia, Brussels) are read with pypdf, imported only when needed.
+  Without it the meetings are stored as booked slots ('to be announced')
+  and the run note says so.
+- A meeting whose order of the day fails is a gap line; the window is then
+  not pruned, so its stored rows stay.
+- Live run (laptop, 16 October): 6 of 8 read, 509 items, 16 on our ground,
+  0 to be announced, about 4 minutes (about 60 requests at 1 to 1.5 s, the
+  Flemish service answering slowly).

@@ -261,3 +261,91 @@ Shared files touched: `src/db.py` (three table names and one
   parliament would be needed.
 - **País Vasco, Illes Balears, Aragón's base:** no answer from the laptop; a
   GitHub probe run would tell whether they refuse UK connections.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+What each parliament has booked, from today as far ahead as it publishes:
+`src/regional_agendas/es.py` (interface `src/regional_agenda.py`, collector
+`tools/regional_agenda.py es`, tests `tests/test_regional_agenda_es.py` on
+trimmed live captures in `tests/fixtures/regional_agenda/es/`). Probed and
+run live from the laptop on 16 October 2026 with the honest user agent,
+every request through the robots guard, into a scratch database. Region
+codes are the past layer's (`an`, `ct`, ... from `src/es_regions_store.py`).
+Not wired into any job yet.
+
+**Live run (56 days asked, to 11 December): 7 of 17 read, 183 items (85
+"to be announced" placeholders for booked sittings), 1 on our ground, no
+gaps, 56 requests, 83 seconds** (Canarias' 3 s crawl delay is a third of it).
+
+| Code | Parliament | Route | Format | Reaches | robots.txt | Live run |
+|---|---|---|---|---|---|---|
+| an | Andalucía | `agendasemanal.do` (index of weekly agendas, then `?id=N&numsemana=N`), `calendariodesesiones.do?fec=<mes> <año>` | HTML, ISO-8859-1 | agenda: the current week (next week's appears late in the week); calendar: the Mesa's programme to December | allows all | 29 items (23 placeholders), named business to 17 Nov (calendar subjects), dates to 10 Dec |
+| ct | Cataluña | `/web/actualitat/agenda/index.html?p_categoria=SESSIO&p_mode=M&p_data=01MMYYYY`, each sitting's `/web/actualitat/ordre-dia/index.html?p_od0=N`, `/web/composicio/ple-parlament/calendari-anual/` ("previst" days) | HTML, ISO-8859-1, Catalan only | agenda about 10 days; planned plenaries to 17 December | allows `/web`; disallows `/apl`, `/ext` (never read) | 29 items (9), named to 26 Oct, dates to 3 Dec; classified with `taxonomy-ca.yaml` |
+| vc | Comunitat Valenciana | `/es/actividad/actualidad/agenda?field_taxon_type_target_id=6` (the parliamentary calendar, Spanish version), each sitting's page (convocation with its numbered order of the day) | HTML (Drupal) | convened sittings, about a week | allows | 7 items, to 21 Oct |
+| cl | Castilla y León | `/Agenda/Semana?Fecha=DD-MM-YYYY`, `/Agenda/Evento?NumeroSerieId=N` ("Orden del día"), `/Actividad/PlenosPrevistos` (red cells) | HTML | agenda: the current week; plenary calendar to December | disallows `/*agenda.do*`, `/*agenda.html*`, `/*.rss$`; these paths allowed | 13 items (8), named to 16 Oct, plenaries to 2 Dec |
+| cn | Canarias | `/actividad/calendario/` (plenaries and committees for the period to 31 Dec), `/reuniones/futuras.py`, `/reuniones/asuntos.py?ID_SESION=N` | HTML | calendar to 31 December; orders of the day about two weeks | Crawl-delay 3 (honoured); disallows `/api/` | 51 items (36), named to 30 Oct, dates to 10 Dec |
+| ar | Aragón | `/Semana-actual.2237.0.html`, `/Proxima-semana.2335.0.html`, `/Acto-programado.2319.0.html?...uid=N`, `/fileadmin/_DMZMedia/comunicacion/web/varios/calendario.csv` (the CSV the plenary-calendar page loads) | HTML, CSV | agenda: this and next week; plenary CSV to 18 December | disallows `/*?id=*` (so never `index.php?id=`; the realurl paths answer the same pages) | 18 items (8), named to 19 Oct, plenaries to 4 Dec |
+| cb | Cantabria | `/agenda-semana?date=YYYY-MM-DD` (orders of the day inline) | HTML (Drupal) | the sittings convened, about a week | allows | 36 items (1), to 20 Oct |
+| md | Madrid | none | | | Sucuri firewall on every path, robots.txt included | blocked |
+| ga | Galicia | none | | | Akamai 403 on `.gal` and `.es`, robots.txt included | blocked |
+| nc | Navarra | none | | | Cloudflare "Just a moment..." on parlamentodenavarra.es; parlamentonavarra.es no answer | blocked |
+| as | Asturias | none | | | **new since 12 October:** every path, robots.txt included, answers a "Voight-Kampff Browser Test" bot challenge (403) | blocked |
+| cm | Castilla-La Mancha | the agenda tab is an iframe of `/web2/paginas/calendario.php` | | | `Disallow: /web2/paginas/` | blocked |
+| mc | Murcia | | | | `Disallow: /` | blocked |
+| ex | Extremadura | | | | `Disallow: /` (Crawl-delay 60) | blocked |
+| pv | País Vasco | | | | no answer (connect timeout, 12 and 16 October) | no route |
+| ib | Illes Balears | | | | no answer (connect timeout, 12 and 16 October) | no route |
+| ri | La Rioja | plenary calendar `.../calendario-de-sesiones-plenarias-...-2026` is an encrypted PDF; the sessions iCal export (`ics_view`) answers 500; session pages list attendance only; `/agenda/RSS` mixes past sessions and institutional events | | | allows | no route |
+
+How the readers work. One item per point of an order of the day, with the
+parliament's expediente as the reference (`13-26/PNLC-000012`,
+`357-01509/15`, `PNL/000047`, `11L/AGSC-0001`, `11L/4300-0453`). A sitting
+in a calendar with no order of the day yet is one placeholder (stored as
+"to be announced"); when its order of the day appears the placeholder goes
+(same `meeting_id`, `<date>:<body slug>`). Plenaries are stored as body
+"Pleno" everywhere (Catalonia's "Ple del Parlament" too); committees keep
+their published name. The Mesa, the Junta de Portavoces, press
+conferences, intergroups and institutional events are left out. Point texts
+drop the proponents' names and the bulletin reference into `detail` (the
+business reads "Proposición No de Ley, PNL/000030, instando a la Junta
+...") so a deputy's name list never becomes the headline. Units: each
+reader declares `window(today, end)` up to the last page it read in full
+(a later week or month that fails is a gap line and shortens the window,
+it does not fail the region).
+
+What was tried for the regions not read:
+
+- **Madrid:** `www.asambleamadrid.es` (Sucuri 403 on robots.txt and every
+  page); the regional open-data portal datos.comunidad.madrid (its CKAN API
+  is disallowed by robots.txt: one search request was sent from a probe
+  before that check came back; nothing further). No other official copy of
+  the agenda found.
+- **Galicia:** `www.parlamentodegalicia.gal` and `.es`, `/Actividade/Axenda`:
+  Akamai 403.
+- **Navarra:** `parlamentodenavarra.es` (Cloudflare challenge),
+  `parlamentonavarra.es` and `parlamento.navarra.es` (no answer).
+- **Asturias:** `www.jgpa.es` now serves a JavaScript bot test on every
+  path. The 12 October build read its robots.txt; a re-probe from GitHub's
+  runners would tell whether the wall is general.
+- **Castilla-La Mancha:** `/index.php/actividad` loads the agenda (and the
+  Mesa, plenary and committee tabs) from `/web2/paginas/calendario.php`,
+  which robots.txt disallows. The BOCCLM bulletins publish convocations
+  only after the fact.
+- **Murcia, Extremadura:** robots.txt disallows everything.
+- **País Vasco, Illes Balears:** no TCP answer from the laptop on either day,
+  `www.` and bare hosts. Same re-probe from GitHub as for the past layer
+  (phase list, item 5).
+- **La Rioja:** routes above; worth a re-check of `ics_view` (a 500 may be
+  transient) and of whether future sittings ever appear in the sessions
+  list before the day.
+
+Classification notes from the run. Only 1 of 98 named items is on our
+ground (Cantabria's plenary of 19 October: a Vox PNL on repatriating people
+who entered illegally, migration, area 11). The Corts Valencianes' family
+committee of 21 October takes "a PNL on the role of the family" (Vox): the
+Spanish list excludes bare "familia" on purpose, so it is not matched;
+Andalucía's family-policy hearings and a question on an LGTBI congress sat
+on 13 October, before the window. Catalan items are classified with the
+draft Catalan list; the core's item types do not know Catalan words yet
+("Compareixença", "Proposició de llei"), so they come out as "committee
+business".

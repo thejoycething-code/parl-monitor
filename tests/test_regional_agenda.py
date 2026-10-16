@@ -92,6 +92,15 @@ class CoreTest(unittest.TestCase):
         self.assertEqual(ra.item_type("Aprobación, si procede, del acta de la sesión anterior"),
                          "procedural")
         self.assertEqual(ra.item_type("Something else", committee=True), "committee business")
+        # 16 October 2026, from the Spanish build: motion beats the
+        # interpellation it follows; appearances are evidence; Catalan.
+        self.assertEqual(ra.item_type("Debate y votación de la moción N.º 186, subsiguiente "
+                                      "a la Interpelación"), "motion")
+        self.assertEqual(ra.item_type("Comparecencia, a petición propia, del consejero"),
+                         "committee evidence")
+        self.assertEqual(ra.item_type("Proposició de llei de l'escola inclusiva"), "bill stage")
+        self.assertEqual(ra.item_type("Pregunta al Govern sobre la sanitat"), "questions")
+        self.assertEqual(ra.item_type("Petición de la asociación de familias"), "petition")
 
     def test_find_date(self):
         self.assertEqual(ra.find_date("Sitzung am 22.10.2026, 10 Uhr"), "2026-10-22")
