@@ -31,6 +31,9 @@ rc=0
   python3 tools/de_petitions.py
   python3 tools/de_courts.py
   python3 tools/de_amendments.py
+  # What a roll call is ON (16 October 2026, tools/amendment_text.py, src/amendtext_de.py):
+  # the Drucksache's DIP text; exit 3 (gaps recorded) is not a failure.
+  python3 tools/amendment_text.py --cc de --budget-seconds 300 || [ $? -eq 3 ]
   python3 tools/de_committees.py
   python3 tools/de_profiles.py
   python3 tools/de_triage.py
