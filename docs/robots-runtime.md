@@ -291,6 +291,60 @@ names the client that is wrapped when it is not the collector's own.
 | pl | api.sejm.gov.pl | API | API | |
 | pt | www.parlamento.pt | scraper | yes | allowed |
 
+### src/gov_doc_sources (via tools/country_gov_docs.py, 16 October 2026)
+
+Government consultations and publications (src/gov_docs.py). One guarded
+client (`guard()`): every URL below that is not a documented API asks
+robots.txt on every run, every redirect hop included. Mirrors (AT `me`, CH
+`vl`, IT `partecipa`, PL `sejm`, AR `cp`, BR `bp`, CO `sucop`, US `fr`, CA
+`gazette`, HU `mk`) fetch nothing: they re-file rows a sibling collector
+stored this week.
+
+| Reader | Host | Path | Kind | Wrapped | robots.txt (16 October 2026) |
+|---|---|---|---|---|---|
+| ar | www.boletinoficial.gob.ar | /seccion/primera/, /detalleAviso/primera/ | scraper | yes | disallows only /seccion/segunda* and /detalleAviso/segunda/* |
+| at | www.bundeskanzleramt.gv.at | /medien/ministerraete*, /bundeskanzleramt/nachrichten-der-bundesregierung/ | scraper | yes | disallows only /401 |
+| at | www.sozialministerium.gv.at | /Services/Aktuelles/ | scraper | yes | /.syndication/ (its RSS), /.search/, /Portal.Node/ disallowed and not used |
+| au | consultations.health.gov.au | /api/2.4/json_search_results | scraper | yes | Disallow /*view_respondent; Crawl-delay 5 honoured |
+| au | api.prod.legislation.gov.au | /v1/titles/search | API | API | Federal Register of Legislation API |
+| be | www.belgium.be | /fr/actualites/ | scraper | yes | Drupal defaults |
+| be | www.health.belgium.be | /fr/news | scraper | yes | Disallow /*?find= (its rss.xml redirect is refused there; the listing is read) |
+| be | justice.belgium.be | /fr/news/rss | scraper | yes | Drupal defaults |
+| be | igvm-iefh.belgium.be | /fr/actualite | scraper | yes | Drupal defaults |
+| br | legis.senado.leg.br/dadosabertos/ | /legislacao/lista.json | API | API | Senado Dados Abertos |
+| ca | open.canada.ca | /static/current_consultations_open.csv | scraper | yes | Crawl-delay 20 honoured; Drupal paths disallowed |
+| ca | api.io.canada.ca | /io-server/gc/news/en/v2 | scraper | yes | 404, no rules |
+| ch | www.newsd.admin.ch | /newsd/feeds/rss | scraper | yes | 404, no rules |
+| ch | fedlex.data.admin.ch | /sparqlendpoint | API | API | |
+| cl | www.diariooficial.interior.gob.cl | /edicionelectronica/index.php | scraper | yes | Disallow /edicionelectronica/ with Allow index.php; select_edition.php refused and never requested (editions are asked by number on index.php) |
+| de | www.bmjv.de (www.bmj.de redirects) | /SiteGlobals/Functions/RSSNewsfeed/, /SharedDocs/ | scraper | yes | Allow /SiteGlobals/Functions/RSSNewsfeed/; the rest of /SiteGlobals/ disallowed and not used |
+| de | www.bmbfsfj.bund.de | /bmbfsfj/ministerium/gesetze, /service/rss/ | scraper | yes | Disallow: (empty) |
+| de | www.bundesgesundheitsministerium.de | /service/gesetze-und-verordnungen, /pressemitteilungen.xml | scraper | yes | Allow /; ?id=, cHash, forms disallowed |
+| de | www.bundesregierung.de | /service/rss/breg-de/ | scraper | yes | no * group |
+| es | www.boe.es | /datosabiertos/api/boe/sumario/ | scraper | yes | nothing under /datosabiertos/ disallowed (documented API; candidate for DOCUMENTED_APIS) |
+| es | www.igualdad.gob.es, www.mpr.gob.es | /servicios/participacion/ | scraper | yes | nothing disallowed |
+| es | www.sanidad.gob.es | /normativa/ | scraper | yes | /buscador/ etc. disallowed |
+| es | www.mjusticia.gob.es | /es/ciudadania/normas-tramitacion | scraper | yes | /_layouts/ etc. disallowed |
+| es | www.educacionfpydeportes.gob.es | /servicios-al-ciudadano/informacion-publica* | scraper | yes | /*docroot/ disallowed |
+| fr | echanges.dila.gouv.fr | /OPENDATA/JORF/ | scraper | yes | 404, no rules (DILA open data) |
+| fr | www.consultations-publiques.developpement-durable.gouv.fr | /spip.php?page=liste-consultations | scraper | yes | Disallow /ecrire/; Crawl-delay 1 |
+| fr | solidarites.gouv.fr | /rss.xml | scraper | yes | Drupal defaults |
+| hr | data.gov.hr | /ckan/api/3/action/package_show, the dataset's data.json | scraper | yes | robots.txt answers the HTML app: no rules |
+| hr | narodne-novine.nn.hr | /get_index_file.aspx, /api/act | scraper | yes | /clanci/oglasi/ and single articles disallowed; our paths allowed |
+| hu | kormany.hu | /application/document-groups | scraper | yes | Disallow /publicapi only; the JSON the site loads, allowed |
+| ie | www.irishstatutebook.ie | /eli/<year>/si/ | scraper | yes | 404, no rules |
+| it | www.gazzettaufficiale.it | /30giorni/, /gazzetta/serie_generale/ | scraper | yes | 404, no rules |
+| mx | sidof.segob.gob.mx | /dof/sidof/notas/ | scraper | yes | /CopiasCert? and about 100 single notes disallowed (documented keyless web service) |
+| nl | gegevensmagazijn.tweedekamer.nl/OData/ | Document | API | API | |
+| nl | www.officielebekendmakingen.nl, zoek.officielebekendmakingen.nl | /staatsblad, /stb-YYYY-N.html | scraper | yes | disallows only /noindex/*, /zoeken/resultaat*, /resultaten* |
+| pe | diariooficial.elperuano.pe | /Normas/Filtro | scraper | yes | /NormasElperuano/, /DatosAbiertos/ etc. disallowed; the filter allowed |
+| pe | busquedas.elperuano.pe | /dispositivo/ | scraper | yes | Allow / |
+| pl | www.gov.pl | /web/premier/wplip-rm, /register-file/*.csv | scraper | yes | Allow / |
+| pl | api.sejm.gov.pl | /eli/ | API | API | |
+| pt | files.diariodarepublica.pt | /rss/ | scraper | yes | robots.txt answers the app shell: no rules |
+| pt | www.consultalex.gov.pt | / | scraper | yes | 404, no rules |
+| sk | api-gateway.slov-lex.sk | /internal/elegislativa/legislativne-materialy/ | scraper | yes | 404, no rules (the JSON slov-lex.sk's pages load) |
+
 ### src
 
 | Collector | Host | Kind | Wrapped | Note |
@@ -456,6 +510,29 @@ gap (never a browser UA, a proxy or a challenge bypass):
 | EHRC | equalityhumanrights.com home page, `/consultations`, `/rss.xml`, `/en/rss.xml`, `/feed`, `/sitemap.xml`; robots.txt; EHRC's gov.uk organisation | every page, feed and sitemap answers 403 (a Cloudflare check); robots.txt itself answers (a managed file that allows `User-agent: *`, disallows AI crawlers by name) but the block is the bot check, which we never pass. EHRC's gov.uk organisation holds 64 documents, among them the Equality Act 2010 Code of Practice for services (5 August 2026) | gov.uk organisation `equality-and-human-rights-commission` read by tools/govuk_docs.py with the publications. Still a declared gap (regulators.BLOCKED) for everything published only on its own site |
 | GMC | www.gmc-uk.org home page, robots.txt, `/rss`, `/feed`, `/sitemap.xml`; gmc.citizenspace.com, consultations.gmc-uk.org (do not resolve); gov.uk organisation `general-medical-council` | 403 to everything, robots.txt included; no Citizen Space host; no gov.uk organisation (404) | nothing: declared gap (regulators.BLOCKED). Not yet tried: whether gmc-uk.org answers GitHub's runners (a probe workflow would say; not dispatched from the laptop) |
 | NHS England | www.england.nhs.uk robots.txt, `/feed/`, `/publication/feed/` | the WordPress publication feed answers (RSS 2.0, 10 items a page, `?paged=N`), with NHS England's own topic categories; the feed's descriptions are empty, so each page's summary is read | tools/govuk_docs.py, source 'nhs-england' (first read: "Guidance on NHS staff facilities", 15 October 2026, single-sex facilities). Its statistics also reach gov.uk (organisation `nhs-england`). The Citizen Space consultations listing stays in regulators.py |
+
+## Government documents: blocked hosts and the alternatives tried (16 October 2026)
+
+For the gov_docs layer (src/gov_docs.py). Nothing below was bypassed: no
+browser user agent, no challenge solved, no token taken from a site's code,
+TLS verification never switched off. Each blocked route is a gap or was
+replaced by a legitimate alternative.
+
+| Country | Host | Refusal | Alternative |
+|---|---|---|---|
+| NL | www.internetconsultatie.nl | robots.txt `User-agent: * Disallow: /` | none found: repository.overheid.nl (KOOP SRU), zoekservice.overheid.nl, linkeddata.overheid.nl and open.overheid.nl are all `Disallow: /`; data.overheid.nl disallows /data/ (CKAN); zoek.officielebekendmakingen.nl/sru/Search is allowed but answers 500; the Rijksoverheid open-data API keeps only school holidays. Read instead: Kamerbrieven (Tweede Kamer OData) and the Staatsblad pages. Consultation deadlines: a gap. Route: KOOP's documented SRU if Chris lists it, or a written permission |
+| PL | legislacja.gov.pl | `Disallow: /` | the Council of Ministers' register CSV on www.gov.pl (drafts, no deadlines), Dziennik Ustaw and Monitor Polski through the ELI API; isap.sejm.gov.pl, dziennikustaw.gov.pl, monitorpolski.gov.pl are `Disallow: /` (links only) |
+| IE | www.gov.ie | CloudFront 403 "Request blocked", robots.txt included | irisoifigiuil.ie (robots.txt refuses us), data.gov.ie (Disallow /api/; its catalogue search finds statistics, no consultations register), merrionstreet.ie and ncca.ie (403), hse.ie (no consultations page), hiqa.ie, cnam.ie, electoralcommission.ie, lawreform.ie, citizensassembly.ie, tusla.ie (allowed, no list with closing dates), assets.gov.ie (no listing). Read instead: statutory instruments from the Irish Statute Book. Consultations: a gap. Not yet tried: GitHub's runners |
+| AT | data.bka.gv.at (RIS OGD API) | robots.txt `User-agent: * Disallow: /` | none for the Bundesgesetzblatt: www.ris.bka.gv.at answers a Myra "Security Check" (503). Documented at data.bka.gv.at/ris/ogd/v2.6/Documents/Dokumentation_OGD-RIS_API.pdf: a written permission, or Chris's decision to list it, would open made law |
+| BE | www.ejustice.just.fgov.be (Moniteur belge; also moniteur.be, staatsblad.be) | robots.txt disallows /cgi/, /eli/, /mopdf/, /loi/, /wet/ and the rest | no Moniteur dataset on data.gov.be; news.belgium.be, premier.be, belgiquelex.be answer 403. Read instead: belgium.be news and consultations, FPS Health, FPS Justice, IEFH. Route: a written permission from the FPS Justice |
+| FR | www.vie-publique.fr; www.legifrance.gouv.fr; www.info.gouv.fr; sante.gouv.fr | a JavaScript and cookie wall; 403; Incapsula 403; an F5 bot page | the JORF from DILA's open data (echanges.dila.gouv.fr), the ecology ministry's consultations site, solidarites.gouv.fr RSS. The PISTE Legifrance API needs an account: not created |
+| BR | www.in.gov.br (DOU) | `Disallow: /`; INLABS a WAF page and a login | Senado Dados Abertos legislation list (laws, MPs, decrees) |
+| MX | www.dof.gob.mx; cofemersimir.gob.mx / conamer.gob.mx | certificate for another host; do not resolve or hostname mismatch | SIDOF's documented web service (sidof.segob.gob.mx); CONAMER's draft regulations: a gap |
+| ES | www.juventudeinfancia.gob.es, www.dsca.gob.es | TLS failures under the laptop's LibreSSL 2.8.3 (certificate signature failure; handshake failure) | read as Disallow: / with a gap every run; a Python with a current OpenSSL may read them |
+| AU | www.ag.gov.au, www.dss.gov.au, www.infrastructure.gov.au, www.esafety.gov.au | robots.txt unreachable (timeouts): Disallow: / | consultations.health.gov.au (Citizen Space API) and the Federal Register of Legislation; consult.industry/dcceew/education are JavaScript apps with no documented API |
+| PT | diariodarepublica.pt | an OutSystems app whose data calls need an anti-forgery token from its scripts | the official RSS feeds on files.diariodarepublica.pt (latest issue only) |
+| HR | esavjetovanja.gov.hr | a Blazor Server app, content only over a websocket | the government's open-data copy of the consultations on data.gov.hr (refreshed about monthly) |
+| CO | www.diariooficial.gov.co | does not resolve | SUCOP drafts (mirrored) |
 
 ## Tests
 
