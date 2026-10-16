@@ -85,6 +85,20 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
     echo "  [gap] the Senate amendment texts step failed (exit $r); last week's texts stand"
   fi
 fi
+# What a vote is ON, not just its title (16 October 2026, tools/amendment_text.py,
+# src/amendtext_it.py): for votes whose titles only name an amendment, motion or
+# order of the day, the Camera's Allegato A to each sitting's record (documenti.camera.it), matched with the country's taxonomy; a tier-1 term in
+# the text's purpose adds its areas to the vote (amendment_text). After the
+# collector and any reclassify, because it re-applies every cached match the
+# collector's upsert reset. New reads within its budget; the rest wait a week.
+# Its failure (exit other than 0 or 3) is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/amendment_text.py --cc it --budget-seconds "$(bash tools/collector_budget.sh 600 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the amendment text step failed (exit $r); last week's reads stand"
+  fi
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.

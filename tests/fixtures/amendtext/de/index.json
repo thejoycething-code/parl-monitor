@@ -1,0 +1,123 @@
+{
+ "urls": {
+  "https://search.dip.bundestag.de/api/v1/drucksache?f.dokumentnummer=21%2F3873&format=json": "ef4aa4a48b8b",
+  "https://search.dip.bundestag.de/api/v1/vorgangsposition?f.vorgang=330644&format=json": "cbb5381a3c0f",
+  "https://search.dip.bundestag.de/api/v1/vorgangsposition?cursor=AoJGN1ZvcmdhbmdzcG9zaXRpb24tNzAxMzU4&f.vorgang=330644&format=json": "ffe5c4d0a63b",
+  "https://search.dip.bundestag.de/api/v1/drucksache?f.dokumentnummer=21%2F8475&format=json": "94bedfce48fd",
+  "https://search.dip.bundestag.de/api/v1/drucksache-text?f.id=291499&format=json": "1ca970214207",
+  "https://search.dip.bundestag.de/api/v1/drucksache?f.dokumentnummer=21%2F5512&format=json": "6416493bf6c5",
+  "https://search.dip.bundestag.de/api/v1/drucksache-text?f.id=287043&format=json": "58a7bba489e7",
+  "https://search.dip.bundestag.de/api/v1/vorgangsposition?f.datum.start=2020-01-16&f.datum.end=2020-01-16&format=json": "b820b99e6038",
+  "https://search.dip.bundestag.de/api/v1/vorgangsposition?cursor=AoJJN1ZvcmdhbmdzcG9zaXRpb24tNTU0NjUy&f.datum.start=2020-01-16&f.datum.end=2020-01-16&format=json": "9da3e6c738a7",
+  "https://search.dip.bundestag.de/api/v1/drucksache?f.dokumentnummer=19%2F11096&format=json": "b54553146094",
+  "https://search.dip.bundestag.de/api/v1/drucksache-text?f.id=231391&format=json": "7c938ea0c896",
+  "https://search.dip.bundestag.de/api/v1/drucksache?f.dokumentnummer=20%2F2247&format=json": "619fb34b10f0",
+  "https://search.dip.bundestag.de/api/v1/vorgangsposition?f.vorgang=286494&format=json": "178278c386b5",
+  "https://search.dip.bundestag.de/api/v1/vorgangsposition?cursor=AoJNN1ZvcmdhbmdzcG9zaXRpb24tNjE5MDMx&f.vorgang=286494&format=json": "1c98b6e42b4c",
+  "https://search.dip.bundestag.de/api/v1/drucksache?f.drucksachetyp=Entschlie%C3%9Fungsantrag&f.datum.start=2022-09-19&f.datum.end=2022-09-22&format=json": "f8c694826a56",
+  "https://search.dip.bundestag.de/api/v1/drucksache?cursor=AoJwkK7fr4MDMURydWNrc2FjaGUtMjYzMTQz&f.drucksachetyp=Entschlie%C3%9Fungsantrag&f.datum.start=2022-09-19&f.datum.end=2022-09-22&format=json": "115e78c9f838"
+ },
+ "rows": {
+  "6727": {
+   "key": "6727",
+   "date": "2026-10-08",
+   "title": "Bisherigen Umfang der NIPT-Kassenleistung erhalten (Änderungsantrag)",
+   "areas": "[]",
+   "document_url": "https://dserver.bundestag.de/btd/21/038/2103873.pdf",
+   "yes": 511,
+   "no": 24,
+   "abstain": 31
+  },
+  "6540": {
+   "key": "6540",
+   "date": "2026-06-11",
+   "title": "Fortsetzung der Bundeswehrbeteiligung an EUFOR ALTHEA in Bosnien und Herzegowina",
+   "areas": "[]",
+   "document_url": "https://dserver.bundestag.de/btd/21/055/2105512.pdf",
+   "yes": 386,
+   "no": 193,
+   "abstain": 3
+  },
+  "1758": {
+   "key": "1758",
+   "date": "2020-01-16",
+   "title": "Organspenden-Reform: Widerspruchslösung",
+   "areas": "[13]",
+   "document_url": null,
+   "yes": 292,
+   "no": 379,
+   "abstain": 3
+  },
+  "4770": {
+   "key": "4770",
+   "date": "2022-09-22",
+   "title": "Aufhebung der Gaspreisanpassungsverordnung (Entschließungsantrag)",
+   "areas": "[]",
+   "document_url": "https://dserver.bundestag.de/btd/20/022/2002247.pdf",
+   "yes": 285,
+   "no": 361,
+   "abstain": 2
+  }
+ },
+ "expected": {
+  "6727": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    1
+   ],
+   "terms": [
+    "Pränataltest*"
+   ],
+   "ledger": true,
+   "refs": [
+    "21/3873",
+    "Änderungsantrag",
+    "21/8475"
+   ]
+  },
+  "6540": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    12
+   ],
+   "terms": [
+    "Menschenhandel*"
+   ],
+   "ledger": false,
+   "refs": [
+    "21/5512"
+   ]
+  },
+  "1758": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    13
+   ],
+   "terms": [
+    "Organspende*",
+    "Organtransplantation*",
+    "Transplantationsgesetz*",
+    "Widerspruchslösung*",
+    "Transplantation*"
+   ],
+   "ledger": true,
+   "refs": [
+    "tally 292:379:3"
+   ]
+  },
+  "4770": {
+   "status": "unreadable",
+   "gap": "could not read amendment text (0 Entschließungsantrag(s) of Vorgang 286494 dated 2022-09-19 to 2022-09-22, and no roll call on one in the House's record (the poll links 20/2247, a Gesetzentwurf))",
+   "areas": null,
+   "terms": null,
+   "ledger": false,
+   "refs": [
+    "20/2247",
+    "Entschließungsantrag"
+   ]
+  }
+ }
+}

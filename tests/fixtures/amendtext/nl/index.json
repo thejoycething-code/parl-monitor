@@ -1,0 +1,155 @@
+{
+ "urls": {
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Nummer%20eq%20'2026Z20841'&$expand=Document($select=Id,Soort,DocumentNummer,Volgnummer,Datum,ContentType,Verwijderd)": "def064098b7d",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document(ba011f9a-bda8-4a29-bd27-0eec541fc241)/resource": "b9a2f6ca2c09",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Nummer%20eq%20'2026Z10184'&$expand=Document($select=Id,Soort,DocumentNummer,Volgnummer,Datum,ContentType,Verwijderd)": "053f673cf28b",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document(a3312be1-1113-48c0-a0c2-1704f57a2790)/resource": "304ebff08900",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Nummer%20eq%20'2026Z21974'&$expand=Document($select=Id,Soort,DocumentNummer,Volgnummer,Datum,ContentType,Verwijderd)": "72a9a56da2d9",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document(b9c7e19e-1f77-47eb-aa20-5787dba5954f)/resource": "da7ddd54def6",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Nummer%20eq%20'2026Z21590'&$expand=Document($select=Id,Soort,DocumentNummer,Volgnummer,Datum,ContentType,Verwijderd)": "110eb868097b",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document(ee90d826-f9dd-4b65-ae2c-d3bf71f32f66)/resource": "25e08372e817",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Nummer%20eq%20'2026Z22281'&$expand=Document($select=Id,Soort,DocumentNummer,Volgnummer,Datum,ContentType,Verwijderd)": "7d01ef04bd8f",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document(515e57d8-4c0b-4ca5-ae91-3ca97ce35519)/resource": "87067f114b4a",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Zaak?$filter=Nummer%20eq%20'2021Z00103'&$expand=Document($select=Id,Soort,DocumentNummer,Volgnummer,Datum,ContentType,Verwijderd)": "c669b5436bd8",
+  "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document(10280935-bc5e-4d40-ae2e-31a6de99bc28)/resource": "7ec9cbbb9cc7"
+ },
+ "rows": {
+  "2026Z20841": {
+   "key": "2026Z20841",
+   "date": "2026-10-06",
+   "soort": "Motie",
+   "title": "Motie: Motie van de leden Kröger en Vliegenthart over de beschikbaarheid van abortuszorg en noodanticonceptie waarborgen in conflictgebieden",
+   "areas": "[1]"
+  },
+  "2026Z10184": {
+   "key": "2026Z10184",
+   "date": "2026-06-02",
+   "soort": "Amendement",
+   "title": "Amendement: Gewijzigd amendement van het lid Claassen ter vervanging van nr. 17 over modelembryo's onderbrengen onder de Wlz met behoud van kernverboden",
+   "areas": "[10]"
+  },
+  "2026Z21974": {
+   "key": "2026Z21974",
+   "date": "2026-10-13",
+   "soort": "Amendement",
+   "title": "Amendement: Amendement van het lid El Abassi over expliciteren dat overtuigingen niet kwalificeren als gedragingen noch dat daaraan bij de beoordeling van gedragingen zelfstandige betekenis toekomt",
+   "areas": "[]"
+  },
+  "2026Z21590": {
+   "key": "2026Z21590",
+   "date": "2026-10-13",
+   "soort": "Amendement",
+   "title": "Amendement: Amendement van het lid El Abassi over een periodieke evaluatie om de drie jaar van iedere bevoegdheid afzonderlijk",
+   "areas": "[]"
+  },
+  "2026Z22281": {
+   "key": "2026Z22281",
+   "date": "2026-10-14",
+   "soort": "Motie",
+   "title": "Motie: Gewijzigde motie van het lid Dassen over bij de Europese Commissie aandringen op stevigere handhaving van de DSA (t.v.v. 21501-20-2434)",
+   "areas": "[7]"
+  },
+  "2021Z00103": {
+   "key": "2021Z00103",
+   "date": "2021-01-05",
+   "soort": "Motie",
+   "title": "Motie: Motie van het lid Wilders over het opzeggen van het vertrouwen in de minister van Volksgezondheid, Welzijn en Sport",
+   "areas": "[]"
+  }
+ },
+ "expected": {
+  "2026Z20841": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    1
+   ],
+   "terms": [
+    "abortus*"
+   ],
+   "ledger": true,
+   "refs": [
+    "2026Z20841",
+    "2026D48012"
+   ]
+  },
+  "2026Z10184": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    10
+   ],
+   "terms": [
+    "Embryowet",
+    "embryo*",
+    "stamcel*",
+    "eicel*"
+   ],
+   "ledger": false,
+   "refs": [
+    "2026Z10184",
+    "2026D22923"
+   ]
+  },
+  "2026Z21974": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    7,
+    8
+   ],
+   "terms": [
+    "vrijheid van meningsuiting",
+    "vrijheid van godsdienst"
+   ],
+   "ledger": true,
+   "refs": [
+    "2026Z21974",
+    "2026D50569"
+   ]
+  },
+  "2026Z21590": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    8
+   ],
+   "terms": [
+    "vrijheid van godsdienst"
+   ],
+   "ledger": false,
+   "refs": [
+    "2026Z21590",
+    "2026D49773"
+   ]
+  },
+  "2026Z22281": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    7
+   ],
+   "terms": [
+    "DSA",
+    "desinformatie*",
+    "desinformatie"
+   ],
+   "ledger": true,
+   "refs": [
+    "2026Z22281",
+    "2026D51250"
+   ]
+  },
+  "2021Z00103": {
+   "status": "ok",
+   "gap": null,
+   "areas": [],
+   "terms": [],
+   "ledger": false,
+   "refs": [
+    "2021Z00103",
+    "2021D00530"
+   ]
+  }
+ }
+}

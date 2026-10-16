@@ -1275,6 +1275,11 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Amendment text backfill": "run by hand on the Mac Mini "
+                               "(jobs/amendtext-backfill.sh, 16 October 2026): "
+                               "the stored backlog of country votes whose "
+                               "amendment or motion text is unread; rerun until "
+                               "nothing is left, so no cadence is expected.",
     "Slovakia documents backfill": "run by hand on the Mac Mini "
                                    "(jobs/sk-docs-backfill.sh, SK6): the term's "
                                    "backlog of bill documents, rerun until no print "

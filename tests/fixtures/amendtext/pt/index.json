@@ -1,0 +1,79 @@
+{
+ "urls": {
+  "https://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c3259345a5451305a544d344c546778597a41744e4751794f4331685a6a4d354c545a6b4e32566b5a47566a4e574e6a4e7935775a47593d&fich=f8e44e38-81c0-4d28-af39-6d7eddec5cc7.pdf&Inline=true": "0b010741ead6",
+  "https://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c324e6a4d6a45795a5759344c574e6d4d4451744e475a6d4e5330345a5467794c5467304e4463775954646c5a5755795a5335775a47593d&fich=cc212ef8-cf04-4ff5-8e82-84470a7eee2e.pdf&Inline=true": "265cf5317e71",
+  "https://app.parlamento.pt/webutils/docs/doc.pdf?path=6148523063484d364c793968636d356c6443397a6158526c63793959566b6c4a5447566e4c305276593356745a57353062334e4a626d6c6a6157463061585a684c7a49335a47466a5a5445334c544577597a49744e47497a5a533169596a42694c574a6c4d4463324e5749334d446b774d6935775a47593d&fich=27dace17-10c2-4b3e-bb0b-be0765b70902.pdf&Inline=true": "0978dde5a632"
+ },
+ "rows": {
+  "XVII/182707": {
+   "key": "XVII/182707",
+   "vote_id": 182707,
+   "legislature": "XVII",
+   "ini_key": "XVII/P/30",
+   "date": "2026-05-08",
+   "phase": "Votação na especialidade",
+   "description": "Proposta, apresentada pelo PS, de substituição do n.º 2 do artigo 54.º da Lei n.º 62/2007, de 10 de setembro, constante do texto final",
+   "areas": "[]",
+   "title": "Votação na especialidade: Proposta, apresentada pelo PS, de substituição do n.º 2 do artigo 54.º da Lei n.º 62/2007, de 10 de setembro, constante do texto final"
+  },
+  "XVII/182718": {
+   "key": "XVII/182718",
+   "vote_id": 182718,
+   "legislature": "XVII",
+   "ini_key": "XVII/J/41",
+   "date": "2026-05-08",
+   "phase": "Votação na especialidade",
+   "description": "Proposta, apresentada pelo PS, de substituição do n.º 2 do artigo 54.º da Lei n.º 62/2007, de 10 de setembro, constante do texto final",
+   "areas": "[]",
+   "title": "Votação na especialidade: Proposta, apresentada pelo PS, de substituição do n.º 2 do artigo 54.º da Lei n.º 62/2007, de 10 de setembro, constante do texto final"
+  },
+  "XVII/182743": {
+   "key": "XVII/182743",
+   "vote_id": 182743,
+   "legislature": "XVII",
+   "ini_key": "XVII/J/556",
+   "date": "2026-05-22",
+   "phase": "Votação na especialidade",
+   "description": "Proposta de alteração, apresentada pelo PS, que adita um artigo 3.º ao texto final",
+   "areas": "[]",
+   "title": "Votação na especialidade: Proposta de alteração, apresentada pelo PS, que adita um artigo 3.º ao texto final"
+  },
+  "XVII/182740": {
+   "key": "XVII/182740",
+   "vote_id": 182740,
+   "legislature": "XVII",
+   "ini_key": "XVII/J/556",
+   "date": "2026-05-22",
+   "phase": "Votação na especialidade",
+   "description": "Proposta de alteração, apresentada pelo PS, que substitui o artigo 1.º do texto final",
+   "areas": "[]",
+   "title": "Votação na especialidade: Proposta de alteração, apresentada pelo PS, que substitui o artigo 1.º do texto final"
+  }
+ },
+ "expected": {
+  "XVII/182707": {
+   "status": "ok",
+   "gap": null,
+   "label": "Requerimento de Avocação do PS (artigo 54)",
+   "purpose": true
+  },
+  "XVII/182718": {
+   "status": "ok",
+   "gap": null,
+   "label": "Requerimento de Avocação do PS (artigo 54)",
+   "purpose": true
+  },
+  "XVII/182743": {
+   "status": "unreadable",
+   "gap": "could not read amendment text (article 3 is in none of the readable papers; 1 image-only (Propostas de Alteração PS))",
+   "label": null,
+   "purpose": false
+  },
+  "XVII/182740": {
+   "status": "ok",
+   "gap": null,
+   "label": "Propostas de Alteração PS (aditamento) (artigo 1)",
+   "purpose": true
+  }
+ }
+}

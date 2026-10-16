@@ -38,7 +38,8 @@ rc=0
 # The collector's budget is what the job's limit leaves after the publish and
 # the later steps, at most 45 minutes (tools/collector_budget.sh): a fixed
 # budget plus the Mini's 15-minute store upload overran the hour (10 October).
-# The third argument keeps 300 s for the regional step below.
+# The third argument keeps 300 s for the regional step below and 300 for
+# the forward regional agendas.
 python3 tools/es_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh 2700 "$SECONDS" 600)" || rc=$?
 # The regional layer (tools/es_regions.py, docs/spain-regions-scope.md): the
 # seventeen communities' laws from the BOE's open-data summaries and the bills
@@ -57,6 +58,20 @@ fi
 # most five minutes (kept back from the collector's budget above); a region
 # not read is a [gap] line and keeps its stored rows, never the run's.
 bash tools/regional_agenda_step.sh es "$SECONDS"
+# What a vote is ON, not just its title (16 October 2026, tools/amendment_text.py,
+# src/amendtext_es.py): for votes whose titles only name an amendment, motion or
+# order of the day, the amendments publications of each bill's BOCG (the XV Congreso is dissolved: nothing new until a new one sits), matched with the country's taxonomy; a tier-1 term in
+# the text's purpose adds its areas to the vote (amendment_text). After the
+# collector and any reclassify, because it re-applies every cached match the
+# collector's upsert reset. New reads within its budget; the rest wait a week.
+# Its failure (exit other than 0 or 3) is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/amendment_text.py --cc es --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the amendment text step failed (exit $r); last week's reads stand"
+  fi
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
