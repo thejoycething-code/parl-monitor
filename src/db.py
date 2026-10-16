@@ -1728,6 +1728,13 @@ TABLES = (
     # Austria's nine Landtage (tools/at_landtage.py, AT6), created by
     # src/atl_store.ensure_schema -- declared from day one.
     "atl_items",
+    # The UK edition's civic layer (16 October 2026): e-petitions
+    # (tools/uk_petitions.py) and GOV.UK consultations and publications
+    # (tools/govuk_docs.py), created by src/uk_civic_store.ensure_schema.
+    "uk_petitions",
+    "uk_petition_counts",
+    "govuk_docs",
+    "uk_civic_runs",
     "atl_reads",
     # The Netherlands' Tweede Kamer (tools/nl_rollcalls.py), created by
     # src/nl_store.ensure_schema -- declared from day one.
@@ -2378,4 +2385,6 @@ def init_db(conn):
     agenda.ensure_schema(conn)
     from src import petitions
     petitions.ensure_schema(conn)
+    from src import uk_civic_store
+    uk_civic_store.ensure_schema(conn)
     return conn

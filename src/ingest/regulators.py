@@ -9,7 +9,8 @@ guidance in consultation with closing dates) and NHS England (whose
 consultations live on engage.england.nhs.uk, a Citizen Space site with a
 parseable listing). What does not: ofcom.org.uk, gmc-uk.org and
 equalityhumanrights.com all answer 403 to every non-browser client,
-browser user-agent included. Those are declared here as BLOCKED so the
+browser user-agent included. (Ofcom answers again since 16 October 2026:
+tools/govuk_docs.py reads it.) Those are declared here as BLOCKED so the
 edition's gaps footer says so every week rather than the feed quietly
 covering less than its name suggests.
 """
@@ -25,10 +26,16 @@ _TAG = re.compile(r"<[^>]+>")
 MONTHS = {m: i for i, m in enumerate(["january", "february", "march", "april", "may", "june", "july",
                                        "august", "september", "october", "november", "december"], 1)}
 
+# Ofcom left this list on 16 October 2026: www.ofcom.org.uk answers our
+# identified UA again, and tools/govuk_docs.py reads its consultations
+# listing into govuk_docs (a failure there is that tool's gap line). EHRC
+# and GMC were re-tried the same day (docs/robots-runtime.md, "UK
+# regulators"): still 403 to every request, RSS and sitemaps included.
 BLOCKED = {
-    "Ofcom": "ofcom.org.uk answers 403 to every non-browser client (measured 2026-09-07)",
-    "GMC": "gmc-uk.org answers 403 to every non-browser client (measured 2026-09-07)",
-    "EHRC": "equalityhumanrights.com answers 403 to every non-browser client (measured 2026-09-07)",
+    "GMC": ("gmc-uk.org answers 403 to every request, robots.txt, RSS and sitemap included "
+            "(measured 2026-09-07 and 2026-10-16); no gov.uk organisation to read instead"),
+    "EHRC": ("equalityhumanrights.com answers 403 to every request, RSS and sitemap included "
+             "(measured 2026-09-07 and 2026-10-16); only its gov.uk pages are read (govuk_docs)"),
 }
 
 

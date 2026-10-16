@@ -1,0 +1,232 @@
+{
+ "links": {
+  "self": "https://petition.parliament.uk/petitions.json?state=open",
+  "next": null
+ },
+ "data": [
+  {
+   "type": "petition",
+   "id": 767687,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/767687.json"
+   },
+   "attributes": {
+    "action": "Hold a UK-wide briefing on climate and nature risks",
+    "background": "The UK faces growing risks from climate and nature breakdown - from extreme weather to economic disruption and national security threats. Yet the public has never been given a clear national briefing on the scale of these risks. Government should hold an emergency briefing from leading experts.",
+    "additional_details": "These risks could have serious consequences across UK society, with threats to health and food supply - which could become irreversible if without urgent action. Many people are unclear how these risks may affect them, and information in the public domain is often misleading.\r\n \r\nA credible national briefing from independent experts would give people clear, trusted guidance on what these risks mean in practice, and what we can do - both together and individually - to prepare and respond.",
+    "committee_note": "",
+    "state": "open",
+    "signature_count": 129742,
+    "closing_date": "2026-11-20",
+    "created_at": "2026-04-18T21:09:56.887Z",
+    "updated_at": "2026-10-15T23:24:50.000Z",
+    "rejected_at": null,
+    "opened_at": "2026-05-20T08:54:04.640Z",
+    "closed_at": null,
+    "moderation_threshold_reached_at": "2026-04-19T09:38:10.000Z",
+    "response_threshold_reached_at": "2026-05-21T12:08:30.000Z",
+    "government_response_at": "2026-06-15T10:54:01.418Z",
+    "debate_threshold_reached_at": "2026-08-16T09:55:20.000Z",
+    "debate_scheduled_on": null,
+    "scheduled_debate_date": null,
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-06-15",
+     "summary": "We recognise the growing risks from climate and nature breakdown, and are committed to speaking clearly about the scale of the crisis and providing reliable sources for information and advice.",
+     "details": "The UK government recognises the growing risks from climate and nature breakdown. Nature and a stable climate underpin our health, economy, national security and critical services.\n\nThe National Emergency Briefing campaign is right to highlight climate change as a major threat for the UK and the wor",
+     "created_at": "2026-06-15T10:54:01.415Z",
+     "updated_at": "2026-06-15T10:58:26.161Z"
+    },
+    "debate": null,
+    "departments": [
+     {
+      "acronym": "HO",
+      "name": "Home Office",
+      "url": "https://www.gov.uk/government/organisations/home-office"
+     }
+    ],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 769589,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/769589.json"
+   },
+   "attributes": {
+    "action": "End the mandatory fortification of white flour with folic acid immediately",
+    "background": "We call on the Government to stop the fortification of flour with synthetic folic acid. Folic acid is a medicine not a food. We believe it is unethical to mass medicate the entire population without their knowledge or consent in the hope that a minority group of people might see a benefit.",
+    "additional_details": "The NHS website lists sections of the population (including people with cancer, a stent or low vitamin B12 levels) who should avoid folic acid exposure because of possible detrimental health impacts. Even if these people are aware of the issue, it is becoming harder to avoid as wholemeal and gluten free products are voluntarily adding folic acid. ",
+    "committee_note": "",
+    "state": "open",
+    "signature_count": 114949,
+    "closing_date": "2026-12-08",
+    "created_at": "2026-05-11T11:31:25.296Z",
+    "updated_at": "2026-10-16T00:08:10.000Z",
+    "rejected_at": null,
+    "opened_at": "2026-06-08T14:36:09.331Z",
+    "closed_at": null,
+    "moderation_threshold_reached_at": "2026-05-11T11:47:50.000Z",
+    "response_threshold_reached_at": "2026-06-12T15:02:50.000Z",
+    "government_response_at": "2026-06-29T12:21:00.293Z",
+    "debate_threshold_reached_at": "2026-10-08T18:12:20.000Z",
+    "debate_scheduled_on": null,
+    "scheduled_debate_date": null,
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-06-29",
+     "summary": "Folic acid fortification is an evidenced public health measure, not a medical intervention. The policy applies to non-wholemeal flour, reflecting the flour-type already subject to fortification.",
+     "details": "The UK Government is mandating fortification of non-wholemeal wheat flour with folic acid with the primary objective to increase folic acid intake among women of childbearing age, thereby improving blood folate levels and reducing the risk of neural tube defects (NTDs) during pregnancy. The policy i",
+     "created_at": "2026-06-29T12:21:00.287Z",
+     "updated_at": "2026-06-29T12:21:52.418Z"
+    },
+    "debate": null,
+    "departments": [
+     {
+      "acronym": "DHSC",
+      "name": "Department of Health and Social Care",
+      "url": "https://www.gov.uk/government/organisations/department-of-health-and-social-care"
+     }
+    ],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 773633,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/773633.json"
+   },
+   "attributes": {
+    "action": "Launch a public inquiry into illegal migration in the UK",
+    "background": "We call on the Government to launch a full-scale public inquiry into illegal migration in the UK. The inquiry should investigate the effectiveness of UK border control, the financial cost on taxpayers, and the deportation system.",
+    "additional_details": "Thousands of people illegally migrate to the UK each year. We believe this has negatively impacted the UK to a significant extent and resulted in some people feeling unsafe walking the streets. Furthermore, we believe it has brought a great burden onto taxpayers as the Government has had to pay for more support for illegal migrants.",
+    "committee_note": "",
+    "state": "open",
+    "signature_count": 83476,
+    "closing_date": "2027-01-15",
+    "created_at": "2026-06-17T16:29:16.669Z",
+    "updated_at": "2026-10-15T23:51:50.000Z",
+    "rejected_at": null,
+    "opened_at": "2026-07-15T14:48:11.761Z",
+    "closed_at": null,
+    "moderation_threshold_reached_at": "2026-06-17T18:40:40.000Z",
+    "response_threshold_reached_at": "2026-08-23T16:40:50.000Z",
+    "government_response_at": "2026-09-22T10:03:29.674Z",
+    "debate_threshold_reached_at": null,
+    "debate_scheduled_on": null,
+    "scheduled_debate_date": null,
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-09-21",
+     "summary": "The Government is subject to ongoing scrutiny here through parliament, and by the Independent Chief Inspector of Borders and Immigration. The Government doesn\u2019t consider a public inquiry necessary.",
+     "details": "The Government recognises the scale of the challenges inherited across the immigration and asylum system. Since taking office, the Government has publicly committed to reducing illegal migration and restoring public confidence in the immigration system and has put in place a wide-ranging programme o",
+     "created_at": "2026-09-22T10:03:29.659Z",
+     "updated_at": "2026-09-22T10:03:29.659Z"
+    },
+    "debate": null,
+    "departments": [
+     {
+      "acronym": "HO",
+      "name": "Home Office",
+      "url": "https://www.gov.uk/government/organisations/home-office"
+     }
+    ],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 781598,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/781598.json"
+   },
+   "attributes": {
+    "action": "Ban children & their likeness being used to promote pornography or adult-content",
+    "background": "We want the Government to introduce legislation making it illegal to use children or their likeness in advertising, promotional material or social-media content to promote commercial pornography or adult-content businesses, including where the material featuring the child is not sexually explicit.",
+    "additional_details": "We believe there is a safeguarding gap where children, or dolls intended to represent children, can appear in otherwise non-explicit social-media content used to promote commercial adult-content businesses. Children cannot consent to such associations. We want clear legal boundaries preventing the use of children, or representations of children, to advertise or generate engagement for commercial pornography or adult content.",
+    "committee_note": "",
+    "state": "open",
+    "signature_count": 42541,
+    "closing_date": "2027-04-07",
+    "created_at": "2026-09-11T09:04:49.934Z",
+    "updated_at": "2026-10-15T23:52:20.000Z",
+    "rejected_at": null,
+    "opened_at": "2026-10-07T12:49:16.754Z",
+    "closed_at": null,
+    "moderation_threshold_reached_at": "2026-09-11T09:33:00.000Z",
+    "response_threshold_reached_at": "2026-10-07T18:45:30.000Z",
+    "government_response_at": null,
+    "debate_threshold_reached_at": null,
+    "debate_scheduled_on": null,
+    "scheduled_debate_date": null,
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": null,
+    "debate": null,
+    "departments": [
+     {
+      "acronym": "MoJ",
+      "name": "Ministry of Justice",
+      "url": "https://www.gov.uk/government/organisations/ministry-of-justice"
+     }
+    ],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 770527,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/770527.json"
+   },
+   "attributes": {
+    "action": "Disapprove the draft Equality Act 2010 guidance laid on 21 May 2026",
+    "background": "I want the House of Commons to disapprove the Equality Act 2010: Draft Code of Practice for services, public functions and associations, 2026 laid on 21 May 2026.",
+    "additional_details": "We are concerned that the guidance published on 21 May 2016 could lead to women being excluded from women's spaces based on their appearance. We think that the guidance will make it harder for trans people to participate in sport as either gender, and that it can limit trans people from accessing toilets and other facilities that match their acquired gender. I therefore think the House of Commons should disapprove this draft guidance.",
+    "committee_note": "",
+    "state": "open",
+    "signature_count": 27667,
+    "closing_date": "2026-12-19",
+    "created_at": "2026-05-22T06:04:46.142Z",
+    "updated_at": "2026-10-15T23:08:30.000Z",
+    "rejected_at": null,
+    "opened_at": "2026-06-19T14:37:04.922Z",
+    "closed_at": null,
+    "moderation_threshold_reached_at": "2026-05-22T10:11:10.000Z",
+    "response_threshold_reached_at": "2026-06-24T08:30:40.000Z",
+    "government_response_at": "2026-08-18T16:40:09.072Z",
+    "debate_threshold_reached_at": null,
+    "debate_scheduled_on": null,
+    "scheduled_debate_date": null,
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-08-18",
+     "summary": "Disapproving the Code of Practice for Services, Public Functions and Associations would leave duty bearers having to comply with the Equality Act 2010 without updated guidance on how to do so. ",
+     "details": "The Equality and Human Rights Commission (\u201cEHRC\u201d) has developed a revised Code of Practice for Services, Public Functions and Associations (\u201cthe Code\u201d). This Code provides guidance for duty bearers on how to comply with the 2010 Act. If a service provider is still unsure, they should seek legal advi",
+     "created_at": "2026-08-18T16:40:09.070Z",
+     "updated_at": "2026-08-18T16:40:09.070Z"
+    },
+    "debate": null,
+    "departments": [
+     {
+      "acronym": "DfE",
+      "name": "Department for Education",
+      "url": "https://www.gov.uk/government/organisations/department-for-education"
+     }
+    ],
+    "topics": []
+   }
+  }
+ ]
+}

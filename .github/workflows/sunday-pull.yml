@@ -187,6 +187,19 @@ jobs:
         if: always() && steps.fetch.outcome == 'success'
           && env.SKIP != '1'
         run: python3 tools/pull_division_rolls.py
+      - name: Pull UK e-petitions on our ground
+        # petition.parliament.uk's JSON -> uk_petitions (tools/uk_petitions.py):
+        # open petitions weekly, every closed page every four weeks. Exits 1
+        # with gap lines for the edition's footer when a read fails.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/uk_petitions.py
+      - name: Pull GOV.UK consultations and publications on our ground
+        # GOV.UK Search/Content APIs, Ofcom's listing, NHS England's feed ->
+        # govuk_docs (tools/govuk_docs.py). Same failure rule.
+        if: always() && steps.fetch.outcome == 'success'
+          && env.SKIP != '1'
+        run: python3 tools/govuk_docs.py
       - name: Publish the raw archive
         # Before the store: a store that cites payloads the archive lacks
         # is the worse of the two failures. Merges, never clobbers.

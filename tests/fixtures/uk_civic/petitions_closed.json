@@ -1,0 +1,195 @@
+{
+ "links": {
+  "self": "https://petition.parliament.uk/petitions.json?state=closed",
+  "next": null
+ },
+ "data": [
+  {
+   "type": "petition",
+   "id": 700143,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/700143.json"
+   },
+   "attributes": {
+    "action": "Call a General Election",
+    "background": "I would like there to be another General Election. \r\n\r\nI believe the current Labour Government have gone back on the promises they laid out in the lead up to the last election.",
+    "additional_details": "",
+    "committee_note": "",
+    "state": "closed",
+    "signature_count": 3084713,
+    "created_at": "2024-10-31T09:43:44.666Z",
+    "updated_at": "2026-09-09T10:13:05.369Z",
+    "rejected_at": null,
+    "opened_at": "2024-11-20T09:13:21.152Z",
+    "closed_at": "2025-05-20T22:59:59.999Z",
+    "moderation_threshold_reached_at": "2024-10-31T10:09:50.000Z",
+    "response_threshold_reached_at": "2024-11-23T16:51:20.000Z",
+    "government_response_at": "2024-12-06T16:09:44.690Z",
+    "debate_threshold_reached_at": "2024-11-23T21:18:30.000Z",
+    "debate_scheduled_on": "2024-11-27",
+    "scheduled_debate_date": "2025-01-06",
+    "debate_outcome_at": "2025-01-07T10:52:50.816Z",
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2024-12-06",
+     "summary": "This Government was elected on a mandate of change at the July 2024 general election. Our full focus is on fixing the foundations, rebuilding Britain, and restoring public confidence in government.",
+     "details": "The Prime Minister can call a general election at a time of their choosing by requesting a dissolution of Parliament from the Sovereign within the five-year life of a Parliament. The Government was elected by the British people on a mandate of change at the July 2024 general election.\n\nThis Governme",
+     "created_at": "2024-12-06T16:09:44.688Z",
+     "updated_at": "2024-12-06T16:09:44.688Z"
+    },
+    "debate": {
+     "debated_on": "2025-01-06",
+     "transcript_url": "https://hansard.parliament.uk/commons/2025-01-06/debates/7132F58B-DE05-4912-8BFC-67F310B55911/GeneralElection",
+     "video_url": "https://www.youtube.com/watch?v=a1BAM81Twgk",
+     "debate_pack_url": "https://commonslibrary.parliament.uk/research-briefings/cdp-2024-0177/",
+     "public_engagement_url": "",
+     "debate_summary_url": "",
+     "overview": ""
+    },
+    "departments": [
+     {
+      "acronym": "CO",
+      "name": "Cabinet Office",
+      "url": "https://www.gov.uk/government/organisations/cabinet-office"
+     }
+    ],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 763161,
+   "attributes": {
+    "action": "Change surrogacy law to recognise intended parents from birth",
+    "background": "The law must change so intended parents in surrogacy arrangements are recognised as their child\u2019s legal parents from birth. Families should not have to go through months of court proceedings and social worker visits to be recognised as the parents of a child they planned and love.",
+    "additional_details": "When our daughter was born through surrogacy, we became dads the moment we held her. But under current law, the surrogate is automatically recognised as the legal mother (and if she is married, her spouse is recorded as the legal father) even with no biological connection or intention to parent the child.\r\nIntended parents must then go through a lengthy court process to become their child\u2019s legal parents. In 2026 we believe this is outdated. The law needs to recognise intended parents from birth.",
+    "committee_note": "",
+    "state": "closed",
+    "signature_count": 113348,
+    "created_at": "2026-03-04T14:47:30.231Z",
+    "updated_at": "2026-10-10T23:00:09.544Z",
+    "rejected_at": null,
+    "opened_at": "2026-04-10T09:37:34.074Z",
+    "closed_at": "2026-10-10T22:59:59.999Z",
+    "moderation_threshold_reached_at": "2026-03-04T16:24:00.000Z",
+    "response_threshold_reached_at": "2026-04-26T08:40:40.000Z",
+    "government_response_at": "2026-05-20T08:24:22.405Z",
+    "debate_threshold_reached_at": "2026-04-28T16:53:20.000Z",
+    "debate_scheduled_on": "2026-07-16",
+    "scheduled_debate_date": "2026-09-07",
+    "debate_outcome_at": "2026-09-08T12:03:41.812Z",
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-05-20",
+     "summary": "We acknowledge delays to legal parenthood can cause uncertainty. The Government has no current plans to review surrogacy laws but will look to consider this in the future as time and capacity allows.",
+     "details": "The Government supports surrogacy as a part of assisted conception options, and recognises the important part it can play in supporting people seeking to start a family. Parliament has decided that altruistic surrogacy arrangements are legally allowed to take place under the Surrogacy Arrangements A",
+     "created_at": "2026-05-20T08:24:22.401Z",
+     "updated_at": "2026-05-20T08:25:00.470Z"
+    },
+    "debate": {
+     "debated_on": "2026-09-07",
+     "transcript_url": "https://hansard.parliament.uk/commons/2026-09-07/debates/1DE05B16-B467-48D0-B6E7-6B7AD7F8B921/SurrogacyLawAndLegalParenthood",
+     "video_url": "https://www.youtube.com/watch?v=rBXRBulB5o4",
+     "debate_pack_url": "https://post.parliament.uk/research-briefings/post-pn-0761/",
+     "public_engagement_url": "",
+     "debate_summary_url": "",
+     "overview": ""
+    },
+    "departments": [
+     {
+      "acronym": "DHSC",
+      "name": "Department of Health and Social Care",
+      "url": "https://www.gov.uk/government/organisations/department-of-health-and-social-care"
+     }
+    ],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 757233,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/757233.json"
+   },
+   "attributes": {
+    "action": "Do not ban social media for under 16s",
+    "background": "I think the government shouldn\u2019t ban social media for under 16s. This is because for many young people social media is how they communicate with their friends. Some people view social media as a lifeline. A community, a supportive network. This is why I think the government shouldn\u2019t ban it.",
+    "additional_details": "",
+    "committee_note": "",
+    "state": "closed",
+    "signature_count": 217682,
+    "created_at": "2026-01-15T16:02:06.325Z",
+    "updated_at": "2026-09-11T11:10:00.796Z",
+    "rejected_at": null,
+    "opened_at": "2026-02-11T15:24:24.063Z",
+    "closed_at": "2026-08-11T22:59:59.999Z",
+    "moderation_threshold_reached_at": "2026-01-15T20:43:40.000Z",
+    "response_threshold_reached_at": "2026-02-18T15:25:50.000Z",
+    "government_response_at": "2026-03-04T11:01:47.581Z",
+    "debate_threshold_reached_at": "2026-06-15T19:03:00.000Z",
+    "debate_scheduled_on": "2026-09-08",
+    "scheduled_debate_date": "2026-11-02",
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-03-04",
+     "summary": "The government recognises the benefits of digital technologies, including social media, for children. We are consulting on how to ensure children have an enriching and positive experience online.",
+     "details": "I would like to thank all those who signed the petition on this important issue. The government is committed to harnessing the benefits of technology to shape a future that works for us all, particularly for children. To do this, people must have confidence that their children are protected online.\n",
+     "created_at": "2026-03-04T11:01:47.578Z",
+     "updated_at": "2026-03-04T11:09:33.971Z"
+    },
+    "debate": null,
+    "departments": [],
+    "topics": []
+   }
+  },
+  {
+   "type": "petition",
+   "id": 764268,
+   "links": {
+    "self": "https://petition.parliament.uk/petitions/764268.json"
+   },
+   "attributes": {
+    "action": "Protect legal right to support for children with SEND",
+    "background": "I believe that the Government\u2019s proposed SEND reforms could limit EHCPs, weaken legal rights, replace individual plans with packages, reduce appeals, and remove school choice. In my view, children could be left without the support they need as a result.",
+    "additional_details": "I think the Government\u2019s SEND reforms could limit EHCPs, weaken legal rights, raise thresholds, replace individual plans with generic packages, reduce appeal rights, remove school choice, and push children into inclusion zones without proper support. Many children rely on these rights to support every day, without them many could be left behind, struggling, unsupported, and unheard.",
+    "committee_note": "",
+    "state": "closed",
+    "signature_count": 117336,
+    "created_at": "2026-03-13T19:29:47.335Z",
+    "updated_at": "2026-10-15T22:45:10.000Z",
+    "rejected_at": null,
+    "opened_at": "2026-04-14T14:49:10.055Z",
+    "closed_at": "2026-10-14T22:59:59.999Z",
+    "moderation_threshold_reached_at": "2026-03-13T19:59:50.000Z",
+    "response_threshold_reached_at": "2026-05-03T13:09:00.000Z",
+    "government_response_at": "2026-06-22T13:21:27.888Z",
+    "debate_threshold_reached_at": "2026-09-30T16:32:30.000Z",
+    "debate_scheduled_on": null,
+    "scheduled_debate_date": null,
+    "debate_outcome_at": null,
+    "creator_name": null,
+    "rejection": null,
+    "government_response": {
+     "responded_on": "2026-06-22",
+     "summary": "The government\u2019s SEND reform proposal will strengthen legal duties, better support children with SEND in mainstream settings and ensure EHCPs secure statutory support for children with complex needs.",
+     "details": "The government\u2019s proposed reforms strengthen the legal duties to support children with SEND in mainstream settings. The SEND consultation proposes a new legal requirement for schools to create individual support plans (ISPs) for all children with SEND, developed by their nursery, school or college i",
+     "created_at": "2026-06-22T13:21:27.883Z",
+     "updated_at": "2026-06-22T13:22:17.875Z"
+    },
+    "debate": null,
+    "departments": [
+     {
+      "acronym": "DfE",
+      "name": "Department for Education",
+      "url": "https://www.gov.uk/government/organisations/department-for-education"
+     }
+    ],
+    "topics": []
+   }
+  }
+ ]
+}

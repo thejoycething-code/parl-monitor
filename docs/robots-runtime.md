@@ -437,6 +437,25 @@ names the client that is wrapped when it is not the collector's own.
 | sp_agenda | data.parliament.scot (`/api/MotionsQuestionsAnswersMotionsBusiness?motionfilter=programme`) | open data | yes | robots.txt 404 (no rules); the Parliament's open-data API, asked anyway like the rest of the client |
 | sd_agenda (15 October 2026) | business.senedd.wales (`/mgWebService.asmx/`) | API (ModernGov web service) | yes | robots.txt answers the Azure WAF's 403 page (a 4xx: no rules, RFC 9309). The web service answers the identified UA with 200 and XML; the host's web pages (calendar, agenda pages) answer that UA and every non-browser client 403, and are not read. The browser UA src/http.py keeps for this host is removed on this client |
 | ve_news_crawl, ve_probe | www.asambleanacional.gob.ve (and any probed URL) | scraper | yes (probe_refusal) | allowed |
+| uk_petitions (16 October 2026) | petition.parliament.uk (`/petitions.json?state=open` or `closed`, `&page=N`, `/petitions/<id>.json`) | public JSON behind the website (treated as a scraper) | yes | allowed: robots.txt disallows only admin, check, signing, sponsor and thank-you paths |
+| govuk_docs (16 October 2026) | www.gov.uk (`/api/search.json`, `/api/content/<path>`) | documented API (not on DOCUMENTED_APIS, so asked) | yes | allowed: robots.txt disallows only `/*/print$` and `/search/all*` |
+| govuk_docs | www.ofcom.org.uk (`/consultations-and-statements` and each consultation's page) | scraper | yes | allowed: robots.txt disallows `/episerver/`, `/utils/`, search and filter query strings; see "UK regulators" below |
+| govuk_docs | www.england.nhs.uk (`/publication/feed/?paged=N` and each publication page) | scraper (a website's RSS) | yes | allowed: robots.txt disallows only `/wp-admin/` |
+
+## UK regulators (16 October 2026)
+
+The UK edition's regulator consultations (src/ingest/regulators.py) declared
+Ofcom, GMC and EHRC as BLOCKED on 7 September 2026: all three answered 403 to
+every non-browser client. Re-tried from the laptop on 16 October 2026 with the
+identified UA, looking for legitimate alternative routes before keeping the
+gap (never a browser UA, a proxy or a challenge bypass):
+
+| Regulator | Tried | Result | What the edition reads now |
+|---|---|---|---|
+| Ofcom | www.ofcom.org.uk robots.txt, home page, `/consultations-and-statements`, a consultation page; `/rss`, `/feeds/rss` (no feed exists: 404); Ofcom's gov.uk organisation | the site answers 200 to our UA again; robots.txt allows the listing and the pages. Ofcom's gov.uk organisation holds 401 documents (statistics announcements and guidance), not its consultations | tools/govuk_docs.py reads the listing (title, description, site section) and each consultation on our ground's page for its closing date ("Consultation closes: 4 November 2026"), into govuk_docs (source 'ofcom'); its gov.uk organisation is read with the publications. Ofcom left regulators.BLOCKED |
+| EHRC | equalityhumanrights.com home page, `/consultations`, `/rss.xml`, `/en/rss.xml`, `/feed`, `/sitemap.xml`; robots.txt; EHRC's gov.uk organisation | every page, feed and sitemap answers 403 (a Cloudflare check); robots.txt itself answers (a managed file that allows `User-agent: *`, disallows AI crawlers by name) but the block is the bot check, which we never pass. EHRC's gov.uk organisation holds 64 documents, among them the Equality Act 2010 Code of Practice for services (5 August 2026) | gov.uk organisation `equality-and-human-rights-commission` read by tools/govuk_docs.py with the publications. Still a declared gap (regulators.BLOCKED) for everything published only on its own site |
+| GMC | www.gmc-uk.org home page, robots.txt, `/rss`, `/feed`, `/sitemap.xml`; gmc.citizenspace.com, consultations.gmc-uk.org (do not resolve); gov.uk organisation `general-medical-council` | 403 to everything, robots.txt included; no Citizen Space host; no gov.uk organisation (404) | nothing: declared gap (regulators.BLOCKED). Not yet tried: whether gmc-uk.org answers GitHub's runners (a probe workflow would say; not dispatched from the laptop) |
+| NHS England | www.england.nhs.uk robots.txt, `/feed/`, `/publication/feed/` | the WordPress publication feed answers (RSS 2.0, 10 items a page, `?paged=N`), with NHS England's own topic categories; the feed's descriptions are empty, so each page's summary is read | tools/govuk_docs.py, source 'nhs-england' (first read: "Guidance on NHS staff facilities", 15 October 2026, single-sex facilities). Its statistics also reach gov.uk (organisation `nhs-england`). The Citizen Space consultations listing stays in regulators.py |
 
 ## Tests
 

@@ -192,8 +192,10 @@ class RegulatorTests(unittest.TestCase):
         self.assertEqual(rows[0].closes, datetime.date(2026, 9, 30))
 
     def test_blocked_sources_are_declared_not_silent(self):
-        for name in ("Ofcom", "GMC", "EHRC"):
+        for name in ("GMC", "EHRC"):
             self.assertIn(name, regulators.BLOCKED)
+        # Ofcom answers again (16 October 2026): read by tools/govuk_docs.py.
+        self.assertNotIn("Ofcom", regulators.BLOCKED)
 
         class Client:
             def get_text(self, url, feed, slug, archive=True):
@@ -201,7 +203,7 @@ class RegulatorTests(unittest.TestCase):
         found, gaps = regulators.fetch_all(Client(), log=lambda *_: None)
         self.assertEqual(found, [])
         names = {g[0] for g in gaps}
-        self.assertTrue({"Ofcom", "GMC", "EHRC", "NICE", "NHS England"} <= names)
+        self.assertTrue({"GMC", "EHRC", "NICE", "NHS England"} <= names)
 
 
 class DevolvedPetitionTests(unittest.TestCase):

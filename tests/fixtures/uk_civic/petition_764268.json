@@ -1,0 +1,48 @@
+{
+ "links": {
+  "self": "https://petition.parliament.uk/petitions/764268.json"
+ },
+ "data": {
+  "type": "petition",
+  "id": 764268,
+  "attributes": {
+   "action": "Protect legal right to support for children with SEND",
+   "background": "I believe that the Government\u2019s proposed SEND reforms could limit EHCPs, weaken legal rights, replace individual plans with packages, reduce appeals, and remove school choice. In my view, children could be left without the support they need as a result.",
+   "additional_details": "I think the Government\u2019s SEND reforms could limit EHCPs, weaken legal rights, raise thresholds, replace individual plans with generic packages, reduce appeal rights, remove school choice, and push children into inclusion zones without proper support. Many children rely on these rights to support every day, without them many could be left behind, struggling, unsupported, and unheard.",
+   "committee_note": "",
+   "state": "closed",
+   "signature_count": 117336,
+   "created_at": "2026-03-13T19:29:47.335Z",
+   "updated_at": "2026-10-15T22:45:10.000Z",
+   "rejected_at": null,
+   "opened_at": "2026-04-14T14:49:10.055Z",
+   "closed_at": "2026-10-14T22:59:59.999Z",
+   "moderation_threshold_reached_at": "2026-03-13T19:59:50.000Z",
+   "response_threshold_reached_at": "2026-05-03T13:09:00.000Z",
+   "government_response_at": "2026-06-22T13:21:27.888Z",
+   "debate_threshold_reached_at": "2026-09-30T16:32:30.000Z",
+   "debate_scheduled_on": null,
+   "scheduled_debate_date": null,
+   "debate_outcome_at": null,
+   "creator_name": null,
+   "rejection": null,
+   "government_response": {
+    "responded_on": "2026-06-22",
+    "summary": "The government\u2019s SEND reform proposal will strengthen legal duties, better support children with SEND in mainstream settings and ensure EHCPs secure statutory support for children with complex needs.",
+    "details": "The government\u2019s proposed reforms strengthen the legal duties to support children with SEND in mainstream settings. The SEND consultation proposes a new legal requirement for schools to create individual support plans (ISPs) for all children with SEND, developed by their nursery, school or college i",
+    "created_at": "2026-06-22T13:21:27.883Z",
+    "updated_at": "2026-06-22T13:22:17.875Z"
+   },
+   "debate": null,
+   "departments": [
+    {
+     "acronym": "DfE",
+     "name": "Department for Education",
+     "url": "https://www.gov.uk/government/organisations/department-for-education"
+    }
+   ],
+   "topics": [],
+   "other_parliamentary_business": []
+  }
+ }
+}
