@@ -9,8 +9,8 @@ match the country's taxonomy over it, and (gated) apply it to the vote.
 
 The country analogue of the UK's clause text (src/clausetext.py); the design
 is src/amendtext.py, each country's source and identifiers are in
-src/amendtext_<cc>.py. Every fetch goes through src/robots_guard.GuardedClient
-(robots.txt asked for every URL and every redirect hop).
+src/amendtext_<cc>.py. Every fetch goes through src/robots_guard.guard
+(robots.txt asked for every URL and every redirect hop; documented APIs exempt).
 
 A run: every candidate vote whose title only names an amendment or motion is
 looked up (store cache first: a vote is read once); a vote not yet read is
@@ -47,9 +47,12 @@ def make_reader(cc, client=None, log=print):
     mod = importlib.import_module("src.amendtext_{0}".format(cc))
     if client is None:
         from src.http import HttpClient
-        from src.robots_guard import GuardedClient
+        from src import robots_guard
         raw = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
-        client = GuardedClient(raw, "{0}-amendment-text".format(cc), log=log)
+        # guard(): robots.txt asked for every URL and every redirect hop, except
+        # the documented machine APIs of robots_guard.DOCUMENTED_APIS (the
+        # Tweede Kamer's OData), exactly as the collectors do (#144, #147).
+        client = robots_guard.guard(raw, "{0}-amendment-text".format(cc), log=log)
     return mod.make_reader(client)
 
 

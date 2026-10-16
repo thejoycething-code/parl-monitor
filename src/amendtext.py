@@ -63,11 +63,14 @@ from __future__ import annotations
 
 import datetime
 import json
+import re
 import time
 from dataclasses import dataclass, field
 
 SOURCE = "amendment text"
 PURPOSE_CHARS = 600      # a purpose longer than this is clipped before the gate reads it
+OPERATIVE_CHARS = 3000   # ... unless it is a whole operative part (entry(purpose_chars=...))
+COMMIT_EVERY = 50        # new reads between commits
 MAX_GAP_ROWS = 25        # individual gap rows per run; the rest are summed in one line
 TEXT_CHARS = 20000       # one stored text, at most
 
@@ -88,43 +91,55 @@ class Lookup:
         return "could not read amendment text ({0})".format(self.reason)
 
 
+_SECRET = re.compile(r"((?:api_?key|apikey|token|key)=)[^&\s'\"]+", re.I)
+
+
+def scrub(text):
+    """A reason as it may be stored and logged: no key from a URL in it."""
+    return _SECRET.sub(r"\1<key>", str(text or ""))
+
+
 def unreadable(refs, reason):
-    return Lookup("unreadable", refs=list(refs or []), reason=reason)
+    return Lookup("unreadable", refs=list(refs or []), reason=scrub(reason))
 
 
 def clip(text, n=TEXT_CHARS):
-    text = " ".join((text or "").split()) if n < 2000 else (text or "").strip()
+    text = " ".join((text or "").split()) if n <= OPERATIVE_CHARS else (text or "").strip()
     return text[:n]
 
 
-def entry(label, kind, source_id, url, purpose, text):
-    """One text as stored: the purpose clipped for the gate, the body capped."""
+def entry(label, kind, source_id, url, purpose, text, purpose_chars=PURPOSE_CHARS):
+    """One text as stored: the purpose clipped for the gate, the body capped.
+    A reader whose purpose is a whole operative part (a motion's "impegna il
+    Governo" items, a Dutch "verzoekt de regering") passes a larger limit."""
     return {"label": label, "kind": kind, "source_id": source_id, "url": url,
-            "purpose": clip(purpose, PURPOSE_CHARS), "text": clip(text)}
+            "purpose": clip(purpose, purpose_chars), "text": clip(text)}
 
 
 # -- store cache ----------------------------------------------------------------
 
-def cached(conn, cc, key):
+def cached(conn, cc, key, version=None):
+    """The stored read of a vote, or None. A row read by another version of
+    the reader (its link or purpose rule changed) is read again."""
     try:
-        row = conn.execute("SELECT refs, texts FROM amendment_text WHERE cc=? AND division_key=?",
+        row = conn.execute("SELECT refs, texts, reader_version FROM amendment_text WHERE cc=? AND division_key=?",
                            (cc, str(key))).fetchone()
     except Exception:                                   # noqa: BLE001 - pre-migration store
         return None
-    if not row:
+    if not row or (version is not None and row[2] != str(version)):
         return None
     return Lookup("ok", refs=json.loads(row[0] or "[]"), texts=json.loads(row[1] or "[]"), cached=True)
 
 
-def store(conn, cc, key, lk, today=None):
+def store(conn, cc, key, lk, today=None, version=None):
     if lk.status != "ok":
         return
     conn.execute(
-        "INSERT INTO amendment_text (cc, division_key, refs, texts, fetched_at) VALUES (?,?,?,?,?) "
-        "ON CONFLICT(cc, division_key) DO UPDATE SET refs=excluded.refs, texts=excluded.texts, "
-        "fetched_at=excluded.fetched_at",
+        "INSERT INTO amendment_text (cc, division_key, refs, texts, fetched_at, reader_version) "
+        "VALUES (?,?,?,?,?,?) ON CONFLICT(cc, division_key) DO UPDATE SET refs=excluded.refs, "
+        "texts=excluded.texts, fetched_at=excluded.fetched_at, reader_version=excluded.reader_version",
         (cc, str(key), json.dumps(lk.refs, ensure_ascii=False), json.dumps(lk.texts, ensure_ascii=False),
-         today or datetime.date.today().isoformat()))
+         today or datetime.date.today().isoformat(), None if version is None else str(version)))
 
 
 def save_match(conn, cc, key, result, labels, ledger, today=None):
@@ -256,7 +271,7 @@ def run(conn, reader, budget_seconds=None, limit=None, apply=True, record_gaps=T
         if not refs:
             continue
         key = str(row["key"])
-        lk = cached(conn, reader.cc, key)
+        lk = cached(conn, reader.cc, key, reader.version)
         if lk is None:
             over = budget_seconds is not None and clock() - start > budget_seconds
             if over or (limit is not None and fetched >= limit):
@@ -268,7 +283,9 @@ def run(conn, reader, budget_seconds=None, limit=None, apply=True, record_gaps=T
             except Exception as exc:                    # noqa: BLE001 - fail loud, never fatal
                 lk = unreadable(refs, "{0}: {1}".format(type(exc).__name__, str(exc)[:160]))
             if lk.status == "ok":
-                store(conn, reader.cc, key, lk, today)
+                store(conn, reader.cc, key, lk, today, reader.version)
+            if fetched % COMMIT_EVERY == 0:
+                conn.commit()             # a long first read keeps what it has read if it is stopped
         o = Outcome(key, row.get("date"), row.get("title"), lk.status, cached=lk.cached,
                     before=_json_list(row.get("areas")))
         if lk.gap:
@@ -305,6 +322,7 @@ class Reader:
     """Base for a country reader; see the module docstring."""
 
     cc = None
+    version = "1"         # bump when the link or the purpose rule changes: cached reads are redone
     table = None          # the division table
     key_col = None        # its key column
 
