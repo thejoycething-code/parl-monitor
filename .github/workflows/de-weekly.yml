@@ -142,6 +142,12 @@ jobs:
         run: python3 tools/de_courts.py | tee /tmp/de-courts.log
       - name: Collect amendments to bills we watch
         run: python3 tools/de_amendments.py | tee /tmp/de-amendments.log
+      - name: Read what each roll call is on (amendment text)
+        # tools/amendment_text.py, src/amendtext_de.py (16 October 2026): the
+        # Drucksache's DIP text, matched with taxonomy-de; a tier-1 term in its
+        # title or operative words adds its areas to the vote. Exit 3 means
+        # gaps were recorded, not a failure.
+        run: python3 tools/amendment_text.py --cc de --budget-seconds 300 || [ $? -eq 3 ]
       - name: Collect committee reports and laid papers
         # A Beschlussempfehlung is the committee telling the House what to do
         # with a bill, BEFORE the vote. The 60-day window is deliberate: DIP
