@@ -37,7 +37,7 @@ def hit(text, tax=EN):
 class Versions(unittest.TestCase):
     def test_versions(self):
         self.assertEqual(EN.version, "1.27")
-        self.assertEqual(QC.version, "0.5")
+        self.assertEqual(QC.version, "0.6")   # v0.6: tests/test_taxonomy_1016.py
 
 
 class Tokenizer(unittest.TestCase):

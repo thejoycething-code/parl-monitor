@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Croatian keyword taxonomy
 
-**Version 0.1 | 10 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
+**Version 0.2 | 16 October 2026 | Owner: Christopher | Status: APPROVED AS DRAFTED (X4), NOT YET READ BY A NATIVE READER**
 
 ## Purpose
 
@@ -62,8 +62,8 @@ Scope calls applied while merging:
 ### 6. Parental rights and education {#6_parental_rights_education}
 
 - **Tier 1:** "zdravstven* odgoj*"; "spoln* odgoj*"; "seksualn* odgoj*"; "građansk* odgoj*"; "prav* roditelja"; "roditeljsk* prav*"; "kućn* školovanj*"; "školovanj* kod kuće"; "obrazovanj* kod kuće"; "nastav* kod kuće"; "digitaln* zaštit* djece"
-- **Tier 2:** kurikul* [with: spol*, zdravstven*, građansk*, rod*, vjeronauk*]; "društven* mrež*" [with: djec*, maloljet*, škol*]; mobitel* [with: škol*, učenik*]; "zaštit* djece na internetu"; "roditeljsk* skrb*"; "osnovnoškolsk* odgoj*"; "pravobranitel* za djecu"; "odgoj* i obrazovanj* u osnovnoj i srednjoj školi"; udžbenic*; "predškolsk* odgoj*"
-- **Notes:** No terms proposed for this area.
+- **Tier 2:** kurikul* [with: spol*, zdravstven*, građansk*, rod*, vjeronauk*]; "društven* mrež*" [with: djec*, maloljet*, škol*]; mobitel* [with: škol*, učenik*]; "zaštit* djece na internetu"; "roditeljsk* skrb*"; "osnovnoškolsk* odgoj*"; "pravobranitel* za djecu"; "odgoj* i obrazovanj* u osnovnoj i srednjoj školi"; udžbeni*; "predškolsk* odgoj*"
+- **Notes:** v0.2 (16 October 2026, Chris): udžbenic* widened to udžbeni*. The old stem took only the plural cases (udžbenici, udžbenicima) and, through accent folding, the adjective udžbenički; it missed the singular udžbenik, udžbenika, udžbeniku, udžbenikom. Every Croatian word that opens udžbeni- is of the textbook family (folded: udzbeni-), so nothing unrelated comes in. Measured on the store of 16 October 2026 (sha c3392629aba3) over the titles of hr_items (2,139), hr_divisions (790) and hr_transcripts (490): the same 2 items and 2 divisions match before and after (the Textbooks Act amendment, P.Z. 153, "Zakona o udžbenicima", first and final readings), area 6 both times; only their matched term reads udžbeni* instead of udžbenic*. No row gained or lost an area. The gain is for text not yet stored ("Nabava udžbenika ..." matched nothing under v0.1).
 
 ### 7. Free speech, privacy and civil liberties {#7_free_speech_online_safety}
 
