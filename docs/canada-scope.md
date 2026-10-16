@@ -1075,6 +1075,18 @@ texts and e-7005); 2 Gazette items; one leave granted (Alberta v. Wirring).
 3a. **Committees (done, scheduled):** House and joint committee evidence
    (2 October 2026), Senate committee transcripts and committee reports,
    House and Senate, with government responses (12 October 2026).
+3b. **Shared frameworks (done, 16 October 2026, branch `ca-gaps`):** a
+   reader adapter (`src/editions/ca.py`) gives the country frameworks the
+   House and Senate divisions and bills: member profiles (`profiles/ca/`),
+   the partner vote page `ca-votes.html` with Canada's rows in the tracker
+   and bill timelines (readings shown only once confirmed in
+   `config/ca_stance.yaml`), same-day vote briefs (after the weekly, and
+   daily for House divisions from the House's XML), and the week ahead
+   (`src/agendas/ca.py`: House committee notices, the Projected Order of
+   Business and sitting calendar; the Senate's committee schedule and Order
+   Paper) rendered in the edition as This week and Further afield. Not
+   read: the full House Order Paper (only the next sitting's projected
+   business), Senate sitting calendar (the Order Paper's date stands in).
 4. **Phase 4, if wanted: provinces.** Alberta, Saskatchewan and Ontario come
    first on our ground. Quebec comes only with a French term layer.
 
