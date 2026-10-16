@@ -1,0 +1,316 @@
+{
+ "success": true,
+ "data": {
+  "23/08/2026 - 29/08/2026": {
+   "Comissão de Defesa dos Direitos da Mulher": [
+    {
+     "comissao": "Comissão de Defesa dos Direitos da Mulher",
+     "data": "2026-08-24",
+     "data_formatada": "24/08/2026",
+     "semana_inicio": "2026-08-23T03:00:00.000000Z",
+     "semana_fim": "2026-08-29T03:00:00.000000Z",
+     "numero_reuniao": 7,
+     "tipo_reuniao": "ordinaria",
+     "nome_reuniao": "7ª Reunião Ordinária",
+     "reuniao_original": "7ª Reunião Ordinária",
+     "arquivos": {
+      "pauta": [
+       {
+        "id": 479771,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1129",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mt8m3eeg_2531.pdf",
+        "disk": "public",
+        "file_name": "mt8m3eeg_2531.pdf",
+        "mime_type": "application/pdf",
+        "size": 252268,
+        "custom_properties": {
+         "type": 1,
+         "tipo_arquivo": "pdf",
+         "nome_exibicao": "PAUTA_7RO_24ago26"
+        },
+        "created_at": "2026-08-25T11:58:57.000000Z",
+        "updated_at": "2026-08-25T11:58:57.000000Z",
+        "deleted_at": null,
+        "titulo": "PAUTA_7RO_24ago26",
+        "posicao": 0,
+        "extension": "pdf",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mt8m3eeg_2531.pdf",
+        "arquivo": "pautas_comissoes/arquivos/mt8m3eeg_2531.pdf",
+        "type": 1,
+        "tipo_arquivo": "pdf"
+       },
+       {
+        "id": 479772,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1129",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mt8m3efb_c242.docx",
+        "disk": "public",
+        "file_name": "mt8m3efb_c242.docx",
+        "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "size": 94742,
+        "custom_properties": {
+         "type": 1,
+         "tipo_arquivo": "docx",
+         "nome_exibicao": "PAUTA_7RO_24ago26"
+        },
+        "created_at": "2026-08-25T11:58:57.000000Z",
+        "updated_at": "2026-08-25T11:58:57.000000Z",
+        "deleted_at": null,
+        "titulo": "PAUTA_7RO_24ago26",
+        "posicao": 0,
+        "extension": "docx",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mt8m3efb_c242.docx",
+        "arquivo": "pautas_comissoes/arquivos/mt8m3efb_c242.docx",
+        "type": 1,
+        "tipo_arquivo": "docx"
+       }
+      ],
+      "ata": [
+       {
+        "id": 479789,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1129",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mtbpnxec_f053.pdf",
+        "disk": "public",
+        "file_name": "mtbpnxec_f053.pdf",
+        "mime_type": "application/pdf",
+        "size": 52170,
+        "custom_properties": {
+         "type": 2,
+         "tipo_arquivo": "pdf",
+         "nome_exibicao": "ATA_7RO_24ago26"
+        },
+        "created_at": "2026-08-27T16:02:12.000000Z",
+        "updated_at": "2026-08-27T16:02:12.000000Z",
+        "deleted_at": null,
+        "titulo": "ATA_7RO_24ago26",
+        "posicao": 0,
+        "extension": "pdf",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mtbpnxec_f053.pdf",
+        "arquivo": "pautas_comissoes/arquivos/mtbpnxec_f053.pdf",
+        "type": 2,
+        "tipo_arquivo": "pdf"
+       }
+      ]
+     }
+    }
+   ],
+   "Comissão de Ecologia, Meio Ambiente e Proteção aos Animais": [
+    {
+     "comissao": "Comissão de Ecologia, Meio Ambiente e Proteção aos Animais",
+     "data": "2026-08-24",
+     "data_formatada": "24/08/2026",
+     "semana_inicio": "2026-08-23T03:00:00.000000Z",
+     "semana_fim": "2026-08-29T03:00:00.000000Z",
+     "numero_reuniao": 4,
+     "tipo_reuniao": "ordinaria",
+     "nome_reuniao": "4ª Reunião Ordinária",
+     "reuniao_original": "4ª Reunião Ordinária",
+     "arquivos": {
+      "pauta": [
+       {
+        "id": 479799,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1132",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mtke9v8p_0e5f.docx",
+        "disk": "public",
+        "file_name": "mtke9v8p_0e5f.docx",
+        "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "size": 96027,
+        "custom_properties": {
+         "type": 1,
+         "tipo_arquivo": "docx",
+         "nome_exibicao": "PAUTA 4 REUNIAO ORDINÁRIA 2026"
+        },
+        "created_at": "2026-09-02T17:53:16.000000Z",
+        "updated_at": "2026-09-02T17:53:16.000000Z",
+        "deleted_at": null,
+        "titulo": "PAUTA 4 REUNIAO ORDINÁRIA 2026",
+        "posicao": 0,
+        "extension": "docx",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mtke9v8p_0e5f.docx",
+        "arquivo": "pautas_comissoes/arquivos/mtke9v8p_0e5f.docx",
+        "type": 1,
+        "tipo_arquivo": "docx"
+       },
+       {
+        "id": 479800,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1132",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mtke9v9j_5882.pdf",
+        "disk": "public",
+        "file_name": "mtke9v9j_5882.pdf",
+        "mime_type": "application/pdf",
+        "size": 229346,
+        "custom_properties": {
+         "type": 1,
+         "tipo_arquivo": "pdf",
+         "nome_exibicao": "PAUTA 4 REUNIAO ORDINÁRIA 2026"
+        },
+        "created_at": "2026-09-02T17:53:16.000000Z",
+        "updated_at": "2026-09-02T17:53:16.000000Z",
+        "deleted_at": null,
+        "titulo": "PAUTA 4 REUNIAO ORDINÁRIA 2026",
+        "posicao": 0,
+        "extension": "pdf",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mtke9v9j_5882.pdf",
+        "arquivo": "pautas_comissoes/arquivos/mtke9v9j_5882.pdf",
+        "type": 1,
+        "tipo_arquivo": "pdf"
+       }
+      ],
+      "ata": [
+       {
+        "id": 479802,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1133",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mtkedtnk_523b.pdf",
+        "disk": "public",
+        "file_name": "mtkedtnk_523b.pdf",
+        "mime_type": "application/pdf",
+        "size": 441231,
+        "custom_properties": {
+         "type": 2,
+         "tipo_arquivo": "pdf",
+         "nome_exibicao": "ata 4 REUNIAO ORDINÁRIA 2026"
+        },
+        "created_at": "2026-09-02T17:56:20.000000Z",
+        "updated_at": "2026-09-02T17:56:20.000000Z",
+        "deleted_at": null,
+        "titulo": "ata 4 REUNIAO ORDINÁRIA 2026",
+        "posicao": 0,
+        "extension": "pdf",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mtkedtnk_523b.pdf",
+        "arquivo": "pautas_comissoes/arquivos/mtkedtnk_523b.pdf",
+        "type": 2,
+        "tipo_arquivo": "pdf"
+       }
+      ]
+     }
+    }
+   ],
+   "Comissão de Esportes": [
+    {
+     "comissao": "Comissão de Esportes",
+     "data": "2026-08-25",
+     "data_formatada": "25/08/2026",
+     "semana_inicio": "2026-08-23T03:00:00.000000Z",
+     "semana_fim": "2026-08-29T03:00:00.000000Z",
+     "numero_reuniao": 26,
+     "tipo_reuniao": "ordinaria",
+     "nome_reuniao": "26ª Reunião Ordinária",
+     "reuniao_original": "26ª Reunião Ordinária",
+     "arquivos": {
+      "pauta": [
+       {
+        "id": 479776,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1130",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mt8rugo7_6bb2.pdf",
+        "disk": "public",
+        "file_name": "mt8rugo7_6bb2.pdf",
+        "mime_type": "application/pdf",
+        "size": 322273,
+        "custom_properties": {
+         "type": 1,
+         "tipo_arquivo": "pdf",
+         "nome_exibicao": "Pauta 26"
+        },
+        "created_at": "2026-08-25T14:39:58.000000Z",
+        "updated_at": "2026-08-25T14:39:58.000000Z",
+        "deleted_at": null,
+        "titulo": "Pauta 26",
+        "posicao": 0,
+        "extension": "pdf",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mt8rugo7_6bb2.pdf",
+        "arquivo": "pautas_comissoes/arquivos/mt8rugo7_6bb2.pdf",
+        "type": 1,
+        "tipo_arquivo": "pdf"
+       }
+      ],
+      "ata": [
+       {
+        "id": 479777,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1131",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mt8s34yz_5330.pdf",
+        "disk": "public",
+        "file_name": "mt8s34yz_5330.pdf",
+        "mime_type": "application/pdf",
+        "size": 748915,
+        "custom_properties": {
+         "type": 2,
+         "tipo_arquivo": "pdf",
+         "nome_exibicao": "Ata 26"
+        },
+        "created_at": "2026-08-25T14:46:42.000000Z",
+        "updated_at": "2026-08-25T14:46:42.000000Z",
+        "deleted_at": null,
+        "titulo": "Ata 26",
+        "posicao": 0,
+        "extension": "pdf",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mt8s34yz_5330.pdf",
+        "arquivo": "pautas_comissoes/arquivos/mt8s34yz_5330.pdf",
+        "type": 2,
+        "tipo_arquivo": "pdf"
+       }
+      ]
+     }
+    }
+   ],
+   "Comissão de Orçamento": [
+    {
+     "comissao": "Comissão de Orçamento",
+     "data": "2026-08-24",
+     "data_formatada": "24/08/2026",
+     "semana_inicio": "2026-08-23T03:00:00.000000Z",
+     "semana_fim": "2026-08-29T03:00:00.000000Z",
+     "numero_reuniao": 1,
+     "tipo_reuniao": "ordinaria",
+     "nome_reuniao": "1ª Reunião Ordinária",
+     "reuniao_original": "1ª Reunião Ordinária",
+     "arquivos": {
+      "pauta": [
+       {
+        "id": 479704,
+        "model_type": "App\\Models\\Legislativo\\LegPautaComissao",
+        "model_id": "1104",
+        "collection_name": "anexos",
+        "file_path": "pautas_comissoes/arquivos/mt0d52xx_96ca.docx",
+        "disk": "public",
+        "file_name": "mt0d52xx_96ca.docx",
+        "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "size": 97042,
+        "custom_properties": {
+         "type": 1,
+         "tipo_arquivo": "docx",
+         "nome_exibicao": "PAUTA DA 1ª REUNIÃO ORDINÁRIA"
+        },
+        "created_at": "2026-08-19T14:26:10.000000Z",
+        "updated_at": "2026-08-19T14:26:10.000000Z",
+        "deleted_at": null,
+        "titulo": "PAUTA DA 1ª REUNIÃO ORDINÁRIA",
+        "posicao": 0,
+        "extension": "docx",
+        "url": "https://storage2.assembleia.pr.leg.br/file/public-media/pautas_comissoes/arquivos/mt0d52xx_96ca.docx",
+        "arquivo": "pautas_comissoes/arquivos/mt0d52xx_96ca.docx",
+        "type": 1,
+        "tipo_arquivo": "docx"
+       }
+      ],
+      "ata": []
+     }
+    }
+   ]
+  }
+ }
+}

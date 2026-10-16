@@ -175,6 +175,19 @@ class CoreTest(unittest.TestCase):
         self.assertEqual(len(gaps), 2)
         self.assertTrue(any("stored rows kept" in g for g in gaps))
 
+    def test_unreadable_robots_is_a_gap_not_a_block(self):
+        def down(client, ctx):
+            raise RobotsRefused("https://y/z", "f", "s", "robots.txt unreachable: timed out",
+                                host_skipped=True)
+        _, s, _ = self._run({"BA": ra.region("Buenos Aires", down)})
+        self.assertEqual(s["gap"], ["BA"])
+        self.assertEqual(s["blocked"], [])
+
+    def test_dates_in_more_languages(self):
+        self.assertEqual(ra.find_date("sesja 27 października 2026 r."), "2026-10-27")
+        self.assertEqual(ra.find_date("22 de octubre del 2026"), "2026-10-22")
+        self.assertEqual(ra.find_date("dijous 22 d'octubre de 2026"), "2026-10-22")
+
     def test_meeting_unit_only_prunes_that_meeting(self):
         def r1(client, ctx):
             return ra.RegionRead([ra.item("2026-10-20", "A item", "Ausschuss", meeting_id="a"),

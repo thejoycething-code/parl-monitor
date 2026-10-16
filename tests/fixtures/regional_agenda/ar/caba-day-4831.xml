@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfEventsDay xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/">
+  <eventsDay>
+    <id_comision_reunion>30650</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Diputrada Patricia Glize
+Exposición de obras del Premio Estímulo de Bellas Artes</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>09:00</HoraDefinitiva>
+    <Originador>Dirección General de Protocolo y Ceremonial</Originador>
+    <id_comision_reunion_tipo>3</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Otro</comision_reunion_tipo>
+    <id_comision_reunion_evento>28477</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 09:00:00</fch_desde_evento>
+    <fch_hasta_evento>23/10/2026 00:00:00</fch_hasta_evento>
+    <days_of_week>0,1,2,3,4,5,6</days_of_week>
+    <Salon>HALL DE HONOR</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30663</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>59</IdComision>
+    <NombreComision>JUNTA DE ÉTICA, ACUERDOS Y ORGANISMOS DE CONTROL</NombreComision>
+    <urlComision>comision/juntadeeticaacuerdosyorganismosdecontrol</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>10:00</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>7</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Audiencia Pública</comision_reunion_tipo>
+    <id_comision_reunion_evento>28486</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 10:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALON DORADO</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30637</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Consejo de la Magistratura CABA.&lt;br&gt;Conmemoración de los 30 años de la Constitución de la Ciudad</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>10:30</HoraDefinitiva>
+    <Originador>Dirección General de Protocolo y Ceremonial</Originador>
+    <id_comision_reunion_tipo>3</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Otro</comision_reunion_tipo>
+    <id_comision_reunion_evento>28464</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 10:30:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN SAN MARTÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30664</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>59</IdComision>
+    <NombreComision>JUNTA DE ÉTICA, ACUERDOS Y ORGANISMOS DE CONTROL</NombreComision>
+    <urlComision>comision/juntadeeticaacuerdosyorganismosdecontrol</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>12:00</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>1</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Diputados</comision_reunion_tipo>
+    <id_comision_reunion_evento>28487</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 12:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALON DORADO</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30667</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>40</IdComision>
+    <NombreComision>DERECHOS HUMANOS, GARANTÍAS Y ANTIDISCRIMINACIÓN</NombreComision>
+    <urlComision>comision/derechoshumanosgarantiasyantidiscriminacion</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>12:00</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>1</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Diputados</comision_reunion_tipo>
+    <id_comision_reunion_evento>28490</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 12:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN PRESIDENTE ALFONSÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30669</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>56</IdComision>
+    <NombreComision>TRÁNSITO Y TRANSPORTE</NombreComision>
+    <urlComision>comision/transitoytransporte</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>14:00</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>1</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Diputados</comision_reunion_tipo>
+    <id_comision_reunion_evento>28492</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 14:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN MONTEVIDEO</Salon>
+    <Ubicacion>Planta Baja</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30649</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>45</IdComision>
+    <NombreComision>JUSTICIA</NombreComision>
+    <urlComision>comision/justicia</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>14:30</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>1</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Diputados</comision_reunion_tipo>
+    <id_comision_reunion_evento>28476</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 12:30:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN MONTEVIDEO</Salon>
+    <Ubicacion>Planta Baja</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30671</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Diputada Marina Kienast
+Recepción y charla con Funcionarios de Colombia</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>15:00</HoraDefinitiva>
+    <Originador>Dirección General de Protocolo y Ceremonial</Originador>
+    <id_comision_reunion_tipo>3</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Otro</comision_reunion_tipo>
+    <id_comision_reunion_evento>28494</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 15:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN PRESIDENTE ALFONSÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30639</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Diputada Glize Patricia. 
+Conmemoración Día de la Prevención del Cáncer de Mama</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>15:00</HoraDefinitiva>
+    <Originador>Dirección General de Protocolo y Ceremonial</Originador>
+    <id_comision_reunion_tipo>3</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Otro</comision_reunion_tipo>
+    <id_comision_reunion_evento>28466</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 15:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN SAN MARTÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30640</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Ministerio de Educación GCABA. 
+Conciertos de Primavera</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>16:00</HoraDefinitiva>
+    <Originador>Dirección General de Protocolo y Ceremonial</Originador>
+    <id_comision_reunion_tipo>3</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Otro</comision_reunion_tipo>
+    <id_comision_reunion_evento>28467</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 16:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALON DORADO</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30670</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>41</IdComision>
+    <NombreComision>DESARROLLO ECONÓMICO Y MERCOSUR </NombreComision>
+    <urlComision>comision/desarrolloeconomicoymercosur</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>17:00</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>1</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Diputados</comision_reunion_tipo>
+    <id_comision_reunion_evento>28493</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 17:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN PRESIDENTE ALFONSÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30428</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Diputada Iañez Berenice&lt;br&gt;S/  Proyecto  para cambio de denominación al  Barrio Perón</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>17:00</HoraDefinitiva>
+    <Originador>Dirección General de Coordinación de Comisiones</Originador>
+    <id_comision_reunion_tipo>6</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Especial</comision_reunion_tipo>
+    <id_comision_reunion_evento>28255</id_comision_reunion_evento>
+    <fch_desde_evento>16/10/2026 16:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN PRESIDENTE PERÓN</Salon>
+    <Ubicacion>Planta Baja</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30681</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision>51</IdComision>
+    <NombreComision>PRESUPUESTO, HACIENDA, ADMINISTRACIÓN FINANCIERA Y POLÍTICA TRIBUTARIA</NombreComision>
+    <urlComision>comision/presupuestohaciendaadministracionfinancieraypoliticatributaria</urlComision>
+    <NotasReunion />
+    <Temario />
+    <HoraDefinitiva>17:30</HoraDefinitiva>
+    <Originador />
+    <id_comision_reunion_tipo>1</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Diputados</comision_reunion_tipo>
+    <id_comision_reunion_evento>28504</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 17:15:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN PRESIDENTE ALFONSÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion>La reunión puede ser vista On Line en vivo desde: https://www.youtube.com/LegisCABA</notasExtrasReunion>
+  </eventsDay>
+  <eventsDay>
+    <id_comision_reunion>30641</id_comision_reunion>
+    <id_comision_agenda_reunion>4831</id_comision_agenda_reunion>
+    <AgendaNro>149</AgendaNro>
+    <FechaAgenda>2026-10-19</FechaAgenda>
+    <IdComision />
+    <NombreComision />
+    <urlComision />
+    <NotasReunion>Diputado Donati Pablo. 
+Declaración de Personalidad Destacada en el ámbito de la Cultura al bandoneonista Horacio Romo</NotasReunion>
+    <Temario />
+    <HoraDefinitiva>18:00</HoraDefinitiva>
+    <Originador>Dirección General de Protocolo y Ceremonial</Originador>
+    <id_comision_reunion_tipo>3</id_comision_reunion_tipo>
+    <comision_reunion_tipo>Otro</comision_reunion_tipo>
+    <id_comision_reunion_evento>28468</id_comision_reunion_evento>
+    <fch_desde_evento>19/10/2026 18:00:00</fch_desde_evento>
+    <fch_hasta_evento />
+    <days_of_week />
+    <Salon>SALÓN SAN MARTÍN</Salon>
+    <Ubicacion>Planta Principal</Ubicacion>
+    <notasExtrasEvento />
+    <notasExtrasReunion />
+  </eventsDay>
+</ArrayOfEventsDay>

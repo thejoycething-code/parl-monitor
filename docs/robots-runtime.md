@@ -547,7 +547,31 @@ scope doc's "Forward agenda (regional_agenda, 16 October 2026)" section.
 | regional_agendas/de (SH) | www.landtag.ltsh.de (dayMonthKalenderGetter.jsp, /infothek/wahl20/plenum/, /export/sites/ltsh/) | JSON + scraper | yes | allowed |
 | regional_agendas/de (TH) | www.thueringer-landtag.de (/fileadmin/calendar_abo/, /plenum/sitzungstermine/, /uploads/tx_tltcalendar/) | iCalendar + scraper | yes | allowed |
 | regional_agendas/de (SL) | www.landtag-saar.de | - | yes | robots.txt unreachable (TCP timeout): nothing fetched (no-route) |
-<!-- regional-agenda-rows -->
+| regional_agendas/br | legis-api-portal-prd.al.sp.gov.br (/sessoes-plenarias/, /colegiado/) | API (the ALESP portal's own JSON) | yes | robots.txt 404 (no rules); www.al.sp.gov.br disallows only /web, /StaticFile and some repositories |
+| regional_agendas/br | dadosabertos.almg.gov.br (/api/v2/comissoes/reunioes/pesquisa, /api/v2/plenario/reunioes/) | open data | yes | /api/v2/ allowed since 14 October 2026 at our request; paging and sorting (p=, tp=, ord=, ordenacao=) still disallowed and never built |
+| regional_agendas/br | www2.alerj.rj.gov.br (/ordemdodia/, /ordemdodia/pauta/) | scraper | yes | robots.txt answers the home page (no rules); about 30 s a request; 5 s throttle |
+| regional_agendas/br | transparencia.assembleia.pr.leg.br (/plenario/pautas/*/ajax), storage2.assembleia.pr.leg.br (PDFs) | scraper (portal JSON + PDFs) | yes | empty Disallow |
+| regional_agendas/br | www.alepe.pe.gov.br (/agenda, /ordem-do-dia/ POST; /detalhe-ordem-do-dia/) | scraper | yes | empty Disallow |
+| regional_agendas/br | www.al.ce.gov.br (/agenda) | scraper | yes | only /banco-de-imagens/download/ disallowed |
+| regional_agendas/br | www.alepa.pa.gov.br (/Home/Page/PautasdoPlenario, /Legislativo/DetalhesPauta) | scraper | yes | allows all |
+| regional_agendas/br | sapl.al.{pb,am,al,pi,ro,to,ac}.leg.br (/api/sessao/sessaoplenaria/, /api/sessao/ordemdia/) | API (SAPL REST) | yes | /api/ allowed; Crawl-delay 60 honoured (the seven houses are asked in parallel, one request at a time per house); sapl.al.rr.leg.br answers 403 to robots.txt: blocked |
+| regional_agendas/mx | congresoyucatan.gob.mx (/, /gaceta/sesiones-pleno/, /storage/uploadCey/*.pdf) | scraper + PDF | yes | empty Disallow |
+| regional_agendas/mx | www.congresojal.gob.mx (/agenda-parlamentaria/mes/) | scraper | yes | Crawl-delay 10 honoured; path allowed |
+| regional_agendas/mx | www.congresochihuahua.gob.mx (/sesiones.php, /ordenDia.php) | scraper | yes | names search engines and AI bots only; others allowed |
+| regional_agendas/mx | www.congresoqroo.gob.mx (/agenda/, /ordenesdia/) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/mx | www.cbcs.gob.mx (/, the Orden del Día category) | scraper | yes | robots.txt 404 (no rules) |
+| regional_agendas/mx | Puebla (Cloudflare), San Luis Potosí (Sucuri), Durango (Wordfence geo block), Campeche (robots.txt Disallow: /) | - | - | blocked, never bypassed; CDMX's certificate names another host (robots.txt unreadable, nothing fetched) |
+| regional_agendas/pl | bip.mazovia.pl (/pl/bip/sejmik/sesje-sejmiku/, /komisje-sejmiku/planowane-posiedzenia.html) | scraper | yes | allowed |
+| regional_agendas/pl | bip.slaskie.pl (/sejmik_wojewodztwa/sesje_sejmiku/projekty_uchwal/) | scraper | yes | allowed; slow host, 3 s |
+| regional_agendas/pl | bip.malopolska.pl (/api/menu/437636/articles, /api/articles/<id>) | the BIP app's JSON | yes | allowed (only admin and listed article pages disallowed) |
+| regional_agendas/pl | bip.pomorskie.eu (/api/articles/60421, .docx downloads) | the BIP app's JSON + DOCX | yes | allowed |
+| regional_agendas/pl | bip.dolnyslask.pl (/api/articles/107616, /api/articles/99529) | the BIP app's JSON | yes | allowed |
+| regional_agendas/pl | sejmik.podkarpackie.pl (/prace-sejmiku/sesje, /prace-sejmiku/posiedzenia-komisji, /images/sesje_7/*.docx) | scraper + DOCX | yes | allowed (Joomla system folders and /api/ disallowed, not used) |
+| regional_agendas/pl | bip.kujawsko-pomorskie.pl, bip.lodzkie.pl, bip.warmia.mazury.pl, bip.wzp.pl (sitting notices and porządek obrad pages) | scraper | yes | allowed; *.esesja.pl stays behind a Cloudflare bot check, never bypassed |
+| regional_agendas/ar | parlamentaria.legislatura.gob.ar (/webservices/Json.asmx/GetAgendasMesCurso, GetAgendasDiaById, GetSesionesMesCurso) | the site calendar's XML web service | yes | robots.txt 404 (no rules); 3 s |
+| regional_agendas/ar | www.hcdiputados-ba.gov.ar (/), intranet.hcdiputados-ba.gov.ar (/reuniones/OD_*.pdf) | scraper + PDF | yes | robots.txt 404 (no rules); 5 s |
+| regional_agendas/ar | legislaturacba.gob.ar (/agenda/, /wp-json/wp/v2/eventos) | scraper + WordPress REST | yes | allows all but /wp-admin/; 3 s |
+| regional_agendas/pe | www.gob.pe (/institucion/<slug>/informes-publicaciones/tipos/91-agenda-de-sesion-de-consejo-regional, 93- for Lima Metropolitana) | scraper | yes | allowed (/admin/ and ?sheet= disallowed only); 3 s |
 
 ## Tests
 

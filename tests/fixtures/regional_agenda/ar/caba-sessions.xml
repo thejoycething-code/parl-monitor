@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSesiones xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://tempuri.org/">
+  <sesiones>
+    <id_sesion_lp>1154</id_sesion_lp>
+    <nro_orden_lp>10682</nro_orden_lp>
+    <ano_parlamentario>2026</ano_parlamentario>
+    <fch_sesion_lp>2026-10-06</fch_sesion_lp>
+    <ve_idsesion />
+    <ve_periodosesion />
+    <ve_fechasesion />
+    <ve_reunion />
+    <labor_documento>227742</labor_documento>
+    <prelabor_documento>0</prelabor_documento>
+    <archivo_vt>0</archivo_vt>
+    <asuntos_considerados_documento>227792</asuntos_considerados_documento>
+    <id_sesion_tipo>4</id_sesion_tipo>
+    <abrev_sesion_tipo>ESP</abrev_sesion_tipo>
+    <dsc_sesion_tipo>ESPECIAL</dsc_sesion_tipo>
+  </sesiones>
+  <sesiones>
+    <id_sesion_lp>1153</id_sesion_lp>
+    <nro_orden_lp>10681</nro_orden_lp>
+    <ano_parlamentario>2026</ano_parlamentario>
+    <fch_sesion_lp>2026-09-03</fch_sesion_lp>
+    <ve_idsesion />
+    <ve_periodosesion />
+    <ve_fechasesion />
+    <ve_reunion />
+    <labor_documento>226505</labor_documento>
+    <prelabor_documento>226408</prelabor_documento>
+    <archivo_vt>0</archivo_vt>
+    <asuntos_considerados_documento>226531</asuntos_considerados_documento>
+    <id_sesion_tipo>1</id_sesion_tipo>
+    <abrev_sesion_tipo>ORD</abrev_sesion_tipo>
+    <dsc_sesion_tipo>ORDINARIA</dsc_sesion_tipo>
+  </sesiones>
+  <sesiones>
+    <id_sesion_lp>1152</id_sesion_lp>
+    <nro_orden_lp>10680</nro_orden_lp>
+    <ano_parlamentario>2026</ano_parlamentario>
+    <fch_sesion_lp>2026-09-03</fch_sesion_lp>
+    <ve_idsesion />
+    <ve_periodosesion />
+    <ve_fechasesion />
+    <ve_reunion />
+    <labor_documento>226330</labor_documento>
+    <prelabor_documento>0</prelabor_documento>
+    <archivo_vt>0</archivo_vt>
+    <asuntos_considerados_documento>226532</asuntos_considerados_documento>
+    <id_sesion_tipo>4</id_sesion_tipo>
+    <abrev_sesion_tipo>ESP</abrev_sesion_tipo>
+    <dsc_sesion_tipo>ESPECIAL</dsc_sesion_tipo>
+  </sesiones>
+</ArrayOfSesiones>

@@ -419,7 +419,10 @@ def collect(conn, cc, client, today, days=DEFAULT_DAYS, regions=None, log=print,
         except Exception as exc:                        # noqa: BLE001 - a gap, never fatal
             from src.http import RobotsRefused
             cause = getattr(exc, "cause", None) or exc
-            status = "blocked" if isinstance(exc, RobotsRefused) else "gap"
+            # A robots.txt that refuses is a block; one that could not be read
+            # (timeout, TLS, 5xx: host_skipped) is a gap that may pass.
+            status = ("blocked" if isinstance(exc, RobotsRefused)
+                      and not getattr(exc, "host_skipped", False) else "gap")
             gap(code, "{0} ({1}) not read{2}: {3}".format(
                 reg.name, status, "; stored rows kept", str(cause)[:240]))
             summary[status].append(code)
@@ -524,6 +527,12 @@ MONTHS = {
     # ca
     "gener": 1, "febrer": 2, "maig": 5, "juny": 6, "juliol": 7, "setembre": 9,
     "octubre": 10, "desembre": 12,
+    # pl (nominative and genitive)
+    "styczeń": 1, "stycznia": 1, "luty": 2, "lutego": 2, "marzec": 3, "marca": 3,
+    "kwiecień": 4, "kwietnia": 4, "maj": 5, "maja": 5, "czerwiec": 6, "czerwca": 6,
+    "lipiec": 7, "lipca": 7, "sierpień": 8, "sierpnia": 8, "wrzesień": 9, "września": 9,
+    "październik": 10, "października": 10, "listopad": 11, "listopada": 11,
+    "grudzień": 12, "grudnia": 12,
     # nl
     "januari": 1, "februari": 2, "maart": 3, "mei": 5, "augustus": 8,
 }
@@ -552,7 +561,7 @@ def iso(dd, mm, yyyy):
 
 
 _NUM_DATE = re.compile(r"\b(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})\b")
-_NAME_DATE = re.compile(r"\b(\d{1,2})\.?\s+(?:de\s+)?([A-Za-zÀ-ÿ]{3,10})\.?\s+(?:de\s+)?(\d{4})\b")
+_NAME_DATE = re.compile(r"\b(\d{1,2})\.?\s+(?:de\s+|d')?([A-Za-zÀ-ÿąćęłńóśźżĄĆĘŁŃÓŚŹŻ]{3,12})\.?\s+(?:de(?:l)?\s+)?(\d{4})\b")
 _EN_DATE = re.compile(r"\b([A-Z][a-z]{2,8})\.?\s+(\d{1,2}),?\s+(\d{4})\b")
 _ISO_DATE = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
 

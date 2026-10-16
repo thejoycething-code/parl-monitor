@@ -1,0 +1,151 @@
+{
+ "content": [
+  {
+   "idReuniao": 1000007732,
+   "nuReuniao": 7,
+   "tituloReuniao": "Reunião de Pauta Cancelada",
+   "txAssunto": "deliberar sobre a pauta em anexo",
+   "dtReuniao": "2026-10-14T15:00",
+   "status": {
+    "idStatus": 5,
+    "txNome": "Cancelada"
+   },
+   "local": {
+    "idLocal": 2015,
+    "txNome": "Plenário D. Pedro I",
+    "flAtivo": "S"
+   },
+   "presidente": null,
+   "colegiadosRelacionados": [
+    {
+     "id": 12444,
+     "nome": "Comissão de Constituição, Justiça e Redação",
+     "tipo": null,
+     "sigla": "CCJR"
+    }
+   ],
+   "documentosReuniao": [
+    {
+     "idDocumento": 310000006921,
+     "idDocumentoSpl": null,
+     "idTipoDocumento": 20012,
+     "idSessao": null,
+     "idReuniao": 1000007732,
+     "numero": 8,
+     "ano": 2026,
+     "dtDocumento": "2026-10-09",
+     "dtPublicacao": null,
+     "tipo": "Comunicado de colegiado",
+     "descricao": "Comunicado de colegiado nº 8/2026",
+     "resumo": "7ª Reunião Ordinária de 14/10/2026 às 15:00, da CCJR.",
+     "cdTipoSessaoOuReuniao": "O",
+     "nomeTipoSessaoReuniao": "Ordinária",
+     "dtSessao": null,
+     "txPath": "/docs/2026/10/9/",
+     "txNomeArq": "310000006921.html",
+     "txNomePDF": "310000006921_cv.pdf",
+     "ordem": null,
+     "linkArquivo": "https://www.al.sp.gov.br/legis/docs/2026/10/9/310000006921.html",
+     "linkArquivoPDF": "https://www.al.sp.gov.br/legis/docs/2026/10/9/310000006921_cv.pdf",
+     "urlDocumento": null,
+     "processos": null,
+     "autores": null,
+     "apoiadores": null,
+     "interessados": null,
+     "relatores": null,
+     "colegiados": null,
+     "arquivos": null
+    }
+   ],
+   "solicitante": "Comissão de Constituição, Justiça e Redação",
+   "descricao": "REUNIÃO DE PAUTA CANCELADA",
+   "tipoConvocacao": "Ordinária"
+  },
+  {
+   "idReuniao": 1000007696,
+   "nuReuniao": 3,
+   "tituloReuniao": "Reunião de Pauta sem Quorum",
+   "txAssunto": "analisar a pauta anexa",
+   "dtReuniao": "2026-10-13T10:00",
+   "status": {
+    "idStatus": 6,
+    "txNome": "Sem Quórum"
+   },
+   "local": {
+    "idLocal": 2016,
+    "txNome": "Plenário Tiradentes",
+    "flAtivo": "S"
+   },
+   "presidente": null,
+   "colegiadosRelacionados": [
+    {
+     "id": 8521,
+     "nome": "Conselho de Ética e Decoro Parlamentar",
+     "tipo": null,
+     "sigla": "CEDP"
+    }
+   ],
+   "documentosReuniao": [
+    {
+     "idDocumento": 310000006860,
+     "idDocumentoSpl": null,
+     "idTipoDocumento": 20012,
+     "idSessao": null,
+     "idReuniao": 1000007696,
+     "numero": 4,
+     "ano": 2026,
+     "dtDocumento": "2026-10-08",
+     "dtPublicacao": null,
+     "tipo": "Comunicado de colegiado",
+     "descricao": "Comunicado de colegiado nº 4/2026",
+     "resumo": "3ª Reunião Ordinária de 13/10/2026 às 10:00, da CEDP.",
+     "cdTipoSessaoOuReuniao": "O",
+     "nomeTipoSessaoReuniao": "Ordinária",
+     "dtSessao": null,
+     "txPath": "/docs/2026/10/8/",
+     "txNomeArq": "310000006860.html",
+     "txNomePDF": "310000006860_cv.pdf",
+     "ordem": null,
+     "linkArquivo": "https://www.al.sp.gov.br/legis/docs/2026/10/8/310000006860.html",
+     "linkArquivoPDF": "https://www.al.sp.gov.br/legis/docs/2026/10/8/310000006860_cv.pdf",
+     "urlDocumento": null,
+     "processos": null,
+     "autores": null,
+     "apoiadores": null,
+     "interessados": null,
+     "relatores": null,
+     "colegiados": null,
+     "arquivos": null
+    }
+   ],
+   "solicitante": "Conselho de Ética e Decoro Parlamentar",
+   "descricao": "REUNIÃO DE PAUTA SEM QUORUM",
+   "tipoConvocacao": "Ordinária"
+  }
+ ],
+ "pageable": {
+  "pageNumber": 0,
+  "pageSize": 100,
+  "sort": {
+   "unsorted": true,
+   "sorted": false,
+   "empty": true
+  },
+  "offset": 0,
+  "unpaged": false,
+  "paged": true
+ },
+ "totalPages": 1,
+ "totalElements": 2,
+ "last": true,
+ "numberOfElements": 2,
+ "size": 100,
+ "number": 0,
+ "sort": {
+  "unsorted": true,
+  "sorted": false,
+  "empty": true
+ },
+ "first": true,
+ "empty": false
+}

@@ -1,0 +1,97 @@
+{
+ "content": [
+  {
+   "id": 24167,
+   "tipo": "Sessão Solene",
+   "numero": 51,
+   "titulo": "51ª Sessão Solene",
+   "situacao": "Convocada",
+   "descricao": "OUTORGA DE COLAR DE HONRA AO MÉRITO LEGISLATIVO DO ESTADO DE SÃO PAULO À ASSOCIAÇÃO DOS INDUSTRIAIS DE PANIFICAÇÃO E CONFEITARIA DE SÃO PAULO",
+   "ementa": "",
+   "flDeliberativa": "N",
+   "dtInicio": "2026-11-23T08:00",
+   "dtFim": null,
+   "dtPublicacao": null,
+   "temPauta": false,
+   "temOrdemDoDia": false,
+   "temIntegra": false,
+   "temMidias": false
+  },
+  {
+   "id": 24168,
+   "tipo": "Sessão Solene",
+   "numero": 50,
+   "titulo": "50ª Sessão Solene",
+   "situacao": "Convocada",
+   "descricao": "HOMENAGEM AO GRUPO CALEBE",
+   "ementa": "",
+   "flDeliberativa": "N",
+   "dtInicio": "2026-11-06T20:00",
+   "dtFim": null,
+   "dtPublicacao": null,
+   "temPauta": false,
+   "temOrdemDoDia": false,
+   "temIntegra": false,
+   "temMidias": false
+  },
+  {
+   "id": 24147,
+   "tipo": "Sessão Solene",
+   "numero": 49,
+   "titulo": "49ª Sessão Solene",
+   "situacao": "Convocada",
+   "descricao": "HOMENAGEM AO ANIVERSÁRIO DA ABADS - ASSOCIAÇÃO BRASILEIRA DE ASSISTÊNCIA E DESENVOLVIMENTO SOCIAL",
+   "ementa": "",
+   "flDeliberativa": "N",
+   "dtInicio": "2026-10-19T08:00",
+   "dtFim": null,
+   "dtPublicacao": null,
+   "temPauta": false,
+   "temOrdemDoDia": false,
+   "temIntegra": false,
+   "temMidias": false
+  },
+  {
+   "id": 24178,
+   "tipo": "Sessão Ordinária",
+   "numero": 153,
+   "titulo": "153ª Sessão Ordinária",
+   "situacao": "Convocada",
+   "descricao": null,
+   "ementa": "",
+   "flDeliberativa": "N",
+   "dtInicio": "2026-10-16T14:00",
+   "dtFim": null,
+   "dtPublicacao": null,
+   "temPauta": true,
+   "temOrdemDoDia": false,
+   "temIntegra": false,
+   "temMidias": false
+  }
+ ],
+ "pageable": {
+  "pageNumber": 0,
+  "pageSize": 50,
+  "sort": {
+   "unsorted": true,
+   "sorted": false,
+   "empty": true
+  },
+  "offset": 0,
+  "unpaged": false,
+  "paged": true
+ },
+ "totalPages": 1,
+ "totalElements": 4,
+ "last": true,
+ "numberOfElements": 4,
+ "size": 50,
+ "number": 0,
+ "sort": {
+  "unsorted": true,
+  "sorted": false,
+  "empty": true
+ },
+ "first": true,
+ "empty": false
+}

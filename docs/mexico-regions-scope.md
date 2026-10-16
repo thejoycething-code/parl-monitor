@@ -381,3 +381,62 @@ the congress sites themselves were not opened, so these are as reported)
   domain was cut off in the search snippet; staff addresses use
   @congresodepuebla.mx. Switchboard (222) 372-1100; the PNT is the formal
   route.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/mx.py` reads what each congress has BOOKED (the next
+sesión and its orden del día, committee meetings and their subjects) into
+`regional_agenda`, through the shared collector
+(`python3 tools/regional_agenda.py mx`). Region codes are
+`src/mxs_store.STATES`'s. Every route was probed live from the laptop on 16
+October 2026, robots.txt read first, honest User-Agent. Not wired into any
+job (and no GitHub workflow was touched).
+
+Mexican congresses rarely publish anything ahead: the orden del día appears
+a day or two before a sesión (often only on the day), and few have a
+calendar. Expect a handful of rows a week.
+
+| State | Route | Format | Reaches | robots.txt | First run (16 Oct) |
+|---|---|---|---|---|---|
+| Yucatán | `congresoyucatan.gob.mx/` "Agenda de actividades" table (plenary and committee sesiones with a link to each gaceta page), then the gaceta page's "Orden del Día" PDF | HTML + PDF (pypdf; roman points, lettered "asuntos en cartera") | sesiones are listed from about the day before | allows all (`Disallow:` empty) | nothing after 15 October (that day's orden held "Código Mariposa", on our ground: perinatal loss) |
+| Jalisco | `www.congresojal.gob.mx/agenda-parlamentaria/mes/YYYY-MM` (Drupal calendar), one page a month in the window | HTML | entries posted a day or two ahead; no subjects (booked slots only) | `Crawl-delay: 10` (honoured) | nothing after 16 October bar press events, which are left out |
+| Chihuahua | `www.congresochihuahua.gob.mx/sesiones.php` ("Próxima Sesión": date, time, title) and `ordenDia.php` | HTML | the next sesión | names AI and search bots only; others allowed | 1 booked sesión (20 October, 11:00); its orden del día holds only the standard headings, so it is "to be announced" |
+| Quintana Roo | `www.congresoqroo.gob.mx/agenda/` (weekly committee agenda: date, time, committees, subjects) and the newest `/ordenesdia/<id>` linked from the home page | HTML | the current week; the orden del día on the day | none found (404) | nothing after 13 October |
+| Baja California Sur | `www.cbcs.gob.mx`: the period's "Orden del Día" category (linked from the home page; one Joomla article a sesión) and each article in the window | HTML | the article is posted before the sesión | none found (404) | nothing after 15 October |
+
+Not read, and what was tried (each region's note says it every run):
+
+- **Ciudad de México**: `www.congresocdmx.gob.mx` presents a certificate for
+  another name, so its robots.txt cannot be read and nothing there is
+  fetched; the citizen portal (`ciudadana.`) answered 500 and has no
+  sesiones view.
+- **Estado de México**: `asuntosparlamentarios/sesiones` and
+  `reuniones/legislatura` list sesiones and committee meetings only once held
+  (newest 8 October, with votes); the Gaceta follows the sitting.
+- **Veracruz, Guanajuato, Nuevo León, Michoacán, Zacatecas**: no answer to
+  UK addresses. jobs/mx-collect.sh runs on GitHub's runners, where they may
+  answer, but no capture could be obtained legitimately to verify a parser,
+  so no reader.
+- **Puebla** (Cloudflare challenge), **San Luis Potosí** (Sucuri challenge),
+  **Durango** (Wordfence geo block), **Campeche** (robots.txt Disallow: /):
+  blocked, never bypassed.
+- **Querétaro**: plain HTTP only.
+- **Sinaloa**: `/orden-del-dia/` is an iframe of the gaceta app
+  (`gaceta.congresosinaloa.gob.mx/#/hoy`, AngularJS with socket.io); its
+  public endpoint for the day's orden was not identified (the services found
+  are the app's admin ones, never called).
+- **Chiapas**: the sesiones page (1.8 MB) lists a sesión with its orden del
+  día only from the day it is held.
+- **Tamaulipas, Baja California, Nayarit** (TLS timeouts, robots.txt
+  unread), **Colima** (certificate does not verify), **Sonora**
+  (`congresoson.gob.mx` does not resolve), **Coahuila** (the www host is a
+  parked domain): nothing fetched.
+- **Tlaxcala**: the sesiones page carries injected gambling spam and lists
+  past sesiones only; not read.
+- **Oaxaca, Tabasco, Hidalgo, Guerrero, Morelos, Aguascalientes**: their
+  pages list sesiones, actas or gacetas after the sitting; Aguascalientes'
+  "agenda legislativa" is the list of iniciativas (its home page is 17 MB).
+
+Live run (16 October 2026, scratch store): 5 of 32 states read, 1 item (to
+be announced), no gaps; 54 s wall time. THROTTLES: Jalisco 10 s (its
+Crawl-delay), the others 2 s.

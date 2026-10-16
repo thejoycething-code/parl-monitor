@@ -245,3 +245,55 @@ Nothing from the first build: the two terms, the watchlist and the
 registers were all answered on 13 October (above). Open: whether pypdf is on
 the Mini (Świętokrzyskie), and whether to keep Kujawsko-Pomorskie's drafts
 in the edition.
+
+## Forward agenda (regional_agenda, 16 October 2026)
+
+`src/regional_agendas/pl.py`, run by `tools/regional_agenda.py pl` (the
+step in `jobs/pl-weekly.sh` is the lead's). The chairman must send the
+date and proposed porządek obrad at least seven days before a sitting
+(art. 21 of the voivodeship self-government act); most sejmiki post it in
+the BIP the same day, so the plenary horizon is about a week, with
+timetables (Mazowieckie, Dolnośląskie) reaching December. Every route was
+probed live from the laptop on 16 October 2026 with robots.txt read first
+(the run-time guard), honest user agent, a handful of requests per host.
+eSesja (`*.esesja.pl`) still answers with a Cloudflare bot check: never
+bypassed, and it is where Małopolskie's plenary and Łódzkie's committee
+materials live.
+
+| Code | Route | Format | Horizon (live run) | robots.txt |
+|---|---|---|---|---|
+| mz | bip.mazovia.pl: the term's sitting timetable (`/pl/bip/sejmik/sesje-sejmiku/vii-kadencja-2024-2029/`), the year's sitting folders (`.../2026/`), each folder's `porzadek-obrad*.html`; committees' `komisje-sejmiku/planowane-posiedzenia.html` (date, hour, porządek obrad inline) | HTML | plenary dates to 15 December (27 Oct and 17 Nov booked, agenda not yet posted); committees to 19 October | allowed |
+| sl | bip.slaskie.pl: `sesje_sejmiku/projekty_uchwal/?p=2026^październik` (one entry per sitting, 'z dnia 2026-10-19'); the drafts are one 3.5 MB PDF, so each sitting is to be announced. The host is slow (a detail page took over 100 s) | HTML | 19 October | allowed |
+| ma | bip.malopolska.pl JSON API (Madkom): `/api/menu/437636/articles` (committee timetable: date, hour, place, committee) and `/api/articles/<id>` (each invitation with its 'proponowany porządek posiedzenia') | JSON | 26 October (15 committee meetings) | allowed (admin pages only disallowed) |
+| pm | bip.pomorskie.eu JSON API: `/api/articles/60421` ('Materiały na sesję'), each sitting's porządek obrad `.docx` (`e,pobierz,get.html?id=...`), read with zipfile | JSON + DOCX | 26 October | allowed |
+| ds | bip.dolnyslask.pl JSON API: `/api/articles/107616` (the year's sitting dates) and `/api/articles/99529` (standing committees' dates; the agendas are .doc/.pdf attachments) | JSON | 26 November (dates only) | allowed |
+| pk | sejmik.podkarpackie.pl (Joomla): `/prace-sejmiku/sesje` (sittings), each sitting's materials page with the porządek obrad `.docx` under `/images/sesje_7/`; `/prace-sejmiku/posiedzenia-komisji` (committee notices with date, hour and numbered agenda) | HTML + DOCX | 26 October | allowed (only system folders disallowed) |
+| kp | bip.kujawsko-pomorskie.pl: the term's index of sittings and each 'Porządek obrad' page (HTML list), posted about a week ahead | HTML | nothing yet (newest 28 September) | allowed |
+| ld | bip.lodzkie.pl: `/sejmik-wojewodztwa/plan-pracy/sesje-sejmiku` (K2 notices) and each `item/<id>` (numbered points, 4.1 ... under 'Rozpatrzenie projektów uchwał') | HTML | 20 October | allowed |
+| wn | bip.warmia.mazury.pl: categories 135 (one article per sitting) and 9 (one article a month, each committee meeting a PDF named 'Porządek posiedzenia KSR 21.10.2026'); agendas are PDFs: to be announced | HTML | 21 October | allowed |
+| zp | bip.wzp.pl: `/tabela/artykuly/771/2328` (sitting articles); the porządek obrad is a scanned PDF (no text layer): to be announced | HTML | 22 October | allowed |
+
+Not read, and what was tried:
+
+- **Wielkopolskie:** bip.umww.pl has resolutions, protocols and roll calls by
+  sitting; no forward list or porządek obrad in any sejmik category.
+- **Lubelskie:** umwl.bip.lubelskie.pl's menus list sittings only with their
+  protocols (newest menu 2020); no timetable or agenda found.
+- **Świętokrzyskie:** bip.sejmik.kielce.pl's 'Terminy i porządek obrad'
+  article is one PDF per sitting and the list stops at 29 September 2025;
+  committee pages are protocols.
+- **Podlaskie:** the BIP has moved to **bip.podlaskie.eu** (the same CMS as
+  Mazowieckie and Śląskie; worth noting for tools/pl_regions.py, whose
+  register is listed as gone): draft resolutions by sitting, with the
+  month only, no date or agenda.
+- **Lubuskie:** bip.lubuskie.pl has only a live-stream page for sittings.
+- **Opolskie:** bip.opolskie.pl's robots.txt timed out three times again.
+
+**Live run** (scratch store, 16 October 2026, 56 days): 10 of 16 read, 162
+items (8 to be announced), 66 s, no gap. Mazowieckie 10, Śląskie 1,
+Małopolskie 69, Dolnośląskie 2, Łódzkie 19, Pomorskie 13, Podkarpackie 45,
+Kujawsko-Pomorskie 0, Zachodniopomorskie 1, Warmińsko-Mazurskie 2. None
+matched taxonomy-pl: budgets, grants, statutes of regional hospitals and
+road works, the ordinary business of a sejmik's month. Throttles: 3 s for
+bip.slaskie.pl and sejmik.podkarpackie.pl, 1.5 s for bip.mazovia.pl and
+bip.malopolska.pl.

@@ -1,0 +1,95 @@
+{
+ "success": true,
+ "data": {
+  "12/10/2026 - 18/10/2026": [
+   {
+    "id": 3194,
+    "publicado": true,
+    "titulo": "85ª SESSÃO ORDINÁRIA",
+    "data_publicacao": "2026-10-09T14:00:00.000000Z",
+    "data_sessao": "2026-10-13T17:30:00.000000Z",
+    "arquivo": null,
+    "acessos": 0,
+    "transmissao": false,
+    "created_at": "2026-10-09T14:02:01.000000Z",
+    "updated_at": "2026-10-09T14:02:01.000000Z",
+    "deleted_by": null,
+    "deleted_at": null,
+    "url": null,
+    "arquivos": [
+     {
+      "id": 479926,
+      "model_type": "App\\Models\\Legislativo\\LegOrdem",
+      "model_id": "3194",
+      "collection_name": "anexos",
+      "file_path": "ordem/arquivos/mv11azoj_5df7.pdf",
+      "disk": "public",
+      "file_name": "mv11azoj_5df7.pdf",
+      "mime_type": "application/pdf",
+      "size": 194486,
+      "custom_properties": {
+       "posicao": 1,
+       "nome_exibicao": "85ª SESSÃO ORDINÁRIA - AUDIÊNCIA PÚBLICA DA SEFA"
+      },
+      "created_at": "2026-10-09T14:02:01.000000Z",
+      "updated_at": "2026-10-09T14:02:01.000000Z",
+      "deleted_at": null,
+      "titulo": "85ª SESSÃO ORDINÁRIA - AUDIÊNCIA PÚBLICA DA SEFA",
+      "posicao": 1,
+      "extension": "pdf",
+      "url": "https://storage2.assembleia.pr.leg.br/file/public-media/ordem/arquivos/mv11azoj_5df7.pdf",
+      "arquivo": "ordem/arquivos/mv11azoj_5df7.pdf",
+      "type": null,
+      "tipo_arquivo": "pdf"
+     }
+    ],
+    "data_sessao_formatado": "13/10/2026"
+   }
+  ],
+  "05/10/2026 - 11/10/2026": [
+   {
+    "id": 3193,
+    "publicado": true,
+    "titulo": "84ª SESSÃO ORDINÁRIA",
+    "data_publicacao": "2026-10-05T14:35:00.000000Z",
+    "data_sessao": "2026-10-06T17:35:00.000000Z",
+    "arquivo": null,
+    "acessos": 0,
+    "transmissao": false,
+    "created_at": "2026-10-05T14:42:26.000000Z",
+    "updated_at": "2026-10-06T13:59:51.000000Z",
+    "deleted_by": null,
+    "deleted_at": null,
+    "url": null,
+    "arquivos": [
+     {
+      "id": 479914,
+      "model_type": "App\\Models\\Legislativo\\LegOrdem",
+      "model_id": "3193",
+      "collection_name": "anexos",
+      "file_path": "ordem/arquivos/muvczk5u_0273.pdf",
+      "disk": "public",
+      "file_name": "muvczk5u_0273.pdf",
+      "mime_type": "application/pdf",
+      "size": 308542,
+      "custom_properties": {
+       "posicao": 1,
+       "nome_exibicao": "84ª SESSÃO ORDINÁRIA - PDF"
+      },
+      "created_at": "2026-10-05T14:42:26.000000Z",
+      "updated_at": "2026-10-05T14:42:26.000000Z",
+      "deleted_at": null,
+      "titulo": "84ª SESSÃO ORDINÁRIA - PDF",
+      "posicao": 1,
+      "extension": "pdf",
+      "url": "https://storage2.assembleia.pr.leg.br/file/public-media/ordem/arquivos/muvczk5u_0273.pdf",
+      "arquivo": "ordem/arquivos/muvczk5u_0273.pdf",
+      "type": null,
+      "tipo_arquivo": "pdf"
+     }
+    ],
+    "data_sessao_formatado": "06/10/2026"
+   }
+  ]
+ }
+}

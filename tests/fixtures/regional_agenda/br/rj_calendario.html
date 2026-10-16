@@ -1,0 +1,39 @@
+<div>
+	<table class="table-condensed table-bordered table-striped" cellspacing="0" rules="all" border="1" id="ctl00_coluna_esq_calendarioOrdemDia_gdvDiasMes">
+		<tr>
+			<th scope="col">Seg</th><th scope="col">Ter</th><th scope="col">Qua</th><th scope="col">Qui</th><th scope="col">Sex</th><th scope="col">Sab</th><th scope="col">Dom</th>
+		</tr><tr>
+			<td class="cla_TD"></td><td class="cla_TD"></td><td class="cla_TD"></td><td class="cla_TD dia_com_pauta">1</td><td class="cla_TD">2</td><td class="cla_TD">3</td><td class="cla_TD">4</td>
+		</tr><tr>
+			<td class="cla_TD">5</td><td class="cla_TD dia_com_pauta">6</td><td class="cla_TD dia_com_pauta">7</td><td class="cla_TD dia_com_pauta">8</td><td class="cla_TD">9</td><td class="cla_TD">10</td><td class="cla_TD">11</td>
+		</tr><tr>
+			<td class="cla_TD">12</td><td class="cla_TD dia_com_pauta">13</td><td class="cla_TD dia_com_pauta">14</td><td class="cla_TD dia_com_pauta dia_com_pauta_selecionado">15</td><td class="cla_TD">16</td><td class="cla_TD">17</td><td class="cla_TD">18</td>
+		</tr><tr>
+			<td class="cla_TD">19</td><td class="cla_TD">20</td><td class="cla_TD">21</td><td class="cla_TD">22</td><td class="cla_TD">23</td><td class="cla_TD">24</td><td class="cla_TD">25</td>
+		</tr><tr>
+			<td class="cla_TD">26</td><td class="cla_TD">27</td><td class="cla_TD">28</td><td class="cla_TD">29</td><td class="cla_TD">30</td><td class="cla_TD">31</td><td class="cla_TD"></td>
+		</tr>
+	</table>
+</div>
+        </div>
+
+<script>
+    var ano =2026;var mes =10;
+    $(document).ready(function () {
+        $('.dia_com_pauta').bind('click', function () { showValue($(this)); });
+    })
+    function showValue(td) {
+        if ($(td).html() != "0") {
+            var dia = $(td).html();
+            $('.cla_TD').removeClass('dia_com_pauta_selecionado');
+            $(td).addClass('dia_com_pauta_selecionado');
+            try {
+                //alert(dia);
+                $("#ordemDoDia").html("<div class='col'>Aguarde! Carregando o conteúdo do site</div><div class='col'><img src='imagens/loading.gif' /></div></div>");
+                CallService("pauta/?op=D&data=" + ano + ';' + mes + ';' + dia, $("#ordemDoDia"));
+            }
+            catch (Ex) { alert(Ex);}
+        }
+    }
+
+    }</script>
