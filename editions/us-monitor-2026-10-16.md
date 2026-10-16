@@ -1,7 +1,7 @@
 # US Congress Monitor
 ### Week ending 2026-10-16 | Edition 3 | 119th Congress
 
-> **How to read this edition.** Areas come from the shared taxonomy (v1.26), whose American terms were added on 9 October 2026 and have not yet been reviewed by anyone who campaigns in the US. Bills are matched on their titles, their Congressional Research Service subject terms and summary. A vote takes its bill's areas, so every vote line says whether its **own** text matched or only its **bill** did. A House amendment vote whose purpose is known is matched on that **amendment purpose** alone and borrows nothing from the bill, so a vote to defund an unrelated programme no longer shows up because the spending bill mentions the Hyde Amendment. Results, tallies and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Scores [0-3] and why-lines come from the judge (src/triage.py, US frame): the session judge, Claude Code on the Mac Mini on the plan allowance, or the paid API judge (US_JUDGE).
+> **How to read this edition.** Areas come from the shared taxonomy (v1.27), whose American terms were added on 9 October 2026 and have not yet been reviewed by anyone who campaigns in the US. Bills are matched on their titles, their Congressional Research Service subject terms and summary. A vote takes its bill's areas, so every vote line says whether its **own** text matched or only its **bill** did. A House amendment vote whose purpose is known is matched on that **amendment purpose** alone and borrows nothing from the bill, so a vote to defund an unrelated programme no longer shows up because the spending bill mentions the Hyde Amendment. Results, tallies and party splits are the record; whether a vote helped or hurt is a human call and is never made here. Scores [0-3] and why-lines come from the judge (src/triage.py, US frame): the session judge, Claude Code on the Mac Mini on the plan allowance, or the paid API judge (US_JUDGE).
 
 ## Top lines
 
@@ -40,7 +40,7 @@
 
 | Bill | Areas | Stage | Sponsor | Why it matters, or the latest action |
 |---|---|---|---|---|
-| · [H.R. 10805](https://www.congress.gov/bill/119th-congress/house-bill/10805) Don’t Block LGBTQ Act of 2026 | Sex based rights | In committee | Rep. Schneider (D-IL-10), 0 cosponsor(s) | Referred to the House Committee on Energy and Commerce. (2026-10-13) |
+| **[1]** [H.R. 10805](https://www.congress.gov/bill/119th-congress/house-bill/10805) Don’t Block LGBTQ Act of 2026 | Sex based rights | In committee | Rep. Schneider (D-IL-10), 0 cosponsor(s) | An LGBTQ-titled bill in Energy and Commerce with no summary yet. Content is unknown, so hold as background and re-check for gender medicine or conversion pract… |
 
 ## Live beyond committee (107)
 
@@ -156,14 +156,14 @@ _...and 77 more._
 *Grants since 2026-01-20 with no opinion yet; earlier ones were decided last term, some under a consolidated case's docket.*
 
 - **[2]** [Grand, Daniel v. University Heights, OH, et al.](https://www.supremecourt.gov/docket/docketfiles/html/public/25-965.html) (No. 25-965), certiorari granted, 2026-06-30: Whether the First Amendment's established chilling-effect doctrine-under which a credible government threat that deters the exercise of fundamental rights constitutes a complete and independently actionable constitutional injury-is displaced by Williamson Cnt… *Areas: Free speech, privacy and civil liberties.*
-- · [International Partners, et al. v. Ferguson, Gov. of WA, et al.](https://www.supremecourt.gov/docket/docketfiles/html/public/25-840.html) (No. 25-840), certiorari granted, 2026-06-29: The "interest of parents in the care, custody, and control of their children □ is perhaps the oldest of the fundamental liberty interests recognized by this Court." Troxel v. Granville , 530 U.S. 57, 65 (2000). But that right is mere rhetoric if federal judge… *Areas: Gender medicine children.*
+- **[3]** [International Partners, et al. v. Ferguson, Gov. of WA, et al.](https://www.supremecourt.gov/docket/docketfiles/html/public/25-840.html) (No. 25-840), certiorari granted, 2026-06-29: The "interest of parents in the care, custody, and control of their children □ is perhaps the oldest of the fundamental liberty interests recognized by this Court." Troxel v. Granville , 530 U.S. 57, 65 (2000). But that right is mere rhetoric if federal judge… *Areas: Gender medicine children.*
 - **[2]** [Crowther, Thomas, et al. v. Bd. of Regents Univ. GA, et al.](https://www.supremecourt.gov/docket/docketfiles/html/public/25-183.html) (No. 25-183), certiorari granted, 2026-05-18: Title IX of the Education Amendments of 1972 prohibits federally funded educational institutions from discriminating "on the basis of sex." In Cannon v. University of Chicago , 441 U.S. 677 (1979), this Court held that Title IX is privately enforceable by "vi… *Areas: Sex based rights.*
 
 ### Decided on our ground, October Term 2025 (3)
 
 - **[3]** [West Virginia v. B. P. J.](https://www.supremecourt.gov/opinions/25pdf/24-43_2b35.pdf) (No. 24-43), opinion, 609/2, 2026-06-30: Title IX allows schools to provide separate women’s and men’s sports teams defined by biological sex; West Virginia and Idaho did not violate the Equal Protection Clause of the Fourteenth Amendment by maintaining female sports teams for biological females. *Areas: Sex based rights.*
 - **[3]** [Chiles v. Salazar](https://www.supremecourt.gov/opinions/25pdf/607us2r24_4315.pdf) (No. 24-539), opinion, 607 U.S. 627, 2026-03-31: Colorado’s law banning conversion therapy, as applied to petitioner’s talk therapy, regulates speech based on viewpoint, and the lower courts erred by failing to apply sufficiently rigorous First Amendment scrutiny. *Areas: Conversion practices, Free speech, privacy and civil liberties.*
-- · [Postal Service v. Konan](https://www.supremecourt.gov/opinions/25pdf/607us2r13_m64n.pdf) (No. 24-351), opinion, 607 U.S. 391, 2026-02-24: The United States retains sovereign immunity for claims arising out of the intentional nondelivery of mail because both “miscarriage” and “loss” of mail under the Federal Tort Claims Act’s postal exception, 28 U. S. C. §2680(b), can occur as a result of the P… *Areas: Abortion.*
+- **[0]** [Postal Service v. Konan](https://www.supremecourt.gov/opinions/25pdf/607us2r13_m64n.pdf) (No. 24-351), opinion, 607 U.S. 391, 2026-02-24: The United States retains sovereign immunity for claims arising out of the intentional nondelivery of mail because both “miscarriage” and “loss” of mail under the Federal Tort Claims Act’s postal exception, 28 U. S. C. §2680(b), can occur as a result of the P… *Areas: Abortion.*
 
 ## The states
 
