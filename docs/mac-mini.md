@@ -392,6 +392,14 @@ Every period each member has sat and their dated groups (`tools/member_service.p
 - robots.txt asked at run time (`src/robots_guard.guard`, feeds `ca-senate-committees` and `ca-committee-reports`); refusals and unloadable pages are `[gap]` lines and gaps rows, never fatal.
 - The edition's "Committees: witnesses on our ground" section now names Senate committees ("Senate LCJC") and ends with "Committee reports on our ground"; the DM goes to Chris alone, as before.
 
+## Canada on the shared country frameworks (16 October 2026, branch `ca-gaps`)
+
+- A reader adapter, `src/editions/ca.py`, gives the shared frameworks Canada's House and Senate divisions (caucus at the vote) and bills from the Canada weekly's store; the Canada federal edition stays `tools/ca_monitor.py` with its own DM (not in the review window). No new job, no new plist: `git pull` of the runner clone is enough.
+- Three steps of `jobs/ca-weekly.sh` (and the same steps, same order, in `.github/workflows/ca-weekly.yml`), after `tools/ca_5ca.py` and before the edition: `tools/country_agenda.py ca` (the week ahead: House committee notices, the Projected Order of Business, the sitting calendar, the Senate's committee schedule and Order Paper, into `country_agenda` under cc='ca', robots.txt asked at run time), `tools/member_profiles.py ca` (`profiles/ca/`, committed: `# mini_run: commit editions profiles`) and `tools/country_vote_briefs.py --country ca --send` (one DM to Chris alone; ledger `data/vote-briefs/ca.json`, seeded silently on its first pass). Each failure is a `[gap]` line, never a lost week.
+- The edition renders the week ahead in the countdown layout (This week, Further afield), additively; with no agenda read it is exactly as before.
+- The daily job `vote-briefs-daily` now reads the House of Commons' division XML too (`src/vote_brief_sources.CA`: one request for the session's list, one per division it briefs) and shares the ledger with the weekly step. The Senate's votes come with the weekly.
+- The vote page `partner_site/ca-votes.html` and Canada's rows in `votes-countries.html` and `bill-timelines.html` are rebuilt by `tools/make_country_votes.py` in the Sunday `editions-session-judge` job, with every other country; readings from `config/ca_stance.yaml` show only when `src/readings5ca.status` says confirmed.
+
 ## The GitHub-side step: NJ, MA, MI and Santa Catarina (13 October 2026, branch `us-github-states`)
 
 Chris, 13 October 2026: "Add the GitHub step, skip NY", and the same day: include Brazil's Santa Catarina and Mato Grosso. These legislatures answer GitHub's US runners and not the Mini (or the laptop):
