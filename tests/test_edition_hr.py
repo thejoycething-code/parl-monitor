@@ -117,11 +117,11 @@ class CroatiaEdition(unittest.TestCase):
         self.assertIn("1 excluded title", text)
 
     def test_week_ahead_is_the_session_agenda(self):
-        text = self.render()
-        self.assertIn("## Week ahead", text)
-        self.assertIn("On the agenda of session 12, not yet debated; on 2 sessions' agendas", text)
-        self.assertIn("**watched**", text)
-        self.assertIn("Withdrawal from the Istanbul Convention", text)
+        # The countdown (16 October 2026): pending rows of This week, never dated.
+        text = self.render().split("## Reference")[0]
+        self.assertIn("| This session | SABOR |", text)
+        self.assertIn("on the agenda of session 12, not yet debated; on 2 sessions' agendas", text)
+        self.assertIn("Watched: Withdrawal from the Istanbul Convention", text)
 
     def test_new_items_skip_the_backfill_and_carry_overs(self):
         text = self.render()

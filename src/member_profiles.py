@@ -663,6 +663,36 @@ SPECS = {
         authored=_be_authored,
         party_note="The Chamber's vote lists print names only; the group shown is the "
                    "member's group when the vote was stored."),
+    # Germany (16 October 2026, branch de-ca-gaps): the Bundestag's current
+    # members, every recorded position on a vote on our ground through the
+    # reader adapter src/editions/de.py. abgeordnetenwatch names the Fraktion
+    # at each vote, but the store keeps only the member's latest (de_members),
+    # so the party shown is as listed (X6). Committee seats from the
+    # Bundestag's own committee pages (src/member_intel.fetch_de).
+    "de": Spec(
+        "de", "SELECT person_id, name, REPLACE(party, char(173), ''), 'Bundestag', CASE WHEN "
+              "instr(constituency, ' (Bundestag') > 0 THEN substr(constituency, 1, "
+              "instr(constituency, ' (Bundestag') - 1) ELSE constituency END, "
+              "sitting FROM de_members WHERE parliament = '5' AND legislature = (SELECT "
+              "MAX(CAST(legislature AS INTEGER)) FROM de_members WHERE parliament = '5')",
+        # The current term's mandates only: a mandate id is per term, so a
+        # vote of an earlier Bundestag would make a profile for every member
+        # of that term (1,259 of them on 16 October 2026).
+        sql_positions("SELECT v.person_id, m.name, REPLACE(m.party, char(173), ''), v.position "
+                      "FROM de_votes v JOIN de_members m USING (person_id) "
+                      "WHERE v.vote_id = ? AND m.parliament = '5' AND m.legislature = (SELECT "
+                      "MAX(CAST(legislature AS INTEGER)) FROM de_members WHERE parliament = '5')"),
+        basis="as_listed",
+        listed_label="the Fraktion at the member's latest recorded vote, X6",
+        extra="SELECT person_id, 'Seat won', mandate_won FROM de_members WHERE parliament = '5' "
+              "UNION ALL SELECT person_id, 'Electoral list', CASE WHEN instr(electoral_list, "
+              "' (Bundestag') > 0 THEN substr(electoral_list, 1, instr(electoral_list, "
+              "' (Bundestag') - 1) ELSE electoral_list END FROM de_members WHERE parliament = '5'",
+        party_note="abgeordnetenwatch names each member's Fraktion at every vote; the store "
+                   "keeps the latest one, so a vote line shows that Fraktion, labelled as "
+                   "listed (X6). Positions are abgeordnetenwatch's codes (yes, no, abstain, "
+                   "no_show). This term's votes only: abgeordnetenwatch gives a member a new "
+                   "mandate id each term."),
     "at": Spec(
         "at", "SELECT pad, name, klub, chamber, TRIM(COALESCE(wahlkreis, '') || CASE WHEN "
               "bundesland IS NOT NULL THEN ' (' || bundesland || ')' ELSE '' END), NULL "

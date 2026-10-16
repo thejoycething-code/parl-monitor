@@ -34,7 +34,7 @@ from src.robots_guard import guard  # noqa: E402
 # Canada (16 October 2026): the House and the Senate (src/agendas/ca.py),
 # read by jobs/ca-weekly.sh; tools/ca_monitor.py renders it as This week and
 # Further afield.
-COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar", "be", "pt", "sk", "ca")
+COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar", "be", "pt", "sk", "de", "ca")
 
 
 def main(argv=None):

@@ -71,7 +71,7 @@ if TOOLS not in sys.path:
 
 from src.http import FetchError  # noqa: E402
 
-DAILY = ("nl", "pl", "ch", "br", "it", "ca")
+DAILY = ("nl", "pl", "ch", "br", "it", "de", "ca")
 
 
 def _ground(areas_json, *watched):
@@ -620,6 +620,45 @@ def load_parents(cc, directory=None):
         return json.load(fh)
 
 
+# --- Germany ------------------------------------------------------------------------
+
+class DE:
+    """The Bundestag's recorded votes from abgeordnetenwatch (16 October 2026):
+    the legislature's newest votes, sorted by date (1 request), and one
+    request per vote dated in the window, which carries every member's
+    position and Fraktion (tools/de_rollcalls.pull with `since`). Measured
+    that day: the vote of the same morning was already listed. A quiet day
+    costs 2 requests (the current legislature, the list).
+
+    abgeordnetenwatch's robots.txt disallows /api/v2/. Chris's decision of 13
+    October 2026 (docs/robots-runtime.md, the abgeordnetenwatch row) is to
+    keep reading it as a documented open API (CC0) while written permission
+    is requested, at most one request every 2.5 s (its published limit is 30
+    a minute), as tools/de_rollcalls.py does; so this reader uses the
+    unguarded client underneath the daily job's guard, for this host only."""
+
+    HOST = "www.abgeordnetenwatch.de"
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import de_rollcalls as der
+        raw = getattr(client, "_client", client)
+        setter = getattr(raw, "set_host_throttle", None)
+        if setter:
+            setter(DE.HOST, 2.5)
+        tax = der.filt.load_taxonomy(der.TAXONOMY)
+        wl = der.filt.load_watchlist(der.WATCHLIST)
+        seen, new, gaps = der.pull(conn, raw, today, log=log, tax=tax, wl=wl, since=since)
+        if gaps and not new:
+            raise ValueError("abgeordnetenwatch's votes were not read ({0} gap(s))".format(gaps))
+        log("de: {0} recorded vote(s) since {1}".format(new, since))
+        return new
+
+    @staticmethod
+    def positions(conn, client, today, log=print, keys=None):
+        return 0                      # they come with the vote
+
+
 def save_parents(cc, conn, directory=None):
     """Write data/vote-briefs/<cc>-parents.json from the store, for a reader
     that has an `export`. Returns the path, or None."""
@@ -641,7 +680,7 @@ def _watch(cc):
     return {str(k) for k in latam.watchlist(cc)}
 
 
-READERS = {"nl": NL, "pl": PL, "ch": CH, "br": BR, "it": IT, "ca": CA}
+READERS = {"nl": NL, "pl": PL, "ch": CH, "br": BR, "it": IT, "de": DE, "ca": CA}
 
 
 def urlencode(**kw):

@@ -116,7 +116,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Every country with member-level or party-group votes (Uruguay's profiles
 # hold questions only: no votes we can reach).
-COUNTRIES = tuple(cc for cc, s in mp.SPECS.items() if s.positions is not None)
+# Germany has its own vote page (tools/make_de_votes.py, partner_site/de-votes.html,
+# since September 2026); its profile spec (16 October 2026) must not make a
+# second page under the same name (OWN_PAGE, additive).
+OWN_PAGE = ("de",)
+COUNTRIES = tuple(cc for cc, s in mp.SPECS.items() if s.positions is not None
+                  and cc not in OWN_PAGE)
 
 # Size: France has over 1,200 votes on our ground by 577 deputies. A page
 # lists the latest MAX_DIVISIONS, with every member's position on each; the
