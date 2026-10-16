@@ -62,6 +62,13 @@ is a signed human reading in config/<cc>_stance.yaml, and the brief gives
 only that reading's STATUS; one DM per run, to Chris alone, whatever the
 environment says; British spelling, no em dashes.
 
+GERMANY (additive, 16 October 2026, branch de-ca-gaps): the Bundestag's
+recorded votes, through the reader adapter src/editions/de.py (the German
+edition itself is still tools/de_monitor.py's). Every member's position and
+Fraktion come with the vote from abgeordnetenwatch, so nothing is held for
+positions. Briefed after the Sunday weekly (jobs/de-weekly.sh) and daily
+(src/vote_brief_sources.DE).
+
 VOTE MEANINGS (additive, 11 October 2026; src/vote_meanings.py): each
 watched or tier-1 vote shows what a Yes and a No meant, and whether the line
 is a rule's, the free session judge's or a person's
@@ -89,7 +96,8 @@ BRIEFS = vote_brief.BRIEFS
 CHRIS = vote_brief.CHRISTOPHER
 REPO = vote_brief.REPO
 
-EDITIONS = ("it", "ch", "fr", "nl", "be", "pl", "hr", "sk", "es", "br", "ar", "mx", "at", "pt")
+EDITIONS = ("it", "ch", "fr", "nl", "be", "pl", "hr", "sk", "es", "br", "ar", "mx", "at", "pt",
+            "de")
 LATAM = ("cl", "pe", "ec", "do", "sv", "gt")
 COUNTRIES = EDITIONS + LATAM
 # Countries whose positions can arrive after the result: a vote without them
@@ -103,6 +111,10 @@ MAX_DM_REBELS = 12
 
 LATAM_CHAMBER = {"cl": "Congreso Nacional", "pe": "Congreso", "ec": "Asamblea Nacional",
                  "do": "Cámara de Diputados", "sv": "Asamblea Legislativa", "gt": "Congreso"}
+# How a reading is signed, where the country's 5CA is older than
+# tools/country_5ca.py (additive, 16 October 2026).
+SIGNING = {"de": "config/de_stance.yaml is signed by a person (tools/de_stance.py drafts; "
+                 "tools/de_5ca.py builds the sheets from signed readings only)"}
 X6 = "No member is named against their party until party history is sourced (X6)."
 
 # Latam: (name, group, position) per vote, read from the store. `None` for
@@ -434,8 +446,9 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
     out.append("No verdict is attached here. Positions are the record's own words; the meaning "
                "lines say what a Yes and a No did (by rule, the free session judge, or a person "
                "in config/vote-meanings-{0}.yaml, which takes precedence); a reading of "
-               "config/{0}_stance.yaml is signed through its guide, docs/5ca-{0}-readings.md "
-               "(tools/country_5ca.py).".format(cc))
+               "{1}.".format(cc, SIGNING.get(cc) or "config/{0}_stance.yaml is signed through "
+                                 "its guide, docs/5ca-{0}-readings.md (tools/country_5ca.py)"
+                                 .format(cc)))
     return vote_brief.house_style("\n".join(out) + "\n")
 
 
