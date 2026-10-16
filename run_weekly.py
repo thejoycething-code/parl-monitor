@@ -1581,6 +1581,10 @@ def countdown_from_store(conn, edition, wl=None):
     # edition.latest_votes is no longer filled: "Latest votes on our issues"
     # left the edition in round 5 (Chris, 16 October 2026: it goes stale).
     # The votes above still feed the big dates' Context lines.
+    # Round 6 (Chris, 16 October 2026): "Recorded votes" is back, holding
+    # ONLY last week's divisions (Mon-Sun before the edition), Westminster
+    # and devolved, grouped by debate (src/countdown.recorded_votes).
+    edition.recorded_votes = cd.recorded_votes(conn, edition.week_commencing, tracker)
     edition.key_questions = cd.key_questions(conn, edition.week_commencing)
     return edition
 
