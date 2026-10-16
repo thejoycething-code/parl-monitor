@@ -151,6 +151,29 @@ class CollectTests(unittest.TestCase):
             self.assertTrue(G.taxonomies(cc, mod=mod), cc)
 
 
+class RendererContractTests(unittest.TestCase):
+    """The names the country countdown reads (keep them stable)."""
+
+    def test_publications_and_drafts_in_preparation(self):
+        def fetch(client, today, log):
+            return G.fetched([
+                G.entry("x", "p", "Report on abortion statistics", "publication", published="2026-10-10"),
+                G.entry("x", "d", "Draft bill on surrogacy", "bill_draft", published="2026-10-10"),
+                G.entry("x", "c", "Consultation on euthanasia", "consultation", published="2026-10-10",
+                        closing_date="2026-11-01"),
+            ])
+        conn = store()
+        G.collect(conn, "zz", None, TODAY, log=lambda *a: None, mod=fake_module(fetch))
+        tiers = {r["doc_id"]: r["tier"] for r in conn.execute("SELECT doc_id, tier FROM gov_docs")}
+        pubs = [r["doc_id"] for r in G.publication_rows(conn, "zz", "2026-10-01", TODAY)]
+        self.assertEqual(pubs, ["x:p"] if tiers.get("x:p") == 1 else [])
+        self.assertEqual([r["doc_id"] for r in G.in_preparation_rows(conn, "zz", "2026-10-01", TODAY)],
+                         ["x:d"])
+        self.assertEqual([r["doc_id"] for r in G.deadline_rows(conn, "zz", TODAY, "2026-12-31")], ["x:c"])
+        for name in ("deadline_rows", "publication_rows", "in_preparation_rows", "coverage_lines"):
+            self.assertTrue(callable(getattr(G, name)))
+
+
 class RobotsTests(unittest.TestCase):
     """A reader fetches through the guarded client: a disallowed page is a gap."""
 
