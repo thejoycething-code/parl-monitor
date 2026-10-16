@@ -72,20 +72,25 @@ class CheckLogTests(unittest.TestCase):
             log=lambda *a, **k: None, mentions=list(self.letters) + list(self.plenaries))
         return checks, drafts, stored, client
 
-    def test_every_docs_un_org_row_is_could_not_read_with_the_reason(self):
-        checks, _d, stored, client = self.run_collect(["A/81/L.6"])
-        rows = {c.source: c for c in checks.checks}
-        for source in ("docs.un.org GA plenary drafts", "docs.un.org Third Committee drafts",
-                       "docs.un.org named drafts"):
-            self.assertEqual(rows[source].status, un_checks.NOT_READ, source)
-            self.assertTrue(rows[source].detail.startswith(
-                "robots.txt disallows (documents.un.org)"), rows[source].detail)
+    def test_one_docs_un_org_row_for_one_cause(self):
+        # 16 October 2026: three rows (two walks, the named drafts) for one
+        # robots.txt refusal were counted three times in "N of M sources
+        # could not be read". Now one row, naming the unread symbols.
+        checks, _d, stored, client = self.run_collect(["A/81/L.6", "A/81/L.3"])
+        docs_rows = [c for c in checks.checks if "docs.un.org" in c.source]
+        self.assertEqual([c.source for c in docs_rows], [un_forward.DOCS_SOURCE])
+        row = docs_rows[0]
+        self.assertEqual(row.status, un_checks.NOT_READ)
+        self.assertTrue(row.detail.startswith("robots.txt disallows (documents.un.org)"), row.detail)
+        self.assertIn("GA plenary and Third Committee walks", row.detail)
+        self.assertIn("named drafts A/81/L.6, A/81/L.3", row.detail)
+        self.assertEqual(len(checks.unread()), 1)
         self.assertEqual(len(client.asked), 1, "one refusal ends the run's docs.un.org reads")
         self.assertEqual(stored, [], "nothing unread is stored in un_documents")
         lines = "\n".join(checks.lines())
         self.assertRegex(lines, r"COULD NOT READ\s+robots.txt disallows \(documents.un.org\): "
                                 r"docs.un.org redirects to https://documents.un.org/api/symbol/access")
-        self.assertIn("NOT 'nothing new'", checks.nothing_new())
+        self.assertIn("NOT 'nothing new': 1 of", checks.nothing_new())
 
     def test_named_drafts_stand_in(self):
         checks, drafts, _s, _c = self.run_collect(["A/81/L.6"])
@@ -96,7 +101,7 @@ class CheckLogTests(unittest.TestCase):
         row = [c for c in checks.checks
                if c.source == "Drafts named by PGA letters and Journal agendas"][0]
         self.assertEqual(row.status, un_checks.READ_OK)
-        self.assertIn("robots.txt", row.detail)
+        self.assertIn("text is not read", row.detail)
 
 
 class DmTests(unittest.TestCase):

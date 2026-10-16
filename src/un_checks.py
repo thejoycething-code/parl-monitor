@@ -32,6 +32,23 @@ READ_EMPTY = "read but empty"
 NOT_READ = "could not read"
 
 
+NEWEST_CHARS = 90
+DETAIL_CHARS = 260
+
+
+def shorten(text, limit):
+    """`text` cut to at most `limit` characters AT A WORD BOUNDARY, with
+    "..." when cut (16 October 2026: the check log printed "Fellowship
+    Programme durin"). A single word longer than the limit is cut hard."""
+    text = " ".join(str(text or "").split())
+    if len(text) <= limit:
+        return text
+    cut = text[:max(1, limit - 3)]
+    if " " in cut and not text[len(cut)].isspace():
+        cut = cut[:cut.rindex(" ")]
+    return cut.rstrip(" ,;:(") + "..."
+
+
 @dataclass
 class Check:
     source: str
@@ -70,13 +87,13 @@ class CheckLog:
         status = READ_OK if items else READ_EMPTY
         name, when = newest if newest else ("", None)
         self.checks.append(Check(source=source, status=status, count=len(items),
-                                 newest=(name or "")[:80], newest_date=_iso(when),
+                                 newest=shorten(name, NEWEST_CHARS), newest_date=_iso(when),
                                  detail=detail))
         return self.checks[-1]
 
     def failed(self, source, reason):
         self.checks.append(Check(source=source, status=NOT_READ,
-                                 detail=str(reason)[:160]))
+                                 detail=shorten(reason, DETAIL_CHARS)))
         return self.checks[-1]
 
     def unread(self):

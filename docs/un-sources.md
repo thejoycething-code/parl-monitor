@@ -23,6 +23,7 @@ client code that fetches it.
 | UN Journal API, GA plenaries (13 Oct 2026) | General Assembly plenaries and high-level meetings, with each meeting's agenda and draft symbols | `GlobalCalendar` with the General Assembly organ (`9615d07d-d53c-e711-84fb-0050569f00b6`). A plenary's title is only a number, so `GET officials/<meeting id>` (headers `location`, `language`) is read for the agenda ("Global health and foreign policy - Item 129: Draft resolution (A/81/L.6)") and programme notes (which PGA letters announced it). About a week ahead. |
 | PGA letters (13 Oct 2026) | Every letter of the President of the General Assembly to member states, dated, with title, PDF and a summary page | `www.un.org/pga/81/documents/letters/` (the session number moves each September). Plain HTML; robots.txt allows it with Crawl-delay 10, honoured. Not challenged. Where plenary votes are announced first: the 7 October 2026 letter named the 12 October vote on the pandemic declaration. |
 | docs.un.org, GA plenary drafts (13 Oct 2026) | `A/81/L.n`, the series political declarations are adopted from | Same walk and first-page parse as `A/C.3/81/L.n`. A President's draft has no sponsor list; its title follows "submitted by the President". |
+| iGov documents list (16 Oct 2026) | Every L-document iGov files under a GA plenary or Third Committee agenda item: symbol, official title, agenda item (no text) | `igov.un.org/igov/api/meetings/getdocumentsbysession/<session>?body=GA` and `?body=Third%20Committee`: the JSON the iGov app itself loads. No robots.txt (the path answers the app page); asked through the robots guard anyway; one request a body a run. Lags and is incomplete (29 of session 80's ~70 Third Committee L-documents), so it never says "no drafts". Check-log row `UN draft list (iGov)`. Runners reach it too. |
 | ~~docs.un.org~~ **refused since 13 Oct 2026** | | `?direct=true` now redirects to `documents.un.org/api/symbol/access`, which `documents.un.org/robots.txt` disallows. Every docs.un.org row in the check log says "could not read: robots.txt disallows (documents.un.org)". See the section at the end. |
 
 ## Not available, with the reason
@@ -179,10 +180,14 @@ below went out with the honest User-Agent, a few seconds apart.
 | ReliefWeb API | `403` "not using an approved appname"; an appname must be requested (Chris's call), and ReliefWeb does not syndicate OHCHR calls in any case | no |
 | `tbinternet.ohchr.org/robots.txt` | `User-agent: *` / `Disallow: /` | treaty body calendar and general comments no longer fetched (see below) |
 | Wayback Machine or any other cache | not tried on purpose: it would route the challenged page through a third party | no |
-| GitHub's runners | answered by the backup workflow's own check log: dispatch `un-calls-weekly.yml` with `dry_run` (stateless, sends nothing) | see the PR |
+| GitHub's runners | **challenged too** (16 Oct 2026, read-only `probe-hosts.yml` run 38870091411, honest UA, robots.txt read first: `www.ohchr.org/robots.txt` allows `/en/calls-for-input`; the listing answered `403`, `Just a moment...`; the probe stopped the host) | no |
+| `www.un.org/en/calls-for-input`, `hrcportal.ohchr.org/calls-for-input`, `spcommreports.ohchr.org` (16 Oct 2026) | `404`, `404`, no robots.txt and no calls listing | no |
+| Other paths on `www.ohchr.org` that might escape the challenge (Drupal JSON:API, other feeds) | not tried on purpose: hunting for an unchallenged door on a challenged host is working around the block | no |
 
 **So:** HRC sessions read OK again via the portal. Calls for input stay "could
-not read" in the check log, with the reason, and the DM says the number of open
+not read" (16 October 2026: GitHub's runners are challenged as well, so there
+is no runner-side route to hand to the Mini; a permission email went to OHCHR
+on 15 October and is pending) in the check log, with the reason, and the DM says the number of open
 calls is unknown, never zero. Still worth asking, by a human: whether OHCHR
 offers the calls listing as a feed to registered NGOs, or would allow-list an
 identified monitor.
@@ -291,3 +296,49 @@ the letter. Two days of lead lost, five days still ahead of the vote.
 Worth asking, by a human: whether the UN's Documents Management would allow an
 identified monitor on `documents.un.org/api/symbol/access`, or publishes the
 documents feed it serves to `docs.un.org`.
+
+
+### Draft titles via iGov; routes tried again, 16 October 2026
+
+The UN DM of 16 October could title only A/81/L.4 (from a PGA letter) and
+showed three docs.un.org rows for one robots.txt refusal. Every request below
+went out with the honest User-Agent, seconds apart (10 s on www.un.org).
+
+| Tried | robots.txt | Result | Used? |
+|---|---|---|---|
+| `digitallibrary.un.org/record/<id>`, `/sitemap_index.xml.gz` | allowed | `202`, empty body, `x-amzn-waf-action: challenge` (AWS WAF bot challenge) | no (not defeated) |
+| `digitallibrary.un.org/record/<id>/export/xm` (MARCXML) | `Disallow /record/*/export/*$` (malformed, no colon; the intent is honoured) | not fetched | no |
+| `digitallibrary.un.org/oai2d` (OAI-PMH) | allowed | answers; `ListSets` = `sanctions` only; `ListIdentifiers` from 2026-10-10 = sanctions records only; `GetRecord` on any other id = `idDoesNotExist`; `Identify`: full content "may not be harvested by robots" | no |
+| PGA letter PDFs (`/pga/wp-content/uploads/...`) | allowed | one-page scanned images, no text layer, no enclosed draft | no (the letter pages, already read, name the symbol) |
+| PGA letter page of 6 October | allowed | "to be annexed to draft resolution A/81/L.3" (sea-level rise) | already read |
+| `undocs.org/<symbol>` | (301) | `301` to `docs.un.org`, then `documents.un.org` | no |
+| `docs.un.org/en/<symbol>` (no `direct`) | no robots.txt | 4KB "Document Viewer" shell framing `documents.un.org/api/symbol/access`: no title | no |
+| `www.un.org/en/ga/81/resolutions.shtml` | allowed | "The list of resolutions will be displayed here" (and adopted resolutions only) | no |
+| `www.un.org/en/ga/third/81/proposalstatus.shtml`, `/en/ga/info/meetings/81schedule.shtml` | allowed | `404` | no |
+| `www.un.org/en/ga/third/81/documentation.shtml` | allowed | "Status of draft proposals" links to iGov | led to iGov |
+| **`igov.un.org/igov/api/meetings/getdocumentsbysession/81?body=GA`** | no robots.txt | `200` JSON, 31 agenda items, A/81/L.1/Rev.1 to L.6 with official titles | **YES** |
+| **`.../getdocumentsbysession/81?body=Third%20Committee`** | no robots.txt | `200`, L.1 and L.1/Add.1 only so far (organisation of work, dropped); session 80 lists 29 L-documents, amendments included | **YES** |
+| `igov.un.org/igov/api/proposals/<session>/<committee>` | no robots.txt | empty list for sessions 79, 80, 81 and any committee name | no |
+| `igov.un.org/igov/api/undoc?symbol=...` | no robots.txt | the PDF, relayed from documents.un.org | **no, on purpose**: the document documents.un.org's robots.txt keeps robots from, through another host |
+| iGov's `/assets/config.json` | | not read: the app's runtime config, not a data feed | no |
+| `press.un.org` meetings coverage | allows all but `/search/` | titles on the day of action, after the first sign | not wired |
+
+**What iGov said on 16 October 2026** (session 81, GA plenary):
+A/81/L.1/Rev.1 Cooperation between the UN and the CIS (item 128(w));
+A/81/L.2 Participation by the State of Palestine (item 7);
+A/81/L.3 United Nations Declaration on Sea-level Rise (item 12);
+A/81/L.4 Political declaration of the high-level meeting on the twenty-fifth
+anniversary of the Durban Declaration and Programme of Action (item 68(b));
+A/81/L.5 Necessity of ending the embargo against Cuba (item 37);
+A/81/L.6 Political declaration on pandemic prevention, preparedness and
+response (item 129). Against `config/un-taxonomy.yaml` only L.6 is on our
+ground (area 7), and it was already caught. Third Committee: no draft yet.
+
+**The check log.** The two refused walks and the named drafts are now ONE row,
+`UN draft resolutions (docs.un.org)`, naming the symbols whose text was not
+read, counted once in "N of M sources could not be read". Titles are cut at a
+word, with "..." (`un_checks.shorten`).
+
+**Draft text** has no permitted route. A permission request to the UN's
+documents team (ODS / DGACM) is drafted, for `documents.un.org/api/symbol/access`
+at about 20 requests a weekday under `CitizenGO-ParlMonitor/1.0`.

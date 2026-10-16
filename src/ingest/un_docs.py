@@ -83,6 +83,54 @@ DOC_URL = "https://docs.un.org/{lang}/{symbol}?direct=true"
 #     docs.un.org. Not a source of its own.
 #   * daccess-ods.un.org, documents-dds-ny.un.org: robots.txt disallows the
 #     document paths too. Wayback or any cache: not tried, on purpose.
+#
+# Tried again 16 October 2026 (the UN DM of that morning could title only
+# A/81/L.4); every request with the honest User-Agent, seconds apart:
+#   * igov.un.org, the GA's iGov portal: no robots.txt (the path answers the
+#     app page, so no rules). The documents-by-agenda-item list its own app
+#     loads, /igov/api/meetings/getdocumentsbysession/<session>?body=<body>
+#     (body "GA" for the plenary, "Third Committee"), gives every document
+#     issued under each agenda item, L-documents included, with the official
+#     title and type: A/81/L.2 to L.6 and L.1/Rev.1 on 16 October 2026,
+#     e.g. A/81/L.3 "United Nations Declaration on Sea-level Rise", A/81/L.5
+#     the Cuba embargo resolution (named nowhere else we read). It lags and
+#     is incomplete (29 of session 80's ~70 Third Committee L-documents), so
+#     a draft it does not list is still unknown, never absent. Reachable
+#     from GitHub's runners too (probe-hosts run 38870091411). USED for
+#     symbol + title + agenda item (fetch_igov_drafts); one request a body a
+#     run. The proposals feed (igov/api/proposals/...) still answers an
+#     empty list for sessions 79 to 81 whatever the committee.
+#   * igov.un.org/igov/api/undoc?symbol=... serves the PDF, relayed from
+#     documents.un.org. NOT USED, on purpose: it is the very document
+#     documents.un.org/robots.txt keeps robots from, fetched through
+#     another host (the same reasoning as no Wayback, no cache).
+#   * digitallibrary.un.org: robots.txt still disallows /search and /rss,
+#     and now (malformed, missing its colon, but the intent is plain and is
+#     honoured) "/record/*/export/*", which is the MARCXML export. The
+#     record pages (/record/<id>) and the sitemap answer 202 with an empty
+#     body and "x-amzn-waf-action: challenge" (an AWS WAF bot challenge):
+#     not defeated. OAI-PMH (/oai2d, allowed) answers, but ListSets still
+#     exposes only "sanctions", ListIdentifiers from 2026-10-10 returns only
+#     sanctions records, and GetRecord on any other id says idDoesNotExist;
+#     its Identify adds "Full content ... may not be harvested by robots".
+#     Not used.
+#   * PGA letter PDFs (/pga/wp-content/uploads/..., allowed): one-page
+#     scanned images with no text layer; they do not enclose the draft.
+#     The letter PAGES (already read) name the symbol: "to be annexed to
+#     draft resolution A/81/L.3". Not used beyond that.
+#   * undocs.org: 301 to docs.un.org (and so to documents.un.org). The
+#     docs.un.org page without ?direct=true is a 4KB "Document Viewer"
+#     shell framing documents.un.org/api/symbol/access: no title. Not used.
+#   * www.un.org/en/ga/81/resolutions.shtml: "The list of resolutions will
+#     be displayed here" (empty so far, and adopted resolutions only).
+#     www.un.org/en/ga/third/81/proposalstatus.shtml: 404; the Third
+#     Committee's documentation page links "Status of draft proposals" to
+#     iGov. Not used.
+#   * press.un.org (allows all but /search/): titles on the day of action,
+#     after the first sign. Not wired.
+# DRAFT TEXT: no permitted route on 16 October 2026. Titles come from iGov;
+# classification is on the title (and the PGA letter or Journal agenda that
+# names it). A permission request to the UN's documents team is drafted.
 ROBOTS_NOTE = "robots.txt disallows (documents.un.org)"
 
 
@@ -449,3 +497,116 @@ def walk_drafts(client, pattern, session, max_n=120, stop_after_misses=5, start=
             if misses >= stop_after_misses:
                 break
     return found, checked, errors
+
+
+# ---------------------------------------------------------------------------
+# iGov: the GA's own list of documents per agenda item (16 October 2026).
+# See the routes note at the top. The JSON its app loads; no robots.txt on
+# igov.un.org, asked anyway through the robots guard; one request a body.
+
+IGOV_DOCS_URL = "https://igov.un.org/igov/api/meetings/getdocumentsbysession/{session}?body={body}"
+IGOV_HOST = "igov.un.org"
+# (label, iGov body name, the L-series prefix it holds)
+IGOV_BODIES = (
+    ("GA plenary", "GA", "A/{session}/L."),
+    ("Third Committee", "Third Committee", "A/C.3/{session}/L."),
+)
+_IGOV_DATE = re.compile(r"^(\d{1,2})/(\d{1,2})/(20\d\d)$")
+_IGOV_ITEM = re.compile(r"^(\d+)")
+
+
+@dataclass
+class Listed:
+    """A draft as iGov lists it: symbol, title, agenda item. No text."""
+    symbol: str
+    title: str = ""
+    kind: str = ""               # "Draft resolution", "Draft decision", "" (iGov leaves it blank)
+    agenda_item: int = None
+    agenda_label: str = ""       # iGov's own item label: "68(b)"
+    agenda_title: str = ""
+    body: str = ""               # "General Assembly" | "Third Committee"
+    dated: object = None         # datetime.date, only when plausible (see parse)
+
+    @property
+    def is_programme_of_work(self):
+        return "organization of" in (self.title or "").lower() and "work" in (self.title or "").lower()
+
+
+def _igov_date(text, session):
+    """iGov's 'dd/mm/yyyy', kept only inside the session (it carries
+    placeholders: A/C.3/81/L.1 is dated 31/12/2025, before the session)."""
+    import datetime
+    m = _IGOV_DATE.match((text or "").strip())
+    if not m:
+        return None
+    try:
+        day = datetime.date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
+    except ValueError:
+        return None
+    opens = datetime.date(1945 + int(session), 9, 1)
+    return day if opens <= day <= opens.replace(year=opens.year + 1) else None
+
+
+def parse_igov_documents(payload, session, prefix):
+    """The L-documents of one body from iGov's documents-by-session JSON.
+
+    payload: a list of agenda items, each {AG_Item, AG_Title, documents:
+    [{DD_symbol1, DD_officialTitle, DD_workingTitle, DD_documentType,
+    DD_officialDate, ...}]}. A symbol is kept once (a document listed under
+    two items keeps the first). The organisation-of-work note (L.1 in the
+    Third Committee) is dropped: it is not a draft.
+    """
+    head = prefix.format(session=session)
+    out, seen = [], set()
+    for item in payload or []:
+        if not isinstance(item, dict):
+            continue
+        label = str(item.get("AG_Item") or "").strip()
+        num = _IGOV_ITEM.match(label)
+        for doc in item.get("documents") or []:
+            symbol = re.sub(r"\s+", "", str(doc.get("DD_symbol1") or ""))
+            if not symbol.startswith(head) or symbol in seen:
+                continue
+            seen.add(symbol)
+            title = re.sub(r"\s+", " ", (doc.get("DD_officialTitle") or doc.get("DD_workingTitle")
+                                         or "")).strip()
+            listed = Listed(symbol=symbol, title=title, kind=(doc.get("DD_documentType") or "").strip(),
+                            agenda_item=int(num.group(1)) if num else None, agenda_label=label,
+                            agenda_title=re.sub(r"\s+", " ", item.get("AG_Title") or "").strip(),
+                            body="Third Committee" if "/C.3/" in symbol else "General Assembly",
+                            dated=_igov_date(doc.get("DD_officialDate") or doc.get("DD_workingDate"),
+                                             session))
+            if listed.is_programme_of_work:
+                continue
+            out.append(listed)
+    return sorted(out, key=lambda l: _symbol_key(l.symbol))
+
+
+def _symbol_key(symbol):
+    """A/81/L.10 after A/81/L.9; a revision after its original."""
+    return [int(p) if p.isdigit() else p for p in re.split(r"(\d+)", symbol)]
+
+
+def fetch_igov_drafts(client, session, bodies=IGOV_BODIES, log=None):
+    """(listed, failures): the L-documents iGov lists for each body.
+
+    `client` should be robots-guarded (robots_guard.guard); a body that will
+    not load is named in failures with the reason, never read as empty.
+    """
+    from urllib.parse import quote
+    if hasattr(client, "set_host_throttle"):
+        client.set_host_throttle(IGOV_HOST, 3)
+    listed, failures = [], []
+    for label, body, prefix in bodies:
+        url = IGOV_DOCS_URL.format(session=session, body=quote(body))
+        try:
+            payload = client.get_json(url, "igov", "docs-{0}-{1}".format(
+                session, body.lower().replace(" ", "-")))
+        except Exception as exc:
+            failures.append("{0}: {1}".format(label, str(getattr(exc, "reason", "") or exc)[:120]))
+            continue
+        if not isinstance(payload, list):
+            failures.append("{0}: unexpected payload ({1})".format(label, type(payload).__name__))
+            continue
+        listed.extend(parse_igov_documents(payload, session, prefix))
+    return listed, failures
