@@ -19,7 +19,8 @@ FROM THE STORE (--country, repeatable): a step in each country's weekly
 
 DAILY (--daily): ONE pass for every country whose source publishes votes
 the same day cheaply and openly (the Netherlands, Poland, Switzerland,
-Brazil, Italy), over the last --days (default 3: late positions and a
+Brazil, Italy, and from 16 October 2026 Germany's Bundestag), over the
+last --days (default 3: late positions and a
 missed slot). Each reader fills one throwaway store in a temporary
 directory, never data/; it is deleted afterwards. A reader that fails is a
 [gap] line and costs the other countries nothing. jobs/vote-briefs-daily.sh
@@ -30,7 +31,8 @@ src/day_sweep_sources.py): the same --daily run then reads what is NEW on
 our ground (bills, motions, questions, agenda points) for the Netherlands,
 Poland, Switzerland, Brazil, Italy, Austria, France (its agenda and new
 dossiers, once a day), Spain (from 23 December 2026), Belgium, Portugal,
-Croatia, Slovakia, Argentina and eight Latam countries (through the Latam
+Croatia, Slovakia, Argentina, Germany (DIP's Vorgänge and the Bundestag's
+agenda, from 16 October 2026) and eight Latam countries (through the Latam
 alerts' path and ledger) into the same scratch store, and the run
 sends ONE DM: the vote briefs, then the new items; nothing when nothing.
 --no-sweep leaves it out; --sweep-only skips the votes.
