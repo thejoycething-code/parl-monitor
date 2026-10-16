@@ -172,7 +172,13 @@ def queue_in(conn, b, path, today=None, log=print):
         if problem:
             refused.append((iid, problem))
             continue
-        bn.save(conn, it["slug"], it["builder"], fields, payload, today.isoformat())
+        # Unsupported years, figures and history get [VERIFY], not trust.
+        fields, tagged = bn.tag_unverified(fields, bn.payload_text(payload))
+        for t in tagged:
+            log("  [verify] {0} {1}: tagged ({2}): {3}".format(
+                iid, t["field"], ", ".join(t["reasons"]), t["sentence"][:120]))
+        bn.save(conn, it["slug"], it["builder"], fields, payload, today.isoformat(),
+                tagged=tagged)
         conn.commit()
         stored += 1
         if it["why"] != "backfill":
@@ -253,6 +259,11 @@ def main(argv=None):
                 return 1
             for fid, prose in got.items():
                 print("@@{0}@@\n{1}\n".format(fid, prose))
+            row = conn.execute("SELECT verify_tags FROM brief_narratives WHERE slug = ?",
+                               (args.show,)).fetchone()
+            for t in json.loads((row[0] if row else None) or "[]"):
+                print("[verify] auto-tagged {0} ({1}): {2}".format(
+                    t["field"], ", ".join(t["reasons"]), t["sentence"]))
         elif args.redraft:
             bn.forget(conn, args.redraft)
             conn.commit()
