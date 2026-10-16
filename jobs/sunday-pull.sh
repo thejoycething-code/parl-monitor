@@ -1,8 +1,10 @@
 #!/bin/bash
 # Sunday pull on the Mac Mini (tools/mini_run.sh sunday-pull, Sundays 02:00
-# London): pull every feed for the coming week, triage it (TRIAGE=auto, the
-# routine weekly spend), write the review file, then publish the raw archive
-# and the store. GitHub's .github/workflows/sunday-pull.yml is the backup and
+# London): pull every feed for the coming week, write the review file, then
+# publish the raw archive and the store. TRIAGE=auto no longer spends: since
+# 16 October 2026 the items are left for the free session judge
+# (jobs/uk-session-judge.sh, Sundays 12:30) and the paid API judge and stance
+# pass run only with UK_PAID_JUDGE=1. GitHub's .github/workflows/sunday-pull.yml is the backup and
 # skips itself when this has run (mini-check, cover-hours).
 #
 # THE SAME STEPS AS THE WORKFLOW, IN ITS ORDER (tests/test_mini_jobs.py holds

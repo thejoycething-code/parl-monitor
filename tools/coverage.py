@@ -1158,6 +1158,13 @@ ON_DEMAND = {
                                "allowance; no GitHub workflow, and a run with "
                                "nothing pending or claude signed out publishes "
                                "nothing, so no cadence is expected.",
+    "UK session judge": "Mac Mini only (jobs/uk-session-judge.sh, Sundays 12:30 "
+                        "between the Sunday pull and the Monday publish): Claude Code "
+                        "scores the UK weekly's pending items, devolved rows and 5CA "
+                        "stances on the plan allowance (paid AI off since 16 October "
+                        "2026); no GitHub workflow, and a run with claude signed out "
+                        "publishes nothing, so no cadence is expected; mini_run.sh "
+                        "DMs its failures.",
     "Editions session judge": "Mac Mini only (jobs/editions-session-judge.sh, "
                               "Sundays after the country weeklies): Claude Code "
                               "scores pending items of the fifteen country "

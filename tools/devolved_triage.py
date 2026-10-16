@@ -1,7 +1,18 @@
 """Devolved triage: the why-line the nations never had.
 
-    python3 tools/devolved_triage.py            # recent items + all divisions
-    python3 tools/devolved_triage.py --all      # the full backlog
+    tools/session_judge.sh tools/devolved_triage.py 60 20   # the FREE judge (Mac Mini, plan allowance)
+    python3 tools/devolved_triage.py --queue-out /tmp/q.md --limit 20
+    python3 tools/devolved_triage.py --queue-in /tmp/q.md
+    python3 tools/devolved_triage.py --pending
+    UK_PAID_JUDGE=1 python3 tools/devolved_triage.py        # the paid API judge, opt-in only
+    UK_PAID_JUDGE=1 python3 tools/devolved_triage.py --all  # the full backlog, paid
+
+PAID AI OFF BY DEFAULT (round 3, Chris, 16 October 2026). The Monday
+publish used to call this with the API key whenever one was set. Now the
+default route is the free session judge (--queue-out / --queue-in through
+tools/session_judge.sh, in jobs/uk-session-judge.sh on Sundays and a
+catch-up in run_monday.py); the API path runs only with UK_PAID_JUDGE=1. A
+plain run without the flag scores nothing and says so.
 
 Westminster items have been judged since the pipeline began and the EU
 since 2026-09-01; Holyrood, the Senedd and the Assembly never were.
@@ -146,17 +157,85 @@ def api_key():
     return None
 
 
+QUEUE_MARKER = "<!-- devolved-session-queue v1 -->"
+PAID_JUDGE_FLAG = "UK_PAID_JUDGE"
+
+
+def paid_judge_opted_in():
+    return os.environ.get(PAID_JUDGE_FLAG, "").strip() == "1"
+
+
+def _db_path():
+    name = os.environ.get("PARL_DB") or "parl-monitor.db"
+    if "--db" in sys.argv:
+        name = sys.argv[sys.argv.index("--db") + 1]
+    return name if os.path.isabs(name) else os.path.join(ROOT, "data", name)
+
+
+def _ordered(items):
+    """Divisions first (a verdict is read for years), then the rest."""
+    return sorted(items, key=lambda i: (0 if "divisions" in i.id else 1, i.id), reverse=False)
+
+
+def queue_out(conn, path, limit, today, log=print):
+    from src import session_queue
+    items = _ordered(pending(conn, today=today))
+    chosen = items[:max(0, limit)]
+    n = session_queue.write_queue(path, chosen, "Devolved judge queue, {0}".format(today),
+                                  QUEUE_MARKER, triage.SYSTEM_PROMPT)
+    log("devolved-triage: session queue: {0} item(s) written to {1}; {2} unscored in the window.".format(
+        n, path, len(items)))
+    return n
+
+
+def queue_in(conn, path, today, log=print):
+    from src import session_queue
+    results, refused, blank = session_queue.read_queue(path, QUEUE_MARKER)
+    if refused and refused[0][0] == "(file)":
+        log("  [gap] session queue {0} refused: {1}".format(path, refused[0][1]))
+        return None
+    known = {i.id: i for i in pending(conn, everything=True, today=today)}
+    good = []
+    for res in results:
+        if res.id not in known:
+            refused.append((res.id, "not an unscored devolved row"))
+            continue
+        good.append(triage.TriageResult(id=res.id, score=res.score, areas=list(known[res.id].issue_areas),
+                                        why_it_matters=res.why, stub=False))
+    apply(conn, good)
+    session_queue.record(conn, "devolved", good, today)
+    for iid, why in refused:
+        log("  [gap] queue item refused: {0}: {1}".format(iid, why))
+    log("devolved-triage: session queue: {0} item(s) scored, {1} refused, {2} left blank".format(
+        len(good), len(refused), len(blank)))
+    return len(good)
+
+
 def main():
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data",
-                                              "parl-monitor.db")))
+    conn = db.init_db(db.connect(_db_path()))
     ensure_columns(conn)
+    today = datetime.date.today().isoformat()
+    limit = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else 20
+    if "--queue-out" in sys.argv:
+        queue_out(conn, sys.argv[sys.argv.index("--queue-out") + 1], limit, today)
+        return 0
+    if "--queue-in" in sys.argv:
+        return 1 if queue_in(conn, sys.argv[sys.argv.index("--queue-in") + 1], today) is None else 0
     everything = "--all" in sys.argv
     items = pending(conn, everything=everything)
+    if "--pending" in sys.argv:
+        print("devolved-triage: {0} unscored row(s) in the window".format(len(items)))
+        return 0
     if not items:
         print("devolved-triage: nothing unscored.")
         return 0
-    today = datetime.date.today().isoformat()
-    key = api_key()
+    if not paid_judge_opted_in() and "--allow-stub" not in sys.argv:
+        print("devolved-triage: the paid judge is off ({0}=1 opts in); {1} item(s) are left for "
+              "the free session judge (tools/session_judge.sh tools/devolved_triage.py).".format(
+                  PAID_JUDGE_FLAG, len(items)))
+        conn.close()
+        return 0
+    key = api_key() if paid_judge_opted_in() else None
     if not key and "--allow-stub" not in sys.argv:
         # Scores are written ONCE, EVER. A keyless run would freeze
         # tier-derived stubs with empty why-lines into every row and no

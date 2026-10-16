@@ -286,8 +286,9 @@ class RenderTests(unittest.TestCase):
         self.assertIn("| Thu 3 Sep | Supreme Court | [For Women Scotland v Scottish Ministers [2025] UKSC 16]"
                       "(https://caselaw.nationalarchives.gov.uk/uksc/2025/16) |  |", md)
         # The countdown (2026-10-15): the consultation is a DEADLINE row of
-        # the timeline; reports then courts sit under Reference.
-        self.assertLess(md.index("| DEADLINE | [Open one](u)"), md.index("## Reference"))
+        # the timeline (a UK Government consultation: UK GOVT since round 3);
+        # reports then courts sit under Reference.
+        self.assertLess(md.index("| UK GOVT | [Open one](u)"), md.index("## Reference"))
         self.assertLess(md.index("## Reference"), md.index("### Committee reports"))
         self.assertLess(md.index("### Committee reports"), md.index("### Courts"))
 

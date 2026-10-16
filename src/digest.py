@@ -109,6 +109,14 @@ class Edition:
     devolved_board: list = field(default_factory=list)  # dicts: title/where/stage/next/areas/url
     key_questions: list = field(default_factory=list)   # countdown.key_questions clusters
     whatson_live: set = None      # event ids the Monday re-read saw; None = no re-read
+    # Round 3 (16 October 2026): who sits this week (src/sitting_days.py),
+    # the legislatures no source spoke for, petitions (uk_petitions) and
+    # gov.uk consultations / publications (govuk_docs).
+    sitting_line: str = None
+    sitting_missing: list = field(default_factory=list)
+    petitions: list = field(default_factory=list)       # dicts, countdown.petitions_from_store
+    gov_publications: list = field(default_factory=list)  # dicts, countdown.publications_from_store
+    source_notes: list = field(default_factory=list)    # coverage lines for absent sources
     late_detections: int = 0   # actionable devolved items first seen <21 days from deadline
 
 
@@ -1397,6 +1405,8 @@ def render(edition):
                  edition.number, ws.day, countdown._MONTHS_LONG[ws.month], ws.year,
                  " · RECESS" if recess else ""),
              ""]
+    if edition.sitting_line:
+        parts += ["*Sitting this week:* {0}".format(edition.sitting_line), ""]
     timeline = countdown.timeline_for(edition)
     big = sorted((r for r in timeline if r.big), key=countdown.Row.sort_key)
     block = countdown.render_big_dates(big)
@@ -1435,6 +1445,10 @@ def render(edition):
     block = countdown.render_key_questions(edition.key_questions)
     if block:
         parts.append(block)
+    for block in (countdown.render_petitions(edition.petitions, week_commencing=edition.week_commencing),
+                  countdown.render_publications(edition.gov_publications)):
+        if block:
+            parts.append(block)
 
     from src import decisions as _decisions
     block = _decisions.render(edition.decisions) if edition.decisions else None
@@ -1475,6 +1489,12 @@ def render(edition):
         parts.append("- No coverage gaps recorded this edition.")
     if edition.forward_note:
         parts.append("- {0}".format(edition.forward_note))
+    for note in edition.source_notes or []:
+        parts.append("- {0}".format(note))
+    if edition.sitting_missing:
+        parts.append("- Sitting days: no published calendar read for {0}, so the line leaves "
+                     "{1} out.".format(" or ".join(edition.sitting_missing),
+                                       "it" if len(edition.sitting_missing) == 1 else "them"))
     if edition.late_detections:
         # The deadline-proximity guard's counter: how many actionable items
         # the monitor first saw under 21 days from their deadline. Visible,

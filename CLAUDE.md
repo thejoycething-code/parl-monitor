@@ -47,7 +47,9 @@ before local work**, the bot commits to main. The 07:30 London health DM says
 what ran where, what failed, what is overdue, and GitHub's minutes.
 
 - **Sunday 02:00 London**: the Sunday pull (jobs/sunday-pull.sh): pull all
-  feeds, archive raw, filter, triage (TRIAGE=auto, live scoring), commit state.
+  feeds, archive raw, filter, commit state. Items are left unscored for the
+  free session judge (Sundays 12:30, jobs/uk-session-judge.sh: Claude Code on
+  the Mini's plan allowance); the paid API judge runs only with UK_PAID_JUDGE=1.
 - **Monday 04:00 London**: the Monday publish (jobs/monday-publish.sh): render,
   post the edition to #campaigns-en-gb, judge evaluation, commit state; then
   GitHub's Deploy tracker deploys the partner site (the Vercel token is a

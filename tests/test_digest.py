@@ -34,7 +34,7 @@ class RecessRenderTests(unittest.TestCase):
         # The countdown (2026-10-15): the deadline is a DEADLINE row of
         # Further afield; the board and the MP section sit under Reference.
         for present in ("## This week", "## Further afield", "### Bills we track, all legislatures",
-                        "| DEADLINE |", "### Parliamentarians on our issues", "### Coverage notes"):
+                        "| UK GOVT |", "### Parliamentarians on our issues", "### Coverage notes"):
             self.assertIn(present, md)
         for absent in ("## Votes", "## EDMs", "### Early day motions",
                        "## Scotland, Wales and Northern Ireland", "Statements and announcements",
