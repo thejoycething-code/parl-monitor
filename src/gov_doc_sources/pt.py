@@ -16,8 +16,17 @@ plain XML:
         staff and delegation notices, so the precision gate does the work).
 
 Each feed carries ONLY THE LATEST ISSUE (a date parameter is ignored), so a
-weekly run sees one day in five; the step should run daily for the Diário
-to be complete (see the scope doc). Each item: the act and its number in the
+weekly run sees one day in five. So the feeds are ALSO READ DAILY (Chris, 16
+October 2026), by the daily job (jobs/vote-briefs-daily.sh ->
+tools/country_gov_docs.py pt --daily -> daily() below): each day's issue
+is parsed and matched against the taxonomy, and every act with any match
+(or a watchlist key) is kept in the committed ledger
+data/gov-docs-daily/pt.json, keyed by doc_id (deduplicated), LEDGER_DAYS
+deep. The daily job reads and writes no store (it is `mini_run: no-store`:
+no 895 MB pull for a ~5 s read), so the weekly gov_docs step (and the
+GitHub backup's) reads the ledger beside the latest issue and stores both
+in gov_docs, the precision gate deciding as for any other row; the weekly
+read stays as the backstop for a day the daily job missed. Each item: the act and its number in the
 title, the issuing body and the summary run together in the description
 (split here at the summary's first verb), the act's page as the link.
 
@@ -36,6 +45,8 @@ from __future__ import annotations
 import datetime
 import hashlib
 import html as htmlmod
+import json
+import os
 import re
 
 from src import gov_docs as G
@@ -116,23 +127,100 @@ def parse_dr_rss(xml, series):
     return out
 
 
-def _dr_fetch(url, series, slug):
+def _dr_read(client, url, series, slug):
+    """(entries, note, gaps) for one feed's latest issue."""
+    try:
+        xml = client.get_text(url, "pt-govdocs", slug)
+    except Exception as exc:                            # noqa: BLE001
+        return [], None, ["{0}: {1}".format(url, str(exc)[:160])]
+    got = parse_dr_rss(xml, series)
+    issue = re.search(r"<description>([^<]*)</description>", xml or "")
+    note = "{0} acts from {1} (latest issue)".format(
+        len(got), G.one_line(issue.group(1)) if issue else "the feed")
+    gaps = [] if got or "<channel>" in (xml or "") else ["{0}: not an RSS feed".format(url)]
+    return got, note, gaps
+
+
+def _dr_fetch(url, series, slug, code):
     def fetch(client, today, log=print):
-        try:
-            xml = client.get_text(url, "pt-govdocs", slug)
-        except Exception as exc:                        # noqa: BLE001
-            return G.fetched([], gaps=["{0}: {1}".format(url, str(exc)[:160])])
-        got = parse_dr_rss(xml, series)
-        issue = re.search(r"<description>([^<]*)</description>", xml or "")
-        note = "{0} acts from {1} (latest issue only)".format(
-            len(got), G.one_line(issue.group(1)) if issue else "the feed")
-        gaps = [] if got or "<channel>" in (xml or "") else ["{0}: not an RSS feed".format(url)]
-        return G.fetched(got, note=note, gaps=gaps)
+        got, note, gaps = _dr_read(client, url, series, slug)
+        ids = {e["doc_id"] for e in got}
+        extra = [e for e in ledger_entries(code) if e["doc_id"] not in ids]
+        if extra:
+            note = "{0}; {1} more from the daily reads".format(note or "feed unread", len(extra))
+        return G.fetched(got + extra, note=note, gaps=gaps)
     return fetch
 
 
-fetch_dr1 = _dr_fetch(DR1, "I", "dr-serie1")
-fetch_dr2c = _dr_fetch(DR2C, "II-C", "dr-serie2-c")
+fetch_dr1 = _dr_fetch(DR1, "I", "dr-serie1", "dr1")
+fetch_dr2c = _dr_fetch(DR2C, "II-C", "dr-serie2-c", "dr2c")
+
+
+# --- the daily read (no store) --------------------------------------------------------
+
+LEDGER_PATH = os.path.join(G.ROOT, "data", "gov-docs-daily", "pt.json")
+LEDGER_DAYS = 35              # a missed weekly and then some; older rows are in the store
+DAILY_FEEDS = (("dr1", DR1, "I", "dr-serie1"), ("dr2c", DR2C, "II-C", "dr-serie2-c"))
+_CLASS_KEYS = ("areas", "matched_terms", "tier", "watch_keys", "preclassified")
+
+
+def load_ledger(path=None):
+    """{doc_id: entry} from the committed ledger ({} when absent or unreadable)."""
+    path = path or LEDGER_PATH
+    try:
+        with open(path, encoding="utf-8") as fh:
+            got = json.load(fh)
+    except (OSError, ValueError):
+        return {}
+    return got.get("entries", {}) if isinstance(got, dict) else {}
+
+
+def ledger_entries(code, path=None):
+    """The ledger's entries of one source, as reader entries (unclassified)."""
+    out = []
+    for doc_id, e in sorted(load_ledger(path).items()):
+        if e.get("source") == code and doc_id == e.get("doc_id"):
+            out.append({k: v for k, v in e.items() if k not in _CLASS_KEYS + ("seen",)})
+    return out
+
+
+def daily(client, today, log=print, path=None, config_dir=None):
+    """Read today's issue of both feeds into the ledger. Returns (read, added, gaps)."""
+    path = path or LEDGER_PATH
+    taxes = G.taxonomies(CC, config_dir)
+    wl = G.watchlist(CC, config_dir)
+    ledger = load_ledger(path)
+    read = added = 0
+    gaps = []
+    for code, url, series, slug in DAILY_FEEDS:
+        got, note, g = _dr_read(client, url, series, slug)
+        gaps += ["{0}: {1}".format(code, x) for x in g]
+        read += len(got)
+        kept = 0
+        for e in got:
+            c = G.classify(e, taxes, wl)
+            if not (c.get("areas") or c.get("watch_keys")):
+                continue
+            kept += 1
+            if e["doc_id"] not in ledger:
+                added += 1
+                ledger[e["doc_id"]] = dict(e, seen=today)
+            else:
+                ledger[e["doc_id"]] = dict(e, seen=ledger[e["doc_id"]].get("seen") or today)
+        log("pt-govdocs daily {0}: {1}; {2} matching the taxonomy".format(code, note or "unread", kept))
+    floor = (datetime.date.fromisoformat(today) - datetime.timedelta(days=LEDGER_DAYS)).isoformat()
+    ledger = {k: v for k, v in ledger.items()
+              if max(v.get("published") or "", v.get("seen") or "") >= floor}
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump({"updated": today, "keep_days": LEDGER_DAYS, "entries": ledger}, fh,
+                  ensure_ascii=False, indent=1, sort_keys=True)
+        fh.write("\n")
+    os.replace(tmp, path)
+    log("pt-govdocs daily: {0} acts read, {1} new in the ledger ({2} held)".format(
+        read, added, len(ledger)))
+    return read, added, gaps
 
 
 # --- ConsultaLEX ---------------------------------------------------------------------
@@ -200,9 +288,11 @@ def fetch_consultalex(client, today, log=print):
 
 
 SOURCES = (
-    G.Source(code="dr1", name="Diário da República, Série I (latest issue)", url=DR1,
+    G.Source(code="dr1", name="Diário da República, Série I (latest issue + daily reads)",
+             url=DR1,
              fetch=fetch_dr1),
-    G.Source(code="dr2c", name="Diário da República, Série II Parte C (latest issue)", url=DR2C,
+    G.Source(code="dr2c", name="Diário da República, Série II Parte C (latest issue + daily reads)",
+             url=DR2C,
              fetch=fetch_dr2c),
     G.Source(code="clex", name="ConsultaLEX public consultations", url=CLEX,
              fetch=fetch_consultalex),
