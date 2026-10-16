@@ -800,6 +800,20 @@ def ingest_whatson(client, conn, tax, wl, week_start, week_end):
     return seen
 
 
+def refresh_sitting_days(conn, edition, log=print, base=None):
+    """Who sits when (src/sitting_days.py, round 3, 16 October 2026): the
+    Westminster, Holyrood, Senedd and NI Assembly published calendars into
+    sitting_calendar, each source's failure a gap that keeps its last good
+    rows. Its own robots-guarded client (the Senedd's web service wants our
+    UA, not the browser UA the shared client keeps for that host)."""
+    from src import sitting_days
+    # A test double passed as `base` is used as it is (no network in tests).
+    client = sitting_days.make_client(os.path.join(ROOT, "data", "raw"), log=log) \
+        if base is None or isinstance(base, HttpClient) else base
+    return sitting_days.collect(client, conn, datetime.date.today(), log=log,
+                                gap=lambda detail: record_gap(conn, edition, sitting_days.FEED, detail))
+
+
 def refresh_whatson(client, conn, tax, wl, week_start, week_end, log=print):
     """The Monday re-read (2026-10-15): What's On again for the whole window.
 
@@ -850,7 +864,8 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
             ("oral", lambda: sweep_oral(client, conn, tax, wl, _rs, _re, edition)),
             ("regulator", lambda: sweep_regulators(client, conn, tax, wl, edition)),
             ("hansard-sections", lambda: sweep_hansard_sections(client, conn, _rs, _re)),
-            ("hansard-links", lambda: link_whatson_to_hansard(conn, datetime.date.today()))):
+            ("hansard-links", lambda: link_whatson_to_hansard(conn, datetime.date.today())),
+            ("sitting-days", lambda: refresh_sitting_days(conn, edition, base=client))):
         try:
             call()
         except Exception as exc:                            # noqa: BLE001
@@ -1232,14 +1247,23 @@ def sections_from_store(conn, edition):
     rows = conn.execute(
         "SELECT id, source_feed, title, url, event_date, deadline, triage_score, "
         "why_it_matters, extra, issue_areas, answer_kind, tier "
-        "FROM items WHERE triage_score >= 2 OR (source_feed = 'whatson' AND triage_score IS NULL "
-        "AND event_date >= ?) ORDER BY source_feed, event_date, id", (edition.week_commencing,)
+        "FROM items WHERE triage_score >= 2 OR (triage_score IS NULL AND "
+        "(source_feed != 'whatson' OR event_date >= ?)) ORDER BY source_feed, event_date, id",
+        (edition.week_commencing,)
     ).fetchall()
     # A What's On item the session judge has not reached (the Monday
     # re-read stores, never scores) renders on rules alone: tier 1 or a
     # watchlist hit (tier None) shows at 2, tier 2 waits. Nothing is written,
     # so a judge still scores it later; 2 is never a big date.
     rows = [r for r in rows if r["triage_score"] is not None or r["tier"] != 2]
+    # Round 3 (16 October 2026): the same for every feed, now that the
+    # Sunday pull leaves its items to the free session judge. An item it has
+    # not reached (its cap spreads a backlog over weeks) shows at 2 when
+    # matched at tier 1 or by the watchlist, with no why-line; the store is
+    # not written, so the judge still scores it. What's On rows keep their
+    # NULL (the countdown reads that as "not judged": never a big date).
+    rows = [dict(r, triage_score=2) if r["triage_score"] is None and r["source_feed"] != "whatson"
+            else r for r in rows]
     # Background-scored questions (triage 1) never reach the review file and so
     # carry no tag. They are real captures all the same, so the companion page
     # lists them: with questions dropped from the MP section, this is the only
@@ -1459,6 +1483,22 @@ def countdown_from_store(conn, edition, wl=None):
     forward, edition.forward_note = cd.forward_business(conn, ws, he)
     rows += forward
 
+    # Round 3 (16 October 2026): petitions and gov.uk documents, read when
+    # another collector has filled uk_petitions / govuk_docs; else a
+    # coverage line. Petition debates the diary lacks join the timeline;
+    # gov.uk consultations are UK GOVT deadline rows.
+    edition.source_notes = []
+    edition.petitions, note = cd.petitions_from_store(conn, edition.week_commencing)
+    if note:
+        edition.source_notes.append(note)
+    rows += cd.petition_rows(edition.petitions, rows, edition.week_commencing)
+    gov_rows, edition.gov_publications, note = cd.govuk_from_store(conn, edition.week_commencing)
+    if note:
+        edition.source_notes.append(note)
+    rows = cd.merge_consultations(rows, gov_rows)
+    from src import sitting_days
+    edition.sitting_line, edition.sitting_missing = sitting_days.sitting_line(conn, edition.week_commencing)
+
     # Running bills: "All week" rows for bills in committee.
     amend = {}
     for a in edition.amendment_rows or []:
@@ -1549,28 +1589,55 @@ def queue_path(week_commencing):
     return os.path.join(ROOT, "reviews", "triage-queue-{0}.md".format(week_commencing))
 
 
+PAID_JUDGE_FLAG = "UK_PAID_JUDGE"
+
+
+def paid_judge_opted_in():
+    """The paid Anthropic API judge runs for the UK weekly ONLY when
+    UK_PAID_JUDGE=1 is set explicitly (round 3, 16 October 2026). A key
+    being present is not consent to spend."""
+    return os.environ.get(PAID_JUDGE_FLAG, "").strip() == "1"
+
+
 def run_triage_pass(conn, wl, week_commencing, mode=None):
     """Score pending items per the TRIAGE mode. Returns a status string.
 
+    auto    -- the default: defer (below); live only with UK_PAID_JUDGE=1
+    defer   -- leave items unscored for the free session judge on the Mac Mini
+               (jobs/uk-session-judge.sh); nothing is written
     stub    -- deterministic scores immediately (tier-1/watchlist 2, tier-2 1)
     session -- emit a queue file for a Claude Code session (or human) to score;
                scores are applied at render time
-    live    -- Claude API scoring (needs ANTHROPIC_API_KEY)
+    live    -- Claude API scoring: needs UK_PAID_JUDGE=1 AND a key
     """
     mode = mode or os.environ.get("TRIAGE", "auto")
-    if mode == "auto":
-        # Unattended default: live scoring when a key is configured, else the
-        # deterministic stub (a queue file would block an unattended Monday).
-        from src import publish
-        key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
+    if mode in ("auto", "live"):
+        # PAID AI OFF BY DEFAULT (round 3, Chris, 16 October 2026): the UK
+        # weekly is scored by the free session judge on the Mac Mini
+        # (jobs/uk-session-judge.sh, Sundays 12:30, Claude Code on the plan
+        # allowance), like the other editions. A key in secrets.yaml or the
+        # environment no longer turns this into API spend; only
+        # UK_PAID_JUDGE=1 does. Without it the pending items stay unscored
+        # for the session judge, and whatever it has not reached by Monday
+        # renders on rules alone (sections_from_store).
+        key = None
+        if paid_judge_opted_in():
+            from src import publish
+            key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
         if key:
             os.environ.setdefault("ANTHROPIC_API_KEY", key)
             mode = "live"
         else:
-            mode = "stub"
+            if mode == "live" and not paid_judge_opted_in():
+                print("triage: TRIAGE=live needs {0}=1 (the paid judge is opt-in); "
+                      "left for the free session judge".format(PAID_JUDGE_FLAG))
+            mode = "defer"
     items = triage.pending_items(conn, wl)
     if not items:
         return "no pending items"
+    if mode == "defer":
+        return ("{0} items left unscored for the free session judge (jobs/uk-session-judge.sh); "
+                "paid judge off".format(len(items)))
     if mode == "session":
         path, count = triage.generate_queue_file(conn, wl, week_commencing, queue_path(week_commencing))
         return "queue file for session scoring: {0} ({1} items)".format(path, count)
@@ -1633,6 +1700,12 @@ def run_stance_pass(conn, week_commencing):
     """
     if os.environ.get("NO_STANCE") == "1":
         return "skipped: NO_STANCE=1 (rehearsal -- scoring spends money)"
+    # Round 3 (16 October 2026): the paid stance pass is opt-in too. The
+    # free session judge places the week's evidence instead
+    # (tools/uk_stance_judge.py in jobs/uk-session-judge.sh).
+    if not paid_judge_opted_in():
+        return ("skipped: the paid judge is off ({0}=1 opts in); the free session judge "
+                "places stances (tools/uk_stance_judge.py)".format(PAID_JUDGE_FLAG))
     key = (publish.load_secrets().get("anthropic_api_key")
            or os.environ.get("ANTHROPIC_API_KEY"))
     if not key:

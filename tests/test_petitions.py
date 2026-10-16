@@ -75,13 +75,23 @@ class MilestoneTests(unittest.TestCase):
 
 class NotInTheReportTests(unittest.TestCase):
     """Christopher, 2026-09-07: "I'd like petitions not to be included in
-    the weekly report." Collated, never judged, never rendered."""
+    the weekly report." Collated, never judged, never rendered -- until
+    round 3 of the countdown (Chris, 16 October 2026): petitions on our
+    issues past 10,000 or 100,000 signatures now render as a short
+    "Petitions" block and their Westminster Hall debates in the timeline,
+    read from uk_petitions (the petitions collector's own table). The old
+    e-petitions section from the items sweep stays out."""
 
-    def test_the_edition_has_no_petitions_section_or_field(self):
+    def test_the_edition_has_no_items_petitions_section(self):
         src = open(os.path.join(ROOT, "src", "digest.py"), encoding="utf-8").read()
         self.assertNotIn("E-petitions on our ground", src)
-        self.assertNotIn("render_petitions", src)
-        self.assertFalse(hasattr(digest.Edition(week_commencing="2026-09-07", number=1, mode="normal"), "petitions"))
+
+    def test_the_petitions_block_reads_uk_petitions_only(self):
+        from src import countdown
+        import inspect
+        body = inspect.getsource(countdown.petitions_from_store)
+        self.assertIn('"uk_petitions"', body)
+        self.assertNotIn("FROM items", body)
 
     def test_the_sweep_never_writes_items(self):
         src = open(os.path.join(ROOT, "run_weekly.py"), encoding="utf-8").read()
