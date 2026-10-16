@@ -1,0 +1,69 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//WelpIcalBundle//Calendar App//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:STANDARD
+DTSTART;TZID=Europe/Berlin:20261025T010000
+TZOFFSETTO:+0100
+TZOFFSETFROM:+0200
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART;TZID=Europe/Berlin:20260329T010000
+TZOFFSETTO:+0200
+TZOFFSETFROM:+0100
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:5122
+DTSTART;TZID=Europe/Berlin:20261029T100000
+DTEND;TZID=Europe/Berlin:20261029T200000
+STATUS:CONFIRMED
+SUMMARY:Plenarsitzung
+DESCRIPTION:Sitzungs-Nr. 1\,  Raum Plenarsaal
+DTSTAMP:20261016T093315Z
+ORGANIZER;CN="Abgeordnetenhaus Berlin";LANGUAGE=de:"oeffentlichkeitsar
+ beit@parlament-berlin.de<mailto:oeffentlichkeitsarbeit@parlament-berli
+ n.de>"
+END:VEVENT
+BEGIN:VEVENT
+UID:5123
+DTSTART;TZID=Europe/Berlin:20261112T100000
+DTEND;TZID=Europe/Berlin:20261112T200000
+STATUS:CONFIRMED
+SUMMARY:Plenarsitzung
+DESCRIPTION:Sitzungs-Nr. 2\,  Raum Plenarsaal
+DTSTAMP:20261016T093315Z
+ORGANIZER;CN="Abgeordnetenhaus Berlin";LANGUAGE=de:"oeffentlichkeitsar
+ beit@parlament-berlin.de<mailto:oeffentlichkeitsarbeit@parlament-berli
+ n.de>"
+END:VEVENT
+BEGIN:VEVENT
+UID:5124
+DTSTART;TZID=Europe/Berlin:20261126T100000
+DTEND;TZID=Europe/Berlin:20261126T200000
+STATUS:CONFIRMED
+SUMMARY:Plenarsitzung
+DESCRIPTION:Sitzungs-Nr. 3\,  Raum Plenarsaal
+DTSTAMP:20261016T093315Z
+ORGANIZER;CN="Abgeordnetenhaus Berlin";LANGUAGE=de:"oeffentlichkeitsar
+ beit@parlament-berlin.de<mailto:oeffentlichkeitsarbeit@parlament-berli
+ n.de>"
+END:VEVENT
+BEGIN:VEVENT
+UID:5125
+DTSTART;TZID=Europe/Berlin:20261210T100000
+DTEND;TZID=Europe/Berlin:20261210T200000
+STATUS:CONFIRMED
+SUMMARY:Plenarsitzung
+DESCRIPTION:Sitzungs-Nr. 4\,  Raum Plenarsaal
+DTSTAMP:20261016T093315Z
+ORGANIZER;CN="Abgeordnetenhaus Berlin";LANGUAGE=de:"oeffentlichkeitsar
+ beit@parlament-berlin.de<mailto:oeffentlichkeitsarbeit@parlament-berli
+ n.de>"
+END:VEVENT
+END:VCALENDAR

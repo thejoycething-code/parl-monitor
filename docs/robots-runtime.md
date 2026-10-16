@@ -531,6 +531,22 @@ scope doc's "Forward agenda (regional_agenda, 16 October 2026)" section.
 | regional_agendas/au | dynamic-content-api.parliament.sa.gov.au (/api/documentlibrary, /api/GetFileDownloadLink), prodinterappst.blob.core.windows.net | API | yes | robots.txt 404 (no rules) |
 | regional_agendas/au | search.parliament.tas.gov.au (/search/quicksearch/<y>/sittingdays.html, the Notice Papers database search, its .docx files) | scraper (search engine) | yes | robots.txt 404 (no rules) |
 | regional_agendas/au | NSW, ACT, NT (Cloudflare 403), QLD, WA (Azure WAF 403) | - | - | blocked, never bypassed; NSW's API host carries only past Hansard |
+| regional_agendas/de (NW) | www.landtag.nrw.de (/cms/render/live/.../kalender/contentArea/*, /home/der-landtag/tagesordnungen/) | scraper | yes | allowed (old MM documents, the document search and videos disallowed, not used) |
+| regional_agendas/de (BY) | www.bayern.landtag.de (/aktuelles/tagesordnungen/, /webangebot3/views/tagesordnungdirektanzeige/) | scraper | yes | allowed (/webangebot2/Vorgangsmappe, /service/suche, eID disallowed, not used) |
+| regional_agendas/de (BW) | www.landtag-bw.de (/resource/calendar/.../terminkalender.ics, /de/aktuelles/tagesordnungen, /resource/blob/) | iCalendar + scraper | yes | allows everything |
+| regional_agendas/de (NI) | www.landtag-niedersachsen.de (/fileadmin/calendar_abo/, /rss/, /parlamentsdokumente/) | iCalendar + RSS | yes | allowed |
+| regional_agendas/de (HE) | hessischer-landtag.de (/termine/) | scraper | yes | allowed |
+| regional_agendas/de (SN) | www.landtag.sachsen.de (/de/aktuelles/plenarsitzungen/, /ausschusssitzungen/) | scraper | yes | lists allowed; /de/aktuelles/sitzungskalender (agendas, ics) disallowed and never fetched; edas.landtag.sachsen.de disallows all: sittings only |
+| regional_agendas/de (BE) | www.parlament-berlin.de (/termine/ical/) | iCalendar | yes | allowed (/opendata/, /suche/, Pari2013 disallowed, not used): sittings only |
+| regional_agendas/de (BB) | www.landtag.brandenburg.de (/cms/detail.php RSS, /sixcms/detail.php) | RSS + scraper | yes | allows everything |
+| regional_agendas/de (HB) | sd.bremische-buergerschaft.de (/termine/ics/, /tops/) | iCalendar + scraper | yes | allowed; *.pdf disallowed, never fetched |
+| regional_agendas/de (HH) | www.hamburgische-buergerschaft.de (/aktuelles/termine/...!search, /resource/blob/) | scraper | yes | allowed |
+| regional_agendas/de (MV) | www.landtag-mv.de (/plenum-und-ausschuesse/plenum/aktuelle-plenarwoche, /fileadmin/) | scraper | yes | allowed |
+| regional_agendas/de (RP) | api.landtag-rlp.de (/api/meeting/filteredList) | API (the site's own) | yes | robots.txt 404 (no rules); dokumente.landtag.rlp.de's robots.txt answers a 302 to an HTML page, which the guard reads as unreachable, so the Einladung PDFs are refused (sittings only; question for Chris in the handover) |
+| regional_agendas/de (ST) | www.landtag.sachsen-anhalt.de (/service/terminuebersichten) | scraper | yes | allowed: plenary dates only |
+| regional_agendas/de (SH) | www.landtag.ltsh.de (dayMonthKalenderGetter.jsp, /infothek/wahl20/plenum/, /export/sites/ltsh/) | JSON + scraper | yes | allowed |
+| regional_agendas/de (TH) | www.thueringer-landtag.de (/fileadmin/calendar_abo/, /plenum/sitzungstermine/, /uploads/tx_tltcalendar/) | iCalendar + scraper | yes | allowed |
+| regional_agendas/de (SL) | www.landtag-saar.de | - | yes | robots.txt unreachable (TCP timeout): nothing fetched (no-route) |
 <!-- regional-agenda-rows -->
 
 ## Tests
