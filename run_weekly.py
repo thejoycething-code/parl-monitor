@@ -947,9 +947,11 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                 r, labels = clausetext.match(lk, tax, wl)
                 if not labels:
                     continue
+                gate = clausetext.gated(lk, labels, tax, wl, r)
                 extra = {"match_source": clausetext.SOURCE, "clauses": labels,
                          "why": clausetext.describe(lk, labels),
-                         "ledger": clausetext.ledger_ok(lk, labels, tax, wl)}
+                         "ledger": gate is not None,
+                         "ledger_areas": gate.issue_areas if gate else []}
             title = " ".join((dv.title or "").split())  # source carries double spaces
             if extra:
                 title += " (matched on clause text)"     # a reviewer must see why a bare title is here
@@ -970,7 +972,10 @@ def ingest_all(client, conn, tax, wl, week_start, week_end):
                            "division {0} breakdown unavailable: {1}".format(dv.id, exc))
                 continue
             division.house = house
-            intel.record_votes(conn, division, voters, prefix, r.issue_areas)
+            # A clause-text vote enters the ledger only on the areas its purpose
+            # names as tier 1 (clausetext.gated); the rest stays on the item.
+            intel.record_votes(conn, division, voters, prefix,
+                               extra["ledger_areas"] if extra else r.issue_areas)
         for (bill, reason), ids in sorted(clause_gaps.items(), key=lambda kv: str(kv[0])):
             record_gap(conn, edition, "division", "division(s) {0} ({1}): could not read clause text ({2})".format(
                 ", ".join(ids), bill, reason))

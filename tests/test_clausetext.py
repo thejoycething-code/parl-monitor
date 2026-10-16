@@ -190,6 +190,27 @@ class Lookup(unittest.TestCase):
         self.assertEqual(result.tier, 1)
         self.assertFalse(ct.ledger_ok(body_only, labels, TAX, WL))
 
+    def test_ledger_takes_only_the_purposes_tier1_areas(self):
+        # 16 October 2026 (Chris): per area, as src/amendtext.gated. A clause
+        # whose explanatory statement is about abortion and whose body also
+        # names puberty blockers enters the ledger on abortion only.
+        lk = ct.Lookup("ok", bill="Crime and Policing Bill", clauses=[{
+            "label": "New Clause 1",
+            "explanatory": "This new clause would remove women from the criminal law relating to abortion.",
+            "text": "Abortion: removal of women from the criminal law ... nothing in this section "
+                    "affects the prescribing of puberty blockers ..."}])
+        result, labels = ct.match(lk, TAX, WL)
+        self.assertIn(1, result.issue_areas)
+        self.assertIn(3, result.issue_areas)
+        gate = ct.gated(lk, labels, TAX, WL, result)
+        self.assertEqual(gate.issue_areas, [1])
+        self.assertEqual(gate.tier, 1)
+        self.assertTrue(gate.matched_terms and all(t in result.matched_terms for t in gate.matched_terms))
+        self.assertTrue(ct.ledger_ok(lk, labels, TAX, WL))
+        # NC142: its purpose names puberty blockers, so area 3 passes
+        lk2, (res2, labels2) = self.look("Health Bill: Report Stage: New Clause 142", did=2421)
+        self.assertIn(3, ct.gated(lk2, labels2, TAX, WL, res2).issue_areas)
+
     def test_nc143_single_sex_facilities_matches_area_5(self):
         lk, (result, labels) = self.look("Health Bill: Report Stage: New Clause 143", did=2422)
         self.assertEqual(labels, ["New Clause 143"])

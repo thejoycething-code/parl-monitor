@@ -40,11 +40,16 @@ publique" (abortion) in a list of exemptions, a Dutch motion's considerans
 ("overwegende dat ...") naming euthanasia in passing. Only a TIER-1 term in
 the text's PURPOSE -- the reader sets it: the expose sommaire's opening, the
 operative "verzoekt de regering" clause, the Antrag's heading, the ODG's
-"impegna il Governo" -- opens the ledger. When it does, the division takes
-the areas (union), the terms and tier 1, so the 5CA drafting, member
-profiles and editions see it like any tier-1 vote. When it does not, the
-match is still stored here and listed for review (tools/amendment_text.py
---report), but no member is placed by it.
+"impegna il Governo" -- opens the ledger, and only FOR ITS OWN AREA: the
+division takes the areas whose tier-1 term is in the purpose (union), those
+terms and tier 1, so the 5CA drafting, member profiles and editions see it
+like any tier-1 vote. Every other area the text matched (a tier-2 term, a
+term only in the body) is stored here and listed for review
+(tools/amendment_text.py --report), but places no member: an aide a mourir
+amendment whose purpose says "IVG" as a precedent and whose body mentions
+contraception and stem cells (an-17-5663) may carry abortion, never
+contraception or embryo research (16 October 2026, Chris). When no purpose
+carries a tier-1 term the whole match is review only.
 
 THE APPLY IS RE-RUN EVERY WEEK from this cache, with no network: a
 collector's upsert or --reclassify recomputes a division's areas from its
@@ -174,20 +179,42 @@ def match(lookup, tax, wl, mask=None):
     return result, [t["label"] for t, _ in hits]
 
 
-def ledger_ok(lookup, labels, tax, wl, mask=None):
-    """May an amendment-text match place the vote's members?
+def gated(lookup, labels, tax, wl, mask=None, result=None):
+    """The part of a match that may place the vote's members, or None.
 
-    Only when a TIER-1 term is in what the text is FOR (its `purpose`, set by
-    the reader), not merely somewhere in its body. A text with no purpose of
-    its own never opens the ledger: its body is listed for review only."""
+    Only the areas whose own TIER-1 term is in what a matched text is FOR (its
+    `purpose`, set by the reader), with only those terms, tier 1. Every other
+    area of the match (tier 2, or only in the body) is review only. Never
+    wider than the whole match (`result`, recomputed when not given): a term
+    the full text vetoes does not come back through its purpose. A text with
+    no purpose of its own never opens the ledger."""
     from src import filter as filt
     mask = mask or (lambda s: s)
+    if result is None:
+        result, _ = match(lookup, tax, wl, mask)
+    if not result:
+        return None
+    allowed = set(result.issue_areas or [])
+    terms_ok = set(result.matched_terms or [])
+    areas, terms = set(), []
     for t in lookup.texts:
         if t.get("label") not in labels or not t.get("purpose"):
             continue
-        if filt.filter_item(tax, wl, mask(t["purpose"]), title="").tier == 1:
-            return True
-    return False
+        text = filt._fold(mask(t["purpose"]))
+        for area, tier, term in filt._scan_taxonomy(text.lower(), text, tax):
+            if tier != 1 or area not in allowed or term not in terms_ok:
+                continue
+            areas.add(area)
+            if term not in terms:
+                terms.append(term)
+    if not areas:
+        return None
+    return filt.FilterResult(matched_terms=terms, issue_areas=sorted(areas), tier=1)
+
+
+def ledger_ok(lookup, labels, tax, wl, mask=None, result=None):
+    """May an amendment-text match place the vote's members? (gated() is what it places.)"""
+    return gated(lookup, labels, tax, wl, mask, result) is not None
 
 
 def describe(lookup, labels):
@@ -253,6 +280,8 @@ class Outcome:
     gap: str = None
     why: str = None
     before: list = field(default_factory=list)   # the division's areas before
+    applied: list = field(default_factory=list)  # the areas the gate lets it place (gated())
+    applied_terms: list = field(default_factory=list)
 
 
 def run(conn, reader, budget_seconds=None, limit=None, apply=True, record_gaps=True, log=print,
@@ -296,10 +325,13 @@ def run(conn, reader, budget_seconds=None, limit=None, apply=True, record_gaps=T
             o.labels = labels
             if labels:
                 o.areas, o.terms = list(result.issue_areas), result.matched_terms + result.watchlist_hits
-                o.ledger = ledger_ok(lk, labels, tax, wl, mask)
+                g = gated(lk, labels, tax, wl, mask, result)
+                o.ledger = g is not None
                 o.why = describe(lk, labels)
-                if o.ledger and apply:
-                    o.changed = bool(reader.apply(conn, row, result))
+                if g is not None:
+                    o.applied, o.applied_terms = list(g.issue_areas), list(g.matched_terms)
+                    if apply:
+                        o.changed = bool(reader.apply(conn, row, g))
             save_match(conn, reader.cc, key, result, labels, o.ledger, today)
         out.append(o)
     conn.commit()
