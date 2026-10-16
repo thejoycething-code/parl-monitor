@@ -36,7 +36,7 @@ class English(unittest.TestCase):
         # English 1.24 and Spanish 0.5 since 13 October 2026 (the puberty
         # blocker vote audit): tests/test_v124_terms.py pins them.
         self.assertEqual(tax("nl").version, "0.3")
-        self.assertEqual(tax("fr").version, "0.3")
+        self.assertEqual(tax("fr").version, "0.4")   # v0.4: tests/test_taxonomy_1016.py
         self.assertEqual(tax("atch").version, "0.3")
         self.assertIn(tax("es").version, ("0.4", "0.5"))
 

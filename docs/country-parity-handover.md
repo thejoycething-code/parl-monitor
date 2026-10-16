@@ -1979,3 +1979,27 @@ Brazil 224 s with seven SAPL houses at Crawl-delay 60 in parallel; Germany
 on 14 October), so a São Paulo session in the window adds several hundred
 rows: the renderer should filter by ground.
 
+
+## Small fixes approved 16 October 2026 (PRs #225 and the taxonomy follow-up)
+
+- **robots.txt ending on a web page = no rules** (RFC 9309), every host; the
+  laptop's curl fallback follows robots.txt redirects (at most 5). Rheinland-
+  Pfalz Einladung PDFs now read. docs/robots-runtime.md.
+- **OpenParlData.ch** approved for the Swiss cantons it covers except Aargau
+  (blocked); the countdown prints the CC BY 4.0 attribution.
+- **Taxonomies**: Croatian v0.2 (udžbeni*), Quebec French v0.6 (embryon /
+  embryons / guarded embryonnaire*), France v0.4 (abortion words vetoed beside
+  assisted-dying words for France only; "aide active à mourir"; "clause de
+  conscience" in area 2 with assisted-dying company). Measurements in the
+  masters' Notes.
+- **To correct stored rows (Chris, on the Mini, after the amendment-text
+  backfill finishes):** one France weekly with `FR_RECLASSIFY=true`
+  (fr_rollcalls --reclassify resets each division to its title and dossier,
+  then the weekly's amendment_text step re-applies every cached match with
+  v0.4; the apply is a union, so without the reclassify the abortion area
+  already applied to an-17-2065, 2086, 5663, 5674, 5678, 7805-7807 would stay).
+  Quebec: 17 speeches keep area 10 from the figurative "embryonnaire" until
+  re-read (prov_speeches has no offline reclassify; `--refresh` over those
+  days would re-read them). Croatia, Belgium, Switzerland: nothing stored
+  changes area (Croatia's 4 textbook rows would only rename their matched
+  term; `HR_RECLASSIFY=true` optional).

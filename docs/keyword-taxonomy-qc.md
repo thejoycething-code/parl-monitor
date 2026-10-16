@@ -1,6 +1,6 @@
 # Parliamentary Monitor: Quebec French keyword taxonomy
 
-**Version 0.5 | 16 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
+**Version 0.6 | 16 October 2026 | Owner: Christopher | Status: AI DRAFT, MEASURED AGAINST ASSNAT, NOT YET VERIFIED BY A QUEBEC READER**
 
 ## Purpose
 
@@ -191,9 +191,9 @@ words, not "en ligne" (Bill 9 of 43-3 sells energy drinks online). After the ful
 
 ### 10. Surrogacy and embryology {#10_surrogacy_embryology}
 
-- **Tier 1:** "gestation pour autrui"; "grossesse pour autrui"; "mère* porteuse*"; "procréation assistée"; "procréation médicalement assistée"; "fécondation in vitro"; embryon*; "don* de gamètes"; "don* d'ovules"; "don* de sperme"
+- **Tier 1:** "gestation pour autrui"; "grossesse pour autrui"; "mère* porteuse*"; "procréation assistée"; "procréation médicalement assistée"; "fécondation in vitro"; embryon; embryons; embryonnaire* [with: "cellule* souche*", bioéthique*, procréation*, PMA, fécondation*, gamète*, préimplantatoire*, "in vitro", clonage] [without: "aide à mourir", "aide active à mourir", "aide médicale à mourir", euthanasi*, "suicide* assisté*", "assistance au suicide", "aide au suicide"]; "don* de gamètes"; "don* d'ovules"; "don* de sperme"
 - **Tier 2:** FIV; "projet parental"; gamète*
-- **Notes:** Measured: Bill 12 (2023), whose text regulates "un projet parental impliquant une grossesse pour autrui" (the Quebec legal term; "mère porteuse" is the press word and both are listed); Bill 26 (39-1) and Bill 89 (37-2) "activités cliniques et de recherche en matière de procréation assistée"; Bill 73 (2021); Bill 95 (38-1) on "la conservation des organes, des tissus, des gamètes et des embryons", which `embryon*` takes into area 10 and `don* d'organes` does not take into 13 (it says "conservation des organes").
+- **Notes:** Measured: Bill 12 (2023), whose text regulates "un projet parental impliquant une grossesse pour autrui" (the Quebec legal term; "mère porteuse" is the press word and both are listed); Bill 26 (39-1) and Bill 89 (37-2) "activités cliniques et de recherche en matière de procréation assistée"; Bill 73 (2021); Bill 95 (38-1) on "la conservation des organes, des tissus, des gamètes et des embryons", which `embryon*` takes into area 10 and `don* d'organes` does not take into 13 (it says "conservation des organes"). v0.6 (16 October 2026, Chris): `embryon*` split into `embryon`, `embryons` and a guarded `embryonnaire*`. The stem took the figurative adjective: "au stade embryonnaire", "les idées ... sont embryonnaires", and in France an Assemblée amendment on the Leclerc tank's successor programme (an-17-6446, #220). `embryonnaire*` now needs human-embryology company (cellule* souche*, bioéthique*, procréation*, PMA, fécondation*, gamète*, préimplantatoire*, in vitro, clonage) and is vetoed beside assisted-dying words (an aide à mourir amendment listing "recherche sur les cellules souches embryonnaires" among other conscience clauses, an-17-5663). Measured on the store of 16 October 2026 (sha c3392629aba3), per passage as prov_classify reads Quebec: 52 Quebec speeches say embryon-; 17 lose area 10, every one figurative (projects, ideas, policies "embryonnaire(s)"); none gains; the 2 Quebec bills and 5 Belgian dossiers that say "embryons" keep it; no stored France, Belgium or Switzerland title or division changes. Not changed, noted for a reader: bare "embryon" is also figurative ("un embryon de réflexion", about 12 Quebec speeches) and agricultural (bovine embryo exports, 4).
 
 ### 11. Migration {#11_migration}
 

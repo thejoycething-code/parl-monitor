@@ -126,8 +126,11 @@ class FranceReaderTests(unittest.TestCase):
         self.assertEqual(refs[-1], "AMANR5L17PO838901B2141P0D1N000525")
 
     def test_incidental_body_match_is_gated(self):
+        # The tank programme's "embryonnaire" matched embryon* (area 10, body
+        # only, gated) until taxonomy-qc v0.6 (16 October 2026) split the
+        # stem: now it is not a match at all, and the vote stays untouched.
         o = self.out["an-17-6446"]
-        self.assertEqual((o.status, o.areas, o.ledger), ("ok", [10], False))
+        self.assertEqual((o.status, o.areas, o.ledger), ("ok", [], False))
         self.assertEqual(json.loads(self.conn.execute(
             "SELECT areas FROM fr_divisions WHERE division_key='an-17-6446'").fetchone()[0]), [])
 

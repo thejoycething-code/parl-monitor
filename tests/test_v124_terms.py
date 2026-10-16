@@ -36,7 +36,7 @@ class Versions(unittest.TestCase):
         self.assertIn(tax("en").version, ("1.24", "1.25", "1.26", "1.27"))
         self.assertEqual(tax("es").version, "0.5")
         # 0.5 since 16 October 2026 (the 2SLGBTQI+ stems): tests/test_v127_terms.py.
-        self.assertIn(tax("qc").version, ("0.4", "0.5"))
+        self.assertIn(tax("qc").version, ("0.4", "0.5", "0.6"))   # 0.6: tests/test_taxonomy_1016.py
         self.assertEqual(tax("sk").version, "0.3")
 
 
