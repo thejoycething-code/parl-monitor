@@ -166,6 +166,12 @@ class GermanJudgeTests(_Store, unittest.TestCase):
         super().setUp()
         self.mod = _load("de_triage")
         self.mod.ensure_columns(self.conn)
+        # The store is on disk, so evalbank.export would write the repo's
+        # data/eval/<week>.jsonl: point it at the temp folder instead.
+        from src import evalbank
+        p = mock.patch.object(evalbank, "EVAL_DIR", os.path.join(self.tmp.name, "eval"))
+        p.start()
+        self.addCleanup(p.stop)
         for i, d in ((1, "2026-10-01"), (2, "2026-10-08")):
             self.conn.execute("INSERT INTO de_documents (doc_id, datum, titel, excerpt, areas, tier, first_seen, last_seen) "
                               "VALUES (?,?,?,?,?,?,'2026-10-08','2026-10-08')", ("d{0}".format(i), d, "Gesetz {0}".format(i),
