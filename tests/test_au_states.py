@@ -413,8 +413,9 @@ class WiringTests(unittest.TestCase):
                       self.job)
         self.assertRegex(self.job, r'au_states\.py --budget-seconds[^\n]*\\\n\s*\|\| echo "  \[gap\]')
         self.assertIn("python3 tools/au_states.py --reclassify", self.job)
-        # The federal collector's budget keeps room for the debates and the states.
-        self.assertIn('collector_budget.sh 2700 "$SECONDS" 1080', self.job)
+        # The federal collector's budget keeps room for the debates, the states
+        # and the forward regional agendas (16 October 2026).
+        self.assertIn('collector_budget.sh 2700 "$SECONDS" 1380', self.job)
 
     def test_the_tables_are_declared(self):
         for t in aus.TABLES:
