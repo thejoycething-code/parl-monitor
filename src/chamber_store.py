@@ -451,11 +451,21 @@ def _speaker(r):
     return who
 
 
+# Countries whose <cc>_speeches table predates this module and has its own
+# shape (16 October 2026, additive): Germany's de_speeches (tools/de_speeches.py)
+# has no chamber or debate columns, and its speeches are the German edition's
+# own section (tools/de_monitor.py). src/editions/de.py, a reader for the
+# shared frameworks, gets none from here.
+LEGACY = ("de",)
+
+
 def edition_items(conn, cc, since, until, wl):
     """The country's speeches (one item per debate and sitting) and questions
     on our ground in the window, for src/country_edition.py. [] when the
-    country has no such tables."""
+    country has no such tables, or keeps its own (LEGACY)."""
     from src import country_edition as ce
+    if cc in LEGACY:
+        return []
     out = []
     groups = {}
     for r in ce.rows(conn, "SELECT * FROM {0}_speeches WHERE {1} ORDER BY date, speech_id"

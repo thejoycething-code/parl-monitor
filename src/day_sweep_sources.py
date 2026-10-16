@@ -137,7 +137,7 @@ if TOOLS not in sys.path:
 
 
 SWEEP = ("nl", "pl", "ch", "br", "it", "at", "fr", "es", "be", "pt", "hr", "sk", "ar",
-         "cl", "pe", "ec", "bo", "do", "pa", "hn", "uy")
+         "cl", "pe", "ec", "bo", "do", "pa", "hn", "uy", "de")
 LATAM = ("cl", "pe", "ec", "bo", "do", "pa", "hn", "uy")   # the Latam alerts' path
 AGENDA_DAYS = 14            # what the sweep reads ahead, as the edition shows
 QUESTION_BUDGET_S = 60.0    # Brazil's per-request author lookups, at most
@@ -1291,9 +1291,55 @@ class UY(Reader):
         return n
 
 
+# --- Germany -------------------------------------------------------------------------
+
+DE_MAX_PAGES = 5               # 100 Vorgänge a page; 172 in the three days to 16 October
+
+
+class DE(Reader):
+    """DIP's Vorgänge dated in the window (16 October 2026, branch de-ca-gaps):
+    one paged query (f.datum.start, the current Wahlperiode; 172 Vorgänge of
+    every type in the three days to 16 October 2026, two pages), each
+    classified on its title with config/taxonomy-de.yaml and stored with
+    tools/de_documents.store_vorgang, as the weekly's term sweep does; the
+    German reader adapter (src/editions/de.py) reads them as new items and
+    questions. DIP's key is resolved as the weekly resolves it (src/dip.py:
+    DIP_API_KEY, secrets, or the key the Bundestag publishes in its own API
+    spec). Then the agenda (src/agendas/de.py): the plenary Tagesordnung for
+    the coming sitting week (one 550 KB PDF) and the committees' sittings
+    from the Tagesordnungen RSS with their agenda PDFs; once a day, because
+    of the PDFs. The DIP API has no robots.txt (404: no rules); the
+    bundestag.de pages are asked through the guard."""
+
+    ONCE_A_DAY = True
+
+    @staticmethod
+    def collect(conn, client, since, today, log=print):
+        import de_documents as ded
+        from src import dip
+        key = dip.api_key(client=client, log=log)
+        if not key:
+            raise ValueError("no DIP key")
+        tax = ded.filt.load_taxonomy(ded.TAXONOMY)
+        wl = ded.filt.load_watchlist(ded.WATCHLIST)
+        start = (datetime.date.fromisoformat(since) + datetime.timedelta(days=1)).isoformat()
+        n = ours = 0
+        for reply in dip.pages(client, "vorgang", key, feed="de-documents",
+                               slug="sweep-vorgang-{0}".format(start), log=log,
+                               limit_pages=DE_MAX_PAGES, **{"f.datum.start": start}):
+            for v in reply.get("documents") or []:
+                res = ded.filt.filter_item(tax, wl, v.get("titel") or "")
+                ded.store_vorgang(conn, today, v, res)
+                n += 1
+                ours += bool(res.issue_areas)
+        conn.commit()
+        log("de: {0} Vorgang/Vorgänge dated since {1}, {2} on our ground".format(n, since, ours))
+        return n
+
+
 READERS = {"nl": NL, "pl": PL, "ch": CH, "br": BR, "it": IT, "at": AT, "fr": FR, "es": ES,
            "be": BE, "pt": PT, "hr": HR, "sk": SK, "ar": AR, "cl": CL, "pe": PE, "ec": EC, "bo": BO, "do": DO, "pa": PA, "hn": HN,
-           "uy": UY}
+           "uy": UY, "de": DE}
 
 
 def agenda(conn, cc, client, today, log=print, days=AGENDA_DAYS):

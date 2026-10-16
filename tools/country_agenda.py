@@ -31,7 +31,7 @@ from src import agenda, db  # noqa: E402
 from src.http import HttpClient  # noqa: E402
 from src.robots_guard import guard  # noqa: E402
 
-COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar", "be", "pt", "sk")
+COUNTRIES = ("nl", "pl", "ch", "br", "it", "fr", "at", "es", "ar", "be", "pt", "sk", "de")
 
 
 def main(argv=None):

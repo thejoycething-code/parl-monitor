@@ -80,7 +80,8 @@ class Belgium(unittest.TestCase):
                              "plen/final/2026-10-14": text("be-plen-2026-10-08.xml.gz"),
                              "comm_K221/final/2026-10-14": text("be-k221-2026-10-14.xml.gz"),
                              "/agenda.xml": "<meeting><agenda/></meeting>"})
-        n, ours, gaps = agenda.collect(conn, "be", client, "2026-10-11", log=lambda *a: None)
+        n, ours, gaps = agenda.collect(conn, "be", client, "2026-10-11", days=21,
+                                       log=lambda *a: None)
         self.assertEqual(gaps, 0)
         self.assertFalse(any("comm_PRES" in u or "comm_BUR" in u for u in client.asked))
         r = conn.execute("SELECT * FROM country_agenda WHERE cc='be' AND refs LIKE '%56/1338%'"
@@ -219,7 +220,7 @@ class Editions(unittest.TestCase):
                              "/agenda.xml": "<meeting><agenda/></meeting>"})
         agenda.collect(conn, "be", client, "2026-10-11", log=lambda *a: None)
         out = ce.render(conn, ce.adapter("be"), "2026-10-12", "2026-10-05", directory=self.tmp)
-        self.assertIn("## Week ahead", out)
+        self.assertIn("| CHAMBER |", out.split("## Reference")[0])     # the countdown's tables
         self.assertIn("56/1338", out)
         self.assertIn("Week ahead (the Chamber's eMeeting agenda service): read", out)
         self.assertNotIn("—", out)

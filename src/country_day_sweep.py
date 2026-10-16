@@ -97,6 +97,10 @@ LATAM = sources.LATAM
 LATAM_NOT_SWEPT = ("moved",)
 LATAM_LEDGER_DIR = None     # data/latam-alerts (src/latam.LEDGER_DIR) when None
 HEAD = re.compile(r"^\s*- \*\*[^*]+\*\* · (.+?) · ", re.M)
+# Editions not rendered by src/country_edition.py name their items another
+# way (additive, 16 October 2026): Germany's (tools/de_monitor.py) links each
+# Vorgang to DIP by its id, the key src/editions/de.py gives it.
+EDITION_LINKS = {"de": re.compile(r"dip\.bundestag\.de/vorgang/[^/\s)]+/(\d+)")}
 
 
 # --- what qualifies ----------------------------------------------------------------
@@ -229,6 +233,8 @@ def edition_keys(cc, today, days=EDITION_DAYS, directory=None):
         if ce.SAMPLE_MARK in text:
             continue
         keys.update(m.strip() for m in HEAD.findall(text))
+        if cc in EDITION_LINKS:
+            keys.update(EDITION_LINKS[cc].findall(text))
     return keys
 
 

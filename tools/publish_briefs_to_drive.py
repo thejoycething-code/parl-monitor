@@ -532,6 +532,61 @@ def adopt_existing(token, subject):
         return None
 
 
+def edited_by_a_person(token, file_id):
+    """The Drive sheet's last editor, when it is not this service account.
+
+    None means only the publisher has written it, so refilling it loses
+    nobody's work. Drive reports lastModifyingUser.me for the caller."""
+    meta = api(token, "https://www.googleapis.com/drive/v3/files/{0}?supportsAllDrives=true"
+                      "&fields=modifiedTime,lastModifyingUser(me,emailAddress,displayName)"
+                      .format(file_id))
+    who = meta.get("lastModifyingUser") or {}
+    if who.get("me"):
+        return None
+    return who.get("emailAddress") or who.get("displayName") or "someone"
+
+
+def refill_narrated(conn, token, dry_run=False):
+    """Refill published sheets whose narrative the session judge drafted later.
+
+    tools/brief_narratives.py --queue-in re-renders a live brief that shipped
+    with placeholders (paid AI off, 16 October 2026) and marks its row
+    narrative_rewrite = 'due'. The sheet is refilled from the new files only
+    while no person has edited it; otherwise it is held, and the narrative
+    waits in briefs/<slug>.md for the campaigner to copy what they want."""
+    cols = [c[1] for c in conn.execute("PRAGMA table_info(brief_log)")]
+    if "narrative_rewrite" not in cols:
+        return 0
+    rows = conn.execute("SELECT slug, subject, drive_file_id FROM brief_log WHERE "
+                        "narrative_rewrite = 'due' AND drive_file_id IS NOT NULL").fetchall()
+    done = 0
+    for r in rows:
+        if dry_run:
+            print("  {0}: narrative drafted; would refill {1} if no person has edited it"
+                  .format(r["slug"][:46], r["drive_file_id"]))
+            continue
+        try:
+            person = edited_by_a_person(token, r["drive_file_id"])
+            if person:
+                state = "held: edited in Drive by {0}".format(person)
+                print("  {0}: narrative drafted but the sheet was edited by {1}; held, "
+                      "the narrative is in briefs/{2}.md".format(r["slug"][:46], person, r["slug"]))
+            else:
+                file_id, detail = publish_one(token, r["slug"], r["subject"], into=r["drive_file_id"])
+                if not file_id:
+                    print("  {0}: narrative refill skipped ({1})".format(r["slug"][:46], detail))
+                    continue
+                state = "done"
+                done += 1
+                print("  {0}: sheet refilled with the session judge's narrative".format(r["slug"][:46]))
+        except Exception as exc:                            # noqa: BLE001
+            print("  {0}: narrative refill FAILED {1}".format(r["slug"][:46], exc))
+            continue
+        conn.execute("UPDATE brief_log SET narrative_rewrite = ? WHERE slug = ?", (state, r["slug"]))
+        conn.commit()
+    return done
+
+
 def main():
     dry_run = "--dry-run" in sys.argv
     # --rewrite SLUG: push the local files into the sheet this brief already
@@ -561,6 +616,7 @@ def main():
                   "without --rewrite to create one".format(rewrite))
             return 1
     else:
+        refill_narrated(conn, token, dry_run)
         rows = conn.execute("SELECT slug, subject, asana_gid FROM brief_log "
                             "WHERE status IN ('pending','generated') "
                             "AND drive_file_id IS NULL"

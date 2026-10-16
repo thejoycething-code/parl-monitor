@@ -261,11 +261,48 @@ def week_ahead(conn, today, wl):
     return out
 
 
+def timeline_extra(conn, today, until, wl):
+    """The countdown's forward rows the agenda table does not hold
+    (src/country_countdown.py, 16 October 2026): acts already scheduled on
+    Assemblée dossiers on our ground, Senate sittings scheduled on dossiers
+    on our ground, and the FR4 decrees note as a pending row."""
+    covered = set()
+    for r in ce.rows(conn, "SELECT refs FROM country_agenda WHERE cc = 'fr' AND date >= ? "
+                     "AND date <= ?", (today, until)):
+        covered.update(agenda.loads(r["refs"]))
+    out = []
+    for r in ce.rows(conn, "SELECT * FROM fr_dossiers WHERE " + ce.window_sql("last_act_at"),
+                     (today, until)):
+        if not ce.on_ground(r["areas"], r["dossier_ref"] in wl) or r["dossier_ref"] in covered:
+            continue
+        it = _dossier_item(r, wl, "agenda", _take(r, ahead=True))
+        it.update(where="ASSEMBLÉE NATIONALE", detail=ce.clean(r["last_act_label"]) or None,
+                  keys=[r["dossier_ref"]], watch_key=r["dossier_ref"] if r["dossier_ref"] in wl else None)
+        out.append(it)
+    for r in ce.rows(conn, "SELECT * FROM fr_senat_dossiers WHERE "
+                     + ce.window_sql("last_sitting"), (today, until)):
+        if not ce.on_ground(r["areas"], _senat_watched(r, wl) is not None):
+            continue
+        it = _senat_item(r, wl, "agenda", "Sénat: {0}, sitting scheduled on {1}".format(
+            ce.clean(r["kind"]) or "dossier", ce.long_date(ce.day(r["last_sitting"]))))
+        it.update(where="SÉNAT", detail="sitting scheduled", keys=[r["dossier_ref"]])
+        out.append(it)
+    note = decrees_note(today, wl)
+    if note:
+        decrees = [ce.clean(ln[2:]) for ln in note["lines"] if ln.startswith("- ")]
+        note.update(where="GOVT", detail="decrees to watch for in the Journal officiel: "
+                    + "; ".join(decrees) if decrees else "decrees to watch for in the Journal officiel",
+                    running=True, running_label="Standing note", standing=True,
+                    keys=[AIDE_A_MOURIR])
+        out.append(note)
+    return out
+
+
 COUNTRY = ce.Country(
     cc="fr", name="France", chamber="Assemblée nationale and Sénat", language="French",
     taxonomies=(("taxonomy-fr.yaml", "fr"),),
     items=items, week_ahead=week_ahead, ahead_note=agenda.ahead_note_fn("fr"),
-    flag=":flag-fr:",
+    timeline_extra=timeline_extra, flag=":flag-fr:",
     members_note=("Every scrutin public names every deputy's or senator's position with the "
                   "group at the vote; nothing is derived, and a mise au point is counted, never "
                   "applied"),

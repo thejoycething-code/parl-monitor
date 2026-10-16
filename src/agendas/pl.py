@@ -171,6 +171,9 @@ def parse_committee_day(reply, names=None):
     return out
 
 
+COMMITTEE_DAYS = 28
+
+
 def fetch_committees(client, today, days):
     """(points, gaps) for the committee sittings of each day of the window."""
     points, gaps = [], []
@@ -181,7 +184,10 @@ def fetch_committees(client, today, days):
         names = {}
         gaps.append("committee names unreadable: {0}".format(str(exc)[:80]))
     d = datetime.date.fromisoformat(today)
-    for i in range(days + 1):
+    # One request per day: capped (16 October 2026), as the Sejm books
+    # committee sittings a few weeks ahead at most; the plenary proceedings
+    # (one request) are read to whatever date they publish.
+    for i in range(min(days, COMMITTEE_DAYS) + 1):
         day = (d + datetime.timedelta(days=i)).isoformat()
         try:
             reply = client.get_json(COMMITTEE_DAY.format(day), FEED, "committees-" + day,

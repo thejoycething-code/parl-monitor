@@ -367,6 +367,8 @@ FEEDS = [
     # FR, AT, ES, AR; BE, PT, SK from 11 October 2026). Every point a run reads is re-stamped, and the Dutch and
     # French agendas are never empty (procedure meetings, study groups), so
     # the table moves every week whatever the councils do.
+    # Germany from 16 October 2026 (src/agendas/de.py, a step of the Germany
+    # weekly; de_agenda, the edition's own committee table, is watched above).
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
     # The new countries' petitions and consultations (11 October 2026,
@@ -760,8 +762,10 @@ from src import chamber_store as _chamber  # noqa: E402
 # moves every week; the newest stamp over all seven is what this watches. Each
 # source's own stamp is in mi_runs (cc, source, last_seen) and the weekly log's
 # "member-intel <cc>:" line says what it read.
+# Germany joined on 16 October 2026 (branch de-ca-gaps): the Bundestag's
+# committee seats, a step of the Germany weekly.
 FEEDS += [("mi_runs", "last_seen", 7, 4,
-           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
+           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT DE weeklies)")]
 
 # France's HATVP declarations of interests (11 October 2026, tools/fr_hatvp.py,
 # src/fr_hatvp.py), a step of the France weekly: at most every four weeks it
@@ -1181,6 +1185,13 @@ ON_DEMAND = {
                         "2026); no GitHub workflow, and a run with claude signed out "
                         "publishes nothing, so no cadence is expected; mini_run.sh "
                         "DMs its failures.",
+    "Brief narratives": "Mac Mini only (jobs/brief-narratives.sh, Sundays 18:15 "
+                        "before the German weekly and the Monday publish build the "
+                        "briefs): Claude Code drafts Campaigns Brief narratives on the "
+                        "plan allowance (paid AI off since 16 October 2026), at most 6 a "
+                        "week; no GitHub workflow, and a week with no new brief subject "
+                        "drafts nothing, so no cadence is expected; mini_run.sh DMs its "
+                        "failures.",
     "Editions session judge": "Mac Mini only (jobs/editions-session-judge.sh, "
                               "Sundays after the country weeklies): Claude Code "
                               "scores pending items of the fifteen country "
@@ -1232,7 +1243,10 @@ ON_DEMAND = {
                          "Panama, Honduras and Uruguay (the Latam ones "
                          "through the Latam alerts' ledger) "
                          "(src/country_day_sweep.py), one DM for both; the "
-                         "weekly collections remain its backstop.",
+                         "weekly collections remain its backstop. Germany "
+                         "since 16 October 2026: the Bundestag's recorded "
+                         "votes (abgeordnetenwatch), DIP's Vorgänge and the "
+                         "Bundestag's agenda.",
     "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
                        "21:10 London daily): sends the new country editions "
                        "and the Latam monthly whose review window has ended "

@@ -373,6 +373,34 @@ speeches are only in the store because of them -- Karl-Josef Laumann, the
 Land minister speaking for the Bundesrat, and Michael Brand, printed as
 "Michael Brand (Fulda)".
 
+## The shared country frameworks (16 October 2026, branch de-ca-gaps)
+
+Germany now reads into the frameworks built for the new countries, through a
+reader adapter (`src/editions/de.py`); the German edition is still
+`tools/de_monitor.py`'s own.
+
+- Same-day vote briefs for Bundestag recorded votes: daily (abgeordnetenwatch's
+  newest votes, sorted by date; the morning's vote was listed by midday on 16
+  October) and after the Sunday weekly. Ledger `data/vote-briefs/de.json`.
+- Daily sweep: DIP's Vorgänge dated in the window (one paged query) and the
+  Bundestag's agenda (`src/agendas/de.py`): the plenary "Tagesordnung komplett"
+  PDFs for the coming sitting week and the next, and the committees' sittings,
+  dated by the sitting date in their titles. (`de_agenda`, the edition's own
+  table, still stores the feed's publication stamp as `date`; the edition's
+  week ahead reads that table unchanged.)
+- Review window: built, off with the other editions.
+- Member intelligence: every committee's and sub-body's members from the
+  Bundestag's own committee pages (the members fragment each page loads,
+  allowed by robots.txt). The Bundestag publishes neither committee seats nor
+  Nebentätigkeiten as data (MdB-Stammdaten has neither; the biography XML is
+  under /xml/, disallowed). abgeordnetenwatch's sidejobs are data (CC0) but
+  its API is robots-disallowed and read only under the 13 October decision for
+  votes and profiles: that reader is built and off (`DE_SIDEJOBS=1`).
+- Member profiles: `profiles/de/`, this term's members (a mandate id is per
+  term), positions labelled with the Fraktion as stored (X6), committee seats
+  flagged on our ground by name (config/member-intel-groups.yaml, the German
+  rows PROPOSED for Chris).
+
 ## Still open
 
 - **Who reads the terms of use** at `dip.bundestag.de/über-dip/nutzungsbedingungen`

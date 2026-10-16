@@ -286,9 +286,13 @@ class Pipeline(unittest.TestCase):
         self.collect_pl(conn)
         text_ = ce.render(conn, ce.adapter("pl"), "2026-10-12", "2026-10-05",
                           directory=self.eds)
-        self.assertIn("## Week ahead", text_)
-        self.assertIn("przerywania ciąży", text_)
-        self.assertIn("Watched", text_)
+        # The countdown (16 October 2026): the agenda's points are rows of
+        # the This week / Further afield tables, tagged SEJM.
+        tables = text_.split("## Reference")[0]
+        self.assertIn("## Further afield", tables)
+        self.assertIn("| SEJM |", tables)
+        self.assertIn("Kodeks karny", tables)
+        self.assertIn("*Watched: Kodeks karny: partial decriminalisation of abortion", tables)
         self.assertIn("Week ahead (the Sejm API's proceedings, with planned sittings): read "
                       "10 October 2026", text_)
         self.assertIn("next sitting 20 October 2026", text_)

@@ -32,6 +32,13 @@
 # tools/latam_alerts.py): about 2 minutes for the whole run from the laptop
 # (55 s before), each request retried at most once.
 #
+# GERMANY (16 October 2026, branch de-ca-gaps): the Bundestag's recorded
+# votes from abgeordnetenwatch (its newest votes, sorted by date: 2 requests
+# on a quiet day, 2.5 s apart) and, in the sweep, DIP's Vorgänge dated in the
+# window (one paged query) and the Bundestag's agenda (the plenary
+# Tagesordnung PDF and the committees' sittings, once a day), through the
+# reader adapter src/editions/de.py. About 5 s from the laptop.
+#
 # Lean: a quiet day costs a handful of requests per country; a reader that
 # fails is a [gap] line and costs the others nothing. No store is read or
 # written; the raw payloads it archived are published at the end.
