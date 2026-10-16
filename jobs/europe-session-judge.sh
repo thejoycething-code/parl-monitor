@@ -40,7 +40,7 @@
 # and a failure DMs through mini_run.sh. When claude is missing or not
 # signed in, a [gap] line: nothing is scored and nothing is published.
 #
-# mini_run: commit editions
+# mini_run: commit editions reviews
 set -o pipefail
 cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Europe session judge}"
@@ -83,13 +83,15 @@ fi
 # This week's editions, rewritten with the scores. Each edition's date fixes
 # its window, so it is the same edition, ordered and annotated by the judge.
 # No DM. Only an edition of the last seven days: an old one is history.
+# Germany's rewrite (tools/de_monitor.rewrite, 16 October 2026) keeps an open
+# review window's draft line and decisions (src/edition_review.py).
 WEEK_AGO=$(python3 -c 'import datetime; print(datetime.date.today() - datetime.timedelta(days=7))')
 for cc in de eu; do
   LATEST=$(ls editions/$cc-monitor-*.md 2>/dev/null | sort | tail -1 | sed "s/.*$cc-monitor-\(.*\)\.md/\1/")
   if [ -n "$LATEST" ] && [[ ! "$LATEST" < "$WEEK_AGO" ]]; then
     python3 -c 'import sys; sys.path[:0] = ["tools", "."]; from src import db; import importlib
 m = importlib.import_module(sys.argv[1] + "_monitor")
-print("edition:", m.render_edition(db.init_db(db.connect("data/parl-monitor.db")), sys.argv[2]))' "$cc" "$LATEST" \
+print("edition:", getattr(m, "rewrite", m.render_edition)(db.init_db(db.connect("data/parl-monitor.db")), sys.argv[2]))' "$cc" "$LATEST" \
       || { echo "  [gap] the $cc edition rewrite failed; the weekly's stands"; rc=1; }
   fi
 done

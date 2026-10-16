@@ -4,6 +4,7 @@
     python3 tools/de_monitor.py --edition
     python3 tools/de_monitor.py --edition --dm
     python3 tools/de_monitor.py --dm-full      # the whole edition, as a canvas
+    python3 tools/de_monitor.py --edition --dm --no-review   # send at once (review window)
 
 Christopher, 2026-09-21: "We will do a section of the monitor separate for
 the German team." Not a Westminster section and not the partner site -- its
@@ -51,7 +52,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, degate  # noqa: E402
+from src import db, degate, edition_review  # noqa: E402
 
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy-de.yaml")
 
@@ -180,6 +181,62 @@ def _band(score):
     return {3: "campaign trigger", 2: "digest", 1: "background"}.get(score, "noise")
 
 
+# THE REVIEW WINDOW (16 October 2026, branch de-ca-gaps; src/edition_review.py,
+# config/edition-review.yaml, the same window as the new countries' editions).
+# OFF while the file's default is off (Chris, 11 October 2026): with it off
+# nothing here changes the edition or the DM. With `de` switched on, --dm
+# writes the edition as a draft and reviews/de-review-<date>.md instead of
+# sending, and tools/edition_review.py --publish sends it at the window's end
+# honouring the review. A review unit is a Vorgang, a recorded vote or a
+# Drucksache (REVIEW_TABLES): `cut` takes the row out of every section and
+# the DM; `edit` replaces its why-line (the English line under the title).
+# Committee reports, amendments, speeches, petitions and the agenda are the
+# store's state and are not reviewed.
+REVIEW_TABLES = {"de_vorgaenge": ("vorgang", "vorgang_id"),
+                 "de_divisions": ("vote", "vote_id"),
+                 "de_documents": ("document", "doc_id")}
+_REVIEW = {"review": None}
+
+
+def unit_id(table, row):
+    kind, col = REVIEW_TABLES[table]
+    return "de|{0}|{1}".format(kind, row[col])
+
+
+def reviewed(table, rows, review=None):
+    """`rows` with the review honoured: cut rows leave, edited rows carry the
+    reviewer's line as their why-line. Unchanged with no review."""
+    review = review if review is not None else _REVIEW["review"]
+    if review is None or table not in REVIEW_TABLES:
+        return rows
+    out = []
+    for r in rows:
+        dec, text = review.decision(unit_id(table, r))
+        if dec == "cut":
+            continue
+        if dec == "edit":
+            r = dict(r)
+            r["why_it_matters"] = text
+        out.append(r)
+    return out
+
+
+class _reviewing:
+    """`with _reviewing(review):` every row read inside honours it."""
+
+    def __init__(self, review):
+        self.review, self.old = review, None
+
+    def __enter__(self):
+        self.old = _REVIEW["review"]
+        _REVIEW["review"] = self.review
+        return self
+
+    def __exit__(self, *exc):
+        _REVIEW["review"] = self.old
+        return False
+
+
 def ours(conn, table, datecol, limit=None):
     """Rows on our ground that clear the digest bar, best first.
 
@@ -208,6 +265,7 @@ def ours(conn, table, datecol, limit=None):
         if "no such table" not in str(exc):
             raise
         return []
+    rows = reviewed(table, rows)
     return rows[:limit] if limit else rows
 
 
@@ -252,10 +310,10 @@ def divisions(conn, bundestag=True):
     """
     test = "=" if bundestag else "!="
     try:
-        return conn.execute(
+        return reviewed("de_divisions", conn.execute(
             "SELECT * FROM de_divisions WHERE parliament {0} ? AND areas "
             "IS NOT NULL AND areas != '[]' AND {1} ORDER BY date DESC".format(
-                test, degate.SHOWN_SQL), (BUNDESTAG,)).fetchall()
+                test, degate.SHOWN_SQL), (BUNDESTAG,)).fetchall())
     except sqlite3.OperationalError as exc:
         if "no such table" not in str(exc):
             raise           # see ours(): a swallowed query bug reads as calm
@@ -715,7 +773,22 @@ def outside(older, days=None):
             "stance placements and 5CA still read them.*".format(older, window))
 
 
-def render_edition(conn, today):
+def render_edition(conn, today, review=None, draft_until=None, write=True):
+    """The edition, written to editions/de-monitor-<today>.md (its path
+    returned), or its text with write=False. `review` honours a review file
+    and `draft_until` (ISO) adds the draft line (the review window, above);
+    with neither the output is exactly as before."""
+    with _reviewing(review):
+        text = _render_edition(conn, today, review, draft_until)
+    if not write:
+        return text
+    path = os.path.join(ROOT, "editions", "de-monitor-{0}.md".format(today))
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(text)
+    return path
+
+
+def _render_edition(conn, today, review=None, draft_until=None):
     """The German edition in the WESTMINSTER frame (Christopher, 22 September
     2026: "Can it be framed like the Westminster one?").
 
@@ -746,6 +819,10 @@ def render_edition(conn, today):
              "SIGNED OFF".format(today, edition_number(today),
                                  TAXONOMY_VERSION),
              ""]
+    if draft_until:
+        lines += [edition_review.draft_line(draft_until), ""]
+    if edition_review.note_line(review):
+        lines += [edition_review.note_line(review), ""]
     lines.append(HONESTY)
     lines.append("")
 
@@ -1287,14 +1364,28 @@ def render_edition(conn, today):
     lines.append("Gaps: none." if not gaps else "Gaps: " + "; ".join(
         "{0}: {1}".format(g["feed"], g["detail"]) for g in gaps))
     lines.append("")
+    if review is not None and review.changed():
+        cut, edited = review.counts()
+        lines.append("Review: {0} item(s) cut in review, {1} edited "
+                     "(reviews/de-review-{2}.md).".format(cut, edited, today))
+        lines.append("")
 
-    path = os.path.join(ROOT, "editions", "de-monitor-{0}.md".format(today))
-    with open(path, "w", encoding="utf-8") as fh:
-        fh.write("\n".join(lines))
-    return path
+    return "\n".join(lines)
 
 
-def dm_summary(conn, today):
+def dm_summary(conn, today, review=None):
+    """The German week in one Slack message, sent as a DM. With `review`
+    (the review window), cut rows leave, edited rows carry the reviewer's
+    line, and a line says what the review changed."""
+    with _reviewing(review):
+        text = _dm_summary(conn, today)
+    said = edition_review.dm_review_line(review)
+    if said:
+        text += "\n\n" + said
+    return text
+
+
+def _dm_summary(conn, today):
     """The German week in one Slack message, sent as a DM.
 
     The channel is deliberately not posted. Scored items lead, the counts keep
@@ -1313,7 +1404,7 @@ def dm_summary(conn, today):
                 "AND triage_score IS NOT NULL".format(table)).fetchall()
         except Exception:                                   # noqa: BLE001
             continue
-        for r in rows:
+        for r in reviewed(table, rows):
             if hidden_only(r):
                 continue        # migration alone: collated, never campaigned
             scored.append((r["triage_score"], r[datecol] or "",
@@ -1390,12 +1481,87 @@ def dm_summary(conn, today):
     return "\n".join(lines)
 
 
+def rewrite(conn, today):
+    """Rewrite an edition in place, as the Monday session judge does
+    (jobs/europe-session-judge.sh): while its review window is open, still a
+    draft with the review honoured, and the review file regenerated keeping
+    every decision; otherwise exactly render_edition(conn, today)."""
+    st = edition_review.state("de", today)
+    review = edition_review.load("de", today) if st else None
+    draft = st["deadline"] if st and not st.get("published_at") else None
+    path = render_edition(conn, today, review=review, draft_until=draft)
+    if draft:
+        write_review(conn, today, draft)
+    return path
+
+
+def review_items(conn, today):
+    """Every row the edition would show before any review, as review units
+    (src/edition_review.units): Vorgänge (live ones whatever their age, the
+    rest inside the edition's window), the current legislatures' recorded
+    votes, and Drucksachen."""
+    with _reviewing(None):
+        docs, _ = split_hidden(ours(conn, "de_documents", "datum"))
+        vgs, _ = split_hidden(ours(conn, "de_vorgaenge", "datum"))
+        bt, _ = split_hidden(divisions(conn, bundestag=True))
+        ld, _ = split_hidden(divisions(conn, bundestag=False))
+    bt, _ = current_legislature(conn, bt)
+    ld, _ = current_legislature(conn, ld)
+    live, concluded, lapsed = by_stage(vgs)
+    concluded, _ = windowed(concluded, "datum", today, WINDOW_DAYS["vorgaenge"])
+    lapsed, _ = windowed(lapsed, "datum", today, WINDOW_DAYS["vorgaenge"])
+    names = area_names()
+    out = []
+    for table, rows, kind, datecol, titlecol in (
+            ("de_vorgaenge", live + concluded + lapsed, "Vorgang", "datum", "titel"),
+            ("de_divisions", list(bt) + list(ld), "recorded vote", "date", "label"),
+            ("de_documents", docs, "Drucksache", "datum", "titel")):
+        for r in rows:
+            uid = unit_id(table, r)
+            label = kind
+            if table == "de_vorgaenge" and r["vorgangstyp"]:
+                label = "Vorgang ({0})".format(r["vorgangstyp"])
+            if table == "de_divisions":
+                label = "recorded vote, {0}".format(r["parliament_label"] or r["parliament"])
+            out.append({"cc": "de", "kind": uid.split("|")[1], "key": uid.split("|", 2)[2],
+                        "label": label, "date": str(r[datecol] or "")[:10],
+                        "title": oneline(r[titlecol]), "areas": _areas(r, names),
+                        "score": _score(r), "why": (_why(r) or "").strip()})
+    return out
+
+
+def review_entry(it):
+    """An item as the review file lists it (src/edition_review.units)."""
+    flags = "unscored" if it["score"] is None else "score {0}".format(it["score"])
+    return (it["label"], it["date"] or "date not recorded", it["title"], it["areas"], flags,
+            it["why"])
+
+
+def write_review(conn, today, deadline_iso, reviews_dir=None):
+    """reviews/de-review-<today>.md, merge-preserving."""
+    return edition_review.write("de", today, "Germany", review_items(conn, today),
+                                review_entry, deadline_iso, reviews_dir)
+
+
 def main():
     conn = db.init_db(db.connect(os.path.join(ROOT, "data",
                                               "parl-monitor.db")))
     today = datetime.date.today().isoformat()
-    if "--edition" in sys.argv:
-        print("edition: {0}".format(render_edition(conn, today)))
+    # The review window (above): with `de` on in config/edition-review.yaml,
+    # --dm opens it instead of sending; --no-review sends at once.
+    st = edition_review.state("de", today)
+    if (st is None and "--dm" in sys.argv and "--no-review" not in sys.argv
+            and edition_review.enabled("de")):
+        st = edition_review.open_window("de", today)
+    review = edition_review.load("de", today) if st else None
+    draft = st["deadline"] if st and not st.get("published_at") else None
+    if "--edition" in sys.argv or draft:
+        print("edition: {0}".format(render_edition(conn, today, review=review,
+                                                   draft_until=draft)))
+    if draft:
+        rpath, n = write_review(conn, today, draft)
+        print("review: wrote {0} ({1} entries); sent at {2} unless held".format(
+            os.path.relpath(rpath, ROOT), n, edition_review.when_text(draft)))
     if "--dm-full" in sys.argv:
         # The WHOLE edition, as a Slack canvas shared with the DM recipient
         # alone (Christopher, 22 September 2026: "Dm the full edition"). A
@@ -1452,7 +1618,12 @@ def main():
                 conn.commit()
             print("dm-full: {0}".format(result))
 
-    if "--dm" in sys.argv:
+    if "--dm" in sys.argv and draft:
+        print("dm: held for review until {0} (tools/edition_review.py --publish sends it)"
+              .format(edition_review.when_text(draft)))
+    elif "--dm" in sys.argv and st:
+        print("dm: not sent again (sent {0} after its review)".format(st.get("published_at")))
+    elif "--dm" in sys.argv:
         # The channel is deliberately NOT posted: this goes to Christopher
         # alone until he says otherwise, the same hold the EU edition is
         # under.
