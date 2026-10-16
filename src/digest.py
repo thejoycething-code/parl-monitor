@@ -106,6 +106,10 @@ class Edition:
     timeline: list = field(default_factory=list)
     forward_note: str = None      # "Holyrood and Senedd: forward business not collected yet."
     latest_votes: list = field(default_factory=list)   # dicts: date/where/title/url/result
+    # Round 6 (16 October 2026): the window's recorded votes, grouped by debate
+    # (src/countdown.recorded_votes). None = not read (a hand-assembled
+    # edition): the section is left out; [] = read, none: one line says so.
+    recorded_votes: list = None
     devolved_board: list = field(default_factory=list)  # dicts: title/where/stage/next/areas/url
     key_questions: list = field(default_factory=list)   # countdown.key_questions clusters
     whatson_live: set = None      # event ids the Monday re-read saw; None = no re-read
@@ -1459,13 +1463,18 @@ def render(edition):
     shown_urls = {r.url for r in timeline if r.url}
     devolved = edition.devolved or {}
     blocks = [render_bills_board(edition.board_rows, edition.devolved_board or devolved.get("bills"))]
-    if not recess:
-        blocks.append(render_amendments(edition.amendment_rows))
     # "Latest votes on our issues" was removed in round 5 (Chris, 16 October
     # 2026: it goes stale), with the division lines it had absorbed: in the
     # round-5 test those were the 11 September Second Reading, five weeks
     # old. Big-date Context lines may still cite the last vote.
     # render_latest_votes stays for anything that calls it.
+    # Round 6 (Chris, 16 October 2026): RECORDED VOTES, last week's divisions
+    # only, straight after the bills board (where the country editions keep
+    # theirs); a week with none says so in one line.
+    if edition.recorded_votes is not None:
+        blocks.append(countdown.render_recorded_votes(edition.recorded_votes, edition.week_commencing))
+    if not recess:
+        blocks.append(render_amendments(edition.amendment_rows))
     blocks.append(render_si(edition))
     blocks.append(render_pqs(edition))
     blocks.append(render_deadlines_beyond(edition, shown_urls))

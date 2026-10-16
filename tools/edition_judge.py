@@ -102,7 +102,7 @@ def edition_since(country, today, directory=None):
 
 
 def _frame(cc):
-    if cc in ej.EDITION_CCS:
+    if cc in ej.EDITION_CCS + ej.FORWARD_CCS:
         c = ce.adapter(cc)
         return {"name": c.name, "chamber": c.chamber, "language": c.language}
     chamber = next((ch for code, _, ch in latam.COUNTRIES if code == cc), "")
@@ -111,6 +111,16 @@ def _frame(cc):
 
 def country_items(conn, cc, today, config_dir=None, directory=None):
     """The items an edition would show for cc, annotated with any scores."""
+    if cc in ej.FORWARD_CCS:
+        # Only the countdown's forward rows (src/country_countdown.forward_items):
+        # the edition's other items are scored in their own tables.
+        country = ce.adapter(cc)
+        wl = ce.watchlist_of(country, config_dir)
+        got = [it for it in country_countdown.forward_items(conn, country, today, wl)
+               if not it.get("standing")]
+        kept, _ = ce.noise_for(country).split(got, config_dir)
+        items = ej.annotate(conn, kept)
+        return [it for it in items if not (it.get("judge") == 0 and not it["watched"])]
     if cc in ej.EDITION_CCS:
         country = ce.adapter(cc)
         since = edition_since(country, today, directory)
@@ -146,7 +156,7 @@ def pending(conn, today, config_dir=None, directory=None, ccs=None):
     """Unscored items across every edition, in the judge's order; a vote
     group once (its first item), an id once."""
     out, seen, groups = [], set(), set()
-    for cc in ccs or (ej.EDITION_CCS + ej.LATAM_CCS):
+    for cc in ccs or (ej.EDITION_CCS + ej.FORWARD_CCS + ej.LATAM_CCS):
         conn.row_factory = sqlite3.Row
         for it in country_items(conn, cc, today, config_dir, directory):
             if it.get("judge") is not None:
@@ -206,7 +216,7 @@ def queue_items(conn, items, config_dir=None):
     for it in items:
         cc = it["cc"]
         if cc not in wls:
-            wls[cc] = (ce.watchlist_of(ce.adapter(cc), config_dir) if cc in ej.EDITION_CCS
+            wls[cc] = (ce.watchlist_of(ce.adapter(cc), config_dir) if cc in ej.EDITION_CCS + ej.FORWARD_CCS
                        else latam.watchlist(cc, config_dir))
         out.append(triage.TriageItem(
             id=ej.item_id(it), title=it["title"] or "(no title published)",

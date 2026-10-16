@@ -178,6 +178,35 @@ def items(conn, since, until, wl):
     return _vorgaenge(conn, since, until, wl) + _votes(conn, since, until, wl)
 
 
+def petition_deadlines(conn, today, until, wl):
+    """The countdown's DEADLINE rows (src/country_countdown.forward_items'
+    timeline_extra hook, 16 October 2026): Bundestag e-petitions on our
+    ground open for co-signature that close today to `until` (de_petitions,
+    tools/de_petitions.py). A petition the German judge scored below the bar
+    stays out, as in the edition (degate's floor); one on migration alone is
+    never shown (ce.areas_of hides area 11)."""
+    from src import degate
+    try:
+        got = ce.rows(conn, "SELECT * FROM de_petitions WHERE closes >= ? AND closes <= ? AND {0} "
+                            "ORDER BY closes".format(degate.SHOWN_SQL), (today, until))
+    except Exception:                                   # noqa: BLE001 - an older store
+        return []
+    out = []
+    for r in got:
+        areas = ce.areas_of(r["areas"])
+        if not areas:
+            continue
+        it = ce.item("de", "agenda", "pet:de:" + str(r["petition_id"]), r["closes"][:10], r["title"],
+                     areas, r["tier"], False, url=r["url"], terms=r["matched_terms"],
+                     body=r["excerpt"] or "")
+        it.update(where="DEADLINE", detail="petition closes (co-signature)", keys=[], deadline=True,
+                  extra=None)
+        if r["triage_score"] is not None:
+            it["de_score"], it["de_why"] = r["triage_score"], r["why_it_matters"]
+        out.append(it)
+    return out
+
+
 def watchlist(config_dir=None):
     """config/watchlist-de.yaml's `bills` (DIP Vorgang ids); empty today."""
     got = ce.watchlist_file("de", config_dir)
@@ -195,4 +224,5 @@ COUNTRY = ce.Country(
     members_note=("Bundestag recorded votes carry every member's position; the Fraktion is "
                   "the member's latest as stored."),
     flag=":flag-de:",
+    timeline_extra=petition_deadlines,
 )

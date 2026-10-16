@@ -788,8 +788,374 @@ def render_edition(conn, today, review=None, draft_until=None, write=True):
     return path
 
 
+# THE COUNTDOWN LAYOUT (Chris, 16 October 2026): the German edition takes
+# the layout of the fifteen country editions (src/country_countdown.py, the
+# UK's "A · Countdown" of PRs #205-#210), in this order:
+#
+#   * the header as before (title, subtitle, draft and review lines, the
+#     honesty note) and a SITTING-DAYS line from the shared agenda table
+#     (country_agenda, src/agendas/de.py: the Bundestag's plenary
+#     Tagesordnung dated by its SITTING days and its committees' sittings),
+#     plus the Landtage shown in the edition where regional_agenda holds
+#     their business. The Bundesrat's calendar is not collected, so the line
+#     leaves it out and Coverage says so; nothing is guessed;
+#   * BIG DATES (rows the free session judge scored 3, at most three, inside
+#     8 weeks, never a closed sitting; a row the judge has not read takes the
+#     score of the stored Vorgang whose papers it takes up, said in its
+#     note), THIS WEEK and FURTHER AFIELD (When | Where | What | Issue);
+#     de_agenda's committee table, dated by the feed's publication stamp, is
+#     no longer the week ahead;
+#   * KEY QUESTIONS: Kleine and Große Anfragen on our ground from the last
+#     three weeks, scored 2 or 3 (an unscored tier-1 one counts 2);
+#   * PETITIONS (the old "Open for co-signature", whose closing dates are
+#     also DEADLINE rows of the tables) and GOVERNMENT PUBLICATIONS (gov_docs,
+#     when another collector fills it for de);
+#   * Decisions needed, then REFERENCE: every section the edition carried,
+#     demoted one level: the bills board (now with Where and Next), Top
+#     lines, the recorded votes (Bundestag, then the Länder), Coming up,
+#     questions, amendments, committee reports, secondary legislation,
+#     concluded and lapsed, Karlsruhe, the speakers, Watching and Coverage.
+#
+# The DM and the review window are unchanged in how they work; the DM gains
+# the countdown's lines (sitting days, big dates, this week).
+
+KEY_QUESTION_TYPES = ("Kleine Anfrage", "Große Anfrage")
+_BTD = re.compile(r"/btd/(\d{2})/\d+/\d{2}0*(\d+)\.pdf")
+_DE_COUNTRY = {}
+
+
+def _country():
+    """The German reader adapter (src/editions/de.py), which the shared
+    countdown reads (cc 'de')."""
+    if "c" not in _DE_COUNTRY:
+        from src.editions import de as de_edition
+        _DE_COUNTRY["c"] = de_edition.COUNTRY
+    return _DE_COUNTRY["c"]
+
+
+def drucksache_of(url):
+    """'21/3873' from a Bundestag paper's address
+    (https://dserver.bundestag.de/btd/21/038/2103873.pdf), or None."""
+    m = _BTD.search(url or "")
+    return "{0}/{1}".format(m.group(1), m.group(2)) if m else None
+
+
+def drucksache_vorgaenge(conn):
+    """{Drucksache number: {Vorgang ids}}: committee reports (their own
+    number and the papers they report on) and amendments name the Vorgang
+    they belong to. de_vorgaenge itself carries no Drucksache numbers."""
+    out = {}
+
+    def add(num, vid):
+        if num and vid:
+            out.setdefault(num.replace("drucksache:", "").strip(), set()).add(str(vid))
+    for table, extra in (("de_committee_reports", True), ("de_amendments", False)):
+        try:
+            got = conn.execute("SELECT doc_id, vorgang_id{0} FROM {1}".format(
+                ", parent_drucksachen" if extra else "", table)).fetchall()
+        except sqlite3.OperationalError:
+            continue
+        for r in got:
+            add(r["doc_id"], r["vorgang_id"])
+            if extra:
+                try:
+                    for p in json.loads(r["parent_drucksachen"] or "[]"):
+                        add(str(p), r["vorgang_id"])
+                except (TypeError, ValueError):
+                    pass
+    return out
+
+
+def _row_vorgaenge(row, dmap):
+    keys = list(row.board_keys or row.keys or [])
+    return [v for k in keys for v in sorted(dmap.get(str(k), ()))]
+
+
+def bundestag_votes_for_context(conn, today):
+    """The Bundestag's recorded votes of the last year as the country
+    countdown's context reads them (src/country_countdown.context_for): the
+    Drucksache each voted on is its watch_key, so a plenary point naming the
+    same paper finds its last vote."""
+    since = (datetime.date.fromisoformat(today) - datetime.timedelta(days=365)).isoformat()
+    try:
+        got = conn.execute("SELECT * FROM de_divisions WHERE parliament = ? AND date >= ? AND date <= ? "
+                           "ORDER BY date DESC, vote_id DESC", (BUNDESTAG, since, today)).fetchall()
+    except sqlite3.OperationalError:
+        return []
+    out = []
+    for r in got:
+        out.append({"key": str(r["vote_id"]), "watch_key": drucksache_of(r["document_url"]),
+                    "date": r["date"], "title": oneline(r["label"]),
+                    "url": r["document_url"],
+                    "lines": ["Tally: {0} yes, {1} no, {2} abstaining; {3}".format(
+                        r["yes"] or 0, r["no"] or 0, r["abstain"] or 0,
+                        "angenommen" if r["accepted"] else "abgelehnt")]})
+    return out
+
+
+def countdown(conn, today, vgs=None):
+    """The countdown's rows and lines: {rows, big, line, missing, gone,
+    board_next, inherited}. `vgs` are the Vorgänge the edition reads (the
+    review honoured), for the scores a row takes from its papers."""
+    from src import country_countdown as ccd, country_edition as ce
+    country = _country()
+    wl = ce.watchlist_of(country)
+    gone = []
+    rows = ccd.timeline(conn, country, today, wl, None, gone)
+    if not SHOW_PETITIONS:              # the one-line revert covers the tables' rows too
+        rows = [r for r in rows if not str((r.item or {}).get("key") or "").startswith("pet:de:")]
+    dmap = drucksache_vorgaenge(conn)
+    by_id = {str(r["vorgang_id"]): r for r in (vgs or [])}
+    inherited = 0
+    for r in rows:
+        it = r.item or {}
+        if r.score is None and it.get("de_score") is not None:     # a petition the German judge read
+            r.score, r.note = it["de_score"], ce.clean(it.get("de_why")) or r.note
+            continue
+        if r.score is not None:
+            continue
+        best = None
+        for vid in _row_vorgaenge(r, dmap):
+            v = by_id.get(vid)
+            if v is not None and _score(v) is not None and (best is None or _score(v) > _score(best)):
+                best = v
+        if best is not None:
+            inherited += 1
+            r.score = _score(best)
+            why = _why(best).strip()
+            r.note = "From the Vorgang it takes up, [{0}]({1}): {2}".format(
+                _clip(oneline(best["titel"]), 90), _dip(best["vorgang_id"], best["titel"]),
+                why or "scored {0} by the judge".format(_score(best)))
+    ccd.mark_big(rows, today)
+    big = sorted((r for r in rows if r.big), key=lambda r: r.sort_key())
+    if big:
+        votes = bundestag_votes_for_context(conn, today)
+        year = ccd.windows(today)[0].year
+        for r in big:
+            r.context = ccd.context_for(r, votes, year)
+    line, missing = ccd.sitting_line(conn, country, today, rows)
+    missing = list(missing) + ["the Bundesrat (its plenary calendar is not collected)"]
+    board_next = {}
+    for r in sorted(rows, key=lambda r: r.sort_key()):
+        if r.running:
+            continue
+        for vid in _row_vorgaenge(r, dmap):
+            board_next.setdefault(vid, r)
+    return {"rows": rows, "big": big, "line": line, "missing": missing, "gone": gone,
+            "board_next": board_next, "inherited": inherited}
+
+
+def key_questions(vgs, today, limit=6):
+    """Kleine and Große Anfragen on our ground dated in the last three weeks,
+    scored 2 or 3 by the judge (unscored: tier 1 counts 2), one Fraktion's
+    questions of one day on one area as one row, best first; as
+    src/country_countdown.render_key_questions reads them."""
+    since = (datetime.date.fromisoformat(today) - datetime.timedelta(days=21)).isoformat()
+    picked = []
+    for r in vgs:
+        if (r["vorgangstyp"] or "") not in KEY_QUESTION_TYPES or hidden_only(r):
+            continue
+        d = str(r["datum"] or "")[:10]
+        if not d or d < since or d > today:
+            continue
+        s = _score(r)
+        s = s if s is not None else (2 if r["tier"] == 1 else 1)
+        if s >= 2:
+            picked.append((s, d, r))
+    clusters, index = [], {}
+    for s, d, r in sorted(picked, key=lambda x: (-x[0], x[1])):
+        asker = oneline(r["initiative"] or "")
+        area = (visible_areas(r) or [0])[0]
+        k = (asker.lower() or str(r["vorgang_id"]), d, area)
+        c = index.get(k)
+        if c is None:
+            c = {"date": d, "asker": asker, "party": "", "addressee": "",
+                 "answered": "answered" if "beantwortet" == (r["stand"] or "").strip().lower() else None,
+                 "score": s, "url": _dip(r["vorgang_id"], r["titel"]), "why": _why(r).strip() or None,
+                 "areas": visible_areas(r), "refs": [], "titles": [], "where": "BUNDESTAG"}
+            index[k] = c
+            clusters.append(c)
+        c["refs"].append(str(r["vorgang_id"]))
+        t = _clip(oneline(r["titel"]), 160)
+        if t and t not in c["titles"]:
+            c["titles"].append(t)
+    clusters.sort(key=lambda c: c["date"] or "", reverse=True)
+    clusters.sort(key=lambda c: -c["score"])
+    return clusters[:limit]
+
+
+def _sections(text):
+    """(header lines, [(heading, lines)]) of a rendered Markdown edition,
+    split on its '## ' headings."""
+    head, secs = [], []
+    for ln in text.split("\n"):
+        if ln.startswith("## "):
+            secs.append((ln[3:], [ln]))
+        elif secs:
+            secs[-1][1].append(ln)
+        else:
+            head.append(ln)
+    return head, secs
+
+
+# Reference's order, by heading prefix; a section not named here keeps its
+# place at the end, before Watching.
+REFERENCE_ORDER = ("Active bills board", "Top lines", "Recorded votes", "The Länder", "Coming up",
+                   "Written and oral questions", "Amendments", "Committee reports",
+                   "Secondary legislation", "Concluded and lapsed", "Before the Constitutional Court",
+                   "Parliamentarians on our issues")
+DROPPED = ("Week ahead",)          # the countdown's tables replace it
+
+
+def _demote(lines):
+    return ["#" + ln if re.match(r"^#{2,5} ", ln) else ln for ln in lines]
+
+
 def _render_edition(conn, today, review=None, draft_until=None):
-    """The German edition in the WESTMINSTER frame (Christopher, 22 September
+    """The countdown edition (see THE COUNTDOWN LAYOUT above)."""
+    from src import countdown as cd, country_countdown as ccd, country_edition as ce
+    vgs, _ = split_hidden(ours(conn, "de_vorgaenge", "datum"))
+    cdn = countdown(conn, today, vgs)
+    head, secs = _sections(_render_classic(conn, today, review, draft_until,
+                                           board_next=cdn["board_next"]))
+    named = {}
+    for title, body in secs:
+        named.setdefault(title, body)
+
+    def take(prefix):
+        for title in list(named):
+            if title.startswith(prefix):
+                return named.pop(title)
+        return None
+
+    ws, we, fs, he = ccd.windows(today)
+    out = list(head)
+    while out and out[-1] == "":
+        out.pop()
+    out.append("")
+    if cdn["line"]:
+        out += ["*Sitting this week:* {0}".format(cdn["line"]), ""]
+    block = cd.render_big_dates(cdn["big"], ce.AREA_LABELS)
+    if block:
+        out.append(block)
+    this_week, further = ccd.split(cdn["rows"], today)
+    out += ["## This week · {0}".format(cd.span_label(ws, we)), ""]
+    out += cd.render_table(this_week, ce.AREA_LABELS) if this_week else \
+        ["*Nothing on our issues in the published agendas this week.*"]
+    out += ["", "## Further afield · {0}".format(cd.span_label(fs, he, long=True)), ""]
+    out += cd.render_table(further, ce.AREA_LABELS) if further else \
+        ["*Nothing on our issues in the published agendas yet.*"]
+    out.append("")
+    kq = key_questions(vgs, today)
+    block = ccd.render_key_questions(kq)
+    if block:
+        out.append(block.replace("several from one member on one day as one row",
+                                 "Kleine and Große Anfragen, several from one Fraktion on one day "
+                                 "as one row"))
+    pets = take("Open for co-signature")
+    if pets:
+        pets[0] = pets[0].replace("## Open for co-signature", "## Petitions · open for co-signature", 1)
+        out += pets
+    pubs, pub_note = ccd.publications(conn, _country(), (ws - datetime.timedelta(days=7)).isoformat(),
+                                      today)
+    block = ccd.render_publications(pubs, _country())
+    if block:
+        out.append(block)
+    dec = take("Decisions needed")
+    if dec:
+        out += dec
+    for d in DROPPED:
+        take(d)
+
+    ref = []
+    for prefix in REFERENCE_ORDER:
+        got = take(prefix)
+        if got:
+            ref += got
+    watching = take("Watching")
+    for title in list(named):
+        ref += named.pop(title)
+    if watching:
+        ref += watching
+    notes = countdown_notes(conn, today, cdn, pub_note, kq)
+    ref += ["## Coverage notes", ""] + ["- " + n for n in notes] + [""]
+    out += ["## Reference", ""] + _demote(ref)
+    text = "\n".join(out)
+    while "\n\n\n" in text:
+        text = text.replace("\n\n\n", "\n\n")
+    return text.rstrip("\n") + "\n"
+
+
+def countdown_notes(conn, today, cdn, pub_note, kq):
+    """Coverage lines for the countdown's own blocks."""
+    from src import agenda, countdown as cd, country_countdown as ccd
+    _ws, _we, _fs, he = ccd.windows(today)
+    rows = cdn["rows"]
+    run = agenda.latest_run(conn, "de")
+    notes = ["Countdown: the tables read the shared agenda (country_agenda, src/agendas/de.py: "
+             "the Bundestag's plenary Tagesordnung, dated by its sitting days, and its committees' "
+             "sittings), {0} row(s) on our ground to {1}{2}. The committee feed's publication "
+             "dates (de_agenda) no longer make the week ahead.".format(
+                 len(rows), cd.day_label(he.isoformat()),
+                 "; agenda read {0}".format(cd.day_label(run[0])) if run else
+                 "; no agenda run is stored yet, so the tables hold only petition deadlines")]
+    if cdn["missing"]:
+        notes.append("Sitting days: no published calendar read for {0}, so the line leaves it out."
+                     .format(" or ".join(cdn["missing"])))
+    if not ccd._table(conn, "regional_agenda"):
+        notes.append("The Landtage's forward agendas: not collected yet (regional_agenda).")
+    if pub_note:
+        notes.append(pub_note)
+    if cdn["gone"]:
+        from src import country_edition as ce
+        notes.append("Left out of the tables: {0}.".format(ce.dropped_text(cdn["gone"])))
+    judged = sum(1 for r in rows if r.score is not None)
+    notes.append("Big dates are rows scored 3 ({0} of {1} row(s) carry a score; {2} take it from "
+                 "the Vorgang whose papers they take up, until the free session judge reads the "
+                 "row itself); a row with no score shows on its tier and is never a big date."
+                 .format(judged, len(rows), cdn["inherited"]))
+    if not kq:
+        notes.append("Key questions: no Kleine or Große Anfrage on our ground scored 2 or 3 (or "
+                     "tier 1 while unread) in the last three weeks.")
+    return notes
+
+
+def dm_countdown_lines(conn, today):
+    """The countdown's lines for the DM, as the country editions' DMs carry
+    them (src/country_countdown.dm_lines): sitting days, each big date, and
+    this week's first rows."""
+    from src import countdown as cd, country_countdown as ccd
+    try:
+        vgs, _ = split_hidden(ours(conn, "de_vorgaenge", "datum"))     # the review, when set, honoured
+        cdn = countdown(conn, today, vgs)
+    except Exception as exc:                                # noqa: BLE001 - say so, never hide it
+        return [":grey_question: countdown unavailable: {0}".format(str(exc)[:120])]
+    out = []
+    if cdn["line"]:
+        out.append("_Sitting this week: {0}_".format(cdn["line"]))
+    for r in cdn["big"]:
+        out.append("*{0}* *{1}* · `{2}` {3}".format(cd.BIG_LABEL, cd.day_label(r.date), r.where,
+                                                     cd._mrkdwn_link(ccd._title_cut(r.title, 90), r.url)))
+    this_week, further = ccd.split(cdn["rows"], today)
+    if this_week:
+        out.append("*This week*: {0} row(s) on our issues.".format(len(this_week)))
+        for r in this_week[:ccd.DM_WEEK_ROWS]:
+            out.append("• {0} · `{1}` {2}".format(r.when, r.where, ccd._title_cut(r.title, 90)))
+        if len(this_week) > ccd.DM_WEEK_ROWS:
+            out.append("+ {0} more this week, in the edition".format(len(this_week) - ccd.DM_WEEK_ROWS))
+    if further:
+        out.append("*Further afield*: {0} row(s) to {1}.".format(
+            len(further), cd.day_label(ccd.windows(today)[3].isoformat())))
+    return out
+
+
+def _render_classic(conn, today, review=None, draft_until=None, board_next=None):
+    """The German edition's sections as they were before the countdown
+    (16 October 2026): _render_edition reorders them under Reference.
+    `board_next` ({vorgang id: countdown row}) adds the board's Where and
+    Next columns.
+
+    The German edition in the WESTMINSTER frame (Christopher, 22 September
     2026: "Can it be framed like the Westminster one?").
 
     The first draft used the EU's grammar -- a heading per item with bulleted
@@ -997,13 +1363,17 @@ def _render_edition(conn, today, review=None, draft_until=None):
     if bills:
         lines.append("## Active bills board ({0})".format(len(bills)))
         lines.append("")
-        lines.append("| Bill | Brought by | Areas | Stage | Movement | "
+        lines.append("| Bill | Where | Next | Brought by | Areas | Stage | Movement | "
                      "Why it matters |")
-        lines.append("|---|---|---|---|---|---|")
+        lines.append("|---|---|---|---|---|---|---|---|")
         for r in bills:
-            lines.append("| [{0}]({1}) | {2} | {3} | {4} | {5} | {6} |".format(
+            n = (board_next or {}).get(str(r["vorgang_id"]))
+            lines.append("| [{0}]({1}) | {2} | {3} | {4} | {5} | {6} | {7} | {8} |".format(
                 oneline(r["titel"] or "?").replace("|", "/"),
                 _dip(r["vorgang_id"], r["titel"]),
+                n.where if n else "-",
+                "{0}{1}".format(n.when, ", " + n.detail if n.detail else "").replace("|", "/")
+                if n else "none set",
                 (r["initiative"] or "?").replace("|", "/"),
                 _areas(r, names) or "?",
                 (r["stand"] or "?").replace("|", "/"),
@@ -1158,7 +1528,7 @@ def _render_edition(conn, today, review=None, draft_until=None):
         lines.append("")
 
     # --- Recorded votes, as a table. NO VERDICTS. ---
-    lines.append("## Bundestag recorded votes ({0})".format(len(bt)))
+    lines.append("## Recorded votes · Bundestag ({0})".format(len(bt)))
     lines.append("")
     lines.append(NO_VERDICT)
     lines.append("")
@@ -1430,6 +1800,10 @@ def _dm_summary(conn, today):
     lines.append("_Areas come from the German taxonomy ({0}), {1}._".format(
         TAXONOMY_VERSION, TAXONOMY_STATUS))
     lines.append("")
+    # The countdown's lines (16 October 2026), as the country editions' DMs.
+    ahead = dm_countdown_lines(conn, today)
+    if ahead:
+        lines += ahead + [""]
 
     top = [s for s in scored if (s[0] or 0) >= degate.FLOOR]
     if top:

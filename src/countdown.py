@@ -1228,8 +1228,8 @@ def _vote_base(title):
     if m:
         return m.group(2), "Amendment " + m.group(1)
     m = _SENEDD_PART.match(t)
-    if m and m.group(1).strip(" .-"):
-        return m.group(1).strip(" .-"), m.group(2).strip(" .")
+    if m and m.group(1).strip(" .-:"):
+        return m.group(1).strip(" .-:"), m.group(2).strip(" .")
     if t.count(": ") >= 2:
         base, part = t.rsplit(": ", 1)
         return base, part
@@ -1285,6 +1285,251 @@ def vote_line(v):
             text = label + (", " + _clean(p["result"]).replace(" has been ", " ") if p.get("result") else "")
         bits.append(text)
     return head + "{0}: {1}".format(v.get("title") or "", "; ".join(bits))
+
+
+# -- recorded votes, last week only ------------------------------------------------
+#
+# Round 6 (Chris, 16 October 2026): "Latest votes on our issues" left in
+# round 5 because it went stale (a five-week-old Second Reading led it). The
+# section comes back as RECORDED VOTES, the name the fifteen country editions
+# use, holding ONLY the divisions of the edition's window: Monday to Sunday
+# before the edition's Monday. Westminster (Commons and Lords) and the three
+# devolved legislatures, on our ground, one line per debate (the motion and
+# its amendments together, as round 2 grouped them), each part with its
+# result and tally, linked. A week with none says so in one line. It sits
+# under Reference straight after the bills board, where the country
+# editions keep their Recorded votes. Read only, as everything here.
+
+RECORDED_HEADING = "Recorded votes"
+NO_RECORDED_VOTES = "No recorded votes on our issues last week."
+VOTES_HIDDEN = (11,)        # migration: collated, never campaigned
+COMMONS_DIVISION = "https://votes.parliament.uk/Votes/Commons/Division/{0}"
+LORDS_DIVISION = "https://votes.parliament.uk/Votes/Lords/Division/{0}"
+_ITEM_DIVISION = re.compile(r"^Division #\d+ \((\d+)-(\d+)\): (.*?)(?: \(matched on clause text\))?$")
+_LEDGER_REF = re.compile(r"^div:([cl])(\d+):(.*)$")
+
+
+def votes_window(week_commencing):
+    """(start, end) dates: Monday to Sunday of the week before the edition."""
+    ws = windows(week_commencing)[0]
+    return ws - datetime.timedelta(days=7), ws - datetime.timedelta(days=1)
+
+
+def _shown_score(score, tier, tier_ok=(1,)):
+    """A judged row shows at 2 or 3; an unjudged one only on a tier it trusts
+    (never a raw tier-2 keyword hit)."""
+    if score is not None:
+        return score >= 2
+    return tier in tier_ok
+
+
+def westminster_votes(conn, start, end, tracker=None):
+    """Commons and Lords divisions on our ground dated start..end: the vote
+    tracker's signed-off divisions, the weekly sweep's division items (a
+    title match or a clause-text match; src/clausetext.py) the judge kept or
+    has not read at tier 1, and every division whose voters the ledger holds
+    on our ground (mp_events, div:c / div:l). One entry per division."""
+    s, e = start.isoformat(), end.isoformat()
+    found = {}
+
+    def put(house, did, date, title, ayes=None, noes=None, url=None):
+        key = (house, int(did))
+        got = found.setdefault(key, {"house": house, "id": int(did), "date": date, "title": None,
+                                     "ayes": None, "noes": None, "url": None})
+        got["title"] = got["title"] or _clean(title) or None
+        got["date"] = got["date"] or date
+        if got["ayes"] is None and ayes is not None:
+            got["ayes"], got["noes"] = ayes, noes
+        got["url"] = got["url"] or url
+
+    for v in tracker or []:
+        if v.get("date") and s <= v["date"][:10] <= e:
+            put("Commons", v["id"], v["date"][:10], v["title"], v.get("ayes"), v.get("noes"), v.get("url"))
+    if _table_exists(conn, "items"):
+        for r in _select(conn, "items", ("id", "event_date", "title", "url", "issue_areas", "tier",
+                                         "triage_score"),
+                         "WHERE item_type = 'division' AND event_date >= ? AND event_date <= ?", (s, e)):
+            if not _areas(r["issue_areas"], VOTES_HIDDEN) or not _shown_score(r["triage_score"], r["tier"]):
+                continue
+            m = _ITEM_DIVISION.match(" ".join((r["title"] or "").split()))
+            did = (r["id"] or "").split(":")[-1]
+            if not m or not did.isdigit():
+                continue
+            house = "Lords" if "/lords/" in (r["url"] or "").lower() else "Commons"
+            put(house, did, r["event_date"][:10], m.group(3), int(m.group(1)), int(m.group(2)), r["url"])
+    if _table_exists(conn, "mp_events"):
+        lobbies = {}
+        for r in _select(conn, "mp_events", ("ref", "date", "line", "areas"),
+                         "WHERE kind = 'vote' AND date >= ? AND date <= ? AND "
+                         "(ref LIKE 'div:c%' OR ref LIKE 'div:l%')", (s, e)):
+            m = _LEDGER_REF.match(r["ref"] or "")
+            if not m or not _areas(r["areas"], VOTES_HIDDEN):
+                continue
+            house = "Lords" if m.group(1) == "l" else "Commons"
+            line = r["line"] or ""
+            put(house, m.group(2), (r["date"] or "")[:10], line.split(": ", 1)[1] if ": " in line else None)
+            c = lobbies.setdefault((house, int(m.group(2))), {})
+            c[m.group(3)] = c.get(m.group(3), 0) + 1
+        for key, c in lobbies.items():
+            v = found[key]
+            if v["ayes"] is None and key[0] == "Lords":
+                v["ayes"], v["noes"] = c.get("aye", 0), c.get("no", 0)
+    if _table_exists(conn, "cv_divisions"):
+        for (house, did), v in found.items():
+            if house != "Commons" or (v["ayes"] is not None and v["title"]):
+                continue
+            row = conn.execute("SELECT date, title, ayes, noes FROM cv_divisions WHERE division_id = ?",
+                               (did,)).fetchone()
+            if row:
+                v["title"] = v["title"] or _clean(row["title"])
+                if v["ayes"] is None:
+                    v["ayes"], v["noes"] = row["ayes"], row["noes"]
+    out = []
+    for (house, did), v in found.items():
+        url = v["url"] or (LORDS_DIVISION if house == "Lords" else COMMONS_DIVISION).format(did)
+        if v["ayes"] is None:
+            result, tally = "", "tally not in the store"
+        else:
+            result = "carried" if v["ayes"] > v["noes"] else "rejected"
+            tally = ("Contents {0}, Not contents {1}" if house == "Lords" else "Ayes {0}, Noes {1}").format(
+                v["ayes"], v["noes"])
+        debate, part = _vote_base(v["title"] or "Division {0}".format(did))
+        out.append({"date": v["date"], "where": house, "debate": debate, "part": part, "url": url,
+                    "result": result, "tally": tally, "order": "{0:08d}".format(did)})
+    return out
+
+
+def devolved_votes(conn, start, end):
+    """Holyrood, Senedd and NI Assembly divisions on our ground dated
+    start..end, as westminster_votes' entries. Holyrood's tier-2 keyword
+    hits wait for the judge, as the old devolved section had them."""
+    from src.devolved_intel import NI_DIVISION, SD_PLENARY, SP_MOTION, base_ref
+    s, e = start.isoformat(), end.isoformat()
+    out = []
+    if _table_exists(conn, "sp_divisions"):
+        for r in _select(conn, "sp_divisions", ("key", "dated", "title", "reference", "result", "vote_for",
+                                                "vote_against", "abstentions", "areas", "tier", "triage_score"),
+                         "WHERE source = 'votesmotion' AND dated >= ? AND dated <= ?", (s, e)):
+            if not _areas(r["areas"], VOTES_HIDDEN) or not _shown_score(r["triage_score"], r["tier"]):
+                continue
+            ref = r["reference"] or ""
+            out.append({"date": r["dated"][:10], "where": "Holyrood", "debate": _clean(r["title"]),
+                        "part": (("amendment " if "." in ref else "motion ") + ref) if ref else None,
+                        "url": SP_MOTION.format(base_ref(ref)) if ref else None,
+                        "result": _clean(r["result"]).lower(),
+                        "tally": "For {0}, Against {1}, Abstentions {2}".format(
+                            r["vote_for"] or 0, r["vote_against"] or 0, r["abstentions"] or 0)
+                        if r["vote_for"] is not None else "tally not in the store",
+                        "order": ref})
+    if _table_exists(conn, "sd_divisions"):
+        for r in _select(conn, "sd_divisions", ("key", "meeting_id", "dated", "title", "total_for",
+                                                "total_against", "total_abstain", "result", "areas",
+                                                "triage_score"),
+                         "WHERE dated >= ? AND dated <= ?", (s, e)):
+            if not _areas(r["areas"], VOTES_HIDDEN) or not _shown_score(r["triage_score"], 1):
+                continue
+            debate, part = _vote_base(r["title"])
+            # 'Amendment has been agreed' under 'Amendment 1, tabled ...' reads
+            # 'Amendment 1, tabled ..., agreed': the label already names it.
+            res = _clean(r["result"]).replace(" has been ", " ").replace(" have been ", " ")
+            res = re.sub(r"^(motion as amended|motion|amendment)\s+", "", res, flags=re.I) if part else res
+            out.append({"date": r["dated"][:10], "where": "Senedd", "debate": debate, "part": part,
+                        "url": SD_PLENARY.format(r["meeting_id"]) if r["meeting_id"] else None,
+                        "result": res[:1].lower() + res[1:],
+                        "tally": "For {0}, Against {1}, Abstain {2}".format(
+                            r["total_for"] or 0, r["total_against"] or 0, r["total_abstain"] or 0)
+                        if r["total_for"] is not None else "tally not in the store",
+                        "order": str(r["key"])})
+    if _table_exists(conn, "ni_divisions"):
+        for r in _select(conn, "ni_divisions", ("doc_id", "subject", "bill", "item_name", "dated",
+                                                "areas", "triage_score"),
+                         "WHERE dated >= ? AND dated <= ?", (s, e)):
+            if not _areas(r["areas"], VOTES_HIDDEN) or (r["triage_score"] is not None
+                                                        and r["triage_score"] < 2):
+                continue
+            subject = re.sub(r"\s*\[.*$", "", _clean(r["subject"])).lstrip("-#0123456789 ")
+            debate, part = _vote_base(subject)
+            if part is None:
+                debate = _clean(r["item_name"]) or _clean(r["bill"]) or debate
+                m = re.search(r"\bAmendment (\d+)", subject)
+                part = "Amendment " + m.group(1) if m else None
+            out.append({"date": r["dated"][:10], "where": "NI Assembly", "debate": debate, "part": part,
+                        "url": NI_DIVISION.format(r["doc_id"]) if r["doc_id"] else None,
+                        "result": "", "tally": "result and tally not in the store",
+                        "order": str(r["doc_id"])})
+    return out
+
+
+_WHERE_ORDER = {"Commons": 0, "Lords": 1, "Holyrood": 2, "Senedd": 3, "NI Assembly": 4}
+
+
+def group_recorded(votes):
+    """One entry per debate (date, legislature, debate), its parts in order:
+    {date, where, debate, parts: [{label, url, result, tally}]}; dated order,
+    Westminster first on a day."""
+    out, index = [], {}
+    for v in sorted(votes, key=lambda v: (v["date"] or "", _WHERE_ORDER.get(v["where"], 9),
+                                          (v["debate"] or "").lower(), str(v.get("order") or ""))):
+        key = (v["date"], v["where"], (v["debate"] or "").lower())
+        entry = index.get(key)
+        if entry is None:
+            entry = {"date": v["date"], "where": v["where"], "debate": v["debate"], "parts": []}
+            index[key] = entry
+            out.append(entry)
+        entry["parts"].append({"label": v["part"], "url": v["url"], "result": v["result"],
+                               "tally": v["tally"]})
+    return out
+
+
+def recorded_votes(conn, week_commencing, tracker=None):
+    """The grouped recorded votes of the edition's window (votes_window)."""
+    start, end = votes_window(week_commencing)
+    return group_recorded(westminster_votes(conn, start, end, tracker) + devolved_votes(conn, start, end))
+
+
+def _outcome(p):
+    res, tally = p.get("result") or "", p.get("tally") or ""
+    if res and tally:
+        return "{0} ({1})".format(res, tally)
+    return res or tally
+
+
+def recorded_vote_line(entry):
+    """'Tue 8 Sep · **Commons** · Health Bill: Report Stage: [New Clause
+    142](u), rejected (Ayes 108, Noes 357); [New Clause 143](u), rejected
+    (Ayes 106, Noes 302)'. Parts that share one page link the debate."""
+    head = "{0} · **{1}** · ".format(day_label(entry["date"]), entry["where"])
+    parts = entry["parts"]
+    if len(parts) == 1 and not parts[0]["label"]:
+        p = parts[0]
+        title = "[{0}]({1})".format(entry["debate"], p["url"]) if p["url"] else entry["debate"]
+        return head + title + (", " + _outcome(p) if _outcome(p) else "")
+    same_url = len(parts) > 1 and len({p["url"] for p in parts}) == 1
+    bits = []
+    for p in parts:
+        label = p["label"] or "the question"
+        if p["url"] and not same_url:
+            label = "[{0}]({1})".format(label, p["url"])
+        bits.append(label + (", " + _outcome(p) if _outcome(p) else ""))
+    debate = entry["debate"]
+    if same_url and parts[0]["url"]:
+        debate = "[{0}]({1})".format(debate, parts[0]["url"])
+    return head + "{0}: {1}".format(debate, "; ".join(bits))
+
+
+def render_recorded_votes(groups, week_commencing):
+    """The Recorded votes block: one line per debate, or the single line
+    saying there were none."""
+    start, end = votes_window(week_commencing)
+    out = ["## " + RECORDED_HEADING, ""]
+    if not groups:
+        return "\n".join(out + [NO_RECORDED_VOTES, ""])
+    out += ["*Divisions on our issues last week ({0}), at Westminster and in the devolved "
+            "legislatures, one line per debate. Results and tallies are the record; which way a "
+            "vote went for us is a human call.*".format(span_label(start, end)), ""]
+    out += ["- " + recorded_vote_line(g) for g in groups]
+    out.append("")
+    return "\n".join(out)
 
 
 # -- assembly -----------------------------------------------------------------
