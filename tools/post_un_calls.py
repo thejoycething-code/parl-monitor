@@ -94,15 +94,25 @@ def build_message(calls, tax, wl, top=None, checks=None):
 
     # Draft resolutions (13 October 2026): docs.un.org redirects to
     # documents.un.org/api/..., which robots.txt disallows. When it could not
-    # be read the number of new drafts is unknown, never zero.
+    # be read the TEXTS of new drafts are unknown, never "no drafts". Since
+    # 16 October 2026 iGov's list gives their symbols and titles.
     drafts_unread = [c for c in (checks.checks if checks is not None else [])
-                     if c.source.startswith("docs.un.org") and c.status == "could not read"]
+                     if "docs.un.org" in c.source and c.status == "could not read"]
+    igov = next((c for c in (checks.checks if checks is not None else [])
+                 if c.source.endswith("(iGov)")), None)
     if drafts_unread:
         why = drafts_unread[0].detail.split(":", 1)[0]
-        lines += ["*Draft resolutions*",
-                  "COULD NOT READ docs.un.org this run ({0}), so new drafts are unknown, "
-                  "not zero. Drafts named by PGA letters and Journal agendas are still "
-                  "caught (above, and in the check log).".format(why), ""]
+        if igov is not None and igov.status != "could not read":
+            lines += ["*Draft resolutions*",
+                      "Draft TEXTS could not be read ({0}); titles come from iGov's list "
+                      "({1} GA plenary and Third Committee drafts), which lags, so a draft "
+                      "it does not list yet is unknown, not absent. Drafts named by PGA "
+                      "letters and Journal agendas are caught too.".format(why, igov.count), ""]
+        else:
+            lines += ["*Draft resolutions*",
+                      "COULD NOT READ docs.un.org this run ({0}), so new drafts are unknown, "
+                      "not zero. Drafts named by PGA letters and Journal agendas are still "
+                      "caught (above, and in the check log).".format(why), ""]
 
     if flagged:
         lines.append("*Ours*")

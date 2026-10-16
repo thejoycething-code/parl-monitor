@@ -39,6 +39,7 @@ import re
 from dataclasses import dataclass, field
 
 from src import filter as filt
+from src.un_checks import shorten
 
 DUE_SOON_DAYS = 14
 FIRST_SIGN_DAYS = 7
@@ -62,6 +63,10 @@ class DraftInfo:
     # documents.un.org/api/..., which robots.txt disallows): "PGA letter" or
     # "Journal agenda". `dated` is then the date it was named, not tabled.
     named_by: str = ""
+    # "iGov" when the title is iGov's official one but the draft was first
+    # named elsewhere (16 October 2026). A draft known ONLY from iGov's list
+    # has named_by "iGov listing" instead.
+    title_from: str = ""
 
 
 @dataclass
@@ -262,9 +267,13 @@ def build_signals(letters, plenaries, drafts, tax, wl, as_of=None, consultations
     for d in by_symbol.values():
         if not d.areas:
             continue
-        if d.named_by:
-            detail = "named by {0}{1} (text not read)".format(
-                d.named_by, " of " + d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "")
+        if d.named_by == "iGov listing":
+            detail = "listed by iGov{0} (title only, text not read)".format(
+                ", dated " + d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "")
+        elif d.named_by:
+            detail = "named by {0}{1}{2} (text not read)".format(
+                d.named_by, " of " + d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "",
+                "; title from iGov" if d.title_from else "")
         else:
             detail = "tabled {0}".format(d.dated.strftime("%d %B %Y").lstrip("0") if d.dated else "(date unread)")
         if d.agenda_item:
@@ -284,6 +293,12 @@ def in_forward_look(signal, today, days):
         return (signal.due - today).days <= days
     if signal.kind == "DRAFT" and signal.ours and signal.sign_date:
         return (today - signal.sign_date).days <= RECENT_DRAFT_DAYS
+    if (signal.kind == "DRAFT" and signal.ours and signal.due is None
+            and getattr(signal.obj, "named_by", "") == "iGov listing"):
+        # Listed by iGov this session, undated, no meeting yet (16 October
+        # 2026): still pending, so it stays in the list (and, with a store,
+        # its first appearance is a first sign) until a meeting dates it.
+        return True
     if signal.sign_date:
         return 0 <= (today - signal.sign_date).days <= FIRST_SIGN_DAYS
     return False
@@ -328,15 +343,15 @@ def render_top(due, first, today):
         lines.append("  none listed")
     for s in due:
         lines.append("  {0}  in {1}d  {2:<7}  {3}".format(
-            _day(s.due), (s.due - today).days, s.kind, s.title[:90]))
-        lines.append("      areas {0}; {1}".format(",".join(str(a) for a in s.areas), s.detail[:160]))
+            _day(s.due), (s.due - today).days, s.kind, shorten(s.title, 90)))
+        lines.append("      areas {0}; {1}".format(",".join(str(a) for a in s.areas), shorten(s.detail, 160)))
         lines.append("      {0}".format(s.url))
     lines.append("FIRST SIGNS ON OUR GROUND ({0}):".format(len(first)))
     if not first:
         lines.append("  none")
     for s in first:
         when = "tabled/announced {0}".format(_day(s.sign_date)) if s.sign_date else "listed"
-        lines.append("  {0:<7}  {1}  {2}".format(s.kind, when, s.title[:90]))
-        lines.append("      areas {0}; {1}".format(",".join(str(a) for a in s.areas), s.detail[:160]))
+        lines.append("  {0:<7}  {1}  {2}".format(s.kind, when, shorten(s.title, 90)))
+        lines.append("      areas {0}; {1}".format(",".join(str(a) for a in s.areas), shorten(s.detail, 160)))
         lines.append("      {0}".format(s.url))
     return lines
