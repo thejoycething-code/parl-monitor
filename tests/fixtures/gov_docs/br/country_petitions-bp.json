@@ -1,0 +1,62 @@
+[
+ {
+  "cc": "br",
+  "item_id": "bp:segundoplanapir",
+  "source": "bp",
+  "kind": "consultation",
+  "title": "Consulta Pública para Contribuições ao 2º Plano Nacional de Promoção da Igualdade Racial – 2º PLANAPIR",
+  "summary": null,
+  "status": "aberta",
+  "opened": "2026-09-14",
+  "closes": "2026-10-16",
+  "body": "Governo federal (Brasil Participativo)",
+  "url": "https://brasilparticipativo.presidencia.gov.br/processes/segundoplanapir",
+  "first_seen": "2026-10-16",
+  "last_seen": "2026-10-16"
+ },
+ {
+  "cc": "br",
+  "item_id": "bp:agenda-regulatoria-2027-2028",
+  "source": "bp",
+  "kind": "consultation",
+  "title": "Agenda regulatória 2027/2028",
+  "summary": null,
+  "status": "aberta",
+  "opened": "2026-09-01",
+  "closes": "2026-10-16",
+  "body": "Governo federal (Brasil Participativo)",
+  "url": "https://brasilparticipativo.presidencia.gov.br/processes/agenda-regulatoria-2027-2028",
+  "first_seen": "2026-10-16",
+  "last_seen": "2026-10-16"
+ },
+ {
+  "cc": "br",
+  "item_id": "bp:agenda-de-avaliacao-de-resultado-regulatorio-2027-2030",
+  "source": "bp",
+  "kind": "consultation",
+  "title": "Agenda De Avaliação De Resultado Regulatório - 2027-2030",
+  "summary": null,
+  "status": "aberta",
+  "opened": "2026-09-01",
+  "closes": "2026-10-16",
+  "body": "Governo federal (Brasil Participativo)",
+  "url": "https://brasilparticipativo.presidencia.gov.br/processes/agenda-de-avaliacao-de-resultado-regulatorio-2027-2030",
+  "first_seen": "2026-10-16",
+  "last_seen": "2026-10-16"
+ },
+ {
+  "cc": "br",
+  "item_id": "bp:arr-tubos-2026",
+  "source": "bp",
+  "kind": "consultation",
+  "title": "Tomada de subsídios para Avaliação da regulamentação Inmetro de tubos para águas pluviais e esgoto - Portaria Inmetro nº 512/2023",
+  "summary": null,
+  "status": "aberta",
+  "opened": "2026-09-18",
+  "closes": "2026-10-17",
+  "body": "Governo federal (Brasil Participativo)",
+  "url": "https://brasilparticipativo.presidencia.gov.br/processes/arr-tubos-2026",
+  "first_seen": "2026-10-16",
+  "last_seen": "2026-10-16"
+ }
+]

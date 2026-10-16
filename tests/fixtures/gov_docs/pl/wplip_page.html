@@ -1,0 +1,54 @@
+<!-- www.gov.pl/web/premier/wplip-rm, 16 October 2026, trimmed -->
+gister-search-helper-20874195">Wpisana fraza jest wyszukiwana również w szczegółach elementów i zawartości załączników.</span>
+<button @click.prevent="toggleFilter" :class="{ active: showFilter }" :aria-expanded="showFilter ? 'true' : 'false'">{{showFilter ? 'Zwiń filtry' : 'Pokaż filtry'}}</button>
+</div>
+<div v-if="showFilter" class="search-fields">
+<div v-for="column in register.columns" v-if="column.type === 'SEARCH'">
+<label class="filter-column-label" :for="'filter' + column.name.replace(/\s+/g, '-')">{{column.display}}</label>
+<template v-if="column.bindProperty?.dictionary?.databaseDictionary?.nested">
+<input :id="'filter' + column.name.replace(/\s+/g, '-')"
+autocomplete="off"
+aria-label="wciśnij spację lub enter aby otworzyć dialog z wartościami filtra do wyboru"
+@click="openTreeFilterModal(column)"
+@keyup.enter="openTreeFilterModal(column)"
+@keyup.space="openTreeFilterModal(column)"
+@keyup="setCorrectInputValue($event, column.name)"
+:value="getDisplayForNestedColumn(column.name)"
+type="text"
+class="nested-dictionary-column">
+</template>
+<template v-else>
+<input v-if="column.searchStrategy !== 'DICTIONARY'" :id="'filter' + column.name.replace(/\s+/g, '-')" @keyup="filterList" v-model="filter[column.name]" type="text" class="filter-input" autocomplete="off">
+<multiselect :htmlid="'filter' + column.name.replace(/\s+/g, '-')" :arialabel="column.display" :multiple="true" :numeric="column.numericColumn" :clearable="true" v-if="column.searchStrategy === 'DICTIONARY'" :options="column.filterValues" @input="filterList" v-model="filter[column.name]"></multiselect>
+</template>
+</div>
+</div>
+<div class="records-count">
+<div v-if="!filterMode">Liczba elementów: <b> {{records.length}}</b></div>
+<div v-else>Znaleziono: <b class="results-count"> {{filtered.length}}</b>
+<a class="clear-filter" href @click.prevent="clearFilter">Wyczyść wszystkie filtry</a>
+</div>
+<div v-if="register.shareSourceFile">
+<a v-if="register.sourceType === 'GOV_PAGES'" class="file-download" href="/register-file/Rejestr_20874195.csv" target="_blank" download
+aria-label="
+Pobierz plik Rejestr_20874195.csv
+Rozmiar: 10.51MB
+Format: csv">
+Pobierz dane do pliku</br>
+<span class="extension">csv</span>
+<span class="details">10.51MB</span>
+</a>
+<a v-else class="file-download" href @click.prevent="downloadSourceFile" >
+Pobierz plik źródłowy
+<span class="sr-only">Pobierz plik: </span>
+</a>
+</div>
+</div>
+</div>
+<div class="results-container" v-show="filtered.length">
+<div class="results-scroller">
+<table class="results-table">
+<thead>
+<tr>
+<th v-for="column in register.columns"
+v-if="column.type !

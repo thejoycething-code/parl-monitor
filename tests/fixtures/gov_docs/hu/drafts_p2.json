@@ -1,0 +1,163 @@
+{
+ "data": [
+  {
+   "name": "Társadalmi egyeztetés az áramhálózattal kapcsolatos rendelet módosításához",
+   "slug": "tarsadalmi-egyeztetes-az-aramhalozattal-kapcsolatos-rendelet-modositasahoz",
+   "lead": "<p>A közép- és nagyfeszültségű hálózaton elérhető szabad kapacitások kiosztására irányuló pályázati eljárásról szóló 11/2025. (IV. 10.) EM rendelet módosításához kapcsolódó társadalmi egyeztetés</p>",
+   "description": "A közép- és nagyfeszültségű hálózaton elérhető szabad kapacitások kiosztására irányuló pályázati eljárásról szóló 11/2025. (IV. 10.) EM rendelet módosításához kapcsolódó társadalmi egyeztetés",
+   "visibleDate": "2026-07-14",
+   "email": "tarsadalmiegyeztetes@em.gov.hu",
+   "url": null,
+   "deadline": "2026-07-22",
+   "ministry": {
+    "name": "Gazdasági és Energetikai Minisztérium",
+    "slug": "gazdasagi-es-energetikai-miniszterium",
+    "subtitle": null
+   },
+   "category": {
+    "id": 2,
+    "name": "Jogszabálytervezetek"
+   },
+   "documents": [
+    {
+     "title": "Tartalmi összefoglaló",
+     "isArchive": false,
+     "is18Plus": false,
+     "visibleDate": "2026-07-14",
+     "email": null,
+     "deadline": null,
+     "description": null,
+     "downloadUrl": "https://kormany.hu/application/documents/cbb4e087-69a4-496e-ac21-e1386982b099/download",
+     "meta": {
+      "mime": "application/pdf",
+      "size": 112690,
+      "originalFileName": "KIHAT_ID_8_29_2026_kapacitaskiosztas_TO.pdf"
+     }
+    }
+   ],
+   "publicApiUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-az-aramhalozattal-kapcsolatos-rendelet-modositasahoz",
+   "downloadUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-az-aramhalozattal-kapcsolatos-rendelet-modositasahoz/download"
+  },
+  {
+   "name": "Társadalmi egyeztetés a Sportoló Nemzet Program kapcsán",
+   "slug": "tarsadalmi-egyeztetes-a-sportolo-nemzet-program-kapcsan",
+   "lead": null,
+   "description": null,
+   "visibleDate": "2026-07-13",
+   "email": "tarsadalmiegyeztetes@bm.gov.hu",
+   "url": null,
+   "deadline": "2026-07-21",
+   "ministry": {
+    "name": "Belügyminisztérium",
+    "slug": "belugyminiszterium",
+    "subtitle": null
+   },
+   "category": {
+    "id": 2,
+    "name": "Jogszabálytervezetek"
+   },
+   "documents": [
+    {
+     "title": "Tartalmi összefoglaló",
+     "isArchive": false,
+     "is18Plus": false,
+     "visibleDate": "2026-07-13",
+     "email": null,
+     "deadline": null,
+     "description": null,
+     "downloadUrl": "https://kormany.hu/application/documents/ddd8315c-f806-43c6-8757-31258ab807e3/download",
+     "meta": {
+      "mime": "application/pdf",
+      "size": 88152,
+      "originalFileName": "Sportolo-Nemzet-Program_tartalmi-osszef.pdf"
+     }
+    }
+   ],
+   "publicApiUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-a-sportolo-nemzet-program-kapcsan",
+   "downloadUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-a-sportolo-nemzet-program-kapcsan/download"
+  },
+  {
+   "name": "Társadalmi egyeztetés az e-beutaló finanszírozási szankciók elhalasztásáról",
+   "slug": "tarsadalmi-egyeztetes-az-e-beutalo-finanszirozasi-szankciok-elhalasztasarol",
+   "lead": "<p><span id=\"docs-internal-guid-e9a49ceb-7fff-52ee-8c31-556449a6d720\"><span style=\"font-size: 12pt; font-family: Arial, sans-serif; background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;\">2021. január 1-jével bevezették az e-beutalót az egészségügyi rendszerben, amely az adminisztratív terhek csökkentését és az egyszerűbb ügyintézést szolgálja. Pontosabban szolgálná, mert a rendszer nem működik megfelelően, még mindig sokan inkább a papíralapú beutalót preferálják, miközben számos helyen technikailag nem megoldott a program használata, vagyis további fejlesztések szükségesek. Azonban 2026 júniusától már szankcionálni kellene azokat az eseteket, ahol a páciens ellátása nem e-beutalóval történik. A kormány arról döntött, hogy 2027. augusztusáig meghosszabítja az e-beutalók kötelező alkalmazásához kapcsolódó szankciók bevezetetésének időpontját.</span></span></p>",
+   "description": null,
+   "visibleDate": "2026-07-10",
+   "email": "emese.szabo@bm.gov.hu",
+   "url": null,
+   "deadline": "2026-07-18",
+   "ministry": {
+    "name": "Egészségügyi Minisztérium",
+    "slug": "egeszsegugyi-miniszterium",
+    "subtitle": null
+   },
+   "category": {
+    "id": 2,
+    "name": "Jogszabálytervezetek"
+   },
+   "documents": [
+    {
+     "title": "Tartalmi összefoglaló",
+     "isArchive": false,
+     "is18Plus": false,
+     "visibleDate": "2026-07-10",
+     "email": null,
+     "deadline": null,
+     "description": null,
+     "downloadUrl": "https://kormany.hu/application/documents/ea810034-b95f-4ab9-bf26-edec2b695567/download",
+     "meta": {
+      "mime": "application/pdf",
+      "size": 95470,
+      "originalFileName": "eBeutalo_osszefoglalo.pdf"
+     }
+    }
+   ],
+   "publicApiUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-az-e-beutalo-finanszirozasi-szankciok-elhalasztasarol",
+   "downloadUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-az-e-beutalo-finanszirozasi-szankciok-elhalasztasarol/download"
+  },
+  {
+   "name": "Társadalmi egyeztetés a Délkelet-Ázsiai Barátsági és Együttműködési Szerződésről",
+   "slug": "tarsadalmi-egyeztetes-a-delkelet-azsiai-baratsagi-es-egyuttmukodesi-szerzodesrol",
+   "lead": "<p>A kormányrendelet-tervezet célja a Délkelet-Ázsiai Barátsági és Együttműködési Szerződés, valamint az ahhoz csatolt jegyzőkönyvek kihirdetése.</p>",
+   "description": null,
+   "visibleDate": "2026-07-10",
+   "email": "tarsegyeztetes@mfa.gov.hu",
+   "url": null,
+   "deadline": "2026-07-18",
+   "ministry": {
+    "name": "Külügyminisztérium",
+    "slug": "kulugyminiszter",
+    "subtitle": null
+   },
+   "category": {
+    "id": 2,
+    "name": "Jogszabálytervezetek"
+   },
+   "documents": [
+    {
+     "title": "Tartalmi összefoglaló",
+     "isArchive": false,
+     "is18Plus": false,
+     "visibleDate": "2026-07-10",
+     "email": null,
+     "deadline": null,
+     "description": null,
+     "downloadUrl": "https://kormany.hu/application/documents/78b084e8-3a7d-435e-b313-2ede1e3a2dc7/download",
+     "meta": {
+      "mime": "application/pdf",
+      "size": 72008,
+      "originalFileName": "ASEAN_tartalmi-osszefoglalo.pdf"
+     }
+    }
+   ],
+   "publicApiUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-a-delkelet-azsiai-baratsagi-es-egyuttmukodesi-szerzodesrol",
+   "downloadUrl": "https://kormany.hu/application/document-groups/tarsadalmi-egyeztetes-a-delkelet-azsiai-baratsagi-es-egyuttmukodesi-szerzodesrol/download"
+  }
+ ],
+ "meta": {
+  "pagination": {
+   "page": 2,
+   "itemsPerPage": 100,
+   "itemsTotal": 2393
+  }
+ }
+}

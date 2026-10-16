@@ -1,0 +1,4 @@
+{
+ "https://fedlex.data.admin.ch/sparqlendpoint?query=PREFIX%20jolux%3A%20%3Chttp%3A//data.legilux.public.lu/resource/ontology/jolux%23%3E%0ASELECT%20%3Fact%20%3Fdate%20%3Ftype%20%3Ftitle%20WHERE%20%7B%0A%20%20%3Fact%20jolux%3ApublicationDate%20%3Fdate%20%3B%20jolux%3AtypeDocument%20%3Ftype%20%3B%20jolux%3AisRealizedBy%20%3Fe%20.%0A%20%20%3Fe%20jolux%3Alanguage%20%3Chttp%3A//publications.europa.eu/resource/authority/language/DEU%3E%20%3B%0A%20%20%20%20%20jolux%3Atitle%20%3Ftitle%20.%0A%20%20FILTER%28%3Fdate%20%3E%3D%20%222026-07-16%22%5E%5E%3Chttp%3A//www.w3.org/2001/XMLSchema%23date%3E%29%0A%20%20FILTER%28STRSTARTS%28STR%28%3Fact%29%2C%20%22https%3A//fedlex.data.admin.ch/eli/oc/%22%29%29%0A%7D%20ORDER%20BY%20DESC%28%3Fdate%29&format=application%2Fsparql-results%2Bjson": "fedlex_as.json",
+ "https://www.newsd.admin.ch/newsd/feeds/rss?lang=de&org-nr=1&offer-nr=": "nsb.xml"
+}

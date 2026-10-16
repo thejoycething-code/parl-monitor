@@ -1,0 +1,69 @@
+{
+ "uuid": "4d30a582-bcf2-43b8-9b3b-2e26f9b29cc0",
+ "typ": {
+  "uuid": "9fe9f993-e578-4a40-8a59-f444d5f827b7",
+  "nazov": "Predbežná informácia",
+  "uroven": 1,
+  "kod": "PredbeznaInfo",
+  "prefix": "PI",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "18d7c8db-b3af-4582-87e9-fa5a5e72084e",
+   "nazov": "Daňové právo",
+   "uroven": 2,
+   "kod": "DanovePravo",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  },
+  {
+   "uuid": "c64ae568-258e-4fb9-be0d-6afacfb0d6c9",
+   "nazov": "Finančné právo",
+   "uroven": 1,
+   "kod": "FinancnePravo",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  },
+  {
+   "uuid": "f98f2505-b74f-49b9-a139-db3b6a542c72",
+   "nazov": "Územná samospráva",
+   "uroven": 3,
+   "kod": "UzemnaSamosprava",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "PI/2026/238",
+ "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa mení nariadenie vlády Slovenskej republiky č. 668/2004 Z. z. o rozdeľovaní výnosu dane z príjmov územnej samospráve v znení neskorších predpisov",
+ "stadium": {
+  "hodnota": "VYJADRENIA",
+  "nazov": "Vyjadrenia k predbežnej informácii"
+ },
+ "poslednaZmena": "2026-10-13",
+ "zodpovednaInstitucia": {
+  "uuid": "925000ab-491e-4d96-bbf9-223c4451132d",
+  "skratenyNazov": "MFSR",
+  "nazov": "Ministerstvo financií Slovenskej republiky",
+  "ldapUuid": "3bf5fcea-2f67-39ab-b596-439c2dc3a413",
+  "email": "webmaster@mfsr.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-13",
+ "datumUkonceniaPkMpk": "2026-10-16"
+}

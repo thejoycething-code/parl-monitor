@@ -1,0 +1,32 @@
+{
+ "uuid": "35fb3be0-964b-4f87-ae14-cc3d28f91813",
+ "typ": {
+  "uuid": "106a4dfe-03f8-4fb8-8904-77da04581b10",
+  "nazov": "Nelegislatívny všeobecný materiál",
+  "uroven": 1,
+  "kod": "NelegislativnyVseobecnyMaterial",
+  "prefix": "LP",
+  "legislativny": false,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [],
+ "cisloLegislativnehoMaterialu": "LP/2026/536",
+ "nazov": "Správa o priebehu a následkoch povodní na území Slovenskej republiky v období od januára do konca júna 2026",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-15",
+ "zodpovednaInstitucia": {
+  "uuid": "210eb74c-4a3f-476c-8d0b-a0d829db1081",
+  "skratenyNazov": "MŽPSR",
+  "nazov": "Ministerstvo životného prostredia Slovenskej republiky",
+  "ldapUuid": "897979c9-f1cd-38ff-bb9b-53ca9e1d0e64",
+  "email": "jana.oslejova@enviro.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-15",
+ "datumUkonceniaPkMpk": "2026-10-21"
+}

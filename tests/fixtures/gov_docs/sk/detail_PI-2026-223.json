@@ -1,0 +1,45 @@
+{
+ "uuid": "3a88beb6-e2df-4ae1-979f-fe2c495cd02e",
+ "typ": {
+  "uuid": "9fe9f993-e578-4a40-8a59-f444d5f827b7",
+  "nazov": "Predbežná informácia",
+  "uroven": 1,
+  "kod": "PredbeznaInfo",
+  "prefix": "PI",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "af1911d8-df1d-49ec-a6f5-b63a0ceda1dd",
+   "nazov": "Správne právo",
+   "uroven": 1,
+   "kod": "SpravnePravo",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "PI/2026/223",
+ "nazov": "Vyhláška Ministerstva zdravotníctva Slovenskej republiky z ... 2026, ktorou sa ustanovujú podrobnosti o vykonávaní organizovaného skríningu onkologických chorôb",
+ "stadium": {
+  "hodnota": "VYJADRENIA",
+  "nazov": "Vyjadrenia k predbežnej informácii"
+ },
+ "poslednaZmena": "2026-09-18",
+ "zodpovednaInstitucia": {
+  "uuid": "1f69541b-d639-4eaa-bfd4-1d2e762d8cb1",
+  "skratenyNazov": "MZSR",
+  "nazov": "Ministerstvo zdravotníctva Slovenskej republiky",
+  "ldapUuid": "5ce05402-a123-36fa-8ea8-bf68309ea7e3",
+  "email": "office@health.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-09-18",
+ "datumUkonceniaPkMpk": "2026-10-30"
+}

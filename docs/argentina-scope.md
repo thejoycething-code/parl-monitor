@@ -583,3 +583,22 @@ Length of service: **built, current term only** 11 October 2026 (`tools/member_s
 ## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **done**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/ar.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read once a day: the Diputados register on datos.hcdn.gob.ar restricted to the window, one request with no retry (never www.hcdn.gob.ar, AR4), and the Senate's agenda. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/ar.py` (run by `tools/country_gov_docs.py ar`), tests `tests/test_gov_docs_ar.py`, fixtures `tests/fixtures/gov_docs/ar/`. No key needed for anything.
+
+**Sources used**
+
+- **Boletín Oficial, primera sección** (www.boletinoficial.gob.ar, HTML). `GET /seccion/primera/YYYYMMDD` lists one edition under its rubros, with the issuing body and number only (laws, decrees and administrative decisions under their subject instead, such as "RÉGIMEN DE ZONA FRÍA"). There is no summary in the listing, so the aviso's own page (`/detalleAviso/primera/<id>/<date>`) is read for its words: every law, decree and decision first, then resolutions and dispositions of bodies whose output touches our ground (health, Capital Humano, justice and human rights, children and family, women and gender, ANMAT, ENACOM, disability, SEDRONAR, RENAPER), at most 40 pages a run. The stored summary is the operative part (from "DECRETA:", "RESUELVE:", "DISPONE:" or "sancionan con fuerza de Ley:"). Avisos oficiales, union and collective-agreement notices are not listed. Each weekly run reads the last seven days. A resolution opening the "Elaboración Participativa de Normas" procedure becomes a `regulation_draft` (its period runs in working days, so no closing date).
+- **National public consultations** (consultapublica.argentina.gob.ar): mirrored from `country_petitions` (source `cp`, read by the petitions step), closing dates and all. No second fetch.
+
+**robots.txt**: www.boletinoficial.gob.ar: `User-agent: *` / `Disallow: /detalleAviso/segunda/*`, `/seccion/segunda/*`, `/seccion/segunda`: the first section and its avisos are allowed. consultapublica: no robots.txt (as found on 11 October).
+
+**Routes tried that failed**: InfoLEG's open data (datos.jus.gob.ar): robots.txt disallows `/api/` and asks `Crawl-Delay: 10`; the dataset page `/dataset/base-infoleg-normativa-nacional` answered 404. servicios.infoleg.gob.ar has no robots.txt (404) but no listing of recent norms was found quickly. Not pursued further: the gazette itself is the better source.
+
+**Measured, live run 16 October 2026** (scratch store): 5 editions (12 to 16 October), 114 first-section avisos listed, 31 of 31 wanted aviso pages read, 0 on our ground (the week's laws were on the gas subsidy for cold areas, tax procedure and official holidays; the decrees mostly appeals, loans and appointments); consultations: 2 listed (both on Jujuy bus services, closed 19 September and 3 October), 0 on our ground. About 70 s.
+
+**Examples (listed, not on our ground)**: Ley 27828: Régimen de Zona Fría (law, Congreso de la Nación, 13 October); Resolución 297/2026 (regulation, ANSES, 15 October: the automatic proof of health checks for the pregnancy allowance).
+
+**Not attempted**: provincial gazettes (see `docs/argentina-regions-scope.md`).

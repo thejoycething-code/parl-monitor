@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Artikel</title>
+    <link>https://www.bundesregierung.de/breg-de/bundesregierung/1151246-1151246</link>
+    <description>Zusammenstellung der aktuellsten Artikel</description>
+    <language>de</language>
+    <copyright>Presse- und Informationsamt der Bundesregierung</copyright>
+    <generator />
+    <ttl>60</ttl>
+    <item>
+      <title>Startkapital für private Altersvorsorge</title>
+      <link>https://www.bundesregierung.de/breg-de/aktuelles/fruehstartrente-2449404</link>
+      <description>Die Bundesregierung will die Frühstartrente einführen – einen staatlichen Zuschuss für die Altersvorsorge der jungen Generation. Das Geld soll am Kapitalmarkt angelegt werden, sodass Kinder frühzeitig von den Renditemöglichkeiten profitieren und für das Alter sparen können.</description>
+      <enclosure url="https://www.bundesregierung.de/resource/blob/975228/2449424/f9c1fdb7ca216fe05217273dd4f304c6/2026-08-12-finanzen-altersvorsorge-data.jpg" length="120158" type="image/jpeg" />
+      <pubDate>Fri, 16 Oct 2026 09:43:09 GMT</pubDate>
+      <guid>https://www.bundesregierung.de/breg-de/aktuelles/fruehstartrente-2449404</guid>
+    </item>
+<item>
+      <title>Das Designrecht bekommt ein Update</title>
+      <link>https://www.bundesregierung.de/breg-de/aktuelles/kabinett-modernisierung-designrecht-2409304</link>
+      <description>Animierte Logos, digitale Oberflächen, 3D-Druck: Design entsteht längst nicht mehr nur am physischen Produkt. Das Gesetz, dass den Designschutz modernisiert, Verfahren verschlanken und die Durchsetzung stärken wird, hat nun den Bundesrat passiert.</description>
+      <enclosure url="https://www.bundesregierung.de/resource/blob/975228/2409572/c225c654f84bf8cb3cf1bd46b70a5bc2/2026-03-04-designer-data.jpg" length="910210" type="image/jpeg" />
+      <pubDate>Fri, 16 Oct 2026 09:00:00 GMT</pubDate>
+      <guid>https://www.bundesregierung.de/breg-de/aktuelles/kabinett-modernisierung-designrecht-2409304</guid>
+    </item>
+<item>
+      <title>Wissenschaftsfreiheitsgesetz erweitert</title>
+      <link>https://www.bundesregierung.de/breg-de/aktuelles/kabinett-wissenschaftsfreiheitsgesetz-2403242</link>
+      <description>Gemeinnützige Forschungseinrichtungen sollen im internationalen Wettbewerb um die besten Köpfe bestehen können. So sollen sie mit ihrer Forschung einen Beitrag zum Gemeinwohl erbringen können. Dafür wurde das Wissenschaftsfreiheitsgesetz erweitert.</description>
+      <enclosure url="https://www.bundesregierung.de/resource/blob/975228/2403290/53825c8e36356b28ec0ddb2b9539f0af/2026-01-20-forschung-biokunststoff-data.jpg" length="181791" type="image/jpeg" />
+      <pubDate>Fri, 16 Oct 2026 07:00:00 GMT</pubDate>
+      <guid>https://www.bundesregierung.de/breg-de/aktuelles/kabinett-wissenschaftsfreiheitsgesetz-2403242</guid>
+    </item>
+<item>
+      <title>Mehr Resilienz für Smart-Geräte</title>
+      <link>https://www.bundesregierung.de/breg-de/aktuelles/cyberresilienz-2426502</link>
+      <description>Mit der Cyberresilienz-Verordnung werden erstmalig Mindeststandards bei der Cybersicherheit für smarte Geräte, Software und weitere Produkte mit digitalen Elementen festgelegt. Europa macht sich widerstandsfähiger gegen Cyberangriffe und gewährleistet sichere digitale Dienste.</description>
+      <enclosure url="https://www.bundesregierung.de/resource/blob/975228/2427030/cbad8ab917942a74909ddd9313088c2f/2026-04-29-cyber-vernetzte-waschmaschine-data.jpg" length="803620" type="image/jpeg" />
+      <pubDate>Thu, 15 Oct 2026 21:00:00 GMT</pubDate>
+      <guid>https://www.bundesregierung.de/breg-de/aktuelles/cyberresilienz-2426502</guid>
+    </item>
+</channel>
+</rss>

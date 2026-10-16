@@ -559,3 +559,32 @@ Length of service: **built** 11 October 2026 (`tools/member_service.py fr`, bran
 ## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **done (bills); questions weekly**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/fr.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read once a day: the Assemblée's agenda zip and, since branch `gaps-day-sweep`, the dossiers deposited in the window from the AN's own dossier list (one page of 50, newest first). Written questions stay with the Saturday collection: the Journal officiel publishes them weekly and the dumps are 49-55 MB. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/fr.py`, run by `tools/country_gov_docs.py fr` into `gov_docs` (tests: `tests/test_gov_docs_fr.py`, fixtures captured live in `tests/fixtures/gov_docs/fr/`). No key, no account anywhere.
+
+Sources used:
+
+- **Journal officiel (code `jorf`)**: DILA's documented open data, `https://echanges.dila.gouv.fr/OPENDATA/JORF/` (an Apache index of tar.gz increments, Licence Ouverte). The small night increment (60 to 220 KB, written around 00:30) carries that day's JO; only its sommaire (the `conteneur` XML: each text's JORFTEXT id, title, section and ministry) is read, in memory. The large evening increments (2 to 6 MB) re-deliver consolidated older texts and are skipped by size. Kept: LOIS (`law`), the Textes généraux of "Décrets, arrêtés, circulaires" and the Présidence de la République (ordonnances, décrets, arrêtés: `regulation`, the ministry as body), and the CNCDH's and CESE's opinions (`publication`). Delegations of signature, nominations, collective agreements, competition notices and the independent authorities' decisions are left out. The last 21 days of increments are read each run (weekly job keeps the table current). Links go to `https://www.legifrance.gouv.fr/jorf/id/<JORFTEXT>`.
+- **Environment ministry consultations (code `dd`)**: `https://www.consultations-publiques.developpement-durable.gouv.fr/spip.php?page=liste-consultations&lang=fr`, the paged listing (11 a page, ordered by last change). Each card prints "Consultation du 16/10/2026 au 06/11/2026", so every open consultation has its closing date without reading item pages. A draft décret or arrêté is a `regulation_draft`, a draft ordonnance or law a `bill_draft`, a "Synthèse des observations" a `consultation_outcome`, anything else a `consultation`. The reader stops after two pages in a row with nothing in the window. The site's RSS (`spip.php?page=backend`) has only 12 items and no dates of closure, so the listing is used.
+- **Social affairs ministries (code `solidarites`)**: `https://solidarites.gouv.fr/rss.xml` (official RSS, 50 items): `press_release`, kept on tier 1 only; a "consultation citoyenne" is a `consultation`.
+
+robots.txt per host:
+
+- echanges.dila.gouv.fr: robots.txt answers 404, so no rules (RFC 9309).
+- www.consultations-publiques.developpement-durable.gouv.fr: "User-Agent: * / Disallow: /ecrire/ / Crawl-Delay: 1"; the listing is allowed.
+- solidarites.gouv.fr: Drupal defaults ("Disallow: /core/", "/profiles/", "/admin/" ...); /rss.xml is allowed.
+
+Routes tried that failed:
+
+- vie-publique.fr (the government's consultations listing and RSS): every URL, robots.txt included, answers a JavaScript redirect with "This website requires JS enabled and cookies" (a bot check). Not bypassed.
+- www.legifrance.gouv.fr (the "consultations publiques" page under Autour de la loi, and its RSS): HTTP 403 to our user agent, robots.txt included. The JORF comes from DILA's open data instead. The PISTE Legifrance API is documented but needs an account and OAuth credentials: not signed up for, by rule.
+- www.info.gouv.fr (Conseil des ministres reports, sitemaps): robots.txt allows the sitemaps, but every page answers 403 (Incapsula). Not bypassed.
+- sante.gouv.fr: robots.txt and /rss.xml both return an F5 bot-check page. Not bypassed.
+- www.education.gouv.fr: robots.txt read (Crawl-delay 10), /rss answers 403.
+- www.justice.gouv.fr: a maintenance page in place of robots.txt on 16 October.
+
+Measured on 16 October 2026 (scratch store): JORF 21 increments, 466 texts listed in the window, 0 on our ground (one décret on asylum matched only area 11, migration, which is never counted as on our ground, and only at tier 2); consultations 35 listed in the window (27 still open, 30 with a closing date), 0 on our ground (all environmental); social affairs RSS 50 listed, 1 on our ground. Under 35 seconds in all.
+
+Examples: "Lutte contre la sextorsion : lancement de la campagne de sensibilisation" (press_release, Ministères chargés des solidarités et des familles, areas 6 and 7); "Projet de décret relatif à la protection des captages d'eau potable ..." (regulation_draft, Ministère chargé de la transition écologique, closes 6 November 2026, off our ground); "LOI n° 2026-668 du 27 juillet 2026 visant à doter la France d'une stratégie nationale ..." (law, JO of 1 August 2026).

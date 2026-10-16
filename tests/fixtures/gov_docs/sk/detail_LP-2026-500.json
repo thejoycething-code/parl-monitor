@@ -1,0 +1,45 @@
+{
+ "uuid": "5b03488b-8d3b-4437-96f1-08c066ece906",
+ "typ": {
+  "uuid": "6be6c48b-4c6b-43b2-afdf-f2597c0f08bd",
+  "nazov": "Vyhláška",
+  "uroven": 1,
+  "kod": "Vyhlaska",
+  "prefix": "LP",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "09809bd5-285e-4a63-a29a-57d02bf09c24",
+   "nazov": "Cestná doprava",
+   "uroven": 3,
+   "kod": "CestnaDoprava",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/500",
+ "nazov": "Návrh vyhlášky Ministerstva dopravy Slovenskej republiky, ktorou sa ustanovujú podrobnosti o prevádzke plne automatizovaných vozidiel",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-09-29",
+ "zodpovednaInstitucia": {
+  "uuid": "a2f091ac-3293-4b5a-8ce3-8536fe7d3929",
+  "skratenyNazov": "MDSR",
+  "nazov": "Ministerstvo dopravy Slovenskej republiky",
+  "ldapUuid": "386cc723-451c-349f-a21a-f896aa9f2058",
+  "email": "oznamopk@mindop.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-09-29",
+ "datumUkonceniaPkMpk": "2026-10-19"
+}

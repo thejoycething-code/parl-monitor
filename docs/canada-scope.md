@@ -1107,3 +1107,81 @@ texts and e-7005); 2 Gazette items; one leave granted (Alberta v. Wirring).
 5. **The Senate and petitions are scrapers**, not feeds. Are they worth the
    upkeep for a section, or should they wait until the House coverage has
    earned it?
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+UK parity for "government consultations and publications": the Canadian
+reader is `src/gov_doc_sources/ca.py`, run by `tools/country_gov_docs.py ca`
+into the shared `gov_docs` table (`src/gov_docs.py`). Classified with the
+English shared taxonomy (`config/taxonomy.yaml`), as every federal Canadian
+tool classifies; `config/taxonomy-ca.yaml` is the Catalan list and
+`config/taxonomy-qc.yaml` the Quebec French one, and no French text is read
+here. No key is needed for any source.
+
+### Sources
+
+| Code | Source | Format | doc_type |
+|---|---|---|---|
+| `cwc` | Consulting with Canadians: the open-data register "Government of Canada - Consultations" (CKAN id `7c03f039-3753-4093-af60-74b0f7b2385d`), resource "Consultations - Last two years", `https://open.canada.ca/static/current_consultations_open.csv` | CSV, regenerated daily | `consultation`, closing date = `end_date` |
+| `gazette` | Canada Gazette, MIRRORED from `ca_gazette_items` (filled weekly by `tools/ca_gazette.py`) | store rows | Part I proposed regulations `regulation_draft` (closing = `comment_until`); Part I government notices `consultation` when their text asks for comments "within N days after publication" (closing worked out), else `publication`; Part I orders in council and all Part II items `regulation` |
+| `news` | Canada.ca News Centre, news releases: `https://api.io.canada.ca/io-server/gc/news/en/v2?type=newsreleases&...&format=atom` (the documented feed listed on canada.ca's news feeds page) | Atom, the window in one request | `press_release` (tier 1 needed) |
+
+The register CSV carries the registration number, owning department,
+English and French title and description, start and end dates, status (O
+open, P planned, C closed) and the consultation's page. Some rows link
+canada.ca's authoring preview host (`canada-preview.adobecqms.net`) or an
+Outlook safelinks wrapper; the reader rewrites the first to `www.canada.ca`
+and replaces the second with the dataset page.
+
+The Gazette mirror keeps the collector's scope: commission notices (charity
+revocations and the like), Parliament notices, miscellaneous notices and
+supplements are left out. The collector matches a regulation's text per
+passage and keeps one passage as its excerpt, so the summary filed here is
+that excerpt led by the collector's matched terms; without them the gov_docs
+pass would see one passage and drop the Immigration and Refugee Protection
+Regulations proposal. Titles stored as UTF-8 read as Windows-1252
+("Companiesâ€™") are repaired.
+
+### robots.txt
+
+- `open.canada.ca`: `User-agent: *` disallows Drupal paths (`/core/`,
+  `/modules/` ...), `/search/` and user pages; `/static/` and
+  `/data/api/` are allowed. `Crawl-delay: 20`, honoured (one request a run;
+  about 25 s).
+- `api.io.canada.ca`: robots.txt answers 404, so no rules.
+- `gazette.gc.ca`: not fetched by this reader (mirror).
+
+### Routes tried
+
+- CKAN `package_search?q="Consulting with Canadians"` finds unrelated
+  datasets; the register is `package_show?id=7c03f039-...`, whose
+  resources are the full CSV (all years) and the two-year CSV used here.
+- The News Centre feed also offers media advisories, speeches and
+  statements; only news releases are asked for (media advisories are
+  logistics).
+
+### Live run, 16 October 2026 (scratch store)
+
+| Source | Listed in the window | On our ground | Deadline rows with a closing date |
+|---|---|---|---|
+| `cwc` | 157 | 1 | 1 |
+| `gazette` | 128 | 5 | 1 (closed 14 September) |
+| `news` | 847 | 0 | n/a |
+
+Examples:
+
+- "Public Consultation on Sustainable Development Goals for Canada's 2027
+  Voluntary National Review", `consultation`, Employment and Social
+  Development Canada, closes 18 December 2026 (area 7).
+- "Regulations Amending the Immigration and Refugee Protection
+  Regulations", `regulation_draft`, Canada Border Services Agency, Gazette
+  Part I of 15 August 2026, comments closed 14 September 2026 (areas 2, 7,
+  12; 11 stored).
+- "Minimizing the Risk of Exposure to Ebola Disease in Canada Order, 2026,
+  No. 3", `regulation`, Public Health Agency of Canada, 10 October 2026.
+
+Of the 847 news releases, 11 match the taxonomy at tier 2 (online safety,
+gender-based violence, human trafficking) and none at tier 1, so the
+precision gate keeps none. Of the 157 consultations in the window only one
+is on our ground: the register is mostly regulatory, environmental and
+Indigenous engagement.
