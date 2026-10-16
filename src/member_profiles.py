@@ -44,7 +44,9 @@ what the record says each member did and never colours it.
 
 PARTY AT THE VOTE, three bases, always stated (X5, X6):
   * at_vote   the vote record names the party or group (PL, IT, CH, FR, ES,
-              BR, AR, MX, SK, DO, SV, PE, HU, and NL roll calls);
+              BR, AR, MX, SK, DO, SV, PE, HU, NL roll calls, and since 16
+              October 2026 Canada's House and Senate, through the reader
+              adapter src/editions/ca.py);
   * as_listed the record names no party; the party shown is the member
               list's, labelled "as listed, not party at the vote" (Croatia
               without a transcript sighting, Guatemala, Ecuador, Colombia,
@@ -580,6 +582,18 @@ def party_line_counts(votes):
     return out
 
 
+def _ca_authored(conn, wl):
+    """Canada: bills on our ground with the sponsor's PersonId (LEGISinfo's
+    detail record; tools/ca_rollcalls.fill_sponsors), House members only."""
+    from src.editions import ca
+    return _authored_rows(
+        conn, wl, "SELECT bill_key AS key, introduced_at AS date, COALESCE(short_title, "
+                  "long_title) AS title, areas, tier, sponsor_person_id, parliament, session, "
+                  "number FROM ca_bills WHERE sponsor_person_id IS NOT NULL",
+        ids=lambda r: [r["sponsor_person_id"]], role="sponsor",
+        url=lambda r: ca.bill_url(r["parliament"], r["session"], r["number"]))
+
+
 AS_LISTED_ROSTER = "as listed on the member roster, not party at the vote, X6"
 
 SPECS = {
@@ -806,6 +820,25 @@ SPECS = {
                                  "FROM co_bills WHERE COALESCE(authors, '') != ''", "authors"),
         party_note="Colombia's vote files print no party; the party shown is the member "
                    "list's latest, as listed, not party at the vote."),
+    # Canada (16 October 2026): the House and the Senate, from the Canada
+    # weekly's store through src/editions/ca.py (a reader adapter; the
+    # Canada edition itself stays tools/ca_monitor.py). Senators' keys are
+    # 'senator-<id>', never a House PersonId.
+    "ca": Spec(
+        "ca", "SELECT person_id, name, party, 'House of Commons', TRIM(COALESCE(constituency, "
+              "'') || CASE WHEN province IS NOT NULL THEN ' (' || province || ')' ELSE '' END), "
+              "sitting FROM ca_members UNION ALL SELECT person_id, name, affiliation, 'Senate', "
+              "province, NULL FROM ca_senators",
+        sql_positions("SELECT v.person_id, COALESCE(m.name, s.name), v.party, v.position "
+                      "FROM ca_votes v LEFT JOIN ca_members m ON m.person_id = v.person_id "
+                      "LEFT JOIN ca_senators s ON s.person_id = v.person_id "
+                      "WHERE v.division_key = ?"),
+        vote_parties="SELECT v.person_id, NULL, v.party, MIN(d.date), MAX(d.date) FROM ca_votes "
+                     "v JOIN ca_divisions d USING (division_key) GROUP BY 1, 3",
+        authored=_ca_authored,
+        party_note="The caucus the House of Commons prints for each member on the division "
+                   "itself, and for senators the affiliation the Senate's vote page names: "
+                   "party at the vote. Paired members place nobody."),
     "uy": Spec(
         "uy", "SELECT name, name, party, chamber, departamento, NULL FROM uy_members",
         None, basis="as_listed", listed_label="as listed on the member roster",

@@ -451,11 +451,22 @@ def _speaker(r):
     return who
 
 
+# Countries whose <cc>_speeches table is NOT this module's (16 October 2026):
+# Canada's ca_speeches is src/ca_store.py's own schema (Hansard and committee
+# interventions, read by tools/ca_monitor.py). src/editions/ca.py is a reader
+# adapter for the shared frameworks, so gather() must not read that table as
+# this module's: neither function below reads it. Additive; every other
+# country is unchanged.
+OWN_SCHEMA = ("ca",)
+
+
 def edition_items(conn, cc, since, until, wl):
     """The country's speeches (one item per debate and sitting) and questions
     on our ground in the window, for src/country_edition.py. [] when the
-    country has no such tables."""
+    country has no such tables (or keeps its own, OWN_SCHEMA)."""
     from src import country_edition as ce
+    if cc in OWN_SCHEMA:
+        return []
     out = []
     groups = {}
     for r in ce.rows(conn, "SELECT * FROM {0}_speeches WHERE {1} ORDER BY date, speech_id"
@@ -525,6 +536,8 @@ def coverage_lines(conn, cc, since, until):
     """What was read in the window: English lines for the edition's Coverage.
     [] when the country has no such tables or read nothing in the window."""
     from src import country_edition as ce
+    if cc in OWN_SCHEMA:
+        return []
     out = []
     for feed, what, unit in (("speeches", "Said in the chamber", "speeches"),
                              ("questions", "Questions", "questions")):
