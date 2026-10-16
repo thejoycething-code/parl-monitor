@@ -197,9 +197,9 @@ const tallyText = (d) => {
 };
 const readingTag = (r) => r.state === "confirmed"
   ? `<span class="reading ok">READING CONFIRMED</span>`
-  : `<span class="reading">${r.state === "awaiting sign-off" ? "READING AWAITING SIGN-OFF" : "NO READING DRAFTED"}</span>`;
+  : `<span class="reading">${r.state === "awaiting sign-off" ? "READING AWAITING SIGN-OFF" : r.state === "evidence only" ? "SIGNED AS EVIDENCE ONLY" : "NO READING DRAFTED"}</span>`;
 const readingLine = (r) => r.state !== "confirmed" ? "" :
-  `<div class="on">CitizenGO's reading, confirmed by ${esc(r.by)} on ${esc(fmtD(r.on))}: a ${esc(DATA.labels[0])}
+  `<div class="on">CitizenGO's reading, confirmed by ${esc(r.by)}${r.on ? " on " + esc(fmtD(r.on)) : ""}: a ${esc(DATA.labels[0])}
    vote scores ${esc(r.yea)}, a ${esc(DATA.labels[1])} vote scores ${esc(r.nay)} (on a scale from -2 to 2).</div>`;
 
 function splitTable(d) {

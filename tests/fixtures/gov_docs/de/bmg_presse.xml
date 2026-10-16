@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <rss version="2.0"
+         xmlns:content="http://purl.org/rss/1.0/modules/content/"
+         xmlns:atom="http://www.w3.org/2005/Atom">
+        <channel>
+            <title>Pressemitteilungen des Bundesministeriums für Gesundheit (BMG)</title>
+            <link>https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen</link>
+            <description></description>
+            <language>de-DE</language>
+            
+                <copyright>Bundesministerium für Gesundheit (BMG)</copyright>
+            
+            <pubDate>Fri, 16 Oct 2026 11:38:51 +0200</pubDate>
+            <lastBuildDate>Fri, 16 Oct 2026 11:38:51 +0200</lastBuildDate>
+            
+            <atom:link href="https://www.bundesgesundheitsministerium.de/?type=9818" rel="self" type="application/rss+xml" />
+            <generator>TYPO3 EXT:news</generator>
+            
+                
+                    <item>
+                        <guid isPermaLink="false">news-7570</guid>
+                        <pubDate>Thu, 15 Oct 2026 00:00:00 CET</pubDate>
+                        <title>Bundestag beschließt Notfallreform</title>
+                        <link>https://www.bundesgesundheitsministerium.de/bundestag-beschliesst-notfallreform</link>
+                        <description>Linnemann: „Diese Reform ist seit vielen Jahren überfällig“</description>
+                        <content:encoded><![CDATA[]]></content:encoded>
+                        
+                        
+                    </item>
+<item>
+                        <guid isPermaLink="false">news-7567</guid>
+                        <pubDate>Wed, 14 Oct 2026 00:00:00 CET</pubDate>
+                        <title>Linnemann: Durchschnittlicher Zusatzbeitragssatz bleibt stabil</title>
+                        <link>https://www.bundesgesundheitsministerium.de/ergebnisse-gkv-schaetzerkreis-zusatzbeitragssatz</link>
+                        <description></description>
+                        <content:encoded><![CDATA[]]></content:encoded>
+                        
+                        
+                    </item>
+<item>
+                        <guid isPermaLink="false">news-7564</guid>
+                        <pubDate>Wed, 14 Oct 2026 00:00:00 CET</pubDate>
+                        <title>Pflegestrukturkommission eingesetzt</title>
+                        <link>https://www.bundesgesundheitsministerium.de/pflegekommission-eingesetzt</link>
+                        <description>Linnemann: &quot;Pflege muss bezahlbar und zielgerecht sein&quot;</description>
+                        <content:encoded><![CDATA[]]></content:encoded>
+                        
+                        
+                    </item>
+<item>
+                        <guid isPermaLink="false">news-7562</guid>
+                        <pubDate>Tue, 13 Oct 2026 00:00:00 CET</pubDate>
+                        <title>Dialogprozess Wechseljahre: Frauengesundheit im Fokus – Forschung und Versorgung stärken  </title>
+                        <link>https://www.bundesgesundheitsministerium.de/dialogprozess-wechseljahre-frauengesundheit-im-fokus</link>
+                        <description></description>
+                        <content:encoded><![CDATA[]]></content:encoded>
+                        
+                        
+                    </item>
+</channel>
+</rss>

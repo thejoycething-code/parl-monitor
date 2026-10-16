@@ -54,6 +54,13 @@ PERIODS = (API + "/parliament-periods?parliament={0}&type=legislature"
                  "&sort_by=start_date_period&sort_direction=desc&range_end=4")
 POLLS = API + "/polls?field_legislature={0}&range_end=999"
 POLL = API + "/polls/{0}?related_data=votes"
+# The newest votes first, for the daily vote briefs' reader
+# (src/vote_brief_sources.DE, 16 October 2026): one short list instead of
+# the legislature's whole list. Measured that day: the Bundestag's vote of
+# the same morning was already listed.
+RECENT = (API + "/polls?field_legislature={0}&sort_by=field_poll_date"
+                "&sort_direction=desc&range_end={1}")
+RECENT_MAX = 40
 
 # The Drucksache the House voted on lives in the intro's HTML, as the first
 # dserver/dip link. Phase 3 reads its text the way src/eudoc.py reads an
@@ -150,8 +157,12 @@ def period_parliament(client, legislature):
 
 def pull(conn, client, today, legislature=None, log=print, limit=None,
          parliament=BUNDESTAG, parliament_label=None, tax=None, wl=None,
-         budget=None):
-    """Store every recorded vote of one legislature. Returns (seen, new, gaps)."""
+         budget=None, since=None):
+    """Store every recorded vote of one legislature. Returns (seen, new, gaps).
+
+    With `since` (ISO date; additive, 16 October 2026, for the daily vote
+    briefs) only the newest RECENT_MAX votes are listed and those dated on or
+    before `since` are skipped."""
     tax = tax if tax is not None else filt.load_taxonomy(TAXONOMY)
     wl = wl if wl is not None else filt.load_watchlist(WATCHLIST)
     if legislature is None:
@@ -161,9 +172,13 @@ def pull(conn, client, today, legislature=None, log=print, limit=None,
             return 0, 0, 0
         parliament_label = parliament_label or label
         log("de-rollcalls: {0}, legislature {1}".format(label, legislature))
-    reply = client.get_json(POLLS.format(legislature), "de-rollcalls",
-                            "polls-{0}".format(legislature), archive=False)
+    url = POLLS.format(legislature) if since is None else RECENT.format(legislature, RECENT_MAX)
+    reply = client.get_json(url, "de-rollcalls",
+                            "polls-{0}{1}".format(legislature, "" if since is None else "-recent"),
+                            archive=False)
     polls = (reply or {}).get("data") or []
+    if since is not None:
+        polls = [p for p in polls if (p.get("field_poll_date") or "") > since]
     # A ROW MISSING A COLUMN THE SCHEMA GAINED IS NOT DONE (22 September 2026).
     # Skipping a stored vote is what makes this cheap, and it is also why the
     # 68 votes collected before `parliament` existed would have kept their

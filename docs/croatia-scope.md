@@ -569,3 +569,30 @@ Length of service: **built, terms only** 11 October 2026 (`tools/member_service.
 ## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **done**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/hr.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Sabor's "Novi akti" (acts received, not yet on an agenda), keyed on the bill as the edition keys it; the agenda index (1.3 MB, 30 s) stays weekly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/hr.py`, run by `tools/country_gov_docs.py hr` (framework `src/gov_docs.py`). Tests: `tests/test_gov_docs_hr.py` on fixtures captured live (`tests/fixtures/gov_docs/hr/`). No key, no account.
+
+**Sources used**
+
+- **e-Savjetovanja register, open data** (`esav`): the Government Legislation Office's dataset "eSavjetovanja" on data.gov.hr (id `3df5d8d8-e2b2-4608-8a3e-f27c95b2f643`, Otvorena dozvola), read through the portal's CKAN API (`https://data.gov.hr/ckan/api/3/action/package_show?id=...`, then the JSON resource). One row per consultation: body, kind of instrument, title, status, opening and closing date. 869 rows. It is a snapshot refreshed about monthly: last modified 10 October 2026, newest consultation opened 9 September 2026, so consultations opened since the last refresh arrive a month late. The note on each run gives the snapshot date; a snapshot over 45 days old is a gap. Rows carry no link to the new portal (its pages are not addressable), so the URL is the portal's home and the register id is kept in the doc id (`esav:10289`). Kinds: Zakon is a `bill_draft`; Pravilnik, Uredba, Odluka a `regulation_draft`; Strateški dokument a `consultation`; Ostalo by its title. Impact assessment forms (Obrazac iskaza o procjeni učinaka propisa) and legislative-plan forms are not filed: they duplicate the draft they accompany.
+- **Narodne novine, službeni dio** (`nn`): the gazette's own index of every act of the year, `https://narodne-novine.nn.hr/get_index_file.aspx?year=2026&type=csv` (the "Popis svih propisa" download on the search page; tab-separated: issue, act number, title, type, whole/amendment/repeal, issuing body, ELI link; 1,404 acts on 16 October). It has no dates, so each issue's date is read from the gazette's documented API, `POST https://narodne-novine.nn.hr/api/act` (`nn_api_hr.aspx`, JSON-LD, `eli:date_publication`) for the issue's first act, newest first, stopping at the first issue older than the window (41 calls for 92 days; the gazette asks for at most three requests a second, we send one). Scope: zakon (`law`); uredba, pravilnik, naredba (`regulation`); odluka only from the Government or a ministry (`regulation`); uputa and naputak from a ministry (`guidance`). Not read: judgments, rješenja, statutes, collective agreements, the Sabor's own decisions, other bodies' decisions, and the advertisements part.
+
+**robots.txt**
+
+- `esavjetovanja.gov.hr`: no robots.txt (404).
+- `data.gov.hr`: `/robots.txt` returns the portal's application page (HTML, no rules), so nothing is disallowed; `/ckan/api/3/` is the documented CKAN action API.
+- `narodne-novine.nn.hr`: `User-agent: *` with `Disallow: /clanci/oglasi/`, `Disallow: /search.aspx?kategorija=3`, `Disallow: /search.aspx?*kategorija=3`, `Disallow: /eli/oglasni/2024/111/pdf` and about 200 individual `/clanci/sluzbeni/...html` articles. `/get_index_file.aspx` and `/api/` are allowed.
+
+**Routes tried that failed**
+
+- `https://esavjetovanja.gov.hr/` itself: rebuilt in 2026 as a Blazor Server application. The HTML is an empty shell (`<body class="fabric"><!--Blazor:{"type":"server"...}-->`); the content arrives over a SignalR websocket, which we do not drive. `/ECon/MainScreen`, `/ECon/Rss`, `/rss`, `/sitemap.xml`, `/api`, `/savjetovanja`, `/savjetovanje/<id>` and similar all answer 404. Nothing refuses us; there is no readable listing.
+- `https://savjetovanja.gov.hr/` (the information portal): its "Otvorena javna savjetovanja" box is empty in the served HTML.
+- Narodne novine's issue listing (`search.aspx?...kategorija=1&broj=N&rpp=200`) works but is about 640 KB an issue; the year CSV plus one API call an issue is lighter. The per-issue sitemaps (`sitemap_1_2026_117.xml`) carry no dates.
+
+**Measured, live run 16 October 2026** (scratch store): esav 236 rows in the window (published or closing since 16 July, or still open), 1 on our ground, a `regulation_draft` with a closing date; nn 207 acts in the window, 0 on our ground (one made decree, "Uredba o ... prodajnoj cijeni obiteljske kuće ili stana", matches "obitelj*" at tier 2 only, so the precision gate leaves it out). No gaps. 47 s.
+
+Example: "Savjetovanje o Prijedlogu pravilnika o jednostavnoj nabavi Ministarstva rada, mirovinskoga sustava, obitelji i socijalne politike", `regulation_draft`, Ministarstvo rada, mirovinskoga sustava, obitelji i socijalne politike, closed 13 August 2026 (a weak match: the ministry's name carries "obitelji").
+
+Taxonomy note for whoever owns `config/taxonomy-hr.yaml`: the tier-2 term `udžbenic*` does not match "udžbenika" (stem udžbenik-), so the open consultations on funding school textbooks ("Odluka o financiranju obveznih udžbenika") are not caught; `udžbeni*` would.

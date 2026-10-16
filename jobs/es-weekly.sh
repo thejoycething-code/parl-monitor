@@ -91,6 +91,12 @@ if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   exit "$rc"
 fi
 [ "$rc" -eq 3 ] && echo "es-rollcalls recorded gaps; publishing what it stored"
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh es
 # The weekly edition (src/country_edition.py, tools/es_monitor.py), to Chris
 # alone by DM, archived to editions/. Once a day: an edition already
 # committed for today is rewritten, not resent. A failed render never stops

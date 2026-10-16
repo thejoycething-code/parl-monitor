@@ -82,6 +82,12 @@ if [ "$rc" -ne 0 ] && [ "$rc" -ne 3 ]; then
   echo "mx-rollcalls failed (exit $rc)"
   exit "$rc"
 fi
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh mx
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"

@@ -676,3 +676,20 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 The Camera's legal notice reserves its multimedia under Law 633/1941 (original content reproducible with the source, video not clearly covered), and no Italian speeches are stored (the Senate refuses us; the Camera's debates are not collected). Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py it`, branch `ukp2-service`): every Camera mandate of the Republic (legislatures 1 to 19) of each sitting deputy and the dated group adhesions, from dati.camera.it SPARQL (752 periods, 900 group spells), matched to the store's members by name (a longer printed name matches only one listed member). The Senate's SPARQL refuses us: senators' profiles say the source does not cover them. Every four weeks. See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/it.py` (run by `tools/country_gov_docs.py it`), tests `tests/test_gov_docs_it.py`, fixtures `tests/fixtures/gov_docs/it/`. No keys.
+
+**Sources used**
+
+| Code | Source | Format | What it gives |
+|---|---|---|---|
+| gu | `https://www.gazzettaufficiale.it/30giorni/serie_generale`, then each issue's sommario `/gazzetta/serie_generale/caricaDettaglio/home?dataPubblicazioneGazzetta=YYYY-MM-DD&numeroGazzetta=N` | HTML | every act of the last 30 days' Serie Generale (25 issues) under its rubrica and emettitore. LEGGI ED ALTRI ATTI NORMATIVI (legge, decreto-legge, decreto legislativo = 'law'), DECRETI PRESIDENZIALI, DECRETI, DELIBERE E ORDINANZE MINISTERIALI, DECRETI E DELIBERE DI ALTRE AUTORITA' ('regulation'), CIRCOLARI ('guidance'). ESTRATTI, SUNTI E COMUNICATI (medicine authorisations, exchange rates) and the supplements are not read. The link is the act's ELI address (`/eli/id/YYYY/MM/DD/<codice>/sg`). |
+| partecipa | mirror of `country_petitions` (cc 'it', source 'partecipa', kind 'consultation'), written by `src/petition_sources/it.py` from partecipa.gov.it's GraphQL | table | the government's open consultations with their end dates, as 'consultation' rows; no second fetch |
+
+**robots.txt**: www.gazzettaufficiale.it answers 404 for /robots.txt (no rules). partecipa.gov.it: robots.txt is empty (petitions scope, 11 October). www.normattiva.it: `Allow: /` with `/ricerca/` and `/mfr/ricerca/` disallowed.
+
+**Routes tried**: the official RSS (`/rss/SG`, linked from the home page) is clean XML but carries only the latest issue (19 acts on 16 October), so the 30-day list is used instead; it reaches back 30 days, not the framework's 92, which the weekly cadence covers. Normattiva: no documented open-data API found; its search pages are disallowed and it duplicates the Gazzetta for new acts, so it is not read.
+
+**Live run, 16 October 2026** (`.probe/scratch-it.db`, 28 s): 279 listed in the window (276 Gazzetta acts from 25 issues, 3 ParteciPa consultations), 0 on our ground, 0 gaps. One tier-2 hit only (a Ministry of Economy decree on the state share of the otto per mille, area 8), held back by the precision gate. The three open ParteciPa consultations (Istat public value, biomass heat generators, the air quality directive) are not on our ground. Example rows as parsed: "DECRETO LEGISLATIVO 25 settembre 2026, n. 184: Recepimento della direttiva (UE) 2023/2864 ...", law, Governo (Consiglio dei Ministri), 15 October 2026; "DECRETO 17 settembre 2026: Termini e modalita' per la determinazione del contributo dei comuni italiani di frontiera", regulation, Ministero dell'Economia e delle Finanze.

@@ -53,6 +53,19 @@ parliament's own open data, no key, no login, nothing behind a bot check):
       the "Ausschüsse" tab of each biography): every committee function of
       the current Nationalrat period and of the Bundesrat, two requests.
 
+  de  Bundestag (16 October 2026, branch de-ca-gaps): every committee's and
+      sub-body's members (ordinary and deputy, with any function:
+      Vorsitzende, Obmann) from the Bundestag's own committee pages, the
+      members fragment each page loads (/ajax/member/..., allowed by
+      robots.txt and asked through the guard), about 75 requests a week.
+      The Bundestag does not publish committee seats or Nebentätigkeiten
+      as data: its open-data downloads (MdB-Stammdaten) carry neither, and
+      its biography XML sits under /xml/, which robots.txt disallows. The
+      Nebentätigkeiten exist as data only at abgeordnetenwatch (sidejobs,
+      CC0); that reader is built and OFF (DE_SIDEJOBS=1) until Chris
+      decides, because its robots.txt disallows /api/v2/ and the decision
+      of 13 October 2026 covers only the votes and profiles already read.
+
 NOT BUILT, and why (docs/country-parity-handover.md has the table):
   * Austria's interests: the Unvereinbarkeits register is HTML per member;
     meineabgeordneten.at needs a licence (AT5).
@@ -649,6 +662,175 @@ def parse_at_committees(reply, keep=None):
     return out
 
 
+# Germany ---------------------------------------------------------------------------------
+
+DE_SITE = "https://www.bundestag.de"
+DE_INDEX = DE_SITE + "/ausschuesse"
+DE_SKIP = ("weitere_gremien",)
+# Sub-bodies listed under a committee (Unterausschüsse, the Kinderkommission,
+# the Vertrauensgremium); a hearing or a sitting page has a number in it.
+DE_SUB_SKIP = re.compile(r"\d|anhoerung|sitzung|termine|tagesordnung|wp\d", re.I)
+DE_CARD = re.compile(r'(?s)<a title="([^"]*)" href="[^"]*/biografien/[^"]*-(\d+)" data-id="\d+"'
+                     r'.*?</a>')
+DE_P = re.compile(r'(?s)<p class="bt-teaser-person-mitgliedschaft"[^>]*>(.*?)</p>')
+DE_FRAKTION = re.compile(r'(?s)<p class="bt-person-fraktion">(.*?)</p>')
+DE_FUNKTION = re.compile(r'(?s)<p class="bt-person-funktion">(.*?)</p>')
+DE_MEMBERS_URL = re.compile(r'data-dataloader-url="(/ajax/member/de/ausschuesse/[^"]+)"')
+DE_TITLE = re.compile(r"<title>\s*(.*?)\s*(?:-\s*Deutscher Bundestag)?\s*</title>", re.S)
+DE_ROLE = {"ordentliche mitglieder": "ordentliches Mitglied",
+           "stellvertretende mitglieder": "stellvertretendes Mitglied"}
+# abgeordnetenwatch's sidejobs (Nebentätigkeiten as data, CC0): OFF until
+# Chris says yes (DE_SIDEJOBS=1). Its robots.txt disallows /api/v2/; the
+# decision of 13 October 2026 covers the votes and profiles already read
+# while written permission is requested, not a new endpoint.
+DE_SIDEJOBS = ("https://www.abgeordnetenwatch.de/api/v2/sidejobs?"
+               "mandates%5Bentity.parliament_period%5D={0}&range_start={1}&range_end={2}")
+DE_PERIOD = "161"
+DE_PAGE = 1000
+
+
+def de_committee_links(markup):
+    """['/ausschuesse/<slug>', '/ausschuesse/<slug>/<sub>'] from the index:
+    every committee and the bodies listed under one, never a hearing page."""
+    out = []
+    for path in re.findall(r'href="(/ausschuesse/[^"#?]+)"', markup or ""):
+        parts = path.strip("/").split("/")
+        if len(parts) == 2 and parts[1] not in DE_SKIP:
+            out.append(path)
+        elif len(parts) == 3 and not DE_SUB_SKIP.search(parts[2]):
+            out.append(path)
+    return list(dict.fromkeys(out))
+
+
+def de_committee_page(markup):
+    """(the committee's name, the members fragment's path or None)."""
+    t = DE_TITLE.search(markup or "")
+    m = DE_MEMBERS_URL.search(markup or "")
+    return (html_text(t.group(1)) if t else None), (m.group(1) if m else None)
+
+
+def html_text(fragment):
+    import html as _html
+    return clean(_html.unescape(re.sub(r"<[^>]+>", " ", fragment or ""))).replace("\u00ad", "")
+
+
+def de_name(printed):
+    """'Esken, Saskia' -> 'Saskia Esken'; 'Storch, Beatrix von' -> 'Beatrix von Storch'."""
+    last, _, first = (printed or "").partition(",")
+    first = first.strip()
+    particle = ""
+    m = re.search(r"\s+(von|zu|van|de|von der|von und zu)$", first)
+    if m:
+        particle, first = m.group(1), first[:m.start()].strip()
+    return clean(" ".join(x for x in (first, particle, last.strip()) if x))
+
+
+def parse_de_committee(markup, committee, group_key, keys=None):
+    """mi_groups rows for one committee's members fragment: the member as
+    printed, the Bundestag's own biography id (member_ref), ordinary or
+    deputy membership and any function ('Vorsitzende', 'Obmann'), verbatim.
+    `keys` maps a folded name to the store's de_members key (one Bundestag
+    member of the current term), or None."""
+    out = []
+    for m in DE_CARD.finditer(markup or ""):
+        block = m.group(0)
+        member = DE_P.search(block)
+        func = DE_FUNKTION.search(block)
+        frak = DE_FRAKTION.search(block)
+        role = DE_ROLE.get(html_text(member.group(1)).lower(), html_text(member.group(1))) \
+            if member else None
+        if func and html_text(func.group(1)):
+            role = "{0}; {1}".format(html_text(func.group(1)), role) if role else \
+                html_text(func.group(1))
+        name = de_name(html_text(m.group(1)))
+        n = fold(re.sub(r"\b(Dr|Prof)\.\s*", "", name))
+        kind = "inquiry" if "untersuchungsausschuss" in fold(committee) else "committee"
+        out.append(group(member_key=(keys or {}).get(n), member_ref=m.group(2), name=name,
+                         kind=kind, group_type=html_text(frak.group(1)) if frak else None,
+                         group_key=group_key, group_name=committee, role=role))
+    return out
+
+
+def de_keys(conn):
+    """{folded 'First Last': person_id} for the Bundestag's current members
+    whose name is unique (titles left out); the rest resolve by name at
+    render time, or not at all."""
+    got = {}
+    try:
+        rows = conn.execute("SELECT person_id, name FROM de_members WHERE parliament='5' AND "
+                            "legislature=?", (DE_PERIOD,)).fetchall()
+    except sqlite3.Error:
+        return {}
+    for pid, name in rows:
+        n = fold(re.sub(r"\b(Dr|Prof)\.\s*", "", name or ""))
+        got.setdefault(n, []).append(str(pid))
+    return {k: v[0] for k, v in got.items() if len(v) == 1}
+
+
+def parse_de_sidejobs(reply):
+    """mi_interests rows from abgeordnetenwatch's sidejobs: the member's own
+    declared activity (label, organisation), the published income level
+    where there is one, the date it was last changed. Never anyone else's."""
+    out = []
+    for d in (reply or {}).get("data") or []:
+        for mandate in d.get("mandates") or []:
+            org = (d.get("sidejob_organization") or {}).get("label")
+            text = clean(d.get("label"))
+            if org:
+                text = "{0}, {1}".format(text, clean(org)) if text else clean(org)
+            level = d.get("income_level")
+            out.append(interest(member_key=str(mandate.get("id")),
+                                member_ref=str(mandate.get("id")),
+                                name=re.sub(r"\s*\([^()]*\d{4}[^()]*\)\s*$", "",
+                                            mandate.get("label") or ""),
+                                category=d.get("job_title_extra"), text=text,
+                                paid="income level {0}".format(level) if level else None,
+                                declared=d.get("data_change_date")))
+    return out
+
+
+def fetch_de(conn, client, today, log=print, **_):
+    """Germany: every Bundestag committee's members from the Bundestag's own
+    committee pages (the index, each committee's page, its members
+    fragment: about 75 requests, robots.txt asked through the guard); and,
+    only with DE_SIDEJOBS=1, the Nebentätigkeiten from abgeordnetenwatch."""
+    from src.robots_guard import guard
+    g = guard(client, FEED)
+    keys = de_keys(conn)
+    rows, read, missing = [], 0, []
+    for path in de_committee_links(g.get_text(DE_INDEX, FEED, "de-ausschuesse")):
+        slug = path.strip("/").replace("/", "-")
+        name, members = de_committee_page(g.get_text(DE_SITE + path, FEED, "de-" + slug[:80]))
+        if not members or not name:
+            missing.append(slug)
+            continue
+        rows += parse_de_committee(g.get_text(DE_SITE + members, FEED,
+                                              "de-members-" + slug[:80]), name, slug, keys)
+        read += 1
+    if not read:
+        raise ValueError("no Bundestag committee's members were read")
+    log("  de: {0} committee seat(s) in {1} bod(ies); {2} matched to a store member; no "
+        "member list on {3}".format(len(rows), read, sum(1 for r in rows if r["member_key"]),
+                                   ", ".join(missing) or "none"))
+    out = {"de-ausschuesse": (rows, [], True, "{0} bodies read".format(read))}
+    if os.environ.get("DE_SIDEJOBS") == "1":
+        raw = getattr(client, "_client", client)
+        if getattr(raw, "set_host_throttle", None):
+            raw.set_host_throttle("www.abgeordnetenwatch.de", 2.5)
+        ints, start = [], 0
+        while True:
+            got = raw.get_json(DE_SIDEJOBS.format(DE_PERIOD, start, DE_PAGE), FEED,
+                               "de-sidejobs-{0}".format(start))
+            ints += parse_de_sidejobs(got)
+            total = (((got or {}).get("meta") or {}).get("result") or {}).get("total") or 0
+            start += DE_PAGE
+            if start >= total or not (got or {}).get("data"):
+                break
+        log("  de: {0} Nebentätigkeit(en) from abgeordnetenwatch".format(len(ints)))
+        out["de-nebentaetigkeiten"] = ([], ints, True, "abgeordnetenwatch sidejobs (CC0)")
+    return out
+
+
 # --- the fetchers ---------------------------------------------------------------------------
 
 BR_API = "https://dadosabertos.camara.leg.br/api/v2"
@@ -805,7 +987,7 @@ def fetch_at(conn, client, today, log=print, **_):
 
 
 FETCHERS = {"br": fetch_br, "nl": fetch_nl, "ch": fetch_ch, "pl": fetch_pl, "fr": fetch_fr,
-            "it": fetch_it, "at": fetch_at}
+            "it": fetch_it, "at": fetch_at, "de": fetch_de}
 COUNTRIES = tuple(FETCHERS)
 
 

@@ -1,0 +1,19 @@
+# Germany noise rules (src/noise.py; format documented there), for the
+# shared frameworks that read the Bundestag through src/editions/de.py: the
+# same-day vote briefs and the daily sweep (16 October 2026, branch
+# de-ca-gaps). The German edition itself (tools/de_monitor.py) does not read
+# this file. Hand-edited. Patterns match folded text: lower case, accents
+# stripped, 'ß' as 'ss'. A watched item is never filtered.
+#
+# Recorded votes in the Bundestag are on substance (abgeordnetenwatch lists
+# namentliche Abstimmungen only); the procedural patterns below are the
+# House's own procedure motions, should one ever be taken by roll call.
+procedural_votes:
+  - '\b(absetzung|erweiterung) (von|der) (der )?tagesordnung\b'
+  - '\bantrag zur geschaftsordnung\b'
+  - '\b(sitzungsunterbrechung|herbeirufung)\b'
+# A tier-1 term in the title, or two distinct terms, before an item alerts
+# (the vote briefs and the daily sweep); the same bar as Austria's.
+alert:
+  title_tier1: true
+  distinct_terms: 2

@@ -66,7 +66,11 @@ LONDON = "Europe/London"
 OWN = ("es", "it", "fr", "nl", "be", "at", "ch", "pl", "pt", "hr", "sk", "hu", "br",
        "ar", "mx")
 LATAM = "latam"
-CCS = OWN + (LATAM,)
+# Editions rendered by their own tool, not src/country_edition.py (additive,
+# 16 October 2026, branch de-ca-gaps): Germany's (tools/de_monitor.py, its
+# review units its Vorgänge, recorded votes and Drucksachen).
+OTHER = ("de",)
+CCS = OWN + OTHER + (LATAM,)
 
 DEFAULTS = {"review": True, "publish_at": "06:30", "after_days": 1}
 DECISIONS = ("keep", "cut", "edit")
@@ -97,7 +101,8 @@ def load_config(path=None):
 def settings(cc, config=None):
     """{review, publish_at, after_days} for cc: the defaults, the file's
     `default:` block, then the country's own line. Anything not in CCS is
-    never reviewed (the UK, DE, US, IE, AU and CA editions are not touched)."""
+    never reviewed (the UK, US, IE, AU and CA editions are not touched;
+    Germany joined on 16 October 2026, OTHER)."""
     config = load_config() if config is None else config
     got = dict(DEFAULTS)
     got.update(config.get("default") or {})

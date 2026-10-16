@@ -62,10 +62,29 @@ is a signed human reading in config/<cc>_stance.yaml, and the brief gives
 only that reading's STATUS; one DM per run, to Chris alone, whatever the
 environment says; British spelling, no em dashes.
 
+GERMANY (additive, 16 October 2026, branch de-ca-gaps): the Bundestag's
+recorded votes, through the reader adapter src/editions/de.py (the German
+edition itself is still tools/de_monitor.py's). Every member's position and
+Fraktion come with the vote from abgeordnetenwatch, so nothing is held for
+positions. Briefed after the Sunday weekly (jobs/de-weekly.sh) and daily
+(src/vote_brief_sources.DE).
+
 VOTE MEANINGS (additive, 11 October 2026; src/vote_meanings.py): each
 watched or tier-1 vote shows what a Yes and a No meant, and whether the line
 is a rule's, the free session judge's or a person's
 (config/vote-meanings-<cc>.yaml). A meaning is not a verdict.
+
+CANADA (additive, 16 October 2026): House of Commons and Senate divisions,
+through the reader adapter src/editions/ca.py (the Canada federal edition
+itself stays tools/ca_monitor.py). After the Canada weekly's collectors
+(jobs/ca-weekly.sh) and daily from the House's own division XML
+(src/vote_brief_sources.CA, the collector tools/ca_rollcalls.py's parsing).
+Canada is in POSITIONS_LATER because positions are a second request per
+division: the daily reader fetches them only for the votes it would brief,
+and a vote whose positions did not arrive is held, not briefed bare. The
+5CA line reads config/ca_stance.yaml with src/readings5ca.py, as the US,
+Irish and Australian briefs do; the closing line names tools/ca_5ca.py, not
+the new countries' signing guide (SIGNING).
 
 Briefs are written to data/briefs/<cc>-votes-<date>-<key>.md: one per bill
 (or vote group) per day, its decisive vote first.
@@ -89,12 +108,15 @@ BRIEFS = vote_brief.BRIEFS
 CHRIS = vote_brief.CHRISTOPHER
 REPO = vote_brief.REPO
 
-EDITIONS = ("it", "ch", "fr", "nl", "be", "pl", "hr", "sk", "es", "br", "ar", "mx", "at", "pt")
+EDITIONS = ("it", "ch", "fr", "nl", "be", "pl", "hr", "sk", "es", "br", "ar", "mx", "at", "pt",
+            "de", "ca")
 LATAM = ("cl", "pe", "ec", "do", "sv", "gt")
 COUNTRIES = EDITIONS + LATAM
 # Countries whose positions can arrive after the result: a vote without them
 # is held (HOLD_DAYS) rather than briefed bare.
-POSITIONS_LATER = ("it", "ch", "fr", "nl", "be", "pl", "sk", "es", "br", "ar", "mx")
+POSITIONS_LATER = ("it", "ch", "fr", "nl", "be", "pl", "sk", "es", "br", "ar", "mx", "ca")
+# Where a country's readings are signed when it is not tools/country_5ca.py's
+# guide (Canada's own 5CA, 16 October 2026).
 HOLD_DAYS = 2
 KEEP_DAYS = 400
 MAX_DM_BRIEFS = 8
@@ -103,6 +125,13 @@ MAX_DM_REBELS = 12
 
 LATAM_CHAMBER = {"cl": "Congreso Nacional", "pe": "Congreso", "ec": "Asamblea Nacional",
                  "do": "Cámara de Diputados", "sv": "Asamblea Legislativa", "gt": "Congreso"}
+# How a reading is signed, where the country's 5CA is older than
+# tools/country_5ca.py (additive, 16 October 2026).
+SIGNING = {"de": "config/de_stance.yaml is signed by a person (tools/de_stance.py drafts; "
+                 "tools/de_5ca.py builds the sheets from signed readings only)",
+           # Canada's own 5CA (16 October 2026).
+           "ca": "config/ca_stance.yaml is signed in that file (its header records how) "
+                 "and applied by tools/ca_5ca.py"}
 X6 = "No member is named against their party until party history is sourced (X6)."
 
 # Latam: (name, group, position) per vote, read from the store. `None` for
@@ -434,8 +463,9 @@ def brief_markdown(cc, votes, reasons, generated=None, sample=False):
     out.append("No verdict is attached here. Positions are the record's own words; the meaning "
                "lines say what a Yes and a No did (by rule, the free session judge, or a person "
                "in config/vote-meanings-{0}.yaml, which takes precedence); a reading of "
-               "config/{0}_stance.yaml is signed through its guide, docs/5ca-{0}-readings.md "
-               "(tools/country_5ca.py).".format(cc))
+               "{1}.".format(cc, SIGNING.get(cc) or "config/{0}_stance.yaml is signed through "
+                                 "its guide, docs/5ca-{0}-readings.md (tools/country_5ca.py)"
+                                 .format(cc)))
     return vote_brief.house_style("\n".join(out) + "\n")
 
 

@@ -199,3 +199,23 @@ at:
   - match: "menschenrecht"
     areas: [7, 8]
     why: the human rights committee
+
+# Germany (PROPOSED 16 October 2026, branch de-ca-gaps; for Chris to confirm):
+# the Bundestag's committees as the Bundestag names them, mirroring the
+# German-language rules approved for Austria above.
+de:
+  - match: "familie"
+    areas: [6, 9]
+    why: the family committee (Bildung, Familie, Senioren, Frauen und Jugend)
+  - match: "kinderkommission"
+    areas: [6, 9]
+    why: the Kinderkommission, the children's commission of the family committee
+  - match: "^ausschuss fur gesundheit"
+    areas: [1, 2]
+    why: the health committee
+  - match: "^ausschuss fur recht"
+    areas: [7, 9]
+    why: the legal affairs committee
+  - match: "menschenrechte"
+    areas: [8]
+    why: the human rights committee

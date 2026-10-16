@@ -512,3 +512,37 @@ Phase list: **done**. A same-day alert for new items on our ground, watched or t
 The puberty blocker vote audit read Slovakia's positions as never filled (positions_at NULL on all 4,606 votes, sk_votes empty). That was the laptop's copy of the store, downloaded on 12 October at 07:25 London, twenty minutes before the Mini's first Slovak weekly with `--positions all` published. The drain works: the Mini's runs of 12 and 13 October read 450 and 439 vote pages in their 20-minute budgets (about 2.7 seconds a vote with the 1-second throttle; no timeouts, no gaps), every vote committed as it is read, our ground first (all 880 votes on our ground were filled on the first two runs, vote 56965 among them on 12 October), then newest first. Faster routes checked again on 13 October: the open data still has no per-vote positions endpoint (six more names, all 404), the `hlasovanie` and `hlasovanie_tlac` page variants are no faster than `hlasklub` (15 and 9 seconds against 11 for vote 56965, and the print variant carries no member links), and www.nrsr.sk has no robots.txt (`/robots.txt` redirects to plain-http `/web/robots.txt`, a 404). So `jobs/sk-positions-backfill.sh` reads the rest by hand on the Mini, vote pages only, for as long as JOB_TIMEOUT allows.
 
 A print's documents are read once (docs_read), so a taxonomy change never reached the stored doc_areas: v0.3's guarded "zmen\* pohlav\*" left area 3 on prints 733, 44 and 400 and their 33 votes. `--reclassify` (and `SK_RECLASSIFY=true` on the weekly or the positions backfill) now matches every read print's documents again from the raw archive (data/raw/<date>/sk-rollcalls_doc-<id>.json.gz), fetching nothing; a print whose documents are not all archived on the machine (the GitHub runner keeps none) keeps its stored areas. On the Mini: 837 prints in about a minute, 3 changed, 33 votes.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/sk.py`, run by `tools/country_gov_docs.py sk` (framework `src/gov_docs.py`). Tests: `tests/test_gov_docs_sk.py` on fixtures captured live (`tests/fixtures/gov_docs/sk/`). No key, no account.
+
+**Source used: Slov-Lex eLegislatíva** (`lp`). Slov-Lex was relaunched as a single-page application: www.slov-lex.sk serves a shell, and its eLegislatíva module (`/elegislativa-fe/`) loads JSON from `https://api-gateway.slov-lex.sk/internal/elegislativa`, the same calls the public list and process pages make:
+
+- `POST /legislativne-materialy/filter?page=1&size=1000` with `{"datumZmenyOd": "<window start>"}`: every material whose record changed since the date, with type, number (`LP/2026/541`), title, current stage and the closing date of the inter-ministerial comment procedure (`datumUkonceniaPkMpk`). Pages start at 1 (page 0 answers 422). 585 materials for 92 days: 276 legislative processes (`LP`) and 309 EU acts (`LPEU`, not filed).
+- The same call with `{"typKod": "PredbeznaInfo", ...}`: the preliminary information notices (`PI/2026/245`), on which anyone may comment before drafting starts; `datumUkonceniaPkMpk` is the deadline for statements. 116 in the window.
+- `GET /legislativne-materialy/{LP|PI}/{year}/{n}`: one process, with the responsible institution, subject areas and MPK dates. Read only for processes still open for comment (stage MPK or VYJADRENIA, deadline today or later; 37 on 16 October, capped at 40), to name the body. For the rest the ministry is read off the title when it names one, and an MP's bill is filed under the MPs.
+
+Doc types: draft acts (Zákon, Ústavný zákon, Poslanecký návrh zákona) are `bill_draft` until published in the Collection (`law` from stage VYHLASENE_V_ZBIERKE); government regulations, decrees and measures (Nariadenie vlády, Vyhláška, Výnos, Opatrenie) `regulation_draft`, then `regulation`; non-legislative materials sent to comment (strategies, reports, Legislatívny zámer) `consultation`, otherwise `publication`; information papers for the government `report`; preliminary information `consultation`. `closing_date` is the MPK or PI deadline at any stage, so the countdown shows only those still to come. EU acts, international treaties and personnel proposals are not filed. URL: `https://www.slov-lex.sk/elegislativa/legislativne-procesy/SK/LP/2026/541`.
+
+The pripomienkové konanie is public: anyone may submit a comment, and when a collective comment (hromadná pripomienka) backed by at least 500 people is not accepted, the ministry must hold a dispute meeting (rozporové konanie) with its representative. That makes these deadlines the Slovak equivalent of a UK consultation closing date.
+
+**robots.txt**
+
+- `www.slov-lex.sk`: `User-agent: *` / `Disallow:` (nothing disallowed), with sitemaps on static.slov-lex.sk.
+- `api-gateway.slov-lex.sk`: no robots.txt (404), so allowed.
+- `static.slov-lex.sk`: no robots.txt (404).
+
+**Routes tried that failed**
+
+- The HTML pages (`/elegislativa/legislativne-procesy`, `/elegislativa/predbezne-informacie`): application shells with no content in the served HTML.
+- `api-gateway.slov-lex.sk/vyhladavanie/indexer-procesy`, `/vyhladavanie/v3/api-docs`, `/vyhladavanie/swagger-ui/index.html`: 404.
+- Each process has its own RSS (`/internal/elegislativa/legislativne-materialy/LP/2026/500/rss`: title, ministry, stages with dates) but there is no list-wide feed, and it has no deadline; the filter call is better.
+- `/legislativne-materialy/LP/2026/500/mpk`: 500.
+
+**Measured, live run 16 October 2026** (scratch store): 703 materials read (585 LP and LPEU plus 116 PI, two duplicates), 379 filed, 377 in the window, 7 on our ground, all of a deadline type with a closing date, 2 still open; 37 detail calls; no gaps. Two filter calls plus the details: 40 s on the first run, 120 s on a second (the gateway was slower).
+
+Examples:
+- "Stratégia rozvoja ľudských zdrojov v nových demografických, technologických a environmentálnych podmienkach ...", `consultation`, Ministerstvo práce, sociálnych vecí a rodiny Slovenskej republiky, closes 26 October 2026 (LP/2026/531).
+- "Návrh Opatrenia Ministerstva práce, sociálnych vecí a rodiny Slovenskej republiky o ustanovení ...", `regulation_draft`, the same ministry, closes 2 November 2026 (LP/2026/511).
+- "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 305/2005 Z. z. o sociálnoprávnej ochrane detí ...", `bill_draft`, comment closed 10 July 2026, now before the government (LP/2026/357).

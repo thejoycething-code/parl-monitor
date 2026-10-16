@@ -219,6 +219,23 @@ jobs:
         run: |
           python3 tools/make_de_votes.py | tee /tmp/de-votes.log \
             || echo "  [gap] de-votes: the vote page failed; last week's stands" | tee -a /tmp/de-votes.log
+      - name: The shared frameworks (agenda, member intelligence, profiles, vote briefs)
+        # 16 October 2026 (branch de-ca-gaps): the same steps as
+        # jobs/de-weekly.sh, through the reader adapter src/editions/de.py.
+        # Each is a [gap] on failure, never a red run.
+        if: always() && steps.fetch.outcome == 'success'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_DM_USER_ID: U05LJP0BT61
+        run: |
+          python3 tools/country_agenda.py de | tee /tmp/de-shared.log \
+            || echo "  [gap] the shared agenda step failed for de" | tee -a /tmp/de-shared.log
+          python3 tools/member_intel.py de | tee -a /tmp/de-shared.log \
+            || echo "  [gap] member-intel: de not fully read; last week's rows kept" | tee -a /tmp/de-shared.log
+          python3 tools/member_profiles.py de | tee -a /tmp/de-shared.log \
+            || echo "  [gap] member-profiles: the profiles failed to render" | tee -a /tmp/de-shared.log
+          python3 tools/country_vote_briefs.py --country de --send | tee -a /tmp/de-shared.log \
+            || echo "  [gap] vote briefs failed for de; the next run retries" | tee -a /tmp/de-shared.log
       - name: Health summary
         if: always()
         run: |
@@ -289,7 +306,7 @@ jobs:
           # when the judge evaluation was scheduled above: without them the
           # step writes a checklist and a report into a workspace that is
           # thrown away at the end of the run.
-          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html
+          git add data/ editions/ reviews/ docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html profiles/
           git diff --cached --quiet || git commit -m "Germany weekly: $(date -u +%Y-%m-%dT%H:%M)Z"
           # Hardened (docs/mac-mini-runner.md, step 4): six tries with longer,
           # jittered waits, and never retry while stuck mid-rebase.

@@ -239,10 +239,24 @@ def week_ahead(conn, today, wl):
     return out
 
 
+def timeline_extra(conn, today, until, wl):
+    """The countdown's rows (src/country_countdown.py, 16 October 2026): the
+    current session's items on our ground still waiting for debate or a
+    vote. The Sabor's service gives no date for them, so they are pending
+    rows ("This session"), never dated or guessed."""
+    out = []
+    for it in week_ahead(conn, today, wl):
+        take = (it.get("takeaway") or "on the session's agenda").rstrip(".")
+        it.update(where="SABOR", detail=take[:1].lower() + take[1:] + ", not yet dated", running=True,
+                  running_label="This session", keys=[k for k in (it.get("watch_key"), it["key"]) if k])
+        out.append(it)
+    return out
+
+
 COUNTRY = ce.Country(
     cc=CC, name="Croatia", chamber="Hrvatski sabor", language="Croatian",
     taxonomies=(("taxonomy-hr.yaml", "hr"),),
-    items=items, week_ahead=week_ahead, watchlist=watchlist,
+    items=items, week_ahead=week_ahead, watchlist=watchlist, timeline_extra=timeline_extra,
     members_note=("Every recorded vote states the question put: on a conclusion not to "
                   "accept a bill, “Za” is a vote to reject it. Party splits use the party "
                   "in the member list when the vote was collected, not party at the vote "

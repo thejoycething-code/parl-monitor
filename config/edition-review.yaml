@@ -15,8 +15,8 @@
 #   review       false sends at once from the weekly job, as before.
 #
 # Never reviewed, always immediate: the same-day vote briefs and the Latam
-# instant alerts. Only the fifteen own editions and the Latam monthly
-# ("latam") read this file.
+# instant alerts. Only the fifteen own editions, the German edition ("de",
+# 16 October 2026) and the Latam monthly ("latam") read this file.
 
 default:
   # OFF (Chris, 11 October 2026): the UK retired its review loop on 21 August
@@ -43,4 +43,7 @@ countries:
   br: {}
   ar: {}
   mx: {}
+  # Germany (16 October 2026): tools/de_monitor.py, its own edition; off with
+  # the default, as every edition is.
+  de: {}
   latam: {}

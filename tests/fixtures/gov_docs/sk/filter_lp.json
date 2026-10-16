@@ -1,0 +1,499 @@
+{
+ "totalElements": 41,
+ "number": 1,
+ "size": 1000,
+ "legMaterialList": [
+  {
+   "uuid": "ea2bc455-687d-41db-ac6f-501a0c6ca986",
+   "typNazov": "Poslanecký návrh zákona",
+   "cisloLegislativnehoMaterialu": "LP/2026/543",
+   "nazov": "Návrh poslancov Národnej rady Slovenskej republiky Miroslava ČELLÁRA, Richarda ELIÁŠA a Štefana GAŠPAROVIČA na vydanie zákona, ktorým sa mení zákon č. 180/2014 Z. z. o podmienkach výkonu volebného práva a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1441)",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-10-26"
+  },
+  {
+   "uuid": "c4edeed4-be98-4381-9367-ffde819e5d99",
+   "typNazov": "Nariadenie vlády Slovenskej republiky",
+   "cisloLegislativnehoMaterialu": "LP/2026/541",
+   "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa mení nariadenie vlády Slovenskej republiky č. 174/2017 Z. z., ktorým sa ustanovujú citlivé oblasti a zraniteľné oblasti v znení nariadenia vlády Slovenskej republiky č. 62/2022 Z. z.",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-11-05"
+  },
+  {
+   "uuid": "1d2ba05a-3266-48d7-bcfc-1f52bbdeefd7",
+   "typNazov": "Vyhláška",
+   "cisloLegislativnehoMaterialu": "LP/2026/540",
+   "nazov": "Návrh vyhlášky Ministerstva životného prostredia Slovenskej republiky, ktorou sa mení a dopĺňa vyhláška č. 119/2016 Z. z., ktorou sa ustanovujú podrobnosti o výkone odborného technicko-bezpečnostného dohľadu nad vodnými stavbami a o výkone technicko-bezpečnostného dozoru v znení vyhlášky Ministerstva životného prostredia Slovenskej republiky č. 265/2020 Z. z.",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-11-05"
+  },
+  {
+   "uuid": "d7c6693c-2a83-4658-8fb7-8490456e65fb",
+   "typNazov": "Nelegislatívny všeobecný materiál",
+   "cisloLegislativnehoMaterialu": "LP/2026/531",
+   "nazov": "Stratégia rozvoja ľudských zdrojov v nových demografických, technologických a environmentálnych podmienkach do roku 2050",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-10-26"
+  },
+  {
+   "uuid": "294d700e-cadf-457e-950c-42778e398317",
+   "typNazov": "Opatrenie",
+   "cisloLegislativnehoMaterialu": "LP/2026/511",
+   "nazov": "Návrh Opatrenia Ministerstva práce, sociálnych vecí a rodiny Slovenskej republiky o ustanovení súm rodičovského príspevku",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-11-02"
+  },
+  {
+   "uuid": "8e3755ca-6bbf-42bd-93ef-396e6e1f9fce",
+   "typNazov": "Poslanecký návrh zákona",
+   "cisloLegislativnehoMaterialu": "LP/2026/255",
+   "nazov": "Návrh poslankyne Národnej rady Slovenskej republiky Pauly Puškárovej na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 36/2005 Z. z. o rodine a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1254)",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-10-05",
+   "datumUkonceniaPkMpk": "2026-05-28"
+  },
+  {
+   "uuid": "5b03488b-8d3b-4437-96f1-08c066ece906",
+   "typNazov": "Vyhláška",
+   "cisloLegislativnehoMaterialu": "LP/2026/500",
+   "nazov": "Návrh vyhlášky Ministerstva dopravy Slovenskej republiky, ktorou sa ustanovujú podrobnosti o prevádzke plne automatizovaných vozidiel",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-09-29",
+   "datumUkonceniaPkMpk": "2026-10-19"
+  },
+  {
+   "uuid": "b3f7ee8b-6b7b-40cb-9ed8-d9dedd575cf7",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/357",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 305/2005 Z. z. o sociálnoprávnej ochrane detí a o sociálnej kuratele a o zmene a doplnení niektorých zákonov v znení neskorších predpisov a ktorým sa menia a dopĺňajú niektoré zákony",
+   "stadium": {
+    "hodnota": "ROKOVANIE_VLADA",
+    "nazov": "Rokovanie vlády SR"
+   },
+   "zaciatokStadia": "2026-08-12",
+   "datumUkonceniaPkMpk": "2026-07-10"
+  },
+  {
+   "uuid": "73a8a8c1-5e9f-46d1-9a55-2dd120d0dedd",
+   "typNazov": "Akt EÚ",
+   "cisloLegislativnehoMaterialu": "LPEU/2026/708",
+   "nazov": "COM(2026)558 Návrh ROZHODNUTIE RADY o podpise Dohody medzi Európskou úniou a Peruánskou republikou o spolupráci medzi Agentúrou Európskej únie pre spoluprácu v oblasti presadzovania práva (Europol) a orgánmi Peru príslušnými pre predchádzanie závažnej trestnej činnosti a terorizmu a boj proti nim",
+   "stadium": {
+    "hodnota": "SCHVALENIE_GESTORA",
+    "nazov": "Schválenie gestora"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": null
+  },
+  {
+   "uuid": "fb2f986a-1184-4d29-a5a9-18868e334f05",
+   "typNazov": "Akt EÚ",
+   "cisloLegislativnehoMaterialu": "LPEU/2026/636",
+   "nazov": "JOIN(2026)22 SPOLOČNÁ SPRÁVA EURÓPSKEMU PARLAMENTU A RADE Osobitná administratívna oblasť Hongkong: Výročná správa za rok 2025",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": null
+  },
+  {
+   "uuid": "766aff3f-5749-4a97-a7b4-e68b7a801d55",
+   "typNazov": "Nelegislatívny všeobecný materiál",
+   "cisloLegislativnehoMaterialu": "LP/2026/475",
+   "nazov": "Návrh Zmien a doplnkov č. 2/2026 záväznej časti Koncepcie územného rozvoja Slovenska 2001",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-10-15"
+  },
+  {
+   "uuid": "bf2a59b7-f217-4c01-9fe7-8bc31607d780",
+   "typNazov": "Nariadenie vlády Slovenskej republiky",
+   "cisloLegislativnehoMaterialu": "LP/2026/477",
+   "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa mení a dopĺňa nariadenie vlády Slovenskej republiky č. 528/2002 Z. z., ktorým sa vyhlasuje záväzná časť Koncepcie územného rozvoja Slovenska 2001v znení nariadenia vlády Slovenskej republiky č 461/2011 Z. z.",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-10-15"
+  },
+  {
+   "uuid": "8cd32712-3268-4749-bb49-c1d5c1c47752",
+   "typNazov": "Vyhláška",
+   "cisloLegislativnehoMaterialu": "LP/2026/494",
+   "nazov": "Návrh vyhlášky Ministerstva dopravy Slovenskej republiky, ktorou sa mení a dopĺňa vyhláška Ministerstva dopravy a výstavby Slovenskej republiky č. 133/2018 Z. z., ktorou sa ustanovujú podrobnosti o dokladoch vozidla v znení neskorších predpisov",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-10-15"
+  },
+  {
+   "uuid": "7766421a-7c92-4758-9d17-302384cf3069",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/450",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 447/2008 Z. z. o peňažných príspevkoch na kompenzáciu ťažkého zdravotného postihnutia a o zmene a doplnení niektorých zákonov v znení  neskorších predpisov a ktorým sa menia a dopĺňajú niektoré zákony",
+   "stadium": {
+    "hodnota": "ROKOVANIE_POV",
+    "nazov": "Rokovanie poradných orgánov vlády SR"
+   },
+   "zaciatokStadia": "2026-10-15",
+   "datumUkonceniaPkMpk": "2026-09-18"
+  },
+  {
+   "uuid": "f248d51b-275a-4f33-af51-70dba348f5f1",
+   "typNazov": "Informatívny materiál na rokovanie vlády SR",
+   "cisloLegislativnehoMaterialu": "LP/2026/537",
+   "nazov": "Informácia o zámere uzatvárania zmlúv o poskytnutí finančných prostriedkov mimovládnym neziskovým organizáciám",
+   "stadium": {
+    "hodnota": "SPRACOVANIE_PREDKLADATEL",
+    "nazov": "Spracovanie predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-15",
+   "datumUkonceniaPkMpk": null
+  },
+  {
+   "uuid": "6b9c8722-515c-48f3-85bd-b76e7718a4d1",
+   "typNazov": "Nelegislatívny všeobecný materiál",
+   "cisloLegislativnehoMaterialu": "LP/2026/440",
+   "nazov": "Správa o priebehu a výsledkoch posudzovania piatej periodickej správy Slovenskej republiky k Medzinárodnému paktu o občianskych a politických právach",
+   "stadium": {
+    "hodnota": "SPRACOVANIE_PREDKLADATEL",
+    "nazov": "Spracovanie predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-15",
+   "datumUkonceniaPkMpk": "2026-09-03"
+  },
+  {
+   "uuid": "d88f723f-2d8c-4d3e-b202-66178a95d53d",
+   "typNazov": "Nariadenie vlády Slovenskej republiky",
+   "cisloLegislativnehoMaterialu": "LP/2026/396",
+   "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa ustanovujú zraniteľní odberatelia elektriny a zraniteľní odberatelia plynu",
+   "stadium": {
+    "hodnota": "ROKOVANIE_POV",
+    "nazov": "Rokovanie poradných orgánov vlády SR"
+   },
+   "zaciatokStadia": "2026-10-15",
+   "datumUkonceniaPkMpk": "2026-10-07"
+  },
+  {
+   "uuid": "9b86c00c-2e12-489f-b73b-b149c5a4c835",
+   "typNazov": "Poslanecký návrh zákona",
+   "cisloLegislativnehoMaterialu": "LP/2026/516",
+   "nazov": "Návrh poslancov Národnej rady Slovenskej republiky Ľubice LAŠŠÁKOVEJ, Aleny NOVÁKOVEJ, Zdenky MAČICOVEJ a017643 Jozefa CECHA na vydanie zákona, ktorým sa mení a dopĺňa zákon č. 595/2003 Z. z. o dani z príjmov v znení neskorších predpisov (tlač 1490)",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-15",
+   "datumUkonceniaPkMpk": "2026-10-14"
+  },
+  {
+   "uuid": "35fb3be0-964b-4f87-ae14-cc3d28f91813",
+   "typNazov": "Nelegislatívny všeobecný materiál",
+   "cisloLegislativnehoMaterialu": "LP/2026/536",
+   "nazov": "Správa o priebehu a následkoch povodní na území Slovenskej republiky v období od januára do konca júna 2026",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-15",
+   "datumUkonceniaPkMpk": "2026-10-21"
+  },
+  {
+   "uuid": "374022ba-1b6f-44fe-bf49-612edfb8e822",
+   "typNazov": "Nelegislatívny všeobecný materiál",
+   "cisloLegislativnehoMaterialu": "LP/2026/473",
+   "nazov": "Návrh realizácie na zabezpečenie pilotných opatrení Misie Zdravie",
+   "stadium": {
+    "hodnota": "ROKOVANIE_VLADA",
+    "nazov": "Rokovanie vlády SR"
+   },
+   "zaciatokStadia": "2026-10-14",
+   "datumUkonceniaPkMpk": "2026-09-25"
+  },
+  {
+   "uuid": "9ed218ce-d8fb-4fda-b1bb-986c864b6327",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/468",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 64/2019 Z. z. o sprístupňovaní strelných zbraní a streliva na civilné použitie na trhu v znení neskorších predpisov",
+   "stadium": {
+    "hodnota": "SPRACOVANIE_PREDKLADATEL",
+    "nazov": "Spracovanie predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-14",
+   "datumUkonceniaPkMpk": "2026-10-01"
+  },
+  {
+   "uuid": "71a0c79a-f8b3-4c92-8137-8b04f9a4ef74",
+   "typNazov": "Akt EÚ",
+   "cisloLegislativnehoMaterialu": "LPEU/2026/701",
+   "nazov": "COM(2026)529 SPRÁVA KOMISIE EURÓPSKEMU PARLAMENTU A RADE Šiesta výročná správa o preverovaní priamych zahraničných investícií do Únie",
+   "stadium": {
+    "hodnota": "ZAPIS_PREDBEZNEHO_STANOVISKA",
+    "nazov": "Zápis predbežného stanoviska k návrhu aktu EÚ"
+   },
+   "zaciatokStadia": "2026-10-14",
+   "datumUkonceniaPkMpk": null
+  },
+  {
+   "uuid": "1f00c5cc-26ce-41e8-9e52-cfa539d146ff",
+   "typNazov": "Akt medzinárodného práva",
+   "cisloLegislativnehoMaterialu": "LP/2026/455",
+   "nazov": "Návrh na schválenie Aktov Svetovej poštovej únie – 12. dodatkového protokolu k Ústave Svetovej poštovej únie, 5. dodatkového protokolu ku Generálnemu poriadku Svetovej poštovej únie,  2. dodatkového protokolu k Svetovému poštovému dohovoru a 2. dodatkového protokolu k Dohode o poštových platobných službách prijatých na 28. svetovom poštovom kongrese Svetovej poštovej únie (Spojené arabské emiráty, Dubaj, 8. - 19. 9. 2025)",
+   "stadium": {
+    "hodnota": "SPRACOVANIE_PREDKLADATEL",
+    "nazov": "Spracovanie predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-14",
+   "datumUkonceniaPkMpk": "2026-09-21"
+  },
+  {
+   "uuid": "4d5787d3-4538-47cb-a189-2f83a213504a",
+   "typNazov": "Nelegislatívny všeobecný materiál",
+   "cisloLegislativnehoMaterialu": "LP/2026/509",
+   "nazov": "Návrh na zmenu termínu niektorých úloh vyplývajúcich z uznesení vlády Slovenskej republiky",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-10-14",
+   "datumUkonceniaPkMpk": "2026-10-08"
+  },
+  {
+   "uuid": "08f29a68-c95b-4736-870c-68c63989ad88",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/134",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 448/2008 Z. z. o sociálnych službách a o zmene a doplnení zákona č. 455/1991 Zb. o živnostenskom podnikaní (živnostenský zákon) v znení neskorších predpisov v znení neskorších predpisov a ktorým sa menia a dopĺňajú niektoré zákony",
+   "stadium": {
+    "hodnota": "VYHLASENE_V_ZBIERKE",
+    "nazov": "Vyhlásené v Zbierke zákonov SR"
+   },
+   "zaciatokStadia": "2026-10-14",
+   "datumUkonceniaPkMpk": "2026-04-10"
+  },
+  {
+   "uuid": "0c3b2c45-cfe2-4c17-a590-4341ca223e0e",
+   "typNazov": "Akt EÚ",
+   "cisloLegislativnehoMaterialu": "LPEU/2026/634",
+   "nazov": "*COM(2026)980 Návrh NARIADENIE EURÓPSKEHO PARLAMENTU A RADY o digitalizácii koordinácie systémov sociálneho zabezpečenia, ktorým sa stanovuje rámec pre európsky preukaz sociálneho zabezpečenia (ESSPASS) a ktorým sa menia nariadenia (ES) č. 883/2004, (ES) č. 987/2009 a (EÚ) 2018/1724",
+   "stadium": {
+    "hodnota": "ZAPIS_DOPLNENEHO_PREDBEZNEHO_STANOVISKA",
+    "nazov": "Zápis doplneného predbežného stanoviska k návrhu aktu EÚ"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": null
+  },
+  {
+   "uuid": "26b00a2e-c545-4891-b07e-6a563b39f583",
+   "typNazov": "Opatrenie",
+   "cisloLegislativnehoMaterialu": "LP/2026/515",
+   "nazov": "Návrh opatrenia Ministerstva práce, sociálnych vecí a rodiny Slovenskej republiky o úprave súm a koeficientov kompenzačného príspevku baníkom",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-11-02"
+  },
+  {
+   "uuid": "d20f9f04-441d-43cc-b0c9-13141c46088f",
+   "typNazov": "Nariadenie vlády Slovenskej republiky",
+   "cisloLegislativnehoMaterialu": "LP/2026/489",
+   "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa ustanovuje národná tabuľka frekvenčného spektra",
+   "stadium": {
+    "hodnota": "SPRACOVANIE_PREDKLADATEL",
+    "nazov": "Spracovanie predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-10-12"
+  },
+  {
+   "uuid": "7a1bb1b7-1401-4e6b-9538-ea6d497a45ac",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/490",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 286/2018 Z. z. o výbere kandidátov na funkciu európskeho prokurátora a európskeho delegovaného prokurátora v Európskej prokuratúre v znení zákona č. 141/2019 Z. z.",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-10-12"
+  },
+  {
+   "uuid": "39a9e437-6eec-469a-807d-7aced1cb18c6",
+   "typNazov": "Akt medzinárodného práva",
+   "cisloLegislativnehoMaterialu": "LP/2026/491",
+   "nazov": "Návrh Dohody medzi Azerbajdžanskou republikou a Slovenskou republikou o podpore a vzájomnej ochrane investícií",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-10-12"
+  },
+  {
+   "uuid": "432089a6-c92c-4cd6-8c67-f9799e8c8248",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/529",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 435/2000 Z. z. o námornej plavbe v znení neskorších predpisov",
+   "stadium": {
+    "hodnota": "MPK",
+    "nazov": "Pripomienkové konanie"
+   },
+   "zaciatokStadia": "2026-10-12",
+   "datumUkonceniaPkMpk": "2026-10-30"
+  },
+  {
+   "uuid": "922f3a63-0689-4841-9d4c-4427b2749033",
+   "typNazov": "Poslanecký návrh zákona",
+   "cisloLegislativnehoMaterialu": "LP/2026/496",
+   "nazov": "Návrh poslancov Národnej rady Slovenskej republiky Aleny NOVÁKOVEJ, Zdenky MAČICOVEJ, Jozefa CECHA a Ľubice LAŠŠÁKOVEJ na vydanie zákona, ktorým sa mení zákon č. 383/2013 Z. z. o príspevku pri narodení dieťaťa a príspevku na viac súčasne narodených detí a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1489)",
+   "stadium": {
+    "hodnota": "ROKOVANIE_POV",
+    "nazov": "Rokovanie poradných orgánov vlády SR"
+   },
+   "zaciatokStadia": "2026-10-12",
+   "datumUkonceniaPkMpk": "2026-10-09"
+  },
+  {
+   "uuid": "3bde1adc-c806-4dce-87f5-92194c535fea",
+   "typNazov": "Nariadenie vlády Slovenskej republiky",
+   "cisloLegislativnehoMaterialu": "LP/2026/526",
+   "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa ustanovujú pravidlá poskytnutia núdzovej finančnej podpory na kompenzáciu hospodárskej straty poľnohospodárom, ktorých postihli dôsledky krízy na Blízkom východe",
+   "stadium": {
+    "hodnota": "ROKOVANIE_VLADA",
+    "nazov": "Rokovanie vlády SR"
+   },
+   "zaciatokStadia": "2026-10-12",
+   "datumUkonceniaPkMpk": null
+  },
+  {
+   "uuid": "169dbaf9-5da6-4c36-8faa-909ad70b4141",
+   "typNazov": "Opatrenie",
+   "cisloLegislativnehoMaterialu": "LP/2026/322",
+   "nazov": "Návrh opatrenia Národnej banky Slovenska z ... 2026, ktorým sa mení a dopĺňa opatrenie Národnej banky Slovenska z 13. decembra 2016 č. 10/2016, ktorým sa ustanovujú podrobnosti o posúdení schopnosti spotrebiteľa splácať úver na bývanie v znení neskorších predpisov",
+   "stadium": {
+    "hodnota": "VYHLASENE_V_ZBIERKE",
+    "nazov": "Vyhlásené v Zbierke zákonov SR"
+   },
+   "zaciatokStadia": "2026-10-12",
+   "datumUkonceniaPkMpk": "2026-06-26"
+  },
+  {
+   "uuid": "e0ee98a8-8ea9-4f9a-925e-88fbd38accad",
+   "typNazov": "Akt EÚ",
+   "cisloLegislativnehoMaterialu": "LPEU/2026/549",
+   "nazov": "COM(2026)313 Návrh SMERNICA EURÓPSKEHO PARLAMENTU A RADY o európskom vyšetrovacom príkaze v trestných veciach a európskom príkaze na účasť na diaľku (prepracované znenie)",
+   "stadium": {
+    "hodnota": "VYHODNOTENIE_MPK_AKTY",
+    "nazov": "Vyhodnotenie pripomienkového konania"
+   },
+   "zaciatokStadia": "2026-10-10",
+   "datumUkonceniaPkMpk": "2026-10-09"
+  },
+  {
+   "uuid": "c2de906c-7e28-4ee1-8cd5-ee31dc5ab474",
+   "typNazov": "Akt medzinárodného práva",
+   "cisloLegislativnehoMaterialu": "LP/2026/110",
+   "nazov": "Návrh na uzavretie Dohody o posilnenom partnerstve a posilnenej spolupráci medzi Európskou úniou a jej členskými štátmi na jednej strane a Uzbeckou republikou na strane druhej",
+   "stadium": {
+    "hodnota": "ROKOVANIE_NRSR",
+    "nazov": "Rokovanie Národnej rady SR"
+   },
+   "zaciatokStadia": "2026-10-08",
+   "datumUkonceniaPkMpk": "2026-04-02"
+  },
+  {
+   "uuid": "4804815f-68c4-4b6c-9627-296b997f7edc",
+   "typNazov": "Vyhláška",
+   "cisloLegislativnehoMaterialu": "LP/2026/410",
+   "nazov": "Návrh vyhlášky Ministerstva pôdohospodárstva a rozvoja vidieka Slovenskej republiky, ktorou sa mení a dopĺňa vyhláška Ministerstva pôdohospodárstva a rozvoja vidieka Slovenskej republiky č. 30/2014 Z. z. o požiadavkách na nápoje v znení vyhlášky č. 158/2016 Z. z.",
+   "stadium": {
+    "hodnota": "ROKOVANIE_POV",
+    "nazov": "Rokovanie poradných orgánov vlády SR"
+   },
+   "zaciatokStadia": "2026-10-08",
+   "datumUkonceniaPkMpk": "2026-08-17"
+  },
+  {
+   "uuid": "503b87ef-ca91-4227-993c-476bcb1c6f5b",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2026/326",
+   "nazov": "Návrh zákona o Slovenskej lesníckej komore a o zmene a doplnení niektorých zákonov",
+   "stadium": {
+    "hodnota": "ROKOVANIE_NRSR",
+    "nazov": "Rokovanie Národnej rady SR"
+   },
+   "zaciatokStadia": "2026-10-06",
+   "datumUkonceniaPkMpk": "2026-06-30"
+  },
+  {
+   "uuid": "f7c39917-d586-41d6-b2b6-13401bdbed31",
+   "typNazov": "Opatrenie",
+   "cisloLegislativnehoMaterialu": "LP/2026/299",
+   "nazov": "Návrh opatrenia Národnej banky Slovenska z ... 2026, ktorým sa mení a dopĺňa opatrenie Národnej banky Slovenska z 25. septembra 2018 č. 11/2018 o predkladaní výkazov správcovskými spoločnosťami, zahraničnými správcovskými spoločnosťami, samosprávnymi investičnými fondmi a depozitármi fondov na účely dohľadu nad finančným trhom v znení opatrenia z 3. júna 2024 č. 4/2024",
+   "stadium": {
+    "hodnota": "SCHVALOVANIE_MINISTER",
+    "nazov": "Schvaľovanie zodpovedným predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-06",
+   "datumUkonceniaPkMpk": "2026-06-19"
+  },
+  {
+   "uuid": "4af65484-3671-42e4-8a6f-43fecd373a4f",
+   "typNazov": "Zákon",
+   "cisloLegislativnehoMaterialu": "LP/2024/570",
+   "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákona č. 409/2011 Z. z. o niektorých opatreniach na úseku environmentálnej záťaže a o zmene a doplnení niektorých zákonov v znení neskorších predpisov a ktorým sa menia a dopĺňajú niektoré zákony",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-10-06",
+   "datumUkonceniaPkMpk": "2024-11-13"
+  },
+  {
+   "uuid": "c642bd20-5c65-4386-8e7e-65a19ab66ae4",
+   "typNazov": "Opatrenie",
+   "cisloLegislativnehoMaterialu": "LP/2026/437",
+   "nazov": "Návrh opatrenia Národnej banky Slovenska z ... 2026  o registri finančných agentov, finančných poradcov, finančných sprostredkovateľov z iného členského štátu v sektore poistenia alebo zaistenia a finančných sprostredkovateľov z iného členského štátu v oblasti poskytovania úverov na bývanie ,",
+   "stadium": {
+    "hodnota": "SPRACOVANIE_PREDKLADATEL",
+    "nazov": "Spracovanie predkladateľom"
+   },
+   "zaciatokStadia": "2026-10-06",
+   "datumUkonceniaPkMpk": "2026-09-08"
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BMJ-Gesetzgebungsverfahren</title>
+    <link>https://www.bmj.de</link>
+    <atom:link href="https://www.bmjv.de/SiteGlobals/Functions/RSSNewsfeed/DE/RSSNewsfeed/RSSNewsfeedGesetzgebungsverfahren.rss" rel="self" type="application/rss+xml" />
+    <description>RSS-Newsfeed des Bundesministerium der Justiz</description>
+   <lastBuildDate>Fri, 16 Oct 2026 11:32:55 +0200</lastBuildDate>
+    <language>de-de</language>
+    <copyright>Copyright by BMJ. Alle Rechte vorbehalten</copyright>
+    <managingEditor>internet@bmj.bund.de</managingEditor>
+    <category>Newspapers</category>
+    <generator>Government Site Builder</generator>
+    <image>
+        <url>https://www.bmj.de/SiteGlobals/Frontend/Images/logo-newsletter.jpg?__blob=normal</url>
+      <title>BMJ-Gesetzgebungsverfahren</title>
+       <link>https://www.bmj.de</link>
+      <description>RSS-Newsfeed des Bundesministerium der Justiz</description>
+   </image>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+    <ttl>60</ttl>
+  <item>
+<guid isPermaLink="true">https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2026_Aenderung_ehrenamtl_Richter_Ausbildung.html</guid>
+<title>Gesetz zur &#196;nderung des Rechts der ehrenamtlichen Richterinnen und Richter und der juristischen Ausbildung</title>
+<link>https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2026_Aenderung_ehrenamtl_Richter_Ausbildung.html</link>
+<pubDate>Mon, 12 Oct 2026 09:43:00 +0200</pubDate>
+<description></description>
+</item>
+<item>
+<guid isPermaLink="true">https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2026_Gewaltschutzgesetz.html</guid>
+<title>Gesetz zur weiteren Verbesserung des Schutzes bei h&#228;uslicher Gewalt</title>
+<link>https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2026_Gewaltschutzgesetz.html</link>
+<pubDate>Mon, 5 Oct 2026 11:00:00 +0200</pubDate>
+<description></description>
+</item>
+<item>
+<guid isPermaLink="true">https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2026_RHStEAV.html</guid>
+<title>Verordnung zur elektronischen Aktenf&#252;hrung beim Bundesamt f&#252;r Justiz in Rechtshilfesachen nach dem Gesetz &#252;ber die internationale Rechtshilfe in Strafsachen</title>
+<link>https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2026_RHStEAV.html</link>
+<pubDate>Fri, 25 Sep 2026 09:52:00 +0200</pubDate>
+<description>(Rechtshilfe-Strafsachen-E-Aktenf&#252;hrungsverordnung &#8211; RHStEAV)</description>
+</item>
+<item>
+<guid isPermaLink="true">https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2025_IRG_Reform.html</guid>
+<title>Gesetz zur Neuregelung des Rechts der internationalen Rechtshilfe in Strafsachen</title>
+<link>https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2025_IRG_Reform.html</link>
+<pubDate>Mon, 29 Sep 2025 14:09:00 +0200</pubDate>
+<description></description>
+</item>
+<item>
+<guid isPermaLink="true">https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2025_Geoschutzreform.html</guid>
+<title>Gesetz zur Durchf&#252;hrung der Reform und Erweiterung des Schutzes geografischer Angaben (Geoschutzreformgesetz)</title>
+<link>https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2025_Geoschutzreform.html</link>
+<pubDate>Wed, 2 Jul 2025 10:22:00 +0200</pubDate>
+<description></description>
+</item>
+<item>
+<guid isPermaLink="true">https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2025_Rechtshilfe_Strafsachen_Deutschland_Indien.html</guid>
+<title>Gesetz zu dem Vertrag vom 24. Oktober 2024 zwischen der Bundesrepublik Deutschland und der Republik Indien &#252;ber die Rechtshilfe in Strafsachen</title>
+<link>https://www.bmjv.de/SharedDocs/Gesetzgebungsverfahren/DE/2025_Rechtshilfe_Strafsachen_Deutschland_Indien.html</link>
+<pubDate>Mon, 7 Jul 2025 13:17:00 +0200</pubDate>
+<description></description>
+</item>
+</channel>
+</rss>

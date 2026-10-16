@@ -533,3 +533,29 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 `tools/country_since_vote.py --cc ch` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py ch --since-vote` adds it to the profiles. Every member's vote is recorded, so drift can be named once a reading is confirmed and the words read. Sample: `docs/since-vote-samples/ch-2026-10-11.md`. Found while hand-checking: the French taxonomy's `IVG` (abortion) also matches the German `IVG` (Invalidenversicherungsgesetz), so the AHV survivors' pension votes of 24 September 2025 (24.078) are tier 1, area 1; reported to Chris.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py ch`, a step of `jobs/ch-weekly.sh`, branch `ukp2-service`): every Nationalrat and Ständerat period since 1848 from ws.parlament.ch's MemberCouncilHistory, with party and Fraktion per period (726 periods and 1,450 dated spells for the 277 listed members, one OData request a week). Profiles say "serving since" (the current unbroken run in the member's council) and the earlier periods; the vote pages a service line per member. See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+UK parity for "government consultations and publications": `src/gov_doc_sources/ch.py`, run by `tools/country_gov_docs.py ch` into `gov_docs`. The edition adapter supplies the taxonomies (taxonomy-atch for German, taxonomy-fr for French). No key anywhere.
+
+Sources used:
+
+- **Vernehmlassungen (mirror).** `src/petition_sources/ch.py` already reads the running consultations from the fedlex SPARQL endpoint into `country_petitions` (cc 'ch', source 'vl', kind 'consultation') each week, with the consultation phase's end date. The gov_docs step re-files those rows: a draft Verordnung is a `regulation_draft`, anything else (a law, a constitutional amendment, a treaty) a `bill_draft`; `closing_date` is the deadline. The petition rows name no department ("Bundesverwaltung"), so neither does the mirror.
+- **News Service Bund** (`https://www.newsd.admin.ch/newsd/feeds/rss?lang=de&org-nr=1&offer-nr=`): the federal administration's own RSS of its press releases, in German, about 500 items or two months, each naming its office in `<author>` (the Federal Council, departments, offices). `press_release`; the Federal Statistical Office's items are `statistics`.
+- **Official Compilation (AS)** through the fedlex SPARQL endpoint (`https://fedlex.data.admin.ch/sparqlendpoint`, documented and keyless, already in DOCUMENTED_APIS): every act published in the AS in the window (`eli/oc/...`) with its `jolux:typeDocument`. Bundesgesetz (resource-type 21) and Bundesbeschluss subject to referendum (36) are `law` (body Bundesversammlung); Verordnung des Bundesrates (29), Departementsverordnung (26) and Amtsverordnung (27) are `regulation`. Corrections (17), treaty scope notices (11) and international texts (31, 32) are left out.
+
+robots.txt, read 16 October 2026:
+
+- www.newsd.admin.ch: `/robots.txt` answers 404, so no rules apply (RFC 9309).
+- www.admin.ch and www.news.admin.ch (the item links): `User-agent: *` / `Disallow:` (empty). The item pages are not read; the feed carries title, date, office and lead.
+- fedlex.data.admin.ch `/sparqlendpoint`: documented API (exempt).
+
+Routes tried that were not used: www.admin.ch's press release listing and www.news.admin.ch are Nuxt JavaScript applications (the HTML carries no items); the News Service Bund feed is the same content as RSS.
+
+Measured, live run of 16 October 2026 against a scratch store (`.probe/scratch-ch.db`, the pulled store's `country_petitions` copied read-only; under 10 s): Vernehmlassungen mirror 28 listed, all with a deadline (12 October 2026 to 19 January 2027), 0 on our ground (as the petitions layer also found). News Service Bund 499 listed (12 August to 16 October), 2 on our ground. AS 110 acts and ordinances in the window (161 publications), 0 on our ground (amendments in the AS carry the base act's title, so few match). In all 637 listed, 2 on our ground, no gaps; no open deadline row on our ground this week.
+
+Examples:
+
+- "Konversionsmassnahmen: Bundesrat offen für gesetzliche Regelung auf Bundesebene", `press_release`, Der Schweizerische Bundesrat, 2 September 2026 (areas 4, 5).
+- "Individualbesteuerung tritt 2032 in Kraft", `press_release`, Der Schweizerische Bundesrat, 19 August 2026 (area 9).
+- Mirrored, off our ground: "Änderung der Verordnung über die Schweizerische Nationalbibliothek (Dépôt légal numérique)", `regulation_draft`, Bundesverwaltung, closed 12 October 2026.

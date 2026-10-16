@@ -36,6 +36,17 @@ keyword hit), and says it is unscored. Everything else (divisions, bills,
 speeches, testimony, the Gazette) is unscored and says so. The edition
 renders whole with no judge run at all (CLAUDE.md: TRIAGE=stub).
 
+THE WEEK AHEAD (16 October 2026, additive): the House's committee notices,
+Projected Order of Business and sitting calendar and the Senate's committee
+schedule and Order Paper, read by tools/country_agenda.py ca into the shared
+agenda table (src/agenda.py, src/agendas/ca.py), are rendered in the
+countdown layout Christopher approved for the UK on 15 October
+(src/countdown.py, as src/digest.py renders it): "This week" (Monday to
+Sunday of the edition's week, from today) and "Further afield" (the eight
+weeks after), one row per point on our ground or watched, tagged HOUSE,
+SENATE or JOINT COMMITTEE. Every other section is unchanged; with no agenda
+read the two sections are left out and the edition is exactly as before.
+
 A SESSION ENDS. The current session is the newest in the store. A bill of an
 earlier session that never had Royal Assent fell at that session's
 prorogation or dissolution whatever its stored status says (the hard rule:
@@ -51,6 +62,7 @@ import datetime
 import glob
 import json
 import os
+import re
 import sqlite3
 import sys
 
@@ -783,6 +795,77 @@ def courts_section(conn, since, today, names):
 
 # --- the edition ---------------------------------------------------------------
 
+# --- the week ahead (src/agenda.py, src/agendas/ca.py; 16 October 2026) -------------
+
+JOINT_HOSTS = ("www.parl.ca/",)
+
+
+def agenda_rows(conn, today):
+    """The latest agenda run's points on our ground or watched, dated today or
+    later, as src/countdown.py Rows; [] when no agenda was read."""
+    from src import agenda, countdown, latam
+    run = agenda.latest_run(conn, "ca")
+    if not run:
+        return []
+    wl = latam.watchlist("ca")
+    out = []
+    for r in rows(conn, "SELECT * FROM country_agenda WHERE cc = 'ca' AND last_seen = ? "
+                        "AND date >= ? ORDER BY date, time, item_id", (run[0], today)):
+        keys = list(dict.fromkeys(agenda.loads(r["bill_keys"]) + agenda.loads(r["refs"])))
+        watched = [k for k in keys if k in wl]
+        areas = latam.areas_of(r["areas"])
+        if not areas and not watched:
+            continue
+        body = r["body"] or ""
+        url = r["url"] or ""
+        if any(h in url for h in JOINT_HOSTS) and r["kind"] == "committee":
+            where = "JOINT COMMITTEE"
+        elif body.startswith("Senate"):
+            where = "SENATE"
+        else:
+            where = "HOUSE"
+        if r["kind"] == "committee":
+            committee = body.split(": ", 1)[-1]
+            title = "{0}: {1}".format(committee, r["title"]) if r["title"] != committee \
+                else committee
+        else:
+            title = r["title"]
+        detail = [x for x in (r["status"], r["detail"] if r["kind"] != "committee" else None)
+                  if x]
+        if watched:
+            detail.append("watched: " + ", ".join(k.split("/", 1)[-1] for k in watched[:3]))
+        hm = r["time"] or ""
+        clock = int(hm[:2]) * 60 + int(hm[3:5]) if re.match(r"\d{2}:\d{2}", hm) else 24 * 60 + 1
+        out.append(countdown.Row(date=r["date"], where=where, title=clip(title, 160),
+                                 url=r["url"], detail=oneline("; ".join(detail)) or None,
+                                 areas=areas, clock=clock))
+    return countdown.dedupe(out)
+
+
+def week_ahead_section(conn, today, names):
+    """'This week' and 'Further afield' in the countdown layout, and the
+    agenda's Coverage line; ([], None) when no agenda has been read."""
+    from src import agenda, countdown
+    from src.agendas import ca as ca_agenda
+    if not agenda.latest_run(conn, "ca"):
+        return [], None
+    day = datetime.date.fromisoformat(today)
+    monday = (day - datetime.timedelta(days=day.weekday())).isoformat()
+    ws, we, fs, he = countdown.windows(monday)
+    this_week, further = countdown.split(agenda_rows(conn, today), monday)
+    out = ["## This week · {0}".format(countdown.span_label(ws, we)), ""]
+    out += countdown.render_table(this_week, names) if this_week else \
+        ["*Nothing on our issues in the House or Senate diary for the rest of this week.*"]
+    out += ["", "## Further afield · {0}".format(countdown.span_label(fs, he, long=True)), ""]
+    out += countdown.render_table(further, names) if further else \
+        ["*Nothing on our issues in the diary yet (House committees give notice about a week "
+         "ahead; the Order of Business and the Senate's Order Paper cover the next sitting "
+         "only).*"]
+    out.append("")
+    note = oneline(agenda.ahead_note(conn, "ca", today, ca_agenda.SOURCE))
+    return [oneline(x) for x in out], note
+
+
 def render_edition(conn, today):
     conn.row_factory = sqlite3.Row
     ca_store.ensure_schema(conn)
@@ -833,6 +916,7 @@ def render_edition(conn, today):
     court_lines, judgments, leave = courts_section(conn, since, today, names)
     debate_lines = debate_section(conn, since, today, names)
     committee_lines, _ = committee_section(conn, since, today, names)
+    ahead_lines, ahead_note = week_ahead_section(conn, today, names)
 
     out = ["# Canada Federal Monitor",
            "### Week ending {0} | Edition {1} | {2} Parliament, {3} session".format(
@@ -897,9 +981,15 @@ def render_edition(conn, today):
             r["comment_until"], clip(r["title"], 80), r["url"] or r["item_key"], r["date"]))
     last_house = count(conn, "SELECT MAX(date) FROM ca_sittings")
     last_senate = count(conn, "SELECT MAX(date) FROM ca_senate_sittings")
-    out += ["- *Sittings:* the sitting calendar is not collected. The last House sitting read is "
-            "{0}, the last Senate sitting {1}.".format(last_house or "none", last_senate or "none"),
-            "- *Prorogation and dissolution:* {0}".format(PROROGATION_NOTE), ""]
+    if ahead_note:
+        out += ["- *Sittings:* {0} The last House sitting read is {1}, the last Senate sitting "
+                "{2}.".format(ahead_note, last_house or "none", last_senate or "none")]
+    else:
+        out += ["- *Sittings:* the sitting calendar is not collected. The last House sitting "
+                "read is {0}, the last Senate sitting {1}.".format(last_house or "none",
+                                                                  last_senate or "none")]
+    out += ["- *Prorogation and dissolution:* {0}".format(PROROGATION_NOTE), ""]
+    out += ahead_lines
 
     # Divisions
     if week:
@@ -980,8 +1070,11 @@ def render_edition(conn, today):
             "- **Read with a lag:** Hansard is read when the House publishes it, so the last "
             "sitting or two of a week can arrive next week; the Supreme Court's pages stop at "
             "Lexum's bot check and resume next run.",
-            "- **Not collected:** the sitting calendar, the Order Paper and written questions, "
-            "bill texts (PDF), provincial legislatures and courts (CanLII needs a key).",
+            ("- **Not collected:** the full House Order Paper (only the next sitting's Projected "
+             "Order of Business), written questions, bill texts (PDF), provincial legislatures "
+             "and courts (CanLII needs a key)." if ahead_note else
+             "- **Not collected:** the sitting calendar, the Order Paper and written questions, "
+             "bill texts (PDF), provincial legislatures and courts (CanLII needs a key)."),
             "- **Unscored:** divisions, bills, speeches, testimony and the Gazette; the judge "
             "scores petitions and Supreme Court judgments only.",
             "- **Migration** is matched and stored but not shown, as in every edition here.",

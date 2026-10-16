@@ -1,0 +1,32 @@
+[
+ {
+  "cc": "ar",
+  "item_id": "cp:transporteautomotores",
+  "source": "cp",
+  "kind": "consultation",
+  "title": "Participación ciudadana sobre propuestas para los servicios de colectivos de Jurisdicción Nacional L143 - L136 - L163",
+  "summary": "Una red de transporte más eficiente y adecuada a las necesidades de movilidad La Secretaría de Transporte impulsa un proceso de optimización de la red de servicios públicos de transporte automotor de pasajeros de Jurisdicción Nacional, orientado a mejorar su funcionamiento, adecuar la oferta a las necesidades actuales de movilidad y promover una utilización más eficiente de los recursos destinados a la prestación de los servicios. En este marco, se ponen a consideración distintas propuestas de reorganización de los servicios, que contemplan la adecuación de recorridos, frecuencias y parámetros",
+  "status": "cerrada",
+  "opened": "2026-09-24",
+  "closes": "2026-10-03",
+  "body": "Secretaría de Transporte",
+  "url": "https://consultapublica.argentina.gob.ar/transporteautomotores",
+  "first_seen": "2026-10-16",
+  "last_seen": "2026-10-16"
+ },
+ {
+  "cc": "ar",
+  "item_id": "cp:transporteautomotor",
+  "source": "cp",
+  "kind": "consultation",
+  "title": "Participación ciudadana para modificaciones en los servicios de colectivos de Jurisdicción Nacional",
+  "summary": "Una red de transporte más eficiente y adecuada a las necesidades de movilidad La Secretaría de Transporte impulsa un proceso de optimización de la red de servicios públicos de transporte automotor de pasajeros de Jurisdicción Nacional, orientado a mejorar su funcionamiento y adecuar la oferta a las necesidades actuales de movilidad de los usuarios de transporte público. Las modificaciones propuestas buscan promover una utilización más eficiente de los recursos destinados a la prestación, reducir recorridos improductivos o sobreofertados y fortalecer la accesibilidad, la conectividad y la integ",
+  "status": "cerrada",
+  "opened": "2026-09-09",
+  "closes": "2026-09-19",
+  "body": "Secretaría de Transporte",
+  "url": "https://consultapublica.argentina.gob.ar/transporteautomotor",
+  "first_seen": "2026-10-16",
+  "last_seen": "2026-10-16"
+ }
+]
