@@ -45,8 +45,10 @@ class PendingPassTests(unittest.TestCase):
         """A capped or exhausted API must cost us the scoring quality, not
         the whole pull (API usage cap hit live, 2026-08-05)."""
         seed_pending(self.conn, "a:1", "Assisted dying safeguards", 1, areas=(2,))
+        # The paid judge is opt-in since round 3 (16 October 2026).
         with mock.patch.object(triage, "triage",
-                               side_effect=RuntimeError("HTTP 400: usage limits")):
+                               side_effect=RuntimeError("HTTP 400: usage limits")), \
+                mock.patch.dict(os.environ, {"UK_PAID_JUDGE": "1", "ANTHROPIC_API_KEY": "sk-test"}):
             status = run_weekly.run_triage_pass(self.conn, self.wl, "2026-08-10",
                                                 mode="live")
         self.assertIn("stub", status)

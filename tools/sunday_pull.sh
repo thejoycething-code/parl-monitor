@@ -2,8 +2,8 @@
 # Unattended Sunday pull (handoff section 8: Sunday 21:00 pull + triage queue).
 #
 # Fetches all feeds, archives raw responses, filters, stores, and triages.
-# TRIAGE=auto: live Claude scoring when config/secrets.yaml carries an
-# anthropic_api_key, deterministic stub otherwise. The review file is ready
+# TRIAGE=auto: items are left for the free session judge (16 October 2026);
+# the paid API judge runs only with UK_PAID_JUDGE=1. The review file is ready
 # by ~21:30 for optional human edits before Monday's unattended publish.
 #
 # Scheduled via launchd: ~/Library/LaunchAgents/net.citizengo.parlmonitor.pull.plist

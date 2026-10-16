@@ -1638,3 +1638,10 @@ now publishes `parl-monitor.db.gz` instead of the raw `parl-monitor.db`.
   uncompressed and 1.5 GB compressed). Gzip buys roughly 4x on today's data, but the store doubled in
   three days of backfills; the lasting fix is splitting it into several
   assets (one per region, say), each under the limit.
+
+## Sitting days (16 October 2026, src/sitting_days.py)
+
+- Westminster: `whatson-api.parliament.uk/calendar/events/nonsitting.json` (startDate/endDate) lists Commons and Lords recesses, non-sitting Fridays and bank holidays. EndDate is inclusive (the September 2026 recess ends Sun 11 Oct; both Houses sat Mon 12 Oct). whatson-api has no robots.txt rules (404).
+- Holyrood: no recess list on a machine route except the Parliamentary Bureau's "Parliamentary Recess Dates" motions in `data.parliament.scot/api/MotionsQuestionsAnswersMotionsBusiness?motionfilter=recess` (S7M-00153 for 2026, S7M-01014 for 2027). The parliament.scot recess page was still stale on 16 October 2026.
+- Senedd: the recess dates sit on business.senedd.wales calendar pages, which the Azure WAF refuses (403); `mgWebService.asmx/GetCalendarEvents` returns no events. The line therefore states the Plenary meetings (`GetMeetings?lCommitteeId=908`), which the web service serves to our own UA.
+- NI Assembly: the "Recess Dates" page (niassembly.gov.uk/about-the-assembly/general-information/) lists the Business Committee's agreed recesses; robots.txt allows it. "to dissolution" (Easter 2027) has no date and is not stated.

@@ -34,11 +34,13 @@ BIG_SCORE = 3
 BIG_LABEL = "BIG DATE"
 
 COMMONS, LORDS = "COMMONS", "LORDS"
+JOINT = "JOINT COMMITTEE"   # round 3: a joint committee of both Houses is not COMMONS
+UK_GOVT = "UK GOVT"         # round 3: UK Government consultations (gov.uk)
 NI_ASSEMBLY, NI_GOVT = "NI ASSEMBLY", "NI GOVT"
 HOLYROOD, SCOT_GOVT = "HOLYROOD", "SCOT GOVT"
 SENEDD, WELSH_GOVT = "SENEDD", "WELSH GOVT"
 DEADLINE = "DEADLINE"
-TAGS = (COMMONS, LORDS, NI_ASSEMBLY, NI_GOVT, HOLYROOD, SCOT_GOVT, SENEDD,
+TAGS = (COMMONS, LORDS, JOINT, UK_GOVT, NI_ASSEMBLY, NI_GOVT, HOLYROOD, SCOT_GOVT, SENEDD,
         WELSH_GOVT, DEADLINE)
 NATION_GOVT = {"ni": NI_GOVT, "scotland": SCOT_GOVT, "wales": WELSH_GOVT}
 
@@ -243,16 +245,20 @@ def _minutes(hhmm):
     return int(m.group(1)) * 60 + int(m.group(2)) if m else 24 * 60 + 1
 
 
-def house_tag(house, venue=None):
+def house_tag(house, venue=None, title=None):
     """What's On house + venue -> tag. Westminster Hall is the Commons; Grand
-    Committee is the Lords."""
+    Committee is the Lords; a joint committee of both Houses (What's On house
+    "Joint Select & Joint Committees", or a committee named "(Joint
+    Committee)") is JOINT COMMITTEE (round 3, 16 October 2026: the Joint
+    Committee on the Draft Conversion Practices Bill was tagged COMMONS)."""
     h = (house or "").lower()
     v = (venue or "").lower()
+    if h.startswith("joint") or "(joint committee)" in (title or "").lower() \
+            or re.match(r"^joint committee\b", (title or "").strip().lower()):
+        return JOINT
     if "grand committee" in v or h.startswith("lord"):
         return LORDS
     if "westminster hall" in v or h.startswith("common"):
-        return COMMONS
-    if h.startswith("joint"):
         return COMMONS
     return (house or "").upper()
 
@@ -303,7 +309,7 @@ def from_whatson(line, board_titles=None):
     if ev.get("title") is not None or ev.get("event_id"):
         why = line.text if line.text and line.text != ev.get("title") else ""
     tag = line.tag if isinstance(line.tag, int) else None
-    return Row(date=getattr(line, "date", None), where=house_tag(ev.get("house"), venue),
+    return Row(date=getattr(line, "date", None), where=house_tag(ev.get("house"), venue, title),
                title=_clean(title), url=url, detail=detail,
                lead=members[0] if members else None, note=_clean(why) or None,
                areas=list(getattr(line, "areas", None) or []), score=tag,
@@ -319,7 +325,9 @@ def from_deadline(d):
     committee = d.get("committee")
     if evidence and committee and why.startswith(committee):
         why = why[len(committee):].lstrip("; ").strip()
-    return Row(date=d.get("deadline"), where=DEADLINE, title=title, url=d.get("url"),
+    # A UK Government consultation (the gov.uk feed) is UK GOVT; a committee's
+    # call for evidence stays DEADLINE (round 3, 16 October 2026).
+    return Row(date=d.get("deadline"), where=DEADLINE if evidence else UK_GOVT, title=title, url=d.get("url"),
                detail="written evidence closes" if evidence else "consultation closes",
                lead=None, note=why or None, areas=list(d.get("areas") or []),
                score=d.get("score"), kind="deadline",
@@ -648,6 +656,82 @@ KEY_HIDDEN = (11,)     # migration: collated, never campaigned (as the judgments
 _TO_ASK = re.compile(r"^(?:To ask (?:the )?(?:Scottish|Welsh|Northern Ireland)? ?(?:Government|Executive|"
                      r"First Minister|Cabinet Secretary[^,]*|Minister[^,]*)[, ]*|To ask the [A-Z][^,]*?,\s*)", re.I)
 
+# The question form's standard openings (round 3, Chris, 16 October 2026:
+# Holyrood summaries "start with boilerplate"). After "To ask the Scottish
+# Government", what is left of the opening says nothing about the subject:
+# "what assessment it has made of the risk of modern slavery ..." is about
+# the risk of modern slavery. Order matters: the first match wins.
+_OPENINGS = [
+    (re.compile(r"^in (?:the )?light of [^,]+(?:,[^,]+?)*?,\s*(?=(?:what|whether|how|when|which|why|for what)\b)", re.I), ""),
+    (re.compile(r"^(?:what|which) (?:assessment|analysis|estimate|evaluation) (?:it|the Scottish Government|"
+                r"the Government|the Minister) (?:has made|makes|has carried out|will make) (?:of|regarding) ", re.I), ""),
+    (re.compile(r"^what (?:consideration|thought) it (?:has given|is giving|gives) to ", re.I), ""),
+    (re.compile(r"^what (?:action|steps|measures|work) it (?:is taking|has taken|will take|plans to take) to ", re.I), ""),
+    (re.compile(r"^what (?:action|steps|measures) it (?:is taking|has taken|will take) (?:on|regarding|in relation to) ", re.I), ""),
+    (re.compile(r"^what it is doing to ", re.I), ""),
+    (re.compile(r"^what (?:its|the Scottish Government's|the Government's) (?:position|policy|response) is (?:on|regarding|to) ", re.I),
+     "position on "),
+    (re.compile(r"^what (?:its|the Scottish Government's) (?:position|policy) is on ", re.I), "position on "),
+    (re.compile(r"^whether it (?:has any plans|plans|intends|will consider) to ", re.I), "plans to "),
+    (re.compile(r"^for what reason ", re.I), "why "),
+    (re.compile(r"^will the (?:Cabinet Secretary|Cabinet Minister|Minister|First Minister|Counsel General)[^?]*? (?:make a statement|"
+                r"provide an update) on ", re.I), ""),
+    (re.compile(r"^what (?:discussions|engagement) it has had with [^,]+? (?:regarding|about|on) ", re.I), "talks on "),
+]
+
+# Where a long question may be cut: before a new phrase, never inside one.
+_PHRASE_BREAKS = (", ", "; ", " as a result of ", " in light of ", " following ", " through ", " under ", " across ", " within ",
+                  " in order to ", " so that ", " including ", " such as ", " and what ", " and whether ",
+                  " and how ", " and ", " in ", " for ", " with ", " by ", " when ", " where ")
+# A cut must not leave the text ending on a word that needs what follows.
+_DANGLING = {"to", "of", "the", "a", "an", "who", "which", "that", "for", "and", "or", "in", "on", "by",
+             "with", "its", "their", "his", "her", "from", "at", "as", "into", "is", "are", "be", "it",
+             "this", "these", "those", "any", "what", "whether", "how", "under", "between", "than"}
+
+
+def _phrase_cut(text, limit):
+    """Cut `text` to at most `limit` characters at a phrase boundary, never
+    leaving it on a dangling word (round 3: "affecting individuals who")."""
+    t = text.strip()
+    if len(t) <= limit:
+        return t
+    head = t[:limit + 1]
+    # The LATEST boundary that leaves a whole phrase wins, whichever kind it
+    # is ("..., transgender and gender diverse individuals" before " with ",
+    # not "cisgender female" before the list's first comma).
+    best = -1
+    for brk in _PHRASE_BREAKS:
+        i = head.rfind(brk)
+        while i >= limit * 0.45 and i > best:
+            last = re.sub(r"[^a-z]", "", head[:i].rstrip(" ,;:-").rsplit(" ", 1)[-1].lower())
+            if last not in _DANGLING:
+                best = i
+                break
+            i = head.rfind(brk, 0, i)
+    if best > 0:
+        return head[:best].rstrip(" ,;:-")
+    words = head.rsplit(" ", 1)[0].split(" ")
+    while len(words) > 3 and re.sub(r"[^a-z]", "", words[-1].lower()) in _DANGLING:
+        words.pop()
+    return " ".join(words).rstrip(" ,;:-")
+
+
+def question_summary(text, limit=110):
+    """A devolved written question as its subject: the "To ask the Scottish
+    Government" preamble and the standard opening go, then the text is cut
+    at a sentence or phrase boundary (round 3, 16 October 2026)."""
+    t = _clean(re.sub(r"<[^>]+>", " ", text or ""))
+    t = _TO_ASK.sub("", t)
+    for pattern, sub in _OPENINGS:
+        t2 = pattern.sub(sub, t, count=1)
+        if t2 != t:
+            t = t2
+            break
+    m = re.match(r"^(.+?[.!?])(\s|$)", t)
+    t = (m.group(1) if m else t).rstrip(".?! ")
+    t = _phrase_cut(t, limit)
+    return t[:1].upper() + t[1:] if t else t
+
 
 def _person(name):
     """'Mochan, Carol' -> 'Carol Mochan'."""
@@ -751,7 +835,7 @@ def key_questions(conn, week_commencing, days=KEY_QUESTIONS_DAYS, limit=KEY_QUES
             areas = on_ground(r["areas"])
             if areas:
                 qs.append({"where": HOLYROOD, "answered": r["answered"][:10], "ref": r["reference"] or "",
-                           "asker": _person(names.get(r["msp_id"]) or ""), "url": None, "heading": _first_sentence(r["title"], 90),
+                           "asker": _person(names.get(r["msp_id"]) or ""), "url": None, "heading": question_summary(r["title"]),
                            "group": "", "score": tier_score(r["triage_score"], r["tier"]),
                            "why": _clean(r["why_it_matters"]) or _first_sentence(r["answer"]), "areas": areas})
     if _table_exists(conn, "sd_items"):
@@ -763,7 +847,7 @@ def key_questions(conn, week_commencing, days=KEY_QUESTIONS_DAYS, limit=KEY_QUES
             areas = on_ground(r["areas"])
             if areas:
                 qs.append({"where": SENEDD, "answered": r["answered"][:10], "ref": r["reference"] or "",
-                           "asker": r["member_name"] or "", "url": None, "heading": _first_sentence(r["body"], 90),
+                           "asker": r["member_name"] or "", "url": None, "heading": question_summary(r["body"]),
                            "group": "", "score": tier_score(r["triage_score"], r["tier"]),
                            "why": _clean(r["why_it_matters"]) or _first_sentence(r["answer"]), "areas": areas})
     if _table_exists(conn, "ni_items"):
@@ -775,7 +859,7 @@ def key_questions(conn, week_commencing, days=KEY_QUESTIONS_DAYS, limit=KEY_QUES
             areas = on_ground(r["areas"])
             if areas:
                 qs.append({"where": NI_ASSEMBLY, "answered": r["answered"][:10], "ref": r["reference"] or "",
-                           "asker": r["tabler"] or "", "url": r["url"], "heading": _first_sentence(r["title"], 90),
+                           "asker": r["tabler"] or "", "url": r["url"], "heading": question_summary(r["title"]),
                            "group": "", "score": tier_score(r["triage_score"], None),
                            "why": _clean(r["why_it_matters"]) or _first_sentence(r["answer"]), "areas": areas})
 
@@ -819,6 +903,208 @@ def render_key_questions(rows, names=None):
             day_label(c["answered"]), c["where"], q.replace("|", "/"), (c["why"] or "-").replace("|", "/")))
     out.append("")
     return "\n".join(out)
+
+
+# -- petitions and gov.uk documents (round 3) ------------------------------------
+#
+# Two tables another collector builds (16 October 2026): uk_petitions
+# (petition.parliament.uk) and govuk_docs (gov.uk consultations and
+# publications). Read only, when present; absent or empty, the edition says
+# so in its coverage notes and shows nothing. Columns read are the agreed
+# ones; a column the store lacks reads as NULL, so a narrower table still
+# renders.
+
+PETITIONS_MAX = 6
+PUBLICATIONS_MAX = 5
+PUBLICATIONS_DAYS = 7
+PETITIONS_NOTE = "UK Parliament petitions: not collected yet (uk_petitions)."
+GOVUK_NOTE = "UK Government consultations and publications: not collected yet (govuk_docs)."
+PETITION_HIDDEN = (11,)     # migration: collated, never campaigned (as Key questions)
+
+
+def _has_rows(conn, table):
+    return _table_exists(conn, table) and \
+        conn.execute("SELECT COUNT(*) FROM {0}".format(table)).fetchone()[0] > 0
+
+
+def _select(conn, table, cols, where="", params=()):
+    have = {c[1] for c in conn.execute("PRAGMA table_info({0})".format(table))}
+    sel = ", ".join(c if c in have else "NULL AS {0}".format(c) for c in cols)
+    return conn.execute("SELECT {0} FROM {1} {2}".format(sel, table, where), params).fetchall()
+
+
+def _threshold(r):
+    t = (r["threshold_reached"] or "").lower()
+    if t in ("10k", "100k"):
+        return t
+    n = r["signatures"] or 0
+    return "100k" if n >= 100000 else "10k" if n >= 10000 else None
+
+
+def petitions_from_store(conn, week_commencing):
+    """Petitions on our issues past 10,000 signatures (the Government
+    responds) or 100,000 (considered for a debate), and still news: open,
+    awaiting a response or a debate, debated or answered from the last
+    edition on, or with a debate inside the horizon. 100k first, then
+    signatures. Returns (rows, note): note is the coverage line when the
+    table is absent or empty."""
+    if not _has_rows(conn, "uk_petitions"):
+        return [], PETITIONS_NOTE
+    ws, _we, _fs, he = windows(week_commencing)
+    since = (ws - datetime.timedelta(days=7)).isoformat()
+    out = []
+    for r in _select(conn, "uk_petitions", ("petition_id", "title", "state", "signatures", "threshold_reached",
+                                            "response_date", "debate_date", "url", "areas")):
+        areas = _areas(r["areas"], hidden=PETITION_HIDDEN)
+        th = _threshold(r)
+        if not areas or not th:
+            continue
+        state = (r["state"] or "").lower()
+        debate = (r["debate_date"] or "")[:10] or None
+        response = (r["response_date"] or "")[:10] or None
+        # The collector stores the API state (open / closed); the older
+        # lifecycle words are read too.
+        live = state in ("open", "awaiting_response", "awaiting_debate", "debated_pending", "")
+        recent = (debate and debate >= since) or (response and response >= since)
+        if not (live or recent):
+            continue
+        if debate and debate > he.isoformat() and not live:
+            continue
+        out.append({"id": str(r["petition_id"] or ""), "title": _clean(r["title"]), "state": state,
+                    "signatures": r["signatures"] or 0, "threshold": th, "response_date": response,
+                    "debate_date": debate, "areas": areas,
+                    "url": r["url"] or ("https://petition.parliament.uk/petitions/{0}".format(r["petition_id"])
+                                        if r["petition_id"] else None)})
+    out.sort(key=lambda p: (p["threshold"] != "100k", -(p["signatures"] or 0)))
+    return out, None
+
+
+def petition_rows(petitions, existing, week_commencing):
+    """Timeline rows for petition debates inside the horizon, unless What's
+    On already carries the debate (its title names the petition number)."""
+    ws, _we, _fs, he = windows(week_commencing)
+    have = " ".join("{0} {1}".format(r.title, r.url or "") for r in existing).lower()
+    out = []
+    for p in petitions:
+        d = _date(p["debate_date"])
+        if not d or not (ws <= d <= he):
+            continue
+        if p["id"] and p["id"] in have:
+            continue
+        out.append(Row(date=d.isoformat(), where=COMMONS, title="e-petition {0}: {1}".format(p["id"], p["title"])
+                       if p["id"] else p["title"], url=p["url"], detail="Westminster Hall petition debate",
+                       note="{0:,} signatures".format(p["signatures"]), areas=list(p["areas"]),
+                       kind="petition", venue="Westminster Hall"))
+    return out
+
+
+def _petition_status(p, week_commencing=None):
+    if p["debate_date"]:
+        when = day_label(p["debate_date"])
+        if week_commencing and p["debate_date"] < week_commencing:
+            return "debated in Westminster Hall, {0}".format(when)
+        return "debate in Westminster Hall, {0}".format(when)
+    if p["threshold"] == "100k":
+        return "over 100,000: considered for a debate"
+    if p["response_date"]:
+        return "Government responded {0}".format(day_label(p["response_date"])[4:])
+    return "over 10,000: the Government responds"
+
+
+def render_petitions(petitions, limit=PETITIONS_MAX, week_commencing=None):
+    if not petitions:
+        return None
+    out = ["## Petitions", "",
+           "*Petitions on our issues past 10,000 signatures (the Government responds) or 100,000 "
+           "(considered for a debate).*", "",
+           "| Petition | Signatures | Where it stands | Issue |", "|---|---|---|---|"]
+    for p in petitions[:limit]:
+        title = "[{0}]({1})".format(p["title"], p["url"]) if p.get("url") else p["title"]
+        out.append("| {0} | {1:,} | {2} | {3} |".format(title.replace("|", "/"), p["signatures"],
+                                                         _petition_status(p, week_commencing), issue_label(p["areas"]) or "-"))
+    if len(petitions) > limit:
+        out.append("")
+        out.append("*{0} more on the petitions site.*".format(len(petitions) - limit))
+    out.append("")
+    return "\n".join(out)
+
+
+def govuk_from_store(conn, week_commencing):
+    """(consultation rows for the timeline, key publications, note). A
+    consultation on our ground closing inside the horizon is a UK GOVT
+    deadline row; publications on our ground updated in the week before the
+    edition, at most PUBLICATIONS_MAX, most matched terms first."""
+    if not _has_rows(conn, "govuk_docs"):
+        return [], [], GOVUK_NOTE
+    ws, _we, _fs, he = windows(week_commencing)
+    since = (ws - datetime.timedelta(days=PUBLICATIONS_DAYS)).isoformat()
+    rows, pubs = [], []
+    for r in _select(conn, "govuk_docs", ("base_path", "title", "doc_type", "organisation", "public_updated_at",
+                                          "closing_date", "url", "areas", "matched_terms")):
+        areas = _areas(r["areas"], hidden=PETITION_HIDDEN)
+        if not areas:
+            continue
+        kind = (r["doc_type"] or "").lower()
+        url = r["url"] or ("https://www.gov.uk" + r["base_path"] if r["base_path"] else None)
+        if kind == "closed_consultation":
+            continue        # closed, outcome not yet published: nothing to do or read
+        # gov.uk's content_store_document_type: open_consultation (or a bare
+        # "consultation") is a deadline; consultation_outcome, the
+        # Government's response, is a publication.
+        if kind in ("open_consultation", "consultation"):
+            close = _date(r["closing_date"])
+            if close and ws <= close <= he:
+                rows.append(Row(date=close.isoformat(), where=UK_GOVT, title=_clean(r["title"]), url=url,
+                                detail="consultation closes", areas=areas, kind="consultation",
+                                extra_md=_clean(r["organisation"]) or None))
+            continue
+        updated = (r["public_updated_at"] or "")[:10]
+        if updated and since <= updated < ws.isoformat():
+            try:
+                terms = json.loads(r["matched_terms"] or "[]")
+            except (TypeError, ValueError):
+                terms = []
+            pubs.append({"title": _clean(r["title"]), "url": url, "type": kind.replace("_", " "),
+                         "organisation": _clean(r["organisation"]), "date": updated, "areas": areas,
+                         "weight": len(terms)})
+    pubs.sort(key=lambda p: p["date"], reverse=True)
+    pubs.sort(key=lambda p: -p["weight"])
+    return rows, pubs[:PUBLICATIONS_MAX], None
+
+
+def render_publications(pubs):
+    if not pubs:
+        return None
+    out = ["## Government publications", "",
+           "*UK Government publications on our issues from the last week.*", ""]
+    for p in pubs:
+        title = "[{0}]({1})".format(p["title"], p["url"]) if p.get("url") else p["title"]
+        bits = [x for x in (p.get("organisation"), p.get("type")) if x]
+        out.append("- {0} · {1}{2} · {3}".format(day_label(p["date"])[4:], title,
+                                                 " ({0})".format(", ".join(bits)) if bits else "",
+                                                 issue_label(p["areas"]) or "-"))
+    out.append("")
+    return "\n".join(out)
+
+
+def merge_consultations(rows, govuk_rows):
+    """gov.uk consultation rows join the timeline unless the edition's own
+    consultation feed already holds them (same URL or same title and day);
+    then the existing row keeps its place and takes the UK GOVT tag."""
+    out = list(rows)
+    index = {}
+    for r in out:
+        if r.kind in ("deadline", "consultation"):
+            if r.url:
+                index[r.url.rstrip("/").lower()] = r
+            index[(r.date, r.title.lower())] = r
+    for g in govuk_rows:
+        hit = index.get((g.url or "").rstrip("/").lower()) or index.get((g.date, g.title.lower()))
+        if hit:
+            hit.where = UK_GOVT if hit.where == DEADLINE and hit.detail == "consultation closes" else hit.where
+            continue
+        out.append(g)
+    return out
 
 
 _PROPER = {"england", "scotland", "wales", "welsh", "scottish", "northern", "ireland", "irish", "uk",
@@ -1061,7 +1347,7 @@ def what_cell(row):
     if row.extra_md and row.running:
         return row.extra_md
     parts = []
-    if row.kind == "deadline" and row.extra_md:
+    if row.kind in ("deadline", "consultation") and row.extra_md:
         parts.append("{0}, {1}".format(_clean(row.extra_md), _title_md(row, row.big)))
     else:
         parts.append(_title_md(row, row.big))
@@ -1135,7 +1421,10 @@ def slack_post(edition, canvas_url=None, tracker_url=None):
     big = [r for r in rows if r.big]
     this_week, further = split(rows, edition.week_commencing)
     this_week = [r for r in this_week if not r.running]
-    lines = ["*On our issues, from {0}* · Edition {1}".format(day_label(ws.isoformat()), edition.number), ""]
+    lines = ["*On our issues, from {0}* · Edition {1}".format(day_label(ws.isoformat()), edition.number)]
+    if getattr(edition, "sitting_line", None):
+        lines.append("_{0}_".format(edition.sitting_line))
+    lines.append("")
     for r in big:
         lines.append("*{0}* *{1}* · `{2}` {3}".format(
             BIG_LABEL, day_label(r.date), r.where, _mrkdwn_link(short_title(r), r.url)))

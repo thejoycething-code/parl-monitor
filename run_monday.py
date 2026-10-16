@@ -72,6 +72,11 @@ def whatson_reread_and_judge(week, judge_max=40, chunk=20, log=print):
         tax = filt.load_taxonomy(os.path.join(ROOT, "config", "taxonomy.yaml"))
         wl = filt.load_watchlist(os.path.join(ROOT, "config", "watchlist.yaml"))
         seen = run_weekly.refresh_whatson(client, conn, tax, wl, ws, ws + datetime.timedelta(days=6), log=log)
+        try:
+            # Who sits this week, read again on publication morning (round 3).
+            run_weekly.refresh_sitting_days(conn, week, log=log)
+        except Exception as exc:                            # noqa: BLE001
+            log("sitting days: not refreshed ({0}); the Sunday read stands".format(exc))
     finally:
         conn.close()
     try:
@@ -140,27 +145,36 @@ def main():
     # secrets by design -- the separation rule that keeps Slack tokens
     # out of the watching briefs. It runs BEFORE the edition renders so
     # its why-lines are in the edition, isolated so it can never take
-    # the publish down, and fenced twice: an 8-minute wall-clock budget
-    # inside (rows left over are picked up next Monday; scores are
-    # once-ever, so nothing is lost) and a subprocess timeout outside in
-    # case a single HTTP call wedges. Without ANTHROPIC_API_KEY the tool
-    # refuses to stub-score and says so; it never freezes empty scores.
+    # the publish down.
+    #
+    # PAID AI OFF (round 3, Chris, 16 October 2026): by default this is the
+    # FREE session judge (tools/session_judge.sh tools/devolved_triage.py,
+    # Claude Code on the Mini's plan allowance), a catch-up for rows that
+    # arrived after Sunday's jobs/uk-session-judge.sh; with nothing pending
+    # it never starts a session. Where claude is missing or not signed in
+    # (the GitHub backup) it is a [gap] line and the rows wait. The paid
+    # API judge runs only with UK_PAID_JUDGE=1, fenced twice as before: an
+    # 8-minute wall-clock budget inside (rows left over are picked up next
+    # Monday; scores are once-ever, so nothing is lost) and a subprocess
+    # timeout outside in case a single HTTP call wedges.
     import subprocess as _sp
+    if run_weekly.paid_judge_opted_in():
+        cmd, limit = [sys.executable, os.path.join(ROOT, "tools", "devolved_triage.py"),
+                      "--budget-seconds", "480"], 660
+    else:
+        cmd, limit = ["bash", os.path.join(ROOT, "tools", "session_judge.sh"),
+                      os.path.join(ROOT, "tools", "devolved_triage.py"), "40", "20"], 1500
     try:
-        judged = _sp.run([sys.executable,
-                          os.path.join(ROOT, "tools", "devolved_triage.py"),
-                          "--budget-seconds", "480"],
-                         cwd=ROOT, stdout=_sp.PIPE, stderr=_sp.STDOUT,
-                         timeout=660)
+        judged = _sp.run(cmd, cwd=ROOT, stdout=_sp.PIPE, stderr=_sp.STDOUT, timeout=limit)
         lines = [ln for ln in (judged.stdout or b"").decode("utf-8", "replace")
                  .splitlines() if ln.strip()]
-        print("devolved judge: {0}".format(lines[0].strip() if lines else "no output"))
-        for ln in lines[1:]:
+        print("devolved judge: {0}".format(lines[-1].strip() if lines else "no output"))
+        for ln in lines:
             if re.search(r"\[budget\]|\[gap\]|left unscored|UNSCORED|refuses", ln):
                 print("  {0}".format(ln.strip()))
     except _sp.TimeoutExpired:
-        print("devolved judge: hit the hard timeout; rows stay unscored for "
-              "next week; edition unaffected")
+        print("devolved judge: hit the hard timeout (timeout=660 paid, 1500 session); rows stay "
+              "unscored for next week; edition unaffected")
     except Exception as exc:
         print("devolved judge: failed ({0}); edition unaffected".format(exc))
 
