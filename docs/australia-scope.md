@@ -732,3 +732,75 @@ Still open:
 6. **The principal Acts list** (`acts:` in `config/watchlist-au.yaml`, new
    with the week ahead): groundwork, not reviewed. Add or drop Acts by their
    Register ID.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+UK parity for "government consultations and publications": the Australian
+reader is `src/gov_doc_sources/au.py`, run by `tools/country_gov_docs.py au`
+into the shared `gov_docs` table. Classified with the English shared
+taxonomy (`config/taxonomy.yaml`), as `tools/au_monitor.py` classifies. No
+key is needed.
+
+### Sources
+
+| Code | Source | Format | doc_type |
+|---|---|---|---|
+| `health` | Department of Health, Disability and Ageing consultation hub, a Citizen Space instance: `https://consultations.health.gov.au/api/2.4/json_search_results?fields=extended&st=open` and `&st=closed` | JSON | `consultation`, closing date = `enddate` |
+| `frl` | Federal Register of Legislation API: `https://api.prod.legislation.gov.au/v1/titles/search(criteria='and(collection(LegislativeInstrument),registrationdate(<start>,<today>))')?$select=...&$expand=administeringDepartments&$orderby=id&$top=500&$skip=N` | OData JSON | `regulation` (made instruments) |
+
+The hub covers the department's own teams, including the Disability and
+Carers Group's NDIS consultations; the body is the department with the
+team in brackets. It also hosts permanently open administrative forms
+(hearing-services accreditation, weekly bed availability returns); they
+never match the taxonomy.
+
+The Register search returns every instrument registered in the window,
+compilations of old titles included, one row per matching registration (a
+title can come twice; the count, 760 for 92 days, counts rows). The reader
+orders by id (without `$orderby` the `$skip` pages overlap: measured),
+de-duplicates, and keeps a title whose AS-MADE registration falls in the
+window. Plain `$filter` on `makingDate` or `asMadeRegisteredAt` answers
+400, and `year` is empty for instruments. `au_instruments`
+(`tools/au_schedule.py`) holds only instruments still open for
+disallowance, so it is not mirrored.
+
+### robots.txt
+
+- `consultations.health.gov.au`: `User-agent: *`,
+  `Disallow: /*view_respondent`, `Crawl-delay: 5` (honoured). The API path
+  is allowed.
+- `api.prod.legislation.gov.au`: documented API, already in
+  `src/robots_guard.DOCUMENTED_APIS` (no robots read).
+
+### Routes tried that failed
+
+- `www.ag.gov.au` (Attorney-General's consultations), `www.dss.gov.au`,
+  `www.infrastructure.gov.au`, `www.esafety.gov.au`: robots.txt did not
+  answer in three attempts (read timed out), so the guard treats each host
+  as `Disallow: /`. Not worked around.
+- `consult.industry.gov.au`, `consult.dcceew.gov.au`,
+  `consultations.education.gov.au`: Converlens "Open Point", a JavaScript
+  application with no server-rendered list and no documented API (robots.txt
+  on `consult.industry.gov.au` disallows only `/*/admin/`). Its backend
+  JSON is undocumented; left alone.
+- `consult.dss.gov.au`, `consult.ag.gov.au`, `consult.education.gov.au`,
+  `consultation.infrastructure.gov.au`: do not resolve.
+  `engage.dss.gov.au` has no Citizen Space API (404).
+- `www.australia.gov.au` (including `/have-your-say`) now serves myGov's
+  services page.
+
+### Live run, 16 October 2026 (scratch store)
+
+| Source | Listed in the window | On our ground | Deadline rows with a closing date |
+|---|---|---|---|
+| `health` | 61 | 0 | 0 |
+| `frl` | 407 | 0 | n/a |
+
+Nothing was kept. The made instruments that match at all are migration
+instruments (area 11, stored, never counted), and none of the hub's 61
+activities in the window matches: "Disability Safeguards Consultation",
+"NDIS Access Changes Consultation", "Private Health Reforms - Consultation
+Paper 1" and "In-home aged care consultations" (closes 14 December 2026)
+are all outside the taxonomy as it stands. As the phase 1 finding said,
+the shared taxonomy mostly misses Australian wording; the proposed
+Australian vocabulary above is the lever.

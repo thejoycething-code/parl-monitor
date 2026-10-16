@@ -94,6 +94,12 @@ export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"
 python3 tools/country_vote_briefs.py --country ca --send \
   || echo "  [gap] vote briefs failed for ca; the next run retries"
 TODAY=$(date +%Y-%m-%d)
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh ca
 if git ls-files --error-unmatch "editions/ca-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"
   python3 tools/ca_monitor.py --edition || { echo "  [gap] the edition failed to render"; rc=1; }

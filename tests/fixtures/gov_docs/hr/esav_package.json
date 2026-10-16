@@ -1,0 +1,31 @@
+{
+ "help": "https://data.gov.hr/ckan/api/3/action/help_show?name=package_show",
+ "success": true,
+ "result": {
+  "id": "3df5d8d8-e2b2-4608-8a3e-f27c95b2f643",
+  "name": "esavjetovanja",
+  "title": "eSavjetovanja",
+  "metadata_modified": "2026-10-10T11:16:14.390234",
+  "data_refresh_frequency": "monthly",
+  "organization": {
+   "title": "Ured za zakonodavstvo"
+  },
+  "resources": [
+   {
+    "format": "JSON",
+    "url": "https://data.gov.hr/ckan/dataset/3df5d8d8-e2b2-4608-8a3e-f27c95b2f643/resource/6476f525-7468-4ded-8381-1e60b2eb0365/download/data.json",
+    "name": "e-Savjetovanja javna savjetovanja"
+   },
+   {
+    "format": "XML",
+    "url": "https://data.gov.hr/ckan/dataset/3df5d8d8-e2b2-4608-8a3e-f27c95b2f643/resource/e1c7b1b5-6b4f-4be1-b653-e0e1ce33694a/download/data.xml",
+    "name": "e-Savjetovanja javna savjetovanja"
+   },
+   {
+    "format": "CSV",
+    "url": "https://data.gov.hr/ckan/dataset/3df5d8d8-e2b2-4608-8a3e-f27c95b2f643/resource/27814165-ec5f-441f-8e63-d941e1250986/download/data.csv",
+    "name": "e-Savjetovanja javna savjetovanja"
+   }
+  ]
+ }
+}

@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Diario Oficial – República de Chile</title>
+        <link rel="stylesheet" href="css/do.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/jquery.fancybox.css" />
+        <script src="js/jquery-3.1.0.min.js"></script>
+
+        <!-- jquery ui -->
+        <link rel="stylesheet" href="plugins/jqueryui/jquery-ui.min.css">
+        <script src="plugins/jqueryui/jquery-ui.min.js"></script>
+        <script src="plugins/jqueryui/datepicker-es.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.fancybox.pack.js"></script>
+        <script src="js/do.js"></script>
+        <script>
+            $(document).ready(function (e) {
+
+                $('#audio').fancybox({
+                    fitToView: false,
+                    width: '680',
+                    height: '72',
+                    autoSize: true,
+                    closeClick: true
+                });
+
+                $("#latest").fancybox({
+                    maxWidth: 9999,
+                    maxHeight: 9999,
+                    fitToView: true,
+                    width: '100%',
+                    height: '100%',
+                    autoSize: false,
+                    closeClick: false
+                });
+
+                $(".audio").fancybox({
+                    fitToView: false,
+                    width: '670',
+                    height: '72',
+                    autoSize: true,
+                    closeClick: true
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+
+        <div class="wrap">
+            <header>
+                <nav class="main" style="text-align: center;">
+                    <!--<a href="/" title=""><img src="/assets/images/inicio.png" style="float:left; margin-top: -1px"/> ¿Cómo publicar?</a>-->
+                    <a href="/quienes-somos/" title="">¿Quiénes somos?</a>
+                    <a href="/versiones-anteriores/" title="Ver ediciones desde 01/03/1877 al 16/08/2016" >Edición impresa</a>
+                    <a href="javascript:void(0)" title="Ver ediciones desde 17/08/2016" class="active">Edición electrónica</a>
+                    <a href="/verificacion/" title="">Verificar Publicación<br>con su CVE</a>
+                    <a href="https://www.boletinoficialdemineria.cl/"  >Boletín Oficial<br/> de Minería</a>
+                    <a href="https://pagos.diarioficial.cl/BuscarBoleta/" target="_blank">Boleta<br/> Electrónica</a>
+                    <a href="/contacto/" title="">Contacto</a>
+                </nav>
+
+                <a class="logo_gob" href="javascript:void(0)" title="">
+                    <img src="css/bitmaps/logo_gob.jpg" alt="">
+                </a>
+
+                <a class="logo_do" href="https://www.diariooficial.interior.gob.cl" title="">
+                    <img src="css/bitmaps/logo_do.jpg" alt="">
+                </a>
+
+                <div class="zoomletter">
+                    <ul class="zoom">
+                        <li><a class="decreaseFont" href="javascript:void(0)" title="">-a</a></li>
+                        <li><a class="resetFont" href="javascript:void(0)" title="">a</a></li>
+                        <li><a class="increaseFont" href="javascript:void(0)" title="">+a</a></li>
+                        <li><a class="blackWhite" href="javascript:void(0)" title="">a</a></li>
+                    </ul>
+
+                    <a id="datep" class="btn" href="javascript:void(0)" title="">
+                        <i class="icon-calendar"></i>
+                        Ediciones Anteriores
+                    </a>
+
+                    <!-- 				<a id="datep" class="othereditions" href="javascript:void(0)" title="">
+                                                            Ediciones Anteriores
+                                                    </a> -->
+                    <input type="hidden" id="dp" />
+                    <div></div>
+                </div>
+
+                <div class="containerdate">
+                    <ul>
+                        <li class="alignleft">
+                            Edición Núm. 44.575.                            </li>
+                            <li class="date">
+                                <strong>Viernes 16 de Octubre de 2026</strong>
+                                <!-- 						<a class="othereditions" href="javascript:void(0)" title="">
+                                                                                        Otras ediciones
+                                                                                </a> -->
+                            </li>
+                            <li class="alignright">
+                                                                    <a class="summary" target="_blank" href="/publicaciones/2026/10/16/sumarios/44575.pdf" title="">
+                                        Sumario de la Edición
+                                    </a>
+                                                            </li>
+                        </ul>
+                    </div>
+
+
+                                            <nav class="menu">
+                            <a class="active" href="index.php?date=16-10-2026&amp;edition=44575" title="">Normas<br/>Generales</a>
+                            <a  href="normas_particulares.php?date=16-10-2026&amp;edition=44575" title="">Normas<br/>Particulares</a>
+                            <a  href="publicaciones_judiciales.php?date=16-10-2026&amp;edition=44575" title="">Publicaciones<br/>Judiciales</a>
+                            <a  href="avisos_destacados.php?date=16-10-2026&amp;edition=44575" title="">Avisos<br/>Destacados</a>
+                            <a  href="empresas_cooperativas.php?date=16-10-2026&amp;edition=44575" title="">Empresas y<br/>Cooperativas</a>
+                            <a  href="marcas_patentes.php?date=16-10-2026&amp;edition=44575" title="">Marcas y<br/>Patentes</a>
+                            <a  href="bom.php?date=16-10-2026&amp;edition=44575" title="">Boletín Oficial<br/>de Minería</a>
+                        </nav>
+                                </header><div class="containerdate2">LEYES, REGLAMENTOS, DECRETOS Y RESOLUCIONES DE ORDEN GENERAL</div>
+<section class="norma_general">
+    
+    <div class="wrapsection">
+
+        
+            <table cellmargin="10">
+                <tr>
+                    <td class="title1">Sumario <span class="border"></span></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="title2">Normas Generales <span class="border"></span></td>
+                    <td></td>
+                </tr>
+
+                <!-- foreach -->
+                                        <tr>
+                            <td class="title3"> PODER LEGISLATIVO <span class="border"></span></td>
+                            <td class="backeditions">
+                                            <span class="border"></span>
+                            </td>
+                        </tr>
+
+                        <!-- foreach -->
+                                                        <tr>
+                                    <td class="title4">MINISTERIO DE SEGURIDAD PÚBLICA</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Ley número 21.849.- Establece Normas Generales sobre el Uso de la Fuerza para el Personal de las Fuerzas de Orden y Seguridad Pública y de las Fuerzas Armadas en las circunstancias que se señala <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2887541.pdf" title="" >Ver PDF (CVE-2887541)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                        <tr>
+                            <td class="title3"><span class="border top"></span> PODER EJECUTIVO <span class="border"></span></td>
+                            <td class="backeditions">
+            <span class="border top"></span>                                <span class="border"></span>
+                            </td>
+                        </tr>
+
+                        <!-- foreach -->
+                                                        <tr>
+                                    <td class="title4">MINISTERIO DE HACIENDA</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Resolución exenta número 668, de 2026.- Determina tasas de interés de referencia de conformidad con lo dispuesto en el artículo 13 del decreto Nº 180 exento, de 2025, que aprueba reglas generales de funcionamiento del subsidio a la tasa de interés de créditos hipotecarios de viviendas nuevas <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2886884.pdf" title="" >Ver PDF (CVE-2886884)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                    <tr>
+                                    <td class="title4">MINISTERIO DE VIVIENDA Y URBANISMO</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Resolución exenta número 1.570, de 2026.- Modifica resolución Nº 959 exenta, de 2026, que llama a proceso de selección en condiciones especiales para el otorgamiento de subsidios del Programa Habitacional Fondo Solidario de Elección de Vivienda, regulado por el decreto Nº 49, de 2011, y sus modificaciones, en la alternativa de postulación colectiva para proyectos de construcción en nuevos terrenos sobre suelo público, en las regiones que indica <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2884887.pdf" title="" >Ver PDF (CVE-2884887)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                    <tr>
+                                    <td class="title4">MINISTERIO DE TRANSPORTES Y TELECOMUNICACIONES</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                                                                        <tr>
+                                                <td class="title5">Secretaría Regional Ministerial Región de Atacama</td>
+                                                <td></td>
+                                            </tr>
+                                        
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Resolución exenta número 498, de 2026.- Prohíbe circulación de vehículos motorizados en tramos y vías que indica de la comuna de Tierra Amarilla <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2884907.pdf" title="" >Ver PDF (CVE-2884907)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                                                                            <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Resolución exenta número 508, de 2026.- Prorroga resolución N° 402 exenta, de 2026, que prohíbe circulación de vehículos motorizados en vías y tramos que indica de la provincia de Copiapó <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2884906.pdf" title="" >Ver PDF (CVE-2884906)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                                                                            <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Resolución exenta número 509, de 2026.- Prohíbe circulación de vehículos motorizados, en tramoy vía que indica de la comuna de Caldera <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2884904.pdf" title="" >Ver PDF (CVE-2884904)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                    <tr>
+                                    <td class="title4">MINISTERIO DEL MEDIO AMBIENTE</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Extracto de resolución exenta número 5.490, de 2026.- Aprueba anteproyecto de las Normas Secundarias de Calidad Ambiental para la Protección de las Aguas de los Lagos Nor-Patagónicos del Sur de Chile <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2884935.pdf" title="" >Ver PDF (CVE-2884935)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                                            <tr>
+                                                <td class="title5">Servicio de Evaluación Ambiental / Región de Atacama</td>
+                                                <td></td>
+                                            </tr>
+                                        
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Extracto de resolución exenta número 202603101188, de 2026.- Abre proceso de Consulta Indígena en Estudio de Impacto Ambiental del Proyecto Minero Lobo Marte <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2885694.pdf" title="" >Ver PDF (CVE-2885694)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                                            <tr>
+                                                <td class="title5">Servicio de Evaluación Ambiental / Región de Los Lagos</td>
+                                                <td></td>
+                                            </tr>
+                                        
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Extracto de resolución exenta número 202610101354, de 2026.- Inicia nuevo proceso de participación ciudadana en Declaración de Impacto Ambiental del Proyecto Inmobiliario Vicente Pérez Rosales <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2884925.pdf" title="" >Ver PDF (CVE-2884925)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                        <tr>
+                            <td class="title3"><span class="border top"></span> PODER JUDICIAL <span class="border"></span></td>
+                            <td class="backeditions">
+            <span class="border top"></span>                                <span class="border"></span>
+                            </td>
+                        </tr>
+
+                        <!-- foreach -->
+                                                        <tr>
+                                    <td class="title4">CORTE DE APELACIONES DE SAN MIGUEL</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Auto Acordado sobre tramitación y vista preferente de los recursos de apelación deducidos contra resoluciones que se pronuncien sobre incidentes proteccionales, autorizaciones de salida del país, medidas cautelares personales, alimentos provisorios y la regulación de regímenes de relación directa y regular provisorios <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2885695.pdf" title="" >Ver PDF (CVE-2885695)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                        <tr>
+                            <td class="title3"><span class="border top"></span> OTRAS ENTIDADES <span class="border"></span></td>
+                            <td class="backeditions">
+            <span class="border top"></span>                                <span class="border"></span>
+                            </td>
+                        </tr>
+
+                        <!-- foreach -->
+                                                        <tr>
+                                    <td class="title4">TRIBUNAL DE DEFENSA DE LA LIBRE COMPETENCIA</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Extracto de Notificación Solicitud de Informe de Empresa Portuaria de Iquique sobre licitación de concesión de la operación conjunta de los terminales 1 y 2 del Puerto de Iquique <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2886421.pdf" title="" >Ver PDF (CVE-2886421)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                                    <tr>
+                                    <td class="title4">BANCO CENTRAL DE CHILE</td>
+                                    <td></td>
+                                </tr>
+
+                                <!-- foreach -->
+                                                            
+                                                                                        <!-- foreach -->
+                                    
+                                                                                                        <!-- foreach -->
+                                                        <tr class="content">
+                                                            <td>Certificado Tipos de cambio y paridades de monedas extranjeras para efectos que señala <span class="border dotted"></span></td>
+                                                            <td><a target="_blank" href="https://www.diariooficial.interior.gob.cl/publicaciones/2026/10/16/44575/01/2887685.pdf" title="" >Ver PDF (CVE-2887685)</a><span class="border dotted"></span></td>
+                                                        </tr>
+                                                    
+                                                                                                            </table>
+
+            <div class="title_section">
+                <span class="number">I</span> Sección
+                <span class="border"></span>
+            </div>
+
+    </div>
+</section>
+
+<footer>
+    <div class="wrapcontact">
+        <ul class="contact">
+            <li class="info" style="width: 30%">
+                <div>
+                    <label>Director:</label>
+                    <p><strong>Giovanni Calderón Bassi</strong></p>
+                </div>
+                <div>
+                    <label>Sitio Web:</label>
+                    <p>www.diarioficial.cl</p>
+                </div>
+                
+               
+            </li>
+            <li class="info" style="width: 38%">
+                 <div>
+                    <label>Mesa Central:</label>
+                    <span style="display: block">600 613 5700</span>
+                    <!--<p>+56 2 24863600</p>-->
+                </div>
+                <div>
+                    <label>Dirección:</label>
+                    <p>Dr. Torres Boonen 511, Providencia, Santiago</p>
+                </div>
+               
+            </li>
+            <li class="info" style="width: 29%">
+                 <div>
+                    <label class="large">Consultas E-mail:</label>
+                    <p>consultas@diarioficial.cl</p>
+                </div>
+                                    <div>
+                        <label class="large">Representación:</label>
+                        <p>
+
+                            <a style="color: #000;" target="_blank" href="/publicaciones/2026/10/16/impresos/44575.pdf" title="">
+                                Impresa referencial
+                            </a>
+
+                        </p>
+                    </div>
+                            </li>
+           <!-- <li class="logoboa" style="width: 200px">
+                <p>Miembro de la Red de Diarios Oficiales Americanos</p>
+                <img src="css/bitmaps/logo_redboa.jpg" alt="">
+            </li>-->
+        </ul>
+    </div>
+    <aside id="banners">
+        <ul>
+            <!--<li><a class="bt_foot bt_verifica" href="/verificacion/"></a></li>-->
+            <li><a class="bt_foot bt_tarifas" href="/tarifas/"></a></li>
+            <li><a class="bt_foot bt_reglamentos" href="/normativa/"></a></li>
+            <!--<li><a class="bt_foot bt_boleta" href="https://pagos.diarioficial.cl/BuscarBoleta/" target="_blank"></a></li>-->
+        
+            <!--<li><a class="bt_foot bt_suplementos" href="/suplementos/"></a></li>-->
+            <li><a class="bt_foot bt_lib_historia" href="/#openModalLHDO"></a></li>
+            <!--<li><a class="bt_foot bt_librocons" href="/#openModal"></a></li>-->
+        
+        
+            <li><a class="bt_foot bt_estadistica" href="/informe/"></a></li>
+            <li><a class="bt_foot bt_memoria" href="/documentos/"></a></li>
+            <!--<li><a class="bt_foot bt_boletin" href="http://www.boletinoficialdemineria.cl/" target="_blank"></a></li>-->
+        </ul>
+
+    </aside>
+
+    <div id="logofooterDiv">
+        <span class="destacado">MESA DE AYUDA</span> 600 613 5700 | HORARIO DE ATENCIÓN: De Lunes a Jueves de 9:30 a 14:00 hrs. y de 15:00 a 17:30 hrs. Viernes de 9:30 a 14:00 hrs. y de 15:00 a 16:30 hrs. 
+        <div style="text-align:center; margin-top: 10px;" ><a href="/politica/" style="color:#808080;">Política de Tratamiento de Datos Personales</a> | <a href="/condiciones/" style="color:#808080;">Condiciones de Uso de Publicaciones</a></div>
+    </div>
+</footer>
+</div>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-43680279-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+</body>
+</html>

@@ -131,6 +131,12 @@ python3 tools/make_ie_votes.py | tee "$LOG_DIR/ie-votes.log" \
   || echo "  [gap] the Irish vote tracker failed to build; last week's page stands"
 
 TODAY=$(date +%Y-%m-%d)
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh ie
 if git ls-files --error-unmatch "editions/ie-monitor-$TODAY.md" >/dev/null 2>&1; then
   echo "edition for $TODAY already committed: rewriting it, not resending the DM"
   python3 tools/ie_monitor.py --edition | tee "$LOG_DIR/ie-monitor.log"

@@ -1,0 +1,45 @@
+{
+ "uuid": "1d2ba05a-3266-48d7-bcfc-1f52bbdeefd7",
+ "typ": {
+  "uuid": "6be6c48b-4c6b-43b2-afdf-f2597c0f08bd",
+  "nazov": "Vyhláška",
+  "uroven": 1,
+  "kod": "Vyhlaska",
+  "prefix": "LP",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "23dafd1e-2208-40a6-9106-381849977a8f",
+   "nazov": "Životné prostredie",
+   "uroven": 2,
+   "kod": "ZivotneProstrendie",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/540",
+ "nazov": "Návrh vyhlášky Ministerstva životného prostredia Slovenskej republiky, ktorou sa mení a dopĺňa vyhláška č. 119/2016 Z. z., ktorou sa ustanovujú podrobnosti o výkone odborného technicko-bezpečnostného dohľadu nad vodnými stavbami a o výkone technicko-bezpečnostného dozoru v znení vyhlášky Ministerstva životného prostredia Slovenskej republiky č. 265/2020 Z. z.",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-16",
+ "zodpovednaInstitucia": {
+  "uuid": "210eb74c-4a3f-476c-8d0b-a0d829db1081",
+  "skratenyNazov": "MŽPSR",
+  "nazov": "Ministerstvo životného prostredia Slovenskej republiky",
+  "ldapUuid": "897979c9-f1cd-38ff-bb9b-53ca9e1d0e64",
+  "email": "jana.oslejova@enviro.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-16",
+ "datumUkonceniaPkMpk": "2026-11-05"
+}

@@ -1522,6 +1522,46 @@ CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 -- opens the store. It is applied by _migrate_gaps() below, after the
 -- duplicates are removed.
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
+-- Government consultations and publications on our ground, every country
+-- edition but the UK (whose own table is govuk_docs): one shared table keyed
+-- (cc, doc_id), filled by tools/country_gov_docs.py through src/gov_docs.py and
+-- one reader per country (src/gov_doc_sources/<cc>.py), 16 October 2026.
+-- A consultation (or call for evidence, or draft regulation or bill out for
+-- comment) with a closing_date is a DEADLINE row in the country countdown;
+-- src/gov_docs.DEADLINE_TYPES lists the doc_types that count.
+CREATE TABLE IF NOT EXISTS gov_docs (
+  cc TEXT NOT NULL,               -- 'de', 'fr', 'us', ...
+  doc_id TEXT NOT NULL,           -- '<source>:<the source's own id>'
+  title TEXT NOT NULL,            -- verbatim, native language
+  doc_type TEXT,                  -- consultation / call_for_evidence / regulation_draft /
+                                  -- bill_draft / regulation / law / publication / guidance /
+                                  -- statistics / report / press_release / consultation_outcome
+  body TEXT,                      -- ministry or agency, as printed
+  published TEXT,                 -- ISO date published (or opened for comment)
+  closing_date TEXT,              -- ISO date responses close (NULL: none published)
+  url TEXT,
+  areas TEXT,                     -- JSON list of area numbers (the country's taxonomies)
+  matched_terms TEXT,             -- JSON list
+  tier INTEGER,
+  first_seen TEXT NOT NULL,
+  last_seen TEXT NOT NULL,
+  source TEXT,                    -- the reader's short code ('bmj', 'boe', 'fr-api')
+  summary TEXT,                   -- the source's own description, verbatim, capped
+  status TEXT,                    -- the source's own word ('open', 'En cours', ...)
+  watch_keys TEXT,                -- JSON: watchlist keys at collection
+  PRIMARY KEY (cc, doc_id)
+);
+CREATE INDEX IF NOT EXISTS gov_docs_close ON gov_docs (cc, closing_date);
+CREATE TABLE IF NOT EXISTS gov_doc_runs (
+  cc TEXT NOT NULL,
+  source TEXT NOT NULL,
+  run_date TEXT NOT NULL,
+  ok INTEGER NOT NULL,            -- 1 read in full, 0 partial or failed
+  listed INTEGER,                 -- items the source listed in the window
+  kept INTEGER,                   -- of which on our ground (stored)
+  note TEXT,                      -- the gaps, or the source's own note
+  PRIMARY KEY (cc, source, run_date)
+);
 """
 
 def record_gap(conn, feed, detail, edition=None):
@@ -2024,6 +2064,10 @@ TABLES = (
     "country_petitions",
     "country_petition_snapshots",
     "country_petition_runs",
+    # Government consultations and publications for every country edition
+    # but the UK (tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026).
+    "gov_docs",
+    "gov_doc_runs",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",

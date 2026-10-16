@@ -588,3 +588,42 @@ No video reuse terms found on 11 October 2026; the Cortes are dissolved until 23
 Length of service: **built** 11 October 2026 (`tools/member_service.py es`, branch `ukp2-service`): every seat in the Congreso since 1977 with its alta and baja and the dated parliamentary group (odsDiputados00 to 14, DiputadosActivos and DiputadosDeBaja; 937 seats for the store's deputies). The biography field is never read. Every four weeks. See docs/country-parity-handover.md, section 3c.
 
 **The plenary's order of the day (11 October 2026, branch `gaps-week-ahead`): built.** The PDF linked from the weekly page has a text layer; `src/agendas/es.py` splits it into its numbered items, each with its expediente, dated by its day heading. It fills when the XVI sits (23 December).
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/es.py` (run by `tools/country_gov_docs.py es`), tests `tests/test_gov_docs_es.py`, fixtures `tests/fixtures/gov_docs/es/`. No keys anywhere.
+
+**Sources used**
+
+| Code | Source | Format | What it gives |
+|---|---|---|---|
+| boe | `https://www.boe.es/datosabiertos/api/boe/sumario/YYYYMMDD` (the BOE's documented open-data API, `Accept: application/json`) | JSON | Section I ("Disposiciones generales") under national departments: laws and royal decree-laws ('law'), royal decrees, orders, resolutions ('regulation'), treaties ('law'). The communities' acts stay with `tools/es_regions.py`. 31 days back each run (27 issues, about 50 s); a weekly run overlaps the last four weeks. |
+| igualdad | `https://www.igualdad.gob.es/servicios/participacion/audienciapublica/` and `.../consultapublica/` | HTML (WordPress) | open and closed procedures, "Participación del DD/MM/YYYY al DD/MM/YYYY" |
+| sanidad | `https://www.sanidad.gob.es/normativa/audiencia/home.htm` and `.../normativa/consultas/home.htm` | HTML | open procedures, "Fecha de inicio / finalización de envío de aportaciones: 2 de octubre de 2026" |
+| mpr | `https://www.mpr.gob.es/servicios/participacion/consultaprevia/Paginas/index.aspx` and `.../audienciapublica/Paginas/index.aspx` | HTML (SharePoint) | Presidencia and Relaciones con las Cortes; dates split across cells |
+| justicia | `https://www.mjusticia.gob.es/es/ciudadania/normas-tramitacion` | HTML (SharePoint) | the Justicia area's open procedures, dates in free text ("del 25 de septiembre al 16 de octubre de 2026") |
+| educacion | `https://www.educacionfpydeportes.gob.es/servicios-al-ciudadano/informacion-publica.html` | HTML | open procedures; the list has no dates, so an item page is read only for titles already on our ground (at most 40) |
+| juventud | `https://www.juventudeinfancia.gob.es/es/participacion-publica` | HTML | not readable from the laptop (below); generic parser, fails loud |
+| dsca | `https://www.dsca.gob.es/es/servicio-a-la-ciudadania/participacion-publica/proy-normativos` | HTML | as juventud |
+
+Doc types: consulta pública previa = 'consultation'; audiencia e información pública on an anteproyecto de ley = 'bill_draft', on a proyecto de real decreto or orden = 'regulation_draft'. The closing date is the end of the participation period as printed.
+
+**robots.txt, per host (read 16 October 2026)**
+
+- www.boe.es: the `*` group disallows `/diario_boe/xml.php?`, `/datos/pdfs/`, search pages and a long list of `/boe/dias/...` days; nothing under `/datosabiertos/`. The API is a documented open-data service (candidate for `DOCUMENTED_APIS`, documentation at https://www.boe.es/datosabiertos/api/api.php), asked at run time meanwhile.
+- www.igualdad.gob.es: `User-agent: * / Disallow:` (Yoast default, nothing disallowed).
+- www.sanidad.gob.es: `*` disallows `/buscador/`, `/glosarios/`, `/servCiudadanos/transparencia/`, `/areas/saludMental/` (and language copies); `/normativa/` allowed.
+- www.mpr.gob.es: robots.txt empty (no rules).
+- www.mjusticia.gob.es: `*` disallows `/_layouts/`, `/_vti_bin/`, `/_catalogs/` only.
+- www.educacionfpydeportes.gob.es: `*` disallows `/*docroot/` only.
+- www.juventudeinfancia.gob.es and www.dsca.gob.es: robots.txt unreachable from the laptop (TLS: "certificate verify failed: certificate signature failure" and "sslv3 alert handshake failure" under the system Python 3.9 with LibreSSL 2.8.3), so the guard treats each host as Disallow: / and the source records a gap. Verification is never switched off. A Python with a current OpenSSL (the Mini, if it has one) may read them; the parser for them is the generic one and is not yet proven on their pages.
+- administracion.gob.es (the PAG's list of the 22 ministries' pages): only links, no aggregate list; robots.txt asks `Crawl-delay: 60`, `Request-rate: 1/1m` and `Visit-time: 0100-0645` (GMT), so it is not read.
+
+**Routes tried that failed**: administracion.gob.es as an aggregate (links only, above); transparencia.gob.es lists links only (scope doc, 11 October); Sanidad's `/normativa/consulta/home.htm` is 404 (the page is `/consultas/`).
+
+**Live run, 16 October 2026** (scratch store, `.probe/scratch-es.db`, 1 min 50 s of which 40 s is the two TLS failures' retries): 122 listed in the window, 2 on our ground, both deadline rows with closing dates; 2 gaps (juventud, dsca).
+
+- boe: 27 issues, 100 national acts, 0 on our ground (the Cortes are dissolved; one tier-2 hit, Real Decreto 737/2026 on Social Security credit for evangelical ministers, area 8, held back by the precision gate as a non-deadline document).
+- igualdad: 1 in the window, 1 kept: "Audiencia e información pública del proyecto de Real Decreto por el que se regula la información previa al consentimiento en la interrupción voluntaria del embarazo y el comité clínico ...", regulation_draft, Ministerio de Igualdad, 7 to 19 October 2026 (area 1).
+- sanidad: 7 in the window, 1 kept: consulta pública previa on the "Proyecto de Real Decreto por el que se modifican el Real Decreto 1277/2003 ... y el Real Decreto 831/2010 ... de garantía de la calidad asistencial de la prestación a la interrupción voluntaria del embarazo", consultation, Ministerio de Sanidad, 1 to 20 October 2026 (area 1).
+- mpr 1, justicia 3 (Reglamento del Registro Civil, regulation_draft, closes 2 November 2026), educacion 10 (all FP curricula and school requirements; none on our ground, so no item page read).

@@ -642,3 +642,31 @@ What a Yes and a No meant, in English, for every watched and tier-1 vote (src/vo
 Attendance (11 October 2026, branch `ukp2-attendance`): plenary vote participation is DERIVED from the karzat votes (nem szavazott, bejelentett hiányzó, igazoltan távol, jelen nem szavazott) with its basis; no committee attendance source.
 
 Length of service: **built, current term only** 11 October 2026 (`tools/member_service.py hu`, branch `ukp2-service`): karzat's mandate dates already in the store. Earlier terms are not read: Wikidata's query service, the other route named, is disallowed by its robots.txt. See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/hu.py`, run by `tools/country_gov_docs.py hu` (framework `src/gov_docs.py`), after `tools/hu_gazette.py` in the Hungarian weekly. Tests: `tests/test_gov_docs_hu.py` on fixtures captured live (`tests/fixtures/gov_docs/hu/`). No key, no account. parlament.hu (CAPTCHA) is not touched.
+
+**Sources used**
+
+- **Társadalmi egyeztetés, kormany.hu** (`te`). Under Act CXXXI of 2010 each ministry publishes its draft laws and decrees for public comment, with a comment address and a deadline (usually eight days). kormany.hu's document library lists them under the category "Jogszabálytervezetek" (id 2). The site is an Angular application; its browser code reads data from `https://kormany.hu/application/` (the bundle's `apiUrl`). One call returns a hundred drafts, newest first: `GET /application/document-groups?filter={"categories":[2]}&pagination={"page":N,"itemsPerPage":100}`, each with title, lead (summary), ministry, comment e-mail, publication date (`visibleDate`) and deadline. Pages are read until one holds nothing published in the window (5 calls on 16 October). The page for people is `https://kormany.hu/dokumentumtar/<slug>`. Doc type from the title: the last of "törvény" and "rendelet" it names decides (a decree implementing an Act is a decree), then the lead; a draft Act is a `bill_draft`, a draft decree a `regulation_draft`, anything else a `consultation`.
+- **Magyar Közlöny, mirrored** (`mk`): no second fetch. `hu_gazette_entries` (written by `tools/hu_gazette.py`) is re-filed for the government's instruments only: Acts and amendments to the Fundamental Law as `law`, government and ministerial decrees as `regulation`, the body "Országgyűlés", "Kormány" or the ministry's abbreviation, the URL the issue's page on magyarkozlony.hu. Government resolutions, OGY resolutions, presidential and Constitutional Court decisions stay in the gazette tables. The designation is a ref, so watchlist keys ("2026. évi XXIV. törvény") mark a row watched, and an amendment to the Fundamental Law carries "HU4" (watched whatever its words, as decided on 10 October).
+
+**robots.txt**
+
+- `kormany.hu`: `User-agent: *` / `Disallow: /publicapi`. The data path the site's own pages use is `/application/`, which is not disallowed. (The JSON's own field naming the item URL is called `publicApiUrl` but points under `/application/`.) Nothing under `/publicapi` is requested.
+- `magyarkozlony.hu` (the collector's host): `Disallow:` (empty), as recorded above.
+
+**Routes tried that failed**
+
+- The document library's served HTML (`/dokumentumtar`) renders only the first ten items of all categories; its filters are not URL parameters (`?category=2`, `?categories=2`, `?page=2` all return the same ten).
+- The search page (`/kereses?search=...`) renders results server-side but only the first page.
+- `/sitemap.xml`, `/rss`, `/feed`, `/rss.xml`: 404.
+- `/dokumentumtar/tarsadalmi-egyeztetes` is a single old (2023) item, not a list.
+
+**Measured, live run 16 October 2026** (scratch store; the gazette tables copied read-only from the laptop's store, latest issue 13 October): te 500 drafts on 5 pages, 397 in the window, 23 on our ground, all with a closing date (19 `regulation_draft`, 2 `bill_draft`, 2 `consultation`), 3 still open; mk 207 instruments in the window, 2 on our ground (the seventeenth amendment to the Fundamental Law, watched through HU4, and 151/2026. (IX. 18.) Korm. rendelet). No gaps. 13 s.
+
+Examples:
+- "Társadalmi egyeztetés a gyermeket nevelő családok otthonfelújítási támogatásáról szóló 518/2020. (XI. 25.) Korm. rendelet módosításáról", `regulation_draft`, Vidék- és Településfejlesztési Minisztérium, closes 20 October 2026.
+- "Társadalmi egyeztetés egyes magánjogi nyilvántartásokat érintő törvények módosításáról", `bill_draft`, closed 26 September 2026.
+- "Társadalmi egyeztetés a javítóintézetek gyermekvédelmi rendszerbe történő visszaintegrálásáról", `consultation`, closed 11 September 2026.

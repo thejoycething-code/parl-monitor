@@ -37,6 +37,12 @@ rc=0
   python3 tools/de_stance.py --limit 200
   python3 tools/de_briefs.py
   python3 tools/de_issues.py
+  # Government consultations and publications (tools/gov_docs_step.sh,
+  # tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+  # country's government consultations and publications on our ground into
+  # gov_docs, before the edition, so the countdown's deadline rows are this
+  # week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+  bash tools/gov_docs_step.sh de
   python3 tools/de_monitor.py --edition --dm
 ) || rc=1
 

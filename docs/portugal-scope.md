@@ -546,3 +546,24 @@ Length of service: **built** 11 October 2026 (`tools/member_service.py pt`, bran
 ## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **done**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/pt.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Assembleia's latest-initiatives page (four weeks deep, one request). Written questions stay weekly (a 7.8 MB dump). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/pt.py` (run by `tools/country_gov_docs.py pt`), tests `tests/test_gov_docs_pt.py`, fixtures `tests/fixtures/gov_docs/pt/`. No keys.
+
+**Sources used**
+
+| Code | Source | Format | What it gives |
+|---|---|---|---|
+| dr1 | `https://files.diariodarepublica.pt/rss/serie1-html.xml` (official RSS, listed on the Diário's "Subscrever RSS" page) | RSS 2.0 | the day's Série I: laws, decree-laws ('law'), portarias, Council of Ministers resolutions, decrees ('regulation'), rectifications, AR resolutions and notices ('publication') |
+| dr2c | `https://files.diariodarepublica.pt/rss/serie2&parte=c-html.xml` | RSS 2.0 | the day's Série II Parte C (the ministries' despachos and portarias; about 90 a day, mostly staff and delegation acts; louvores and staff extracts are skipped, the precision gate does the rest) |
+| clex | `https://www.consultalex.gov.pt/` (home page) | HTML (OutSystems) | the consultation cards: title, description, a relative countdown ("Terminou / Há 15 dias", or the days left while open), so the closing date is worked out from the run date; a draft decree-law, portaria or regulation = 'regulation_draft', a draft law = 'bill_draft', else 'consultation' |
+
+**robots.txt**: diariodarepublica.pt, dre.pt and files.diariodarepublica.pt answer every path, /robots.txt included, with the OutSystems JavaScript shell (HTTP 200, HTML, no rules); www.consultalex.gov.pt answers 404 (no rules). www.portugal.gov.pt allows everything (`Allow: /`).
+
+**Routes tried that failed**:
+- The Diário's own pages (diariodarepublica.pt/dr/...) are a single-page app: no readable HTML, and its data calls (`/dr/screenservices/...`) need an anti-forgery token taken from the site's scripts, which we do not use.
+- The RSS feeds carry ONLY THE LATEST ISSUE: a `?data=` parameter is ignored, and no per-day feed exists (a third-party project, github.com/Lowtechpt/DRE-RSS, reads the same feed daily for the same reason). `serie1-pdf.xml` answers 403. So a weekly run captures one issue in five. **Recommendation: run the Portuguese gov_docs step daily** (it takes 5 s) or add the feeds to the daily sweep; the store accumulates the days.
+- ConsultaLEX items open by postback only (no addresses), so each row links to the portal home. www.portugal.gov.pt/pt/gc21/consultas-publicas-historico (linked from ConsultaLEX) answers 404.
+
+**Live run, 16 October 2026** (`.probe/scratch-pt.db`, 5 s): 70 listed (3 Série I acts from issue 201/2026, 59 Série II Parte C acts, 8 ConsultaLEX consultations in the window, none open), 0 on our ground, 0 gaps. Examples as parsed: "Portaria n.º 458/2026/1: Procede à quarta alteração do sistema de incentivos Portugal Events ...", regulation, Economia e Coesão Territorial, 16 October 2026; ConsultaLEX "Alteração ao regime jurídico da educação inclusiva", consultation, closed about 17 July 2026 (not matched by the Portuguese terms); "Portaria que aprova o Regulamento da Rede Portuguesa Saber Fazer", regulation_draft, closed about 1 October 2026.

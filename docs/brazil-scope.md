@@ -599,3 +599,20 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 The Câmara's videos of legislative activity are CC BY 4.0 (its watermark must stay), so reuse is open, but no Brazilian speeches are stored (speeches not collected: per-deputy cost), so there is nothing to align a clip to. Build when speeches are collected. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py br`, branch `ukp2-service`): each sitting deputy's entries and exits from the Câmara's `historico`, and each sitting senator's exercises and dated party filiations from the Senado's `mandatos`; each chamber is read separately (a deputy's Senate years are not linked). One request a member, every four weeks, a 25-minute budget (members not reached keep last month's rows). See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/br.py`, tests `tests/test_gov_docs_br.py`, fixtures `tests/fixtures/gov_docs/br/`. No key needed.
+
+**The Diário Oficial da União is not read.** www.in.gov.br's robots.txt is `User-agent: *` / `Disallow: /` (the guard refuses even its own robots.txt URL). INLABS (inlabs.in.gov.br, the Imprensa Nacional's XML dumps of the DOU) answers "Request Rejected" (a WAF page, support ID quoted in the probe) and needs an account besides. Neither is touched; a GitHub runner would not change a robots.txt refusal.
+
+**Sources used**
+
+- **Federal legislation, Senado Dados Abertos** (`https://legis.senado.leg.br/dadosabertos/legislacao/lista.json?ano=YYYY&tipo=T`, JSON, documented at legis.senado.leg.br/dadosabertos/docs/, already in `src/robots_guard.DOCUMENTED_APIS`): every federal norm with its ementa (the official one-sentence summary) and signature date. Types read: LEI (204 so far in 2026), LCP (13), MPV (64), EMC (1), DEC (numbered decrees). One request per type and year; the previous year too in the first months of a year. doc_type: laws, complementary laws, constitutional amendments and medidas provisórias are `law` (an MP has the force of law from signature; the status says "Medida Provisória"), decrees `regulation`. Not covered: ministries' portarias and resoluções, which only the DOU carries.
+- **Brasil Participativo** consultations: mirrored from `country_petitions` (source `bp`, read by the petitions step through the Decidim GraphQL API).
+
+**robots.txt**: legis.senado.leg.br/dadosabertos/ is a documented API (not asked). The norm pages linked (`https://legis.senado.leg.br/norma/<id>`) are not fetched. www.gov.br: `Disallow: /economia/pt-br/internet/*` and form views only.
+
+**Measured, live run 16 October 2026** (scratch store; the laptop store held no `bp` rows, so the petitions step's `bp` source was run into the scratch store first): legislation 151 listed in the window, 3 on our ground, all area 14 (gambling); Brasil Participativo 61 listed, 0 on our ground. About 30 s.
+
+**Examples (on our ground)**: Medida Provisória nº 1.394 de 25/09/2026, "Proíbe a exploração, a oferta, a intermediação e a publicidade de loterias de apostas de quota fixa..." (law, Presidência da República); Decreto nº 13.128 de 28/09/2026, the committee policing illegal fixed-odds betting (regulation); Lei nº 15.480 de 30/07/2026 (law; betting receipts for the Federal Police fund).

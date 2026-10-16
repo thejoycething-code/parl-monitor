@@ -1696,6 +1696,86 @@ note, and the scope docs say what was applied.
   dataset links now point at `/explore/assets/<id>/` directly (the old
   `/explore/dataset/` form redirects).
 
+## Government consultations and publications: gov_docs (16 October 2026, branch `country-govdocs`)
+
+UK parity for GOV.UK's consultations and publications (tools/govuk_docs.py)
+in every country with an edition. One shared table, `gov_docs` (src/db.py:
+cc, doc_id, title, doc_type, body, published, closing_date, url, areas,
+matched_terms, tier, first_seen, last_seen, plus source, summary, status,
+watch_keys), and `gov_doc_runs` (one row per source per run, ok=0 on a gap).
+Shared module src/gov_docs.py; one reader per country in
+src/gov_doc_sources/<cc>.py; runner tools/country_gov_docs.py; the weekly
+step tools/gov_docs_step.sh <cc>, never fatal, inserted before the edition
+in the 23 weeklies below (after the petitions step, which the mirrors read;
+before the `*_monitor.py --edition` block in us, ie, au, ca; inside the
+collector subshell in de; in jobs/mx-collect.sh for Mexico, on GitHub).
+`<CC>_RECLASSIFY` jobs that reclassify petitions now reclassify gov_docs too.
+
+Matching: each country's own taxonomies on title + summary. Precision gate
+as the UK's: a consultation, call for evidence, draft bill or draft
+regulation out for comment is kept on any match; a made regulation, act,
+press release or report needs tier 1 or a watchlist key. Only rows on our
+ground are stored. Doc types: consultation, call_for_evidence,
+regulation_draft, bill_draft (DEADLINE_TYPES), regulation, law,
+publication, guidance, statistics, report, press_release,
+consultation_outcome.
+
+For the country countdown (another agent renders it): keep these names
+stable. `gov_docs.deadline_rows(conn, cc, start, end)` (deadline types on our
+ground with a closing date in the window: DEADLINE rows),
+`publication_rows(conn, cc, since, until)`, `in_preparation_rows(...)` (draft
+bills and regulations with no published deadline, Poland's register), and
+`coverage_lines(conn, cc)` (one line naming each source's last run and gaps).
+
+First live run, 16 October 2026, each country into a scratch store (listed
+in the window / stored on our ground / open deadline rows):
+
+| cc | Sources | Listed | On ground | Open deadlines |
+|---|---|---|---|---|
+| de | BMJV procedures and press RSS (deadline from the Referentenentwurf release), BMBFSFJ, BMG, Bundesregierung RSS | 124 | 3 | 1: Schutz bei häuslicher Gewalt, bill_draft, BMJV, 30 Oct |
+| at | Begutachtung (mirror), Ministerrat papers, BKA news, Sozialministerium | 203 | 2 | 0 (11 drafts with Frist, none on our ground) |
+| ch | Vernehmlassungen (mirror), News Service Bund RSS, AS via fedlex SPARQL | 637 | 2 | 0 |
+| fr | JORF (DILA open data), ecology consultations, solidarites.gouv.fr RSS | 551 | 1 | 0 (27 open, all environmental) |
+| be | belgium.be news and consultations, FPS Health, FPS Justice, IEFH | 40 | 0 | 0 |
+| nl | Kamerbrieven (TK OData), Staatsblad | 900 | 17 | 0 (no consultation source: internetconsultatie refuses) |
+| pl | Council of Ministers' register CSV, Dziennik Ustaw and Monitor Polski (ELI), Sejm consultations (mirror) | 392 | 9 | 3 (Sejm, e.g. Kodeks karny, 7 Nov) |
+| it | Gazzetta Ufficiale (30 days), ParteciPa (mirror) | 279 | 0 | 0 |
+| es | BOE API Section I, Igualdad, Sanidad, Presidencia, Justicia, Educación | 122 | 2 | 2: IVE información previa RD (Igualdad, 19 Oct); RD 1277/2003 and 831/2010 consulta previa (Sanidad, 20 Oct) |
+| pt | Diário da República RSS (Série I, II C), ConsultaLEX | 70 | 0 | 0 |
+| hr | e-Savjetovanja via data.gov.hr, Narodne novine | 443 | 1 | 0 |
+| sk | Slov-Lex eLegislatíva (MPK and preliminary information) | 377 | 7 | 2: LP/2026/531 (26 Oct), LP/2026/511 (2 Nov), MPSVR |
+| hu | kormany.hu társadalmi egyeztetés, Magyar Közlöny (mirror) | 604 | 25 | 3, e.g. 518/2020 Korm. rendelet amendment (20 Oct) |
+| us | Federal Register (mirror of us_fr_documents) | 1,250 | 8 | 2: Federal Scholarship Tax Credit (1 Dec), Child Welfare reporting (4 Nov) |
+| ca | Consulting with Canadians CSV, Canada Gazette (mirror), News Centre | 1,132 | 6 | 1: SDG Voluntary National Review (ESDC, 18 Dec) |
+| ie | Irish Statute Book SIs | 3 | 0 | 0 (gov.ie refuses us: consultations are a gap) |
+| au | Health Citizen Space API, Federal Register of Legislation | 468 | 0 | 0 |
+| ar | Boletín Oficial primera sección, consultapublica (mirror) | 116 | 0 | 0 |
+| br | Senado legislation list (DOU refuses us), Brasil Participativo (mirror) | 212 | 3 | 0 |
+| mx | DOF via SIDOF web service | 853 | 3 | 0 (8 draft NOMs dated, none on our ground) |
+| co | SUCOP (mirror) | 51 | 4 | 3 (press freedom protocols, 30 Oct) |
+| cl | Diario Oficial normas generales | 165 | 0 | 0 |
+| pe | El Peruano normas legales (drafts dated from their pages) | 1,162 | 0 | 0 |
+
+Not attempted: UY, EC, BO, PY and the rest of Latam. Blocked hosts and the
+alternatives tried are in docs/robots-runtime.md ("Government documents:
+blocked hosts"); each scope doc has a "Government consultations and
+publications (gov_docs, 16 October 2026)" section with its routes and counts.
+
+Open points for Chris:
+- DOCUMENTED_APIS candidates (not added): KOOP SRU (repository.overheid.nl,
+  robots.txt `Disallow: /`, would open Dutch Staatscourant and consultations
+  notices), the RIS OGD API (data.bka.gv.at, `Disallow: /`, Austrian made
+  law); allowed anyway and optional: BOE datosabiertos, SIDOF, Narodne
+  novine API, open.canada.ca CSV, data.gov.hr CKAN.
+- Written-permission routes: Moniteur belge (FPS Justice), RIS (BKA), KOOP.
+- The precision gate keeps almost no made acts this week (their matches are
+  tier 2); thin Irish and Australian wording in the English taxonomy; the
+  Croatian stem `udžbenic*` misses "udžbenika" (`udžbeni*` would match).
+- Portugal's Diário RSS carries only the latest issue: a daily read (5 s)
+  would catch every issue; the weekly catches one in five.
+- Spain's two TLS-failing ministry hosts may read from the Mini if its
+  Python has a current OpenSSL.
+
 ## The countdown layout on the fifteen editions (16 October 2026, branch `country-countdown`)
 
 Chris asked for the UK weekly's "A · Countdown" layout (PRs #205-#210) on the
