@@ -26,6 +26,8 @@ meetings with their agendas (UN Journal; near-term, about a week ahead),
 Third Committee meetings (UN Journal; near-term), the PGA's letters to member
 states (src/ingest/pga_letters.py), draft resolutions by symbol for the GA
 plenary (A/81/L.n) and the Third Committee (A/C.3/81/L.n) (docs.un.org),
+draft symbols and official titles from iGov's documents list (16 October
+2026; the texts are not read while documents.un.org's robots.txt refuses),
 treaty body sessions for CEDAW, CRC and CCPR (Indico.UN, about a year ahead;
 tbinternet's reporting deadlines only while its robots.txt allows) and OHCHR
 calls for input. HRC drafts (A/HRC/NN/L.n) are walked by tools/un_drafts.py --hrc,
@@ -143,8 +145,26 @@ def _info(doc, draft, areas):
                                 agenda_item=draft.agenda_item)
 
 
+DOCS_SOURCE = "UN draft resolutions (docs.un.org)"
+IGOV_SOURCE = "UN draft list (iGov)"
+
+
+def igov_infos(listed, tax, wl):
+    """DraftInfo for each draft iGov lists, classified on its title (and its
+    agenda item's title). named_by "iGov listing": the text is not read;
+    `dated` is iGov's own date where it gives a plausible one, else None
+    (never the day it was first seen, which would be a guess)."""
+    out = []
+    for l in listed:
+        areas = filt.filter_item(tax, wl, l.title).issue_areas if l.title else []
+        out.append(un_signals.DraftInfo(symbol=l.symbol, title=l.title, dated=l.dated,
+                                        areas=list(areas), url=un_docs.doc_url(l.symbol),
+                                        agenda_item=l.agenda_item, named_by="iGov listing"))
+    return out
+
+
 def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, log=print,
-                   mentions=(), mention_date=None):
+                   mentions=(), mention_date=None, igov=()):
     """Drafts for linking: the store's, a resumed walk of each series, and
     any symbol a plenary agenda or PGA letter names. Returns (DraftInfo
     list, rows to store in un_documents as (doc, draft, areas, body)).
@@ -153,27 +173,36 @@ def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, lo
     documents.un.org/api/symbol/access, which documents.un.org/robots.txt
     disallows, and the client refuses that hop (RobotsRefused). The first
     refusal ends every docs.un.org read this run (each would go the same
-    way); each docs.un.org row in the check log then says "could not read:
-    robots.txt disallows (documents.un.org)", so the DM calls new drafts
-    unknown, not zero. `mentions` (PGA letters, Journal meetings with their
-    agendas read) then stand in: a draft they name is known by its symbol
-    and what they say of it (un_signals.drafts_named), never stored in
-    un_documents (it was not read), and listed in its own check row.
+    way). ONE check row then says so (16 October 2026: it had been three,
+    one per walk and one for the named drafts, counted three times in "N of
+    M sources could not be read"), naming the symbols whose text was not
+    read, so the DM calls new drafts unknown, not zero. `mentions` (PGA
+    letters, Journal meetings with their agendas read) then stand in: a
+    draft they name is known by its symbol and what they say of it
+    (un_signals.drafts_named), never stored in un_documents (it was not
+    read), and listed in its own check row.
+
+    igov (16 October 2026): un_docs.Listed from iGov's documents list, the
+    route to symbol + official title + agenda item (un_docs has the
+    routes tried). A listed draft gets iGov's title even when a letter or
+    an agenda names it too (the official title beats a letter's subject);
+    the areas are merged.
     """
     infos = dict(known)
     stored = []
     refused = None
+    walked = []          # labels of the walks refused
     if walk:
         for label, pattern, body in DRAFT_SERIES:
             if refused is not None:
-                checks.failed("docs.un.org " + label, refused)
+                walked.append(label)
                 continue
             start = _series_start(known, pattern, session)
             try:
                 found, checked, errors = un_docs.walk_drafts(client, pattern, session, start=start)
             except RobotsRefused as exc:
                 refused = un_docs.refusal_detail(exc)
-                checks.failed("docs.un.org " + label, refused)
+                walked.append(label)
                 continue
             except Exception as exc:   # pragma: no cover - walk_drafts catches per symbol
                 checks.failed("docs.un.org " + label, exc)
@@ -194,17 +223,18 @@ def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, lo
                         key=lambda i: (i.dated or datetime.date.min),
                         title=lambda i: "{0} {1}".format(i.symbol, i.title))
     missing = [s for s in named if s not in infos]
+    unread_named = []
     if missing:
         docs, failed = [], []
         for symbol in missing:
             if refused is not None:
-                failed.append(symbol)
+                unread_named.append(symbol)
                 continue
             try:
                 doc = un_docs.head(client, symbol)
             except RobotsRefused as exc:
                 refused = un_docs.refusal_detail(exc)
-                failed.append(symbol)
+                unread_named.append(symbol)
                 continue
             except Exception as exc:
                 failed.append("{0} ({1})".format(symbol, str(_why(exc))[:60]))
@@ -215,35 +245,87 @@ def collect_drafts(client, checks, session, known, named, tax, wl, walk=True, lo
             infos[doc.symbol] = _info(doc, draft, areas)
             body = "Third Committee" if "/C.3/" in doc.symbol else "General Assembly"
             stored.append((doc, draft, areas, body))
-        if refused is not None and not docs:
-            checks.failed("docs.un.org named drafts", "{0} [{1} named: {2}]".format(
-                refused, len(failed), ", ".join(failed[:6])))
-        elif failed and not docs:
-            checks.failed("docs.un.org named drafts", "; ".join(failed))
-        else:
-            checks.read("docs.un.org named drafts", docs,
-                        detail="symbols named by plenaries and PGA letters"
-                               + ("; failed: " + "; ".join(failed) if failed else ""),
-                        newest=(docs[-1].symbol, None) if docs else None)
+        if refused is None or docs:
+            if failed and not docs:
+                checks.failed("docs.un.org named drafts", "; ".join(failed))
+            else:
+                checks.read("docs.un.org named drafts", docs,
+                            detail="symbols named by plenaries and PGA letters"
+                                   + ("; failed: " + "; ".join(failed) if failed else ""),
+                            newest=(docs[-1].symbol, None) if docs else None)
     elif not walk:
         checks.read("docs.un.org named drafts", [],
                     detail="no new symbol named; walk skipped this run")
+    if refused is not None:
+        # One row for one cause (16 October 2026).
+        what = []
+        if walked:
+            what.append("the {0} walk{1}".format(" and ".join(w.replace(" drafts", "") for w in walked),
+                                                 "s" if len(walked) > 1 else ""))
+        if unread_named:
+            what.append("named drafts {0}".format(", ".join(unread_named)))
+        checks.failed(DOCS_SOURCE, "{0}; texts not read: {1}".format(
+            refused, "; ".join(what) or "drafts"))
+    # iGov's list: symbol, official title, agenda item.
+    from_igov = [d for d in igov_infos(igov, tax, wl)]
+    for d in from_igov:
+        have = infos.get(d.symbol)
+        if have is None:
+            infos[d.symbol] = d
     # The alternative route: drafts known from what names them.
     letters = [m for m in mentions if hasattr(m, "dated")]
     meetings = [m for m in mentions if not hasattr(m, "dated")]
-    by_mention = [d for d in un_signals.drafts_named(letters, meetings, tax, wl,
-                                                     meeting_date=mention_date,
-                                                     doc_url=un_docs.doc_url)
-                  if d.symbol not in infos]
-    for d in by_mention:
-        infos[d.symbol] = d
+    igov_by = {d.symbol: d for d in from_igov}
+    by_mention = []
+    for d in un_signals.drafts_named(letters, meetings, tax, wl, meeting_date=mention_date,
+                                     doc_url=un_docs.doc_url):
+        listed = igov_by.get(d.symbol)
+        if listed is not None and infos.get(d.symbol) is listed:
+            # Named by a letter or an agenda AND listed by iGov: iGov's
+            # official title, both sets of areas, the naming's date.
+            d.title = listed.title or d.title
+            d.areas = sorted(set(d.areas) | set(listed.areas))
+            d.agenda_item = d.agenda_item or listed.agenda_item
+            d.title_from = "iGov"
+            infos[d.symbol] = d
+            by_mention.append(d)
+        elif d.symbol not in infos:
+            infos[d.symbol] = d
+            by_mention.append(d)
     if refused is not None or by_mention:
         checks.read("Drafts named by PGA letters and Journal agendas", by_mention,
                     key=lambda i: (i.dated or datetime.date.min),
                     title=lambda i: "{0} {1}".format(i.symbol, i.title),
-                    detail="symbol and context only; the draft's text is not read"
-                    + (" (docs.un.org refused by robots.txt)" if refused else ""))
+                    detail="symbol and context only; the draft's text is not read")
     return list(infos.values()), stored
+
+
+def read_igov(client, checks, session, log=print):
+    """iGov's L-documents for the GA plenary and the Third Committee, with
+    one check row. Returns the un_docs.Listed list ([] when not read)."""
+    try:
+        gc = robots_guard.guard(client, "igov", log=log)
+        listed, failures = un_docs.fetch_igov_drafts(gc, session)
+    except Exception as exc:
+        checks.failed(IGOV_SOURCE, _why(exc))
+        return []
+    if failures and len(failures) >= len(un_docs.IGOV_BODIES):
+        checks.failed(IGOV_SOURCE, "; ".join(failures))
+        return []
+    counts = {}
+    for l in listed:
+        counts[l.body] = counts.get(l.body, 0) + 1
+    detail = "titles and agenda items, not texts; {0}".format(", ".join(
+        "{0} {1}".format(label, counts.get("Third Committee" if "C.3" in prefix else "General Assembly", 0))
+        for label, _b, prefix in un_docs.IGOV_BODIES))
+    if failures:
+        detail += "; not read: " + "; ".join(failures)
+    newest = None
+    if listed:
+        last = max(listed, key=lambda l: (l.dated or datetime.date.min, un_docs._symbol_key(l.symbol)))
+        newest = ("{0} {1}".format(last.symbol, last.title), last.dated)
+    checks.read(IGOV_SOURCE, listed, newest=newest, detail=detail)
+    return listed
 
 
 @dataclass
@@ -377,9 +459,11 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
                 named.append(s)
     session = pga_letters.session_for(today)
     known = known_drafts(conn)
+    igov = read_igov(client, checks, session, log=log)
     drafts, drafts_to_store = collect_drafts(client, checks, session, known, named,
                                              tax, wl, walk=walk, log=log,
-                                             mentions=list(letters) + list(plenaries) + list(c3_read))
+                                             mentions=list(letters) + list(plenaries) + list(c3_read),
+                                             igov=igov)
 
     try:
         upr = un_calendar.fetch_upr_sessions(client)
@@ -484,11 +568,30 @@ def collect(client, today, days, tax, wl, conn=None, walk=True, pga_client=None,
     for s in signals:
         if not un_signals.in_forward_look(s, today, days):
             continue
-        when = s.due if (s.due and s.due >= today) else (s.sign_date or today)
+        when = s.due if (s.due and s.due >= today) else (s.sign_date or _first_seen(conn, s.id)
+                                                            or today)
         rows.append((when, s.kind, s.title, s.detail,
                      ",".join(str(a) for a in s.areas), s.url, s.id, s))
     rows.sort(key=lambda r: r[0])
     return Collected(rows, gaps, checks, signals, drafts_to_store, open_calls)
+
+
+def _first_seen(conn, ident):
+    """The store's first_seen for an undated item (an iGov-listed draft
+    with no meeting yet), so its row keeps one date run to run instead of
+    "moving" to today every morning. None without a store or a record."""
+    if conn is None:
+        return None
+    try:
+        row = conn.execute("SELECT first_seen FROM un_calendar WHERE id = ?", (ident,)).fetchone()
+    except Exception:
+        return None
+    if not row or not row[0]:
+        return None
+    try:
+        return datetime.date.fromisoformat(str(row[0])[:10])
+    except ValueError:
+        return None
 
 
 def store_drafts(conn, drafts_to_store, session, today):
@@ -537,7 +640,8 @@ def render(rows, today, days, signals, checks, gaps, changes=None, stored=False,
     out.append("Coverage: Human Rights Council, CSW and UPR working group sessions "
                "(UPR at month precision), the General Assembly window, GA plenaries "
                "and high-level meetings with their agendas, Third Committee meetings, "
-               "the PGA's letters, GA plenary and Third Committee drafts by symbol, "
+               "the PGA's letters, GA plenary and Third Committee drafts by symbol "
+               "(titles from iGov; texts not read while robots.txt refuses), "
                "CEDAW, CRC and CCPR sessions (Indico.UN; reporting deadlines only "
                "while tbinternet's robots.txt allows) and OHCHR "
                "calls for input. Journal rows are NEAR-TERM only (about a week "

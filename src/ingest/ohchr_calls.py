@@ -19,6 +19,15 @@ Two things learned building this (2026-08-17):
     regexes against a captured fixture. Layout changes WILL break it, which is
     why parse_calls returning nothing is treated by callers as a gap rather
     than as "no calls are open".
+
+CHALLENGED SINCE 13 OCTOBER 2026 (www.ohchr.org answers 403, a Cloudflare
+"Just a moment..." challenge, from the laptop and the Mac Mini). 16 October
+2026: GitHub's runners are challenged too (read-only probe-hosts.yml run
+38870091411, honest User-Agent, robots.txt read first and allowing the
+listing), so a runner cannot fetch the listing for the Mini either. No other
+host lists the calls (docs/un-sources.md has every route tried). The check
+log keeps saying "could not read", and the DM calls open calls unknown, not
+zero, until OHCHR answers the permission email of 15 October 2026.
 """
 
 from __future__ import annotations
