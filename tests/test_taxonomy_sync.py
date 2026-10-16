@@ -101,7 +101,9 @@ class TaxonomySyncTests(unittest.TestCase):
         # v1.25 (13 October 2026): the unhyphenated "single sex" forms and
         # "single-sex facilit*" in area 5 (Health Bill NC143, division
         # 2422); tests/test_v125_terms.py.
-        self.assertEqual(version, "1.25")
+        # v1.26 (16 October 2026): "gender identity" guarded at tier 2 in
+        # areas 3 and 5, boilerplate vetoed; tests/test_v126_terms.py.
+        self.assertEqual(version, "1.26")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on

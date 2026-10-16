@@ -602,7 +602,7 @@ class NormalModeFullRenderTests(unittest.TestCase):
         # The countdown order (Christopher, 2026-10-15): the timeline first,
         # then Reference with every section the edition carried before.
         order = ["## This week", "## Further afield", "## Reference",
-                 "### Bills we track, all legislatures", "### Latest votes on our issues",
+                 "### Bills we track, all legislatures",
                  "### " + digest.QUESTIONS_HEADING,
                  "### Early day motions", "### Statements and announcements",
                  "### Parliamentarians on our issues", "### Coverage notes"]
@@ -650,7 +650,7 @@ class DevolvedSectionTests(unittest.TestCase):
     def test_merged_into_the_countdown_not_a_section(self):
         """The countdown (Christopher, 2026-10-15): no separate devolved
         section. A consultation is a row tagged with its government, a bill
-        joins the board with its Where, a vote joins Latest votes."""
+        joins the board with its Where (a vote joined Latest votes until round 5)."""
         e = base_edition(mp_notes=[digest.Line("An MP note", 2)])
         e.devolved = self.PAYLOAD
         md = digest.render(e)
@@ -659,7 +659,10 @@ class DevolvedSectionTests(unittest.TestCase):
         self.assertIn("| Mon 31 Aug | SCOT GOVT | [Protections in the justice system](https://c/1)", further)
         board = md[md.index("### Bills we track"):md.index("*Movement:")]
         self.assertIn("| A Scottish Bill | Holyrood | Stage 3, 17 Mar 2026 |", board)
-        self.assertIn("**Holyrood** · a vote, Defeated", md)
+        # Round 5 (Chris, 16 October 2026): "Latest votes on our issues"
+        # left the edition (it goes stale), so the devolved vote prints nowhere.
+        self.assertNotIn("Latest votes on our issues", md)
+        self.assertNotIn("a vote, Defeated", md)
 
     def test_merged_in_sitting_weeks_too(self):
         e = digest.Edition(week_commencing="2026-08-31", number=5,

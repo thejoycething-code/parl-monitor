@@ -151,7 +151,10 @@ def _split_tagged(term):
         kind = m.group("kind")
         if lists[kind] is not None:
             raise SystemExit("term %r has two [%s:] brackets" % (term, kind))
-        lists[kind] = [g.strip() for g in m.group("terms").split(",") if g.strip()]
+        # Commas inside a quoted phrase belong to the phrase (v1.26, 16 October
+        # 2026: the veto "sexual orientation, gender identity"); before, every
+        # comma split, so such a phrase could not be written at all.
+        lists[kind] = [g.strip() for g in re.findall(r'(?:"[^"]*"|[^,])+', m.group("terms")) if g.strip()]
         term = term[:m.start()]
     return (term.strip(), lists["with"] or [], lists["without"] or [],
             [c.lower() for c in (lists["only"] or [])])

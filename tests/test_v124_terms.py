@@ -33,7 +33,7 @@ class Versions(unittest.TestCase):
     def test_versions(self):
         # English 1.25 since the same day (the "single sex" forms):
         # tests/test_v125_terms.py pins it.
-        self.assertIn(tax("en").version, ("1.24", "1.25"))
+        self.assertIn(tax("en").version, ("1.24", "1.25", "1.26"))
         self.assertEqual(tax("es").version, "0.5")
         self.assertEqual(tax("qc").version, "0.4")
         self.assertEqual(tax("sk").version, "0.3")

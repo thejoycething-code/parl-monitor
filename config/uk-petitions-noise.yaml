@@ -1,0 +1,60 @@
+# UK Parliament petitions: edition noise rules (src/uk_petition_noise.py; the
+# format is there). Free and deterministic, no model (Chris, 16 October 2026,
+# round 4: "build a mute/noise list for UK petitions in the same style as the
+# other editions' noise files"). Hand-edited; this is not a generated file.
+#
+# A mute drops an area from the EDITION only (src/countdown.petitions_from_store),
+# never from the store; a petition with no shown area left is not shown. A
+# petition naming a watchlist Bill is never muted.
+#
+# Patterns match the petition's title folded (lower case, accents stripped).
+# only_terms: every term the petition matched in that area is one of these.
+#
+# MEASURED on the PR #208 scratch run, re-run 16 October 2026 against a scratch
+# copy of the store (sha 1b05fb2e1e9f): 2,174 open and 5,619 closed petitions
+# read, 162 kept on our ground, every one read by hand. Migration-only
+# petitions (area 11) are hidden from the edition anyway and are not listed.
+# The ids in each rule are the petitions it muted that day.
+
+exclude_ids:
+  771042: 'warnings on social media content about open water swimming: water safety, not online safety or parental rights'
+  758408: 'a referendum before leaving the ECHR; "freedom of speech" in its background text'
+  759825: 'scam emergency trade call-out adverts: consumer fraud, not online free speech'
+  773553: 'ministers to take advice from the UN Human Rights Office; "freedom of expression" in passing'
+  767175: 'compensation from the US and Israel for economic damage; "Islamophobia" in passing'
+  765659: 'a licence or ID for buying methanol: "age verification" of a chemical sale'
+  776542: 'e-bike and e-scooter speed limits: "age verification" of hire users'
+  763298: 'part-time work for under-16s: child employment law, "homeschool*" in passing'
+
+exclude_in_area:
+  1:   # Abortion
+    - only_terms: ['Down syndrome', "Down's syndrome"]
+      except_title: 'abortion|prenatal|pregnan|unborn|screening for down|termination'
+      reason: 'services and screening for adults with Down syndrome or Edwards syndrome are disability policy, not the abortion ground (768606, 776334)'
+    - only_terms: [abortion]
+      title: '\bhunt|hounds?\b|livestock|animal|bridleway'
+      reason: 'abortion in livestock, in a hunting petition, is not abortion policy (762144)'
+  2:   # Assisted dying
+    - only_terms: [euthanasia]
+      title: 'animal|\bpets?\b|\bdogs?\b|\bcats?\b|puppy|puppies|veterinar|\bvets?\b|rehom'
+      reason: 'euthanasia of pets and dogs is animal welfare, not assisted dying (758639, 766482, 767158)'
+    - only_terms: [coercion]
+      except_title: 'assisted|dying|euthanas|terminally|end of life'
+      reason: 'reproductive coercion in an abortion or contraception petition is not assisted dying (760444, 760849, 775918)'
+  5:   # Sex-based rights
+    - only_terms: ['Equality Act 2010']
+      except_title: 'draft .*guidance|code of practice|\bsex\b|single.sex|gender|women|trans'
+      reason: 'the Equality Act 2010 named for disability, BSL or press reporting is not the sex-based rights ground; the draft single-sex guidance petition stays (754013, 761186, 780125)'
+    - only_terms: ['violence against women and girls', VAWG]
+      title: 'asylum|immigration'
+      reason: 'VAWG safeguards in asylum and immigration policy are migration policy, not sex-based rights (780063)'
+  6:   # Parental rights and education
+    - only_terms: ['child sexual abuse']
+      reason: 'sentencing and reporting duties for child sexual abuse are criminal justice, not parental rights or education (761652)'
+    - only_terms: ['child sexual exploitation']
+      title: 'deport'
+      reason: 'deporting sexual offenders is migration and sentencing policy (776212)'
+  9:   # Marriage and family
+    - only_terms: ['family breakdown']
+      ids: [764510, 755706, 765167]
+      reason: '"family breakdown" as a harm in a petition on dopamine agonists (764510), therapist regulation (755706) or veterans with PTSD (765167) is not family policy'

@@ -212,6 +212,7 @@ class Watchlist:
     fallen_raw: dict = None  # raw fallen_bills: same shape, closure candidates
     acts_raw: list = None    # raw acts_watch entries (short/chapter/bill_id/areas/why)
     people: list = None      # parliamentarian names: reference only, never matched
+    vetoes: dict = None      # {entity term: [compiled veto]} (entity_vetoes in the yaml)
 
 
 def load_watchlist(path):
@@ -257,7 +258,9 @@ def load_watchlist(path):
                      bills_raw=dict(raw.get("bills") or {}),
                      fallen_raw=dict(raw.get("fallen_bills") or {}),
                      acts_raw=list(raw.get("acts_watch") or []),
-                     people=people)
+                     people=people,
+                     vetoes={term: [_compile_term(v) for v in (vs or [])]
+                             for term, vs in (raw.get("entity_vetoes") or {}).items()})
 
 
 @dataclass
@@ -312,8 +315,13 @@ def _scan_watchlist(text_lower, text_orig, watchlist, title=""):
     """
     title_lower, title_orig = (title or "").lower(), (title or "")
     hits = []
+    vetoes = getattr(watchlist, "vetoes", None) or {}
     for term, pattern, cs, areas, broad in watchlist.entities:
         if not pattern.search(text_orig if cs else text_lower):
+            continue
+        # entity_vetoes (16 October 2026): "CARE" beside pension wording is
+        # Career Average Revalued Earnings, not the charity.
+        if any(v.search(text_orig if vcs else text_lower) for v, vcs in vetoes.get(term) or []):
             continue
         in_title = bool(pattern.search(title_orig if cs else title_lower))
         hits.append((term, areas, broad, in_title))

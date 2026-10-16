@@ -1344,6 +1344,10 @@ def sections_from_store(conn, edition):
                 # For the countdown's DEADLINE rows (2026-10-15).
                 "areas": json.loads(r["issue_areas"] or "[]"), "score": r["triage_score"],
                 "committee": m.group("cmte") if feed == "committee" and m else None,
+                # A regulator's consultation (sweep_regulators) is tagged with
+                # the regulator's name in the countdown, not UK GOVT (round 5).
+                "regulator": ((json.loads(r["extra"]) if r["extra"] else {}).get("regulator")
+                              if feed == "consultation" else None),
             })
             # The deadline table carries no tag or owner, so an ACT decided at
             # review was rendering as an ordinary row: urgency the edition (and
@@ -1549,7 +1553,8 @@ def countdown_from_store(conn, edition, wl=None):
                                        "next": cd.day_label(nxt.date) if nxt else "none set",
                                        "areas": areas, "why": committee})
 
-    # Latest votes on our issues, across legislatures.
+    # The latest votes across legislatures: read for the big dates' Context
+    # lines only (the Latest votes section left in round 5).
     votes = [{"date": v["date"], "where": "Commons", "title": v["title"], "url": v["url"],
               "result": cd._result(v)} for v in tracker]
     # Votes look back 120 days, not the old section's 30: a debate a month
@@ -1573,14 +1578,9 @@ def countdown_from_store(conn, edition, wl=None):
                                    devolved_votes=[v for v in votes if v["where"] != "Commons"])
     edition.timeline = rows
 
-    seen, latest = set(), []
-    for v in sorted(votes, key=lambda v: v.get("date") or "", reverse=True):
-        key = (v["where"], (v["title"] or "")[:60].lower())
-        if key in seen:
-            continue
-        seen.add(key)
-        latest.append(v)
-    edition.latest_votes = cd.group_votes(latest)[:8]
+    # edition.latest_votes is no longer filled: "Latest votes on our issues"
+    # left the edition in round 5 (Chris, 16 October 2026: it goes stale).
+    # The votes above still feed the big dates' Context lines.
     edition.key_questions = cd.key_questions(conn, edition.week_commencing)
     return edition
 

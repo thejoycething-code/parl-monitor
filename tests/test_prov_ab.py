@@ -139,7 +139,10 @@ class ClassificationTests(unittest.TestCase):
     def test_bill_27_text_is_area_6_on_pronouns_and_notification(self):
         res = pc.classify(self.tax, self.wl, "ab", title="Education Amendment Act, 2024",
                           texts=[fx("ab_bill27.txt")])
-        self.assertEqual(res.areas, [6])
+        # Area 3 too since taxonomy v1.26 (16 October 2026): the guarded
+        # "gender identity" (school and student company) is the bill's own
+        # subject, pronouns and gender identity at school.
+        self.assertEqual(res.areas, [3, 6])
         self.assertIn("preferred name*", res.terms)
         self.assertIn("parental notification", res.terms)
 
