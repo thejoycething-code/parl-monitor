@@ -1,0 +1,178 @@
+{
+ "results": [
+  {
+   "content_store_document_type": "guidance",
+   "description": "Non-statutory guidance for police on new offences covering tools that create or share fake intimate images (nudification tools).",
+   "link": "/government/publications/making-or-supplying-purported-intimate-image-generators",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    }
+   ],
+   "public_timestamp": "2026-10-15T08:52:02Z",
+   "title": "Making or supplying purported intimate image generators",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/making-or-supplying-purported-intimate-image-generators",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "impact_assessment",
+   "description": "Assessment of the costs and benefits of policies in the Immigration and Asylum Bill.",
+   "link": "/government/publications/immigration-and-asylum-bill-2026-impact-assessment",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    }
+   ],
+   "public_timestamp": "2026-10-13T10:35:06Z",
+   "title": "Immigration and Asylum Bill 2026: impact assessment",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/immigration-and-asylum-bill-2026-impact-assessment",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "impact_assessment",
+   "description": "Impact assessments relating to the Crime and Policing Act 2026.",
+   "link": "/government/publications/crime-and-policing-act-2026-impact-assessments",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    },
+    {
+     "title": "Ministry of Justice",
+     "acronym": "MOJ",
+     "slug": "ministry-of-justice",
+     "link": "/government/organisations/ministry-of-justice"
+    }
+   ],
+   "public_timestamp": "2026-09-29T16:02:57Z",
+   "title": "Crime and Policing Act 2026: impact assessments",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/crime-and-policing-act-2026-impact-assessments",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "guidance",
+   "description": "How the Department of Health and Social Care (DHSC) will gather and respond to feedback from users to ensure abortion statistics meet their needs.",
+   "link": "/government/publications/abortion-statistics-user-engagement-plan",
+   "organisations": [
+    {
+     "title": "Department of Health and Social Care",
+     "acronym": "DHSC",
+     "slug": "department-of-health-and-social-care",
+     "link": "/government/organisations/department-of-health-and-social-care"
+    }
+   ],
+   "public_timestamp": "2026-09-23T10:00:04Z",
+   "title": "Abortion statistics user engagement plan",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/abortion-statistics-user-engagement-plan",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "guidance",
+   "description": "Guidance for Border Force officers dealing with EU, EEA and Swiss passengers and their family members who arrive at the UK border.",
+   "link": "/government/publications/eea-nationals-at-the-border-post-grace-period",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    }
+   ],
+   "public_timestamp": "2026-10-15T14:02:21Z",
+   "title": "EU Settlement Scheme: Border Force guidance",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/eea-nationals-at-the-border-post-grace-period",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "guidance",
+   "description": "Immigration staff guidance on applications under the EU Settlement Scheme.",
+   "link": "/government/publications/eu-settlement-scheme-caseworker-guidance",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    },
+    {
+     "title": "UK Visas and Immigration",
+     "acronym": "UKVI",
+     "slug": "uk-visas-and-immigration",
+     "link": "/government/organisations/uk-visas-and-immigration"
+    }
+   ],
+   "public_timestamp": "2026-10-15T13:02:09Z",
+   "title": "EU Settlement Scheme: caseworker guidance",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/eu-settlement-scheme-caseworker-guidance",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "guidance",
+   "description": "Immigration staff guidance on how to assess and decide applications for EU Settlement Scheme family and travel permits.",
+   "link": "/government/publications/eu-settlement-scheme-family-permits",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    }
+   ],
+   "public_timestamp": "2026-10-15T12:57:50Z",
+   "title": "EU Settlement Scheme \u2013 family and travel permits: caseworker guidance",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/eu-settlement-scheme-family-permits",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "guidance",
+   "description": "This guide to 'Police use of force statistics' is designed to be a useful reference guide with explanatory notes on the statistics. ",
+   "link": "/government/publications/user-guide-to-police-use-of-force-statistics-england-and-wales",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    }
+   ],
+   "public_timestamp": "2026-10-15T08:30:02Z",
+   "title": "User guide to Police use of force statistics, England and Wales",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/publications/user-guide-to-police-use-of-force-statistics-england-and-wales",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  }
+ ],
+ "total": 8,
+ "start": 0
+}

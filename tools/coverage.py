@@ -172,6 +172,15 @@ FEEDS = [
     ("dv_petition_snapshots", "captured_at", 7, 4, "devolved petition signature snapshots"),
     ("petitions", "last_seen", 7, 3, "e-petitions on our ground (collated, not published)"),
     ("petition_snapshots", "captured_at", 7, 3, "e-petition signature snapshots"),
+    # The UK edition's civic layer (16 October 2026), two steps of the Sunday
+    # pull: both upserts re-stamp last_seen on every sighting, and a live run
+    # always re-sees something (open petitions on our ground never run out;
+    # consultations closed in the last three months, Ofcom's and NHS
+    # England's listings keep a few on our ground), so both are heartbeats.
+    ("uk_petitions", "last_seen", 7, 3, "UK e-petitions on our ground for the edition (Sunday pull)"),
+    ("uk_petition_counts", "captured_at", 7, 3, "UK e-petition signature counts per sweep"),
+    ("govuk_docs", "last_seen", 7, 7, "GOV.UK consultations and publications, Ofcom, NHS England "
+                                     "on our ground (Sunday pull)"),
     ("sp_items", "last_seen", 7, 4, "Holyrood questions and motions"),
     ("sp_divisions", "last_seen", 7, 4, "Holyrood divisions"),
     ("sp_members", "last_seen", 7, 4, "MSP roster"),

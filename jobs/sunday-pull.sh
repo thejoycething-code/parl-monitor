@@ -29,6 +29,11 @@ python3 tools/pull_pbc_attendance.py || rc=1
 python3 tools/load_appgs.py || rc=1
 python3 tools/pull_interests.py || rc=1
 python3 tools/pull_division_rolls.py || rc=1
+# The UK edition's civic layer (16 October 2026): e-petitions and GOV.UK
+# consultations/publications on our ground. Each exits 1 on any gap and
+# writes the gap lines for Monday's footer.
+python3 tools/uk_petitions.py || rc=1
+python3 tools/govuk_docs.py || rc=1
 
 # The archive before the store: a store citing payloads the archive lacks is
 # the worse of the two failures. Both merge, never clobber.

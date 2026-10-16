@@ -1,0 +1,138 @@
+{
+ "results": [
+  {
+   "content_store_document_type": "closed_consultation",
+   "description": "A consultation on reforming weddings law in England and Wales. It follows the Law Commission\u2019s 2022 report, Celebrating Marriage: A New Weddings Law and the government\u2019s announcement of its intention to reform the law.",
+   "end_date": "2026-09-24T11:59:00.000+01:00",
+   "link": "/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales",
+   "organisations": [
+    {
+     "title": "Ministry of Justice",
+     "acronym": "MOJ",
+     "slug": "ministry-of-justice",
+     "link": "/government/organisations/ministry-of-justice"
+    }
+   ],
+   "public_timestamp": "2026-09-15T15:41:06Z",
+   "start_date": "2026-07-16T10:00:00.000+01:00",
+   "title": "Tying the Knot: Reforming weddings law in England and Wales",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/consultations/tying-the-knot-reforming-weddings-law-in-england-and-wales",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "closed_consultation",
+   "description": "The government seeks views on the removal of Regulation 36 of the Police Pensions Regulations 2015 and associated changes to member contribution arrangements.",
+   "end_date": "2026-09-17T23:59:00.000+01:00",
+   "link": "/government/consultations/police-pension-scheme-2015-regulation-36",
+   "organisations": [
+    {
+     "title": "Home Office",
+     "acronym": "Home Office",
+     "slug": "home-office",
+     "link": "/government/organisations/home-office"
+    }
+   ],
+   "public_timestamp": "2026-08-20T14:22:42Z",
+   "start_date": "2026-08-20T11:00:00.000+01:00",
+   "title": "Police Pension Scheme 2015: Regulation 36",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/consultations/police-pension-scheme-2015-regulation-36",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "closed_consultation",
+   "description": "We are seeking views on the revised fostering standards and guidance.\r\n",
+   "end_date": "2026-09-16T23:59:00.000+01:00",
+   "link": "/government/consultations/updating-foster-care-standards-and-guidance",
+   "organisations": [
+    {
+     "title": "Department for Education",
+     "acronym": "DfE",
+     "slug": "department-for-education",
+     "link": "/government/organisations/department-for-education"
+    }
+   ],
+   "public_timestamp": "2026-07-08T11:00:00Z",
+   "start_date": "2026-07-08T12:00:00.000+01:00",
+   "title": "Updating foster care standards and guidance",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/consultations/updating-foster-care-standards-and-guidance",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "closed_consultation",
+   "description": "Seeks views on using new powers to request and publish bus operators' data and develop a fully digital system for providing local bus service information.",
+   "end_date": "2026-10-02T23:59:00.000+01:00",
+   "link": "/government/consultations/bus-services-act-2025-improving-information-about-local-services",
+   "organisations": [
+    {
+     "title": "Department for Transport",
+     "acronym": "DfT",
+     "slug": "department-for-transport",
+     "link": "/government/organisations/department-for-transport"
+    }
+   ],
+   "public_timestamp": "2026-09-23T16:40:56Z",
+   "start_date": "2026-07-01T09:30:00.000+01:00",
+   "title": "Bus Services Act 2025: improving information about local services",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/consultations/bus-services-act-2025-improving-information-about-local-services",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "closed_consultation",
+   "description": "The Competition and Markets Authority (CMA) invites comments on updated proposals for a user choice conduct requirement in relation to Google\u2019s general search services.",
+   "end_date": "2026-10-09T17:00:00.000+01:00",
+   "link": "/government/consultations/googles-general-search-services-proposed-user-choice-conduct-requirement",
+   "organisations": [
+    {
+     "title": "Competition and Markets Authority",
+     "acronym": "CMA",
+     "slug": "competition-and-markets-authority",
+     "link": "/government/organisations/competition-and-markets-authority"
+    }
+   ],
+   "public_timestamp": "2026-09-23T09:01:01Z",
+   "start_date": "2026-09-23T10:00:00.000+01:00",
+   "title": "Google\u2019s general search services: proposed user choice conduct requirement",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/consultations/googles-general-search-services-proposed-user-choice-conduct-requirement",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  },
+  {
+   "content_store_document_type": "closed_consultation",
+   "description": "Proposals for ongoing cost-recovery and to fund higher value services.",
+   "end_date": "2026-09-25T23:59:00.000+01:00",
+   "link": "/government/consultations/mhra-consultation-on-statutory-fees-2026",
+   "organisations": [
+    {
+     "title": "Medicines and Healthcare products Regulatory Agency",
+     "acronym": "MHRA",
+     "slug": "medicines-and-healthcare-products-regulatory-agency",
+     "link": "/government/organisations/medicines-and-healthcare-products-regulatory-agency"
+    }
+   ],
+   "public_timestamp": "2026-09-18T08:45:02Z",
+   "start_date": "2026-08-17T14:00:00.000+01:00",
+   "title": "MHRA consultation on statutory fees (2026)",
+   "index": "govuk",
+   "es_score": null,
+   "_id": "/government/consultations/mhra-consultation-on-statutory-fees-2026",
+   "elasticsearch_type": "edition",
+   "document_type": "edition"
+  }
+ ],
+ "total": 6,
+ "start": 0
+}
