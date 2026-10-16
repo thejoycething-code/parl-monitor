@@ -28,7 +28,8 @@ def hit(text):
 
 class GuardedGenderIdentity(unittest.TestCase):
     def test_version(self):
-        self.assertEqual(TAX.version, "1.26")
+        # 1.27 since 16 October 2026 (the 2SLGBTQI+ stems): tests/test_v127_terms.py.
+        self.assertIn(TAX.version, ("1.26", "1.27"))
 
     def test_on_our_ground_gains_area_3_at_tier_2(self):
         for text in ("To ask the Scottish Government what plans it has to reduce average waiting times at "

@@ -103,7 +103,9 @@ class TaxonomySyncTests(unittest.TestCase):
         # 2422); tests/test_v125_terms.py.
         # v1.26 (16 October 2026): "gender identity" guarded at tier 2 in
         # areas 3 and 5, boilerplate vetoed; tests/test_v126_terms.py.
-        self.assertEqual(version, "1.26")
+        # v1.27 (16 October 2026): Canada's 2SLGBTQI+ family as guarded,
+        # vetoed tier-2 stems in areas 3 and 5; tests/test_v127_terms.py.
+        self.assertEqual(version, "1.27")
         self.assertEqual(len(areas), 13)
         # v1.7 (17 Sept 2026): ePrivacy at tier 1. The Parliament's second
         # reading on the chat-control derogation ran to 28 roll calls on

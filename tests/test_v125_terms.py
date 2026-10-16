@@ -28,7 +28,7 @@ def hit(text):
 class SingleSex(unittest.TestCase):
     def test_version(self):
         # 1.26 since 16 October 2026 (guarded "gender identity"): tests/test_v126_terms.py.
-        self.assertIn(TAX.version, ("1.25", "1.26"))
+        self.assertIn(TAX.version, ("1.25", "1.26", "1.27"))
 
     def test_unhyphenated_forms_match_like_the_hyphenated(self):
         for text, term in (("guidance on single sex spaces", "single sex space*"),
