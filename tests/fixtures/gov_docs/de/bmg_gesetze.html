@@ -1,0 +1,242 @@
+<!doctype html><html><body>
+<main class="c-main" id="main">
+ <div data-module-identifier="menu-breadcrumb" class="o-grid o-grid--fluid c-component c-component--breadcrumb u-color-bg:sec2">
+ <div class="o-grid__row">
+ <div class="o-grid__col:12">
+ <div class="o-grid c-component c-component--content" >
+ <div class="o-grid__row">
+ <div class="o-grid__col:12">
+ <nav class="c-breadcrumb" aria-label="Pfad-Navigation">
+ <ul class="c-breadcrumb__list u-typo:s">
+ <li class="c-breadcrumb__item"> <a data-module-identifier="link" href="/" class="c-link u-icon u-icon--icon-arrow-list-small u-icon:right" >Startseite </a> </li>
+ <li class="c-breadcrumb__item"> <a data-module-identifier="link" href="/ministerium" class="c-link u-icon u-icon--icon-arrow-list-small u-icon:right" >Ministerium </a> </li>
+ <li class="c-breadcrumb__item"> Alle Gesetze und Verordnungen </li>
+ </ul>
+ </nav>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <article class="c-article" id="article">
+ <div data-module-identifier="page-title" class="o-grid c-component c-component--content">
+ <div class="o-grid__row">
+ <div class="o-grid__col:12">
+ <div class="c-page-title ">
+ <h1 data-module-identifier="headline-h1" class="u-typo:xxl u-typo:bold"> Gesetze und Verordnungen </h1>
+ <p class="u-typo:l">An dieser Stelle finden Sie alle aktuellen Vorhaben, Gesetze, Verordnungen und Anordnungen des BMG</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div data-module-identifier="form-laws-and-regulations" class="o-grid c-component u-color-bg:sec2">
+ <div class="o-grid__row o-grid__row--center">
+ <div class="o-grid__col:12 o-grid__col:8@md">
+ <h2 data-module-identifier="headline-h2" class="u-typo:l u-typo:bold"> Suchwort </h2>
+ <div role="search">
+ <form class="c-form c-form--search js-form js-search-filter-form js-form-laws-regulations c-form__laws-regulations " method="post" action="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;1&amp;cHash&#x3D;83b745774fe86cbeca5936382f08ee7a" accept-charset="utf-8">
+ <fieldset class="c-form__fieldset">
+ <div class="c-form__laws-regulations__search">
+ <div data-module-identifier="form-group" class="c-form__group "> <label data-module-identifier="form-field-input" class="c-form__label u-accessibility" for="bmglegal-list-laws-subject"> </label>
+ <div class="c-form__input-container"> <input aria-invalid="false" class="c-form__input" id="bmglegal-list-laws-subject" type="text" name="tx_bmglegal_list[search][subject]" placeholder="Suchen nach Freitext" aria-describedby="bmglegal-list-laws-subject-error-message" >
+ <p id="bmglegal-list-laws-subject-error-message" class="js-error-description c-form__description u-typo:s">Bitte Suchtext eingeben</p>
+ </div>
+ </div>
+ <button data-module-identifier="button" class="c-button c-button--main u-icon u-icon:right u-icon--icon-arrow-right js-btn-search" aria-label="Suchen" type="submit" > Suchen </button>
+ </div>
+ <div data-module-identifier="simple-collapse" hx-ext="loading-states" class="c-simple-collapse ">
+ <button type="button" class="c-simple-collapse__toggle c-link u-icon u-icon:left u-icon--icon-arrow-list" aria-controls="c-simple-collapse-content-1" aria-expanded="false" id="c-simple-collapse-control-1"> <span class="more">Weitere Filter aufklappen</span> <span class="less">Weitere Filter zuklappen</span> </button>
+ <div id="c-simple-collapse-content-1" class="c-simple-collapse__content" aria-hidden="true" style="display: none">
+ <div class="c-form__laws-regulations__toggle-data">
+ <fieldset data-module-identifier="form-field-checkbox" class="c-form__group "> <legend class="c-form__label" > Thema </legend>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-1" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="" data-validation-name="" checked > <label for="check-theme-1">Alle</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-2" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="21" data-validation-name="" > <label for="check-theme-2">Corona</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-3" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="22" data-validation-name="" > <label for="check-theme-3">Gesundheit</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-4" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="23" data-validation-name="" > <label for="check-theme-4">Pflege</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-5" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="24" data-validation-name="" > <label for="check-theme-5">Prävention</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-6" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="25" data-validation-name="" > <label for="check-theme-6">Drogen & Sucht</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-theme-7" type="checkbox" name="tx_bmglegal_list[search][topics][]" value="26" data-validation-name="" > <label for="check-theme-7">Digitalisierung</label> </div>
+ </fieldset>
+ <fieldset data-module-identifier="form-field-checkbox" class="c-form__group "> <legend class="c-form__label" > Typ </legend>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-type-1" type="checkbox" name="tx_bmglegal_list[search][types][]" value="" data-validation-name="" checked > <label for="check-type-1">Alle</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-type-2" type="checkbox" name="tx_bmglegal_list[search][types][]" value="56" data-validation-name="" > <label for="check-type-2">Europäische Union</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-type-3" type="checkbox" name="tx_bmglegal_list[search][types][]" value="18" data-validation-name="" > <label for="check-type-3">Gesetz</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-type-4" type="checkbox" name="tx_bmglegal_list[search][types][]" value="19" data-validation-name="" > <label for="check-type-4">Verordnung</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="check-type-5" type="checkbox" name="tx_bmglegal_list[search][types][]" value="20" data-validation-name="" > <label for="check-type-5">Laufendes Verfahren</label> </div>
+ </fieldset>
+ <div class="c-form__laws-regulations__row-date">
+ <fieldset data-module-identifier="form-field-radio" class="c-form__group "> <legend class="c-form__label" > Zeitraum </legend>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="input-radio-1" type="radio" name="tx_bmglegal_list[search][period]" value="Inkrafttreten" data-validation-name="" checked > <label for="input-radio-1">Inkrafttreten</label> </div>
+ <div class="c-form__checkfields c-form__checkfields--inline"> <input id="input-radio-2" type="radio" name="tx_bmglegal_list[search][period]" value="Letzter Stand" data-validation-name="" > <label for="input-radio-2">Letzter Stand</label> </div>
+ <span id="-error-message" class="js-error-description c-form__description c-form__description--radio u-typo:s"></span> </fieldset>
+ <div data-module-identifier="form-date-range" class="c-form__date-range">
+ <fieldset class="c-form__group "> <legend class="c-form__label"> Zeitraum: </legend>
+ <div class="c-form__date-range__fields">
+ <div data-module-identifier="form-group" class="c-form__group "> <label data-module-identifier="form-field-input" class="c-form__label " for="formfield-date-range-from"> Datum von (TT.MM.JJJJ) </label>
+ <div class="c-form__input-container"> <input aria-invalid="false" class="c-form__input" id="formfield-date-range-from" type="text" name="tx_bmglegal_list[search][minimumDate]" placeholder="Von" aria-describedby="formfield-date-range-from-error-message" >
+ <p id="formfield-date-range-from-error-message" class="js-error-description c-form__description u-typo:s"></p>
+ </div>
+ </div>
+ <div data-module-identifier="form-group" class="c-form__group "> <label data-module-identifier="form-field-input" class="c-form__label " for="formfield-date-range-to"> Datum bis (TT.MM.JJJJ) </label>
+ <div class="c-form__input-container"> <input aria-invalid="false" class="c-form__input" id="formfield-date-range-to" type="text" name="tx_bmglegal_list[search][maximumDate]" placeholder="Bis" aria-describedby="formfield-date-range-to-error-message" >
+ <p id="formfield-date-range-to-error-message" class="js-error-description c-form__description u-typo:s"></p>
+ </div>
+ </div>
+ </div>
+ </fieldset>
+ </div>
+ </div>
+ <div class="c-form__laws-regulations__row-last"> <a data-module-identifier="link" href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;cHash&#x3D;bacd88ea372f2a57576d9df216e1b454" class="c-link disabled" >Zurücksetzen </a> <span>
+ <button data-module-identifier="button" class="c-button c-button--main u-icon u-icon:right u-icon--icon-arrow-right" aria-label="Filtern" type="submit" > Filtern </button>
+ </span> </div>
+ </div>
+ </div>
+ </div>
+ </fieldset>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="o-grid c-component c-component--content" >
+ <div class="o-grid__row o-grid__row--center">
+ <div class="o-grid__col:12 o-grid__col:8@md">
+ <div data-module-identifier="ce-text--unwrapped" class="c-text " >
+ <h2 class=" u-typo:xl u-typo:bold"> Suchergebnisse </h2>
+ Es werden die Ergebnisse 1-10 von 220 angezeigt.</div>
+ </div>
+ </div>
+ </div>
+ <div data-module-identifier="sort-list" class="o-grid o-grid--fluid c-component c-component--content c-component--sort-list u-color-bg:sec2">
+ <div class="o-grid__row">
+ <div class="o-grid__col:12">
+ <div class="o-grid">
+ <div class="o-grid__row">
+ <div class="o-grid__col:12 c-component--sort-list__container">
+ <p class="c-component--sort-list__label-left u-typo:s u-color-c:sec4">Stand</p>
+ <p class="c-component--sort-list__label u-typo:s u-color-c:sec4"><span class="c-component--sort-list__label-text">Sortieren nach:</span> <span class="c-component--sort-list__label-buttons"> <a data-module-identifier="link-button" href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;1&amp;cHash&#x3D;83b745774fe86cbeca5936382f08ee7a" class="c-button c-button--underlined u-icon u-icon: u-icon--icon-filter-date active " aria-current="1" > Datum</a> <a data-module-identifier="link-button" href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;title&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;1&amp;cHash&#x3D;0b19a5c2337ce99e92bafbefd3af0dac" class="c-button c-button--underlined u-icon u-icon:left u-icon--icon-filter-alphabet " > A-Z</a> </span> </p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="o-grid c-component">
+ <ul class="o-grid__row o-grid__row--vr c-teaser-list--multicolumns">
+ <li class="o-grid__col:12">
+ <div data-module-identifier="ce-teaser" class="c-teaser c-teaser--date-left c-teaser--no-image">
+ <div class="c-teaser__date-left u-typo:s">14.10.2026</div>
+ <div class="c-teaser__content">
+ <div class="c-teaser__header-container"> <span class="c-category-title u-typo:s ">Gesundheit</span>
+ <h3 data-module-identifier="headline-h3" class="u-typo:l u-typo:bold c-teaser__header"> <a href="/service/gesetze-und-verordnungen/detail/notfallreform" title="Gesetz zur Reform der Notfallversorgung" > Gesetz zur Reform der Notfallversorgung </a> </h3>
+ </div>
+ <span class="c-teaser__date u-typo:s">14.10.2026</span>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ <li class="o-grid__col:12">
+ <div data-module-identifier="ce-teaser" class="c-teaser c-teaser--date-left c-teaser--no-image">
+ <div class="c-teaser__date-left u-typo:s">08.10.2026</div>
+ <div class="c-teaser__content">
+ <div class="c-teaser__header-container"> <span class="c-category-title u-typo:s ">Gesundheit</span>
+ <h3 data-module-identifier="headline-h3" class="u-typo:l u-typo:bold c-teaser__header"> <a href="/service/gesetze-und-verordnungen/detail/gedig" title="Gesetz für Daten und digitale Innovation im Gesundheitswesen (GeDIG)" > Gesetz für Daten und digitale Innovation im Gesundheitswesen (GeDIG) </a> </h3>
+ </div>
+ <span class="c-teaser__date u-typo:s">08.10.2026</span>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ <li class="o-grid__col:12">
+ <div data-module-identifier="ce-teaser" class="c-teaser c-teaser--date-left c-teaser--no-image">
+ <div class="c-teaser__date-left u-typo:s">30.09.2026</div>
+ <div class="c-teaser__content">
+ <div class="c-teaser__header-container"> <span class="c-category-title u-typo:s ">Pflege</span>
+ <h3 data-module-identifier="headline-h3" class="u-typo:l u-typo:bold c-teaser__header"> <a href="/service/gesetze-und-verordnungen/detail/pflegeneuordnungsgesetz-pnog" title="Pflegeneuordnungsgesetz (PNOG)" > Pflegeneuordnungsgesetz (PNOG) </a> </h3>
+ </div>
+ <span class="c-teaser__date u-typo:s">30.09.2026</span>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </ul>
+ </div>
+ <div class="o-grid c-component c-component--content" >
+ <div class="o-grid__row">
+ <div class="o-grid__col:12">
+ <nav data-module-identifier="menu-pagination--markup" class="c-pagination " aria-label="Paginierung">
+ <ul class="c-pagination__list">
+ <li class="c-pagination__item"> <a href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Blimit%5D&#x3D;10&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;1&amp;cHash&#x3D;08f3b7619cf2658bcc81ecb6896c7ece" class="c-pagination__link c-button c-button--ghost" aria-current="page"> <span class="u-accessibility">Seite</span> 1 </a> </li>
+ <li class="c-pagination__item"> <a href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Blimit%5D&#x3D;10&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;2&amp;cHash&#x3D;faa6e6c71133a32bb1103353ea75f5c2" class="c-pagination__link c-button c-button--ghost" > <span class="u-accessibility">Seite</span> 2 </a> </li>
+ <li class="c-pagination__item"> <a href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Blimit%5D&#x3D;10&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;3&amp;cHash&#x3D;12d99a0a83b8937cfbceabdffd57e13f" class="c-pagination__link c-button c-button--ghost" > <span class="u-accessibility">Seite</span> 3 </a> </li>
+ <li class="c-pagination__item"> <span class="c-pagination__span c-button c-button--ghost" > <span class="u-accessibility">Platzhalter weitere Seiten</span> &hellip; </span> </li>
+ <li class="c-pagination__item"> <a href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Blimit%5D&#x3D;10&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;22&amp;cHash&#x3D;01fc2302ee30fdf776219d08c4839d3e" class="c-pagination__link c-button c-button--ghost" > <span class="u-accessibility">Seite</span> 22 </a> </li>
+ <li class="c-pagination__item c-pagination__item--next"> <a href="/service/gesetze-und-verordnungen?tx_bmglegal_list%5Baction%5D&#x3D;filter&amp;tx_bmglegal_list%5Bcontroller%5D&#x3D;Law&amp;tx_bmglegal_list%5Border%5D&#x3D;chronics.datetime&amp;tx_bmglegal_list%5Bpagination%5D%5Blimit%5D&#x3D;10&amp;tx_bmglegal_list%5Bpagination%5D%5Bpage%5D&#x3D;2&amp;cHash&#x3D;faa6e6c71133a32bb1103353ea75f5c2" class="c-pagination__link c-button c-button--main c-button u-icon u-icon:right u-icon--icon-arrow-right" > <span class="c-pagination__text">Nächste Seite</span> </a> </li>
+ </ul>
+ </nav>
+ </div>
+ </div>
+ </div>
+ <div class="o-grid c-component c-component--more-info-list" >
+ <div class="o-grid__row o-grid__row--center">
+ <div class="o-grid__col:12 o-grid__col:8@md">
+ <div data-module-identifier="ce-more-info-list" class="c-more-info-list-wrapper" id="c25496">
+ <h2 class=" u-typo:xl u-typo:bold"> Weitere Informationen </h2>
+ <ul class="c-more-info-list">
+ <li class="c-more-info-list__item">
+ <div data-module-identifier="more-info-item" class="c-more-info-item">
+ <div class="c-more-info-item__content"> <a href="https://www.gesetze-im-internet.de/" class="c-more-info-item__content-link" title="Gesetze im Internet" target="_blank">
+ <h3 class=" u-typo:bold u-typo:m u-icon u-icon:right u-icon--icon-arrow-external"> Gesetze im Internet </h3>
+ </a>
+ <div class="c-more-info-item__text u-typo:m">
+ <p>Das Bundesministerium der Justiz und für Verbraucherschutz stellt in einem gemeinsamen Projekt mit der juris <span lang="de">GmbH</span> nahezu das gesamte Bundesrecht online bereit.</p>
+ </div>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ <li class="c-more-info-list__item">
+ <div data-module-identifier="more-info-item" class="c-more-info-item">
+ <div class="c-more-info-item__content"> <a href="https://www.recht.bund.de/" class="c-more-info-item__content-link" title="Bundesgesetzblatt" target="_blank">
+ <h3 class=" u-typo:bold u-typo:m u-icon u-icon:right u-icon--icon-arrow-external"> Bundesgesetzblatt </h3>
+ </a>
+ <div class="c-more-info-item__text u-typo:m">
+ <p>Die amtliche Fassung eines Gesetzes finden Sie nur im Bundesgesetzblatt auf der&nbsp;Verkündungsplattform des BMJ.</p>
+ </div>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ <li class="c-more-info-list__item">
+ <div data-module-identifier="more-info-item" class="c-more-info-item">
+ <div class="c-more-info-item__content"> <a href="/service/gesetze-und-verordnungen/bekanntmachungen" class="c-more-info-item__content-link" title="Bekanntmachungen" >
+ <h3 class=" u-typo:bold u-typo:m"> Bekanntmachungen </h3>
+ </a>
+ <div class="c-more-info-item__text u-typo:m">
+ <p>Veröffentlichungen und Bekanntmachungen aus dem Bundesministerium für Gesundheit im Überblick</p>
+ </div>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ <li class="c-more-info-list__item">
+ <div data-module-identifier="more-info-item" class="c-more-info-item">
+ <div class="c-more-info-item__content"> <a href="https://www.verwaltung-innovativ.de/DE/Gesetzgebung/Projekt_eGesetzgebung/Handbuecher_Arbeitshilfen_Leitfaeden/Hb_vorbereitung_rechts_u_verwaltungsvorschriften/Teil_I_%20Rahmenbedingungen/1.1_Normtypen_und_Normenhierarchie/1.1_normtypen_node.html" class="c-more-info-item__content-link" title="Verfassungsrechtliche Rahmenbedingungen der Gesetzgebung des Bundes" target="_blank">
+ <h3 class=" u-typo:bold u-typo:m u-icon u-icon:right u-icon--icon-arrow-external"> Verfassungsrechtliche Rahmenbedingungen der Gesetzgebung des Bundes </h3>
+ </a>
+ <div class="c-more-info-item__text u-typo:m">
+ <p>Erfahren Sie hier&nbsp;u. a. mehr zu den Normtypen&nbsp;in Deutschland, bspw. zum Unterschied zwischen förmlichen Gesetzen und Rechtsverordnungen.</p>
+ </div>
+ <hr data-module-identifier="activity-bar" class="c-activity-bar" aria-hidden="true"> </div>
+ </div>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ </div>
+ </article>
+ </main>
+</body></html>

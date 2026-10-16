@@ -1,0 +1,165 @@
+{
+"@odata.context": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/$metadata#Document(Id,DocumentNummer,Onderwerp,Titel,Datum,DocumentActor(ActorNaam,Functie,Relatie),Kamerstukdossier(Nummer,Titel))",
+"value": [
+{
+"Id": "1bdba3c0-69e2-49b6-8e5b-ab66b6684f04",
+"DocumentNummer": "2026D39694",
+"Titel": "Arbeidsomstandigheden",
+"Onderwerp": "Gezond en veilig op de stageplaats",
+"Datum": "2026-08-28T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "A.A. Aartsen",
+"Functie": "minister van Werk en Participatie",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Arbeidsomstandigheden",
+"Nummer": 25883
+}
+]
+},
+{
+"Id": "3f506ae2-ce8e-468f-88a4-b58ce79d82d9",
+"DocumentNummer": "2026D39690",
+"Titel": "Interparlementair Koninkrijksoverleg",
+"Onderwerp": "Kabinetsreactie op de afsprakenlijst van het IPKO juni 2026",
+"Datum": "2026-08-28T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "E. van der Burg",
+"Functie": "staatssecretaris van Binnenlandse Zaken en Koninkrijksrelaties",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Interparlementair Koninkrijksoverleg",
+"Nummer": 33845
+}
+]
+},
+{
+"Id": "d3b4f5ca-ba43-4df5-a9d5-bd6e64a67f4b",
+"DocumentNummer": "2026D39682",
+"Titel": "Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie",
+"Onderwerp": "BZK rapportage lopende EU-wetgevingsonderhandelingen en voortgangsrapportage onderhandelingen Europese Kiesakte Q2 2026",
+"Datum": "2026-08-28T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "P.E. Heerma",
+"Functie": "minister van Binnenlandse Zaken en Koninkrijksrelaties",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie",
+"Nummer": 22112
+}
+]
+},
+{
+"Id": "98a7476b-c4b4-4245-8174-bec29361ea2f",
+"DocumentNummer": "2026D39753",
+"Titel": "Regelgeving Ruimtelijke Ordening en Milieu",
+"Onderwerp": "Besluitvorming afstandsnorm in het ontwerpbesluit windturbines leefomgeving",
+"Datum": "2026-08-28T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "A.W.H. Bertram",
+"Functie": "staatssecretaris van Infrastructuur en Waterstaat",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Regelgeving Ruimtelijke Ordening en Milieu",
+"Nummer": 29383
+}
+]
+},
+{
+"Id": "b2df30e5-c2de-4d08-9f2a-c64ebeba14a1",
+"DocumentNummer": "2026D39731",
+"Titel": "Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie",
+"Onderwerp": "Fiche: Mededeling OceanEye: EU-initiatief voor oceaanobservatie",
+"Datum": "2026-08-28T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "T.B.W. Berendsen",
+"Functie": "minister van Buitenlandse Zaken",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Nieuwe Commissievoorstellen en initiatieven van de lidstaten van de Europese Unie",
+"Nummer": 22112
+}
+]
+},
+{
+"Id": "817f6ed3-70fd-4e03-9849-ecda2ac8d596",
+"DocumentNummer": "2026D39733",
+"Titel": "Bouwregelgeving",
+"Onderwerp": "Voortgang Nationale Aanpak Funderingen ",
+"Datum": "2026-08-28T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "E. Boekholt-O’Sullivan",
+"Functie": "minister van Volkshuisvesting en Ruimtelijke Ordening",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Bouwregelgeving",
+"Nummer": 28325
+}
+]
+},
+{
+"Id": "41796166-f6c2-46ff-8ad2-043562d15563",
+"DocumentNummer": "2026D39541",
+"Titel": "Natuurbeleid",
+"Onderwerp": "Ontwikkelingen wolvenbeleid",
+"Datum": "2026-08-27T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "S.P.A. Erkens",
+"Functie": "staatssecretaris van Landbouw, Visserij, Voedselzekerheid en Natuur",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Natuurbeleid",
+"Nummer": 33576
+}
+]
+},
+{
+"Id": "1d162ef7-5537-4107-a365-0a1be7d9dd56",
+"DocumentNummer": "2026D39561",
+"Titel": "Natuurbeleid",
+"Onderwerp": "Reactie op rapport PAN Nederland m.b.t. aanbevelingen voor Natuurherstelverordening en Nederlandse natuurherstelplan",
+"Datum": "2026-08-27T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J. van Essen",
+"Functie": "minister van Landbouw, Visserij, Voedselzekerheid en Natuur",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Natuurbeleid",
+"Nummer": 33576
+}
+]
+}
+]
+}

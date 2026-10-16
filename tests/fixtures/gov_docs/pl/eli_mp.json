@@ -1,0 +1,418 @@
+{
+"count": 7,
+"items": [
+{
+"address": "WMP20260000997",
+"announcementDate": "2026-10-06",
+"changeDate": "2026-10-14T10:25:25",
+"displayAddress": "M.P. 2026 poz. 997",
+"pos": 997,
+"promulgation": "2026-10-13",
+"publisher": "MP",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": true,
+"title": "Uchwała nr 196 Rady Ministrów z dnia 6 października 2026 r. w sprawie ustanowienia programu wieloletniego \"Rozwój kolei metropolitalnej na obszarze aglomeracyjnym Trójmiasta\"",
+"type": "Uchwała",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-14",
+"inForce": "IN_FORCE",
+"keywords": [
+"programy wieloletnie",
+"koleje"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2009/1240"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2009/1240",
+"art": "art. 136 ust. 2"
+}
+]
+},
+"releasedBy": [
+"RADA MINISTRÓW"
+],
+"texts": [
+{
+"fileName": "M20260997.pdf",
+"type": "O"
+},
+{
+"fileName": "M20260997.pdf",
+"type": "I"
+}
+],
+"ELI": "MP/2026/997"
+},
+{
+"address": "WMP20260000977",
+"announcementDate": "2026-09-29",
+"changeDate": "2026-10-07T10:18:19",
+"displayAddress": "M.P. 2026 poz. 977",
+"pos": 977,
+"promulgation": "2026-10-06",
+"publisher": "MP",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Uchwała nr 198 Rady Ministrów z dnia 29 września 2026 r. w sprawie aktualizacji programu wieloletniego pod nazwą \"Program polskiej energetyki jądrowej\"",
+"type": "Uchwała",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-07",
+"inForce": "IN_FORCE",
+"keywords": [],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty uchylone": [
+{
+"id": "MP/2024/890",
+"date": "2026-10-07"
+},
+{
+"id": "MP/2024/569",
+"date": "2026-10-07"
+},
+{
+"id": "MP/2020/946",
+"date": "2026-10-07"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/2006/1658"
+},
+{
+"id": "DU/2001/18"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2006/1658",
+"art": "art. 19 ust. 2"
+},
+{
+"id": "DU/2001/18",
+"art": "art. 108d ust. 1"
+}
+]
+},
+"releasedBy": [
+"RADA MINISTRÓW"
+],
+"texts": [
+{
+"fileName": "M20260977.pdf",
+"type": "O"
+},
+{
+"fileName": "M20260977.pdf",
+"type": "I"
+}
+],
+"ELI": "MP/2026/977"
+},
+{
+"address": "WMP20260000966",
+"announcementDate": "2026-09-22",
+"changeDate": "2026-10-05T10:18:17",
+"displayAddress": "M.P. 2026 poz. 966",
+"pos": 966,
+"promulgation": "2026-10-02",
+"publisher": "MP",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Zarządzenie nr 57 Prezesa Rady Ministrów z dnia 22 września 2026 r. w sprawie utworzenia Zespołu do spraw Identyfikacji i Monitorowania Systemowych Skutków Orzecznictwa Sądów i Trybunałów",
+"type": "Zarządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-03",
+"inForce": "IN_FORCE",
+"keywords": [
+"sądy powszechne"
+],
+"keywordsNames": [
+"Trybunał Konstytucyjny"
+],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/1996/492"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/1996/492",
+"art": "art. 12 ust. 1 pkt 3 i ust. 2"
+}
+]
+},
+"releasedBy": [
+"PREZ. RADY MINISTRÓW"
+],
+"texts": [
+{
+"fileName": "M20260966.pdf",
+"type": "O"
+},
+{
+"fileName": "M20260966.pdf",
+"type": "I"
+}
+],
+"ELI": "MP/2026/966"
+},
+{
+"address": "WMP20260000961",
+"announcementDate": "2026-09-29",
+"changeDate": "2026-09-30T11:47:49",
+"displayAddress": "M.P. 2026 poz. 961",
+"pos": 961,
+"promulgation": "2026-09-29",
+"publisher": "MP",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Zarządzenie nr 59 Prezesa Rady Ministrów z dnia 29 września 2026 r. w sprawie Centrum Walki z Dezinformacją",
+"type": "Zarządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-09-30",
+"inForce": "IN_FORCE",
+"keywords": [],
+"keywordsNames": [
+"Centrum Walki z Dezinformacją"
+],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/1996/492"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/1996/492",
+"art": "art. 12 ust. 1 pkt 3 i ust. 2"
+}
+]
+},
+"releasedBy": [
+"PREZ. RADY MINISTRÓW"
+],
+"texts": [
+{
+"fileName": "M20260961.pdf",
+"type": "O"
+},
+{
+"fileName": "M20260961.pdf",
+"type": "I"
+}
+],
+"ELI": "MP/2026/961"
+},
+{
+"address": "WMP20260001006",
+"announcementDate": "2026-10-15",
+"changeDate": "2026-10-16T09:10:46",
+"displayAddress": "M.P. 2026 poz. 1006",
+"pos": 1006,
+"promulgation": "2026-10-15",
+"publisher": "MP",
+"status": "bez statusu",
+"textHTML": false,
+"textPDF": false,
+"title": "Obwieszczenie Ministra Energii z dnia 15 października 2026 r. w sprawie maksymalnej ceny paliw ciekłych na stacji paliw",
+"type": "Obwieszczenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"inForce": "IN_FORCE",
+"keywords": [
+"paliwa",
+"ceny"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2007/343"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2007/343",
+"art": "art. 34a ust. 5"
+}
+]
+},
+"releasedBy": [
+"MIN. ENERGII"
+],
+"texts": [],
+"ELI": "MP/2026/1006"
+},
+{
+"address": "WMP20260001000",
+"announcementDate": "2026-10-14",
+"changeDate": "2026-10-15T10:27:47",
+"displayAddress": "M.P. 2026 poz. 1000",
+"pos": 1000,
+"promulgation": "2026-10-14",
+"publisher": "MP",
+"status": "bez statusu",
+"textHTML": false,
+"textPDF": true,
+"title": "Obwieszczenie Ministra Energii z dnia 14 października 2026 r. w sprawie maksymalnej ceny paliw ciekłych na stacji paliw",
+"type": "Obwieszczenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"inForce": "IN_FORCE",
+"keywords": [
+"paliwa",
+"ceny"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2007/343"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2007/343",
+"art": "art. 34a ust. 5"
+}
+]
+},
+"releasedBy": [
+"MIN. ENERGII"
+],
+"texts": [
+{
+"fileName": "M20261000.pdf",
+"type": "O"
+},
+{
+"fileName": "M20261000.pdf",
+"type": "I"
+}
+],
+"ELI": "MP/2026/1000"
+},
+{
+"address": "WMP20260000996",
+"announcementDate": "2026-10-13",
+"changeDate": "2026-10-13T12:17:43",
+"displayAddress": "M.P. 2026 poz. 996",
+"pos": 996,
+"promulgation": "2026-10-13",
+"publisher": "MP",
+"status": "bez statusu",
+"textHTML": false,
+"textPDF": true,
+"title": "Obwieszczenie Ministra Energii z dnia 13 października 2026 r. w sprawie maksymalnej ceny paliw ciekłych na stacji paliw",
+"type": "Obwieszczenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"inForce": "IN_FORCE",
+"keywords": [
+"paliwa",
+"ceny"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2007/343"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2007/343",
+"art": "art. 34a ust. 5"
+}
+]
+},
+"releasedBy": [
+"MIN. ENERGII"
+],
+"texts": [
+{
+"fileName": "M20260996.pdf",
+"type": "O"
+},
+{
+"fileName": "M20260996.pdf",
+"type": "I"
+}
+],
+"ELI": "MP/2026/996"
+}
+],
+"offset": 0,
+"totalCount": 7,
+"searchQuery": {
+"comparator": {
+"column": "publisher",
+"dir": "asc"
+},
+"dateEffectType": "NONE",
+"dateFrom": "2026-07-16",
+"dateType": "AFTER",
+"exile": false,
+"keyword": [],
+"position": -1,
+"pubDateType": "NONE",
+"publisher": "MP",
+"publisherName": "Monitor Polski",
+"statusInForce": false,
+"title": "",
+"type": [],
+"volume": -1,
+"year": -1
+}
+}

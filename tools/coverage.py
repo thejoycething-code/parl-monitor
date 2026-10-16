@@ -382,6 +382,14 @@ FEEDS = [
     # never empty (petitions stay open for years), so it moves every week.
     ("country_petitions", "last_seen", 7, 4, "Petitions and consultations of the country "
      "editions (a step of each country's weekly)"),
+    # Government consultations and publications (16 October 2026,
+    # src/gov_docs.py, a step of 23 country weeklies): only documents on our
+    # ground are stored, and each run re-stamps every one still listed, so
+    # across the 23 countries the table moves every week; a month without a
+    # sighting means the step stopped everywhere. Each source's own runs and
+    # gaps are in gov_doc_runs and the coverage line.
+    ("gov_docs", "last_seen", 31, 31, "Government consultations and publications of the "
+     "country editions (tools/gov_docs_step.sh, a step of each country's weekly)"),
     ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
@@ -1259,6 +1267,11 @@ ON_DEMAND = {
     "Canada backfill": "run by hand on the Mac Mini (jobs/ca-backfill.sh): "
                        "earlier sessions, the Gazette, federal backfills and "
                        "repairs; the Tuesday weekly does the routine reads.",
+    "Amendment text backfill": "run by hand on the Mac Mini "
+                               "(jobs/amendtext-backfill.sh, 16 October 2026): "
+                               "the stored backlog of country votes whose "
+                               "amendment or motion text is unread; rerun until "
+                               "nothing is left, so no cadence is expected.",
     "Slovakia documents backfill": "run by hand on the Mac Mini "
                                    "(jobs/sk-docs-backfill.sh, SK6): the term's "
                                    "backlog of bill documents, rerun until no print "
@@ -1485,6 +1498,8 @@ AWAITING_STEP_UNTIL = {
                        "twelve country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
                           "eleven country weeklies on merge; it fills on the first of them"),
+    "gov_docs": ("2026-10-26", "the gov docs step (tools/gov_docs_step.sh) joins 23 "
+                     "country weeklies on merge; it fills on the first of them"),
     # Speeches added to two chamber steps that already stamp their heartbeat
     # with questions (11 October 2026, branch gaps-speeches): excused while
     # empty until the chamber has sat and spoken on our ground. The Sejm sits

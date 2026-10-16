@@ -1,0 +1,105 @@
+{
+ "urls": {
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0072/allegato_a.htm": "a1646ffaca1d",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0251/allegato_a.htm": "242b33891348",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0016/allegato_a.htm": "92ef06b4a26f",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0009/allegato_a.htm": "e0861a8db6fe"
+ },
+ "rows": {
+  "camera-vs19_072_012": {
+   "key": "camera-vs19_072_012",
+   "date": "2023-03-21",
+   "title": "Emendamento 1.4 QUARTINI ANDREA (M5S) - Votazione Emendamento 1.4 DDL n. 0977",
+   "areas": "[]"
+  },
+  "camera-vs19_251_099": {
+   "key": "camera-vs19_251_099",
+   "date": "2024-02-27",
+   "title": "Mozione n. 1-00245, sul capoverso settimo della parte dispositiva GRIPPO VALENTINA (APERRE) ed altri - Votazione Mozione 1_00245",
+   "areas": "[]"
+  },
+  "camera-vs19_016_017": {
+   "key": "camera-vs19_016_017",
+   "date": "2022-11-30",
+   "title": "Mozione n. 1-00031, limitatamente alla premessa, TREMONTI GIULIO (FDI), FORMENTINI PAOLO (LEGA), MULE&amp;#39; GIORGIO (FI-PPE) - Votazione Mozione 1_00031",
+   "areas": "[]"
+  },
+  "camera-vs19_009_071": {
+   "key": "camera-vs19_009_071",
+   "date": "2022-11-10",
+   "title": "Ordine del giorno n. 9/5/33 MARI FRANCESCO (AVS) - Votazione Ordine del giorno 9/5/33 DDL n. 0005",
+   "areas": "[]"
+  }
+ },
+ "expected": {
+  "camera-vs19_072_012": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    9
+   ],
+   "terms": [
+    "unione civile"
+   ],
+   "ledger": true,
+   "refs": [
+    "seduta 72",
+    "eme 1.4 ac 977",
+    "eme 1.4 ac 977"
+   ]
+  },
+  "camera-vs19_251_099": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    5,
+    7
+   ],
+   "terms": [
+    "parità di genere",
+    "libertà di espressione",
+    "libertà di manifestazione del pensiero",
+    "libertà di pensiero",
+    "libertà di stampa"
+   ],
+   "ledger": false,
+   "refs": [
+    "seduta 251",
+    "mozione 1-00245",
+    "si.1-00245"
+   ]
+  },
+  "camera-vs19_016_017": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    8
+   ],
+   "terms": [
+    "Concordato"
+   ],
+   "ledger": false,
+   "refs": [
+    "seduta 16",
+    "mozione 1-00031",
+    "si.1-00031"
+   ]
+  },
+  "camera-vs19_009_071": {
+   "status": "ok",
+   "gap": null,
+   "areas": [
+    11
+   ],
+   "terms": [
+    "cittadinanza"
+   ],
+   "ledger": true,
+   "refs": [
+    "seduta 9",
+    "odg 9/5/33",
+    "si.9_ac.5-A_33"
+   ]
+  }
+ }
+}

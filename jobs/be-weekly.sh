@@ -41,6 +41,7 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Belgium weekly}"
 if [ "${BE_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py be --reclassify
+  python3 tools/country_gov_docs.py be --reclassify
   python3 tools/be_rollcalls.py --reclassify
   python3 tools/be_chamber.py --reclassify
   python3 tools/be_regions.py --reclassify || echo "  [gap] the regional reclassify failed"
@@ -81,6 +82,12 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_petitions.py be || echo "  [gap] the petitions step failed"
 fi
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh be
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM).
 export SLACK_DM_USER_ID="${SLACK_DM_USER_ID:-U05LJP0BT61}"

@@ -41,6 +41,7 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Portugal weekly}"
 if [ "${PT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py pt --reclassify
+  python3 tools/country_gov_docs.py pt --reclassify
   python3 tools/pt_rollcalls.py --reclassify
   python3 tools/pt_chamber.py --reclassify
 fi
@@ -71,6 +72,20 @@ fi
 if [ -z "${PT_LEGISLATURE:-}" ]; then
   bash tools/chamber_step.sh pt "$SECONDS"
 fi
+# What a vote is ON, not just its title (16 October 2026, tools/amendment_text.py,
+# src/amendtext_pt.py): for votes whose titles only name an amendment, motion or
+# order of the day, the proposals papers among the initiative's annexes in the Iniciativas dump, matched with the country's taxonomy; a tier-1 term in
+# the text's purpose adds its areas to the vote (amendment_text). After the
+# collector and any reclassify, because it re-applies every cached match the
+# collector's upsert reset. New reads within its budget; the rest wait a week.
+# Its failure (exit other than 0 or 3) is a [gap] line, never the run's.
+if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
+  r=0
+  python3 tools/amendment_text.py --cc pt --budget-seconds "$(bash tools/collector_budget.sh 300 "$SECONDS")" || r=$?
+  if [ "$r" -ne 0 ] && [ "$r" -ne 3 ]; then
+    echo "  [gap] the amendment text step failed (exit $r); last week's reads stand"
+  fi
+fi
 # The week ahead (src/agenda.py, tools/country_agenda.py): the agenda read
 # into the store after the collector, so its bills match this week's store
 # and the edition below shows it. Its failure is a [gap] line, never the run's.
@@ -85,6 +100,12 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_petitions.py pt || echo "  [gap] the petitions step failed"
 fi
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh pt
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM; nor on a backfill run,
 # PT_LEGISLATURE set).

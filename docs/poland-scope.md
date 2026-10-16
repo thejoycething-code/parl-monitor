@@ -564,3 +564,37 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 No reuse terms for the Sejm's transmissions were found on 11 October 2026, and no Polish speeches are stored (the transcript endpoint never answered). Nothing to align to. Recorded in `config/clip-sources.yaml` (status not-built); `tools/country_clips.py pick` refuses with this reason.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py pl`, branch `ukp2-service`): each sitting MP's mandates in every term the Sejm API lists (terms 3 to 10, from 1997), oath date to mandate expiry, with the club at the end of each term; terms are linked by name and date of birth, which is used as a link key and never stored (1,337 periods). Every four weeks. See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/pl.py`, run by `tools/country_gov_docs.py pl` (src/gov_docs.py) after the petitions step. Tests: `tests/test_gov_docs_pl.py` on fixtures captured live on 16 October (`tests/fixtures/gov_docs/pl/`).
+
+**Sources used** (no key for any):
+
+- **Wykaz prac legislacyjnych i programowych Rady Ministrów** (`wplip`): the Chancellery of the Prime Minister's register on `www.gov.pl/web/premier/wplip-rm`, whose page offers its whole content as one CSV (`/register-file/Rejestr_20874195.csv`, semicolon-separated, 10.5 MB, 1,493 entries since 21 December 2023). Each entry has the project number (UD, UC, RD, ID...), title, kind, the body responsible, purpose and substance (classified with the title), planned adoption date, status and the date it was entered ("Data publikacji", the window's date). A draft law is a 'bill_draft', a draft regulation a 'regulation_draft', a programme or strategy a 'publication'. No closing date: the consultation stage is published only on the refused legislacja.gov.pl. The CSV link is read from the page each run; the CSV is not archived (re-fetchable, 10 MB a week in the raw tree). The register names ministries by short forms; "ME" stands for both the Ministry of Education and the Ministry of Energy in 2026, so the person responsible is given beside it.
+- **Dziennik Ustaw** (`du`): the Sejm's ELI API, `api.sejm.gov.pl/eli/acts/search?publisher=DU&dateFrom=<window start>`, JSON, one request. Kept: Ustawa ('law') and Rozporządzenie ('regulation'), with the issuing body (releasedBy) and keywords; Obwieszczenie (consolidated texts), treaties and others are dropped. Documented API (DOCUMENTED_APIS).
+- **Monitor Polski** (`mp`): the same API, publisher MP; only the Council of Ministers' resolutions (Uchwała, RADA MINISTRÓW) and the Prime Minister's orders (Zarządzenie, PREZ. RADY MINISTRÓW), as 'publication'.
+- **Sejm public consultations** (`sejm`): a mirror of `country_petitions` rows of kind 'consultation' (src/petition_sources/pl.py, read from the Sejm API's bills list in the petitions step): bills put to public consultation, as 'bill_draft' with the consultation end date as closing date. These are the deadline rows.
+
+**robots.txt, per host (read 16 October 2026):**
+
+- `www.gov.pl`: `User-Agent: *` / `Allow: /`. The register page and its CSV are allowed.
+- `api.sejm.gov.pl`: documented API (no robots.txt read).
+- `legislacja.gov.pl`: `User-agent: *` / `Disallow: /`. **Not fetched**: government drafts in consultation and their deadlines are a gap (legislacja.rcl.gov.pl likewise, recorded 11 October).
+- `isap.sejm.gov.pl`: `User-agent: *` / `Disallow: /` (Googlebot and Nekstbot allowed). Not fetched.
+- `dziennikustaw.gov.pl`, `monitorpolski.gov.pl`: `User-agent: *` / `Disallow: /` (Googlebot allowed). Used only as links for the reader; never fetched.
+- `api.dane.gov.pl`: no robots.txt (404). Probed (search API); not used by the reader.
+
+**Routes tried that failed, and why:**
+
+- dane.gov.pl: the only legislative datasets are 301 "Wykaz prac legislacyjnych i programowych Rady Ministrów" and 2194 "Wykaz prac legislacyjnych Prezesa Rady Ministrów", each one HTML resource dated 14 February 2022 pointing to the gov.pl register pages. The register itself is the source; dane.gov.pl carries no copy of RCL's data and no consultation deadlines.
+- The Prime Minister's own register (`/web/premier/wpl-prm`, CSV `Rejestr_20874196.csv`, 111 entries): has no date column, so a window cannot be drawn; not read.
+- Ministries' own lists of ministerial regulations (wykaz prac legislacyjnych ministra) on gov.pl: allowed by robots.txt but one page per ministry with differing layouts; not built (a later addition).
+
+**Measured, live run of 16 October 2026** (scratch store): Wykaz prac 122 entries in the window, 5 on our ground; Dziennik Ustaw 227 laws and regulations in the window, 0 on our ground (a gazette act needs tier 1; 12 matched at tier 2 only, among them the Minister of Education's regulation on home schooling and a law on judicial oversight of operational surveillance); Monitor Polski 18, 0 on our ground; Sejm consultations 25 in the window, 4 on our ground, all with closing dates, 3 still open. About 40 seconds (the CSV is most of it).
+
+Examples:
+
+- "Projekt ustawy o zmianie ustawy - Prawo oświatowe oraz niektórych innych ustaw" (UD452), bill_draft, ME (Izabela Ziętka, Podsekretarz Stanu: education), entered 12 August 2026, no closing date published.
+- "Projekt rozporządzenia Rady Ministrów w sprawie określenia Programu Bonu Senioralnego" (RD324), regulation_draft, Pełnomocnik Rządu do spraw Polityki Senioralnej, entered 3 August 2026.
+- "Poselski projekt ustawy o zmianie ustawy - Kodeks karny" (RPW/33663/2026), bill_draft, Sejm, consultation closes 7 November 2026.

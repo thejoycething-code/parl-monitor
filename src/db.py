@@ -194,6 +194,26 @@ CREATE TABLE IF NOT EXISTS clause_text (
   clauses TEXT,                   -- json [{label, amendment_id, url, decision, text}]
   fetched_at TEXT NOT NULL
 );
+-- Amendment, motion and resolution texts read for COUNTRY votes whose titles
+-- only name them (src/amendtext.py, src/amendtext_<cc>.py, 16 October 2026):
+-- the country analogue of clause_text. One row per vote read successfully
+-- (failures are retried); the texts are kept so a taxonomy change re-matches
+-- offline. ledger = 1 when a tier-1 term sat in the text's purpose and the
+-- division took the areas.
+CREATE TABLE IF NOT EXISTS amendment_text (
+  cc TEXT NOT NULL,
+  division_key TEXT NOT NULL,     -- the country division table's own key
+  refs TEXT,                      -- json: the source's identifiers the vote names
+  texts TEXT,                     -- json [{label, kind, source_id, url, purpose, text}]
+  fetched_at TEXT NOT NULL,
+  reader_version TEXT,            -- the reader's VERSION when read: a change re-reads
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  labels TEXT,                    -- json: the texts that carried the match
+  ledger INTEGER,                 -- 1: gate passed, areas applied to the division
+  match_source TEXT,              -- 'amendment text' when anything matched
+  matched_at TEXT,
+  PRIMARY KEY (cc, division_key)
+) WITHOUT ROWID;
 CREATE TABLE IF NOT EXISTS cv_votes (
   division_id INTEGER NOT NULL,
   member_id INTEGER NOT NULL,
@@ -1522,6 +1542,46 @@ CREATE TABLE IF NOT EXISTS gaps (edition TEXT, feed TEXT, detail TEXT);
 -- opens the store. It is applied by _migrate_gaps() below, after the
 -- duplicates are removed.
 CREATE TABLE IF NOT EXISTS discards (edition TEXT, item_id TEXT, title TEXT, matched_terms TEXT);
+-- Government consultations and publications on our ground, every country
+-- edition but the UK (whose own table is govuk_docs): one shared table keyed
+-- (cc, doc_id), filled by tools/country_gov_docs.py through src/gov_docs.py and
+-- one reader per country (src/gov_doc_sources/<cc>.py), 16 October 2026.
+-- A consultation (or call for evidence, or draft regulation or bill out for
+-- comment) with a closing_date is a DEADLINE row in the country countdown;
+-- src/gov_docs.DEADLINE_TYPES lists the doc_types that count.
+CREATE TABLE IF NOT EXISTS gov_docs (
+  cc TEXT NOT NULL,               -- 'de', 'fr', 'us', ...
+  doc_id TEXT NOT NULL,           -- '<source>:<the source's own id>'
+  title TEXT NOT NULL,            -- verbatim, native language
+  doc_type TEXT,                  -- consultation / call_for_evidence / regulation_draft /
+                                  -- bill_draft / regulation / law / publication / guidance /
+                                  -- statistics / report / press_release / consultation_outcome
+  body TEXT,                      -- ministry or agency, as printed
+  published TEXT,                 -- ISO date published (or opened for comment)
+  closing_date TEXT,              -- ISO date responses close (NULL: none published)
+  url TEXT,
+  areas TEXT,                     -- JSON list of area numbers (the country's taxonomies)
+  matched_terms TEXT,             -- JSON list
+  tier INTEGER,
+  first_seen TEXT NOT NULL,
+  last_seen TEXT NOT NULL,
+  source TEXT,                    -- the reader's short code ('bmj', 'boe', 'fr-api')
+  summary TEXT,                   -- the source's own description, verbatim, capped
+  status TEXT,                    -- the source's own word ('open', 'En cours', ...)
+  watch_keys TEXT,                -- JSON: watchlist keys at collection
+  PRIMARY KEY (cc, doc_id)
+);
+CREATE INDEX IF NOT EXISTS gov_docs_close ON gov_docs (cc, closing_date);
+CREATE TABLE IF NOT EXISTS gov_doc_runs (
+  cc TEXT NOT NULL,
+  source TEXT NOT NULL,
+  run_date TEXT NOT NULL,
+  ok INTEGER NOT NULL,            -- 1 read in full, 0 partial or failed
+  listed INTEGER,                 -- items the source listed in the window
+  kept INTEGER,                   -- of which on our ground (stored)
+  note TEXT,                      -- the gaps, or the source's own note
+  PRIMARY KEY (cc, source, run_date)
+);
 """
 
 def record_gap(conn, feed, detail, edition=None):
@@ -1586,6 +1646,7 @@ TABLES = (
     "cv_divisions",
     "cv_votes",
     "clause_text",
+    "amendment_text",
     "mp_alignment",
     "mp_defiance",
     "mp_events",
@@ -2024,6 +2085,10 @@ TABLES = (
     "country_petitions",
     "country_petition_snapshots",
     "country_petition_runs",
+    # Government consultations and publications for every country edition
+    # but the UK (tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026).
+    "gov_docs",
+    "gov_doc_runs",
     # Canadian provinces (tools/prov_collect.py), created by
     # src/prov_store.ensure_schema -- declared from day one, unlike ca_*.
     "prov_members",
@@ -2143,6 +2208,10 @@ def init_db(conn):
     """Create all tables if absent, and apply column migrations. Idempotent."""
     conn.executescript(SCHEMA)
     _migrate_gaps(conn)
+    # amendment_text gained reader_version on 16 October 2026, the day it was made.
+    at_cols = {r[1] for r in conn.execute("PRAGMA table_info(amendment_text)")}
+    if at_cols and "reader_version" not in at_cols:
+        conn.execute("ALTER TABLE amendment_text ADD COLUMN reader_version TEXT")
     cols = {r[1] for r in conn.execute("PRAGMA table_info(items)")}
     if "extra" not in cols:
         conn.execute("ALTER TABLE items ADD COLUMN extra TEXT")

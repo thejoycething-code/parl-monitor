@@ -410,3 +410,35 @@ reader adapter (`src/editions/de.py`); the German edition is still
   German surface. They now say who signed it off and that the German team may
   still refine it (`TAXONOMY_STATUS` in `tools/de_monitor.py`). The German
   team's changes go into `docs/keyword-taxonomy-de.md` and are then regenerated.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+UK parity for "government consultations and publications": `src/gov_doc_sources/de.py`, run by `tools/country_gov_docs.py de` into `gov_docs`. Germany has no edition adapter, so the module names its taxonomy (`TAXONOMIES = (("taxonomy-de.yaml", "de"),)`). No source needs a key; none is a documented API, so robots.txt is asked for every URL at run time.
+
+Sources used:
+
+- **BMJV legislative procedures** (www.bmjv.de; www.bmj.de now redirects there). The ministry's own RSS feed `/SiteGlobals/Functions/RSSNewsfeed/DE/RSSNewsfeed/RSSNewsfeedGesetzgebungsverfahren.xml` (RSS 2.0, 80 procedures, newest change first) and its press releases feed `RSSNewsfeedPressemitteilungen.xml` (100 items). Each procedure in the window has its page read (`/SharedDocs/Gesetzgebungsverfahren/DE/...`, at most 30 a run) for its status ('Entwurf' or 'Gesetz'), its latest stage (Referentenentwurf, Verordnungsentwurf, Regierungsentwurf, parlamentarisches Verfahren, Gesetz beschlossen) and its summary. The procedure page does not print the deadline for statements; the press release announcing a Referentenentwurf does ("Die interessierten Kreise haben nun Gelegenheit, bis zum 06.11.2026 Stellung zu nehmen") and links the procedure page, so press releases in the window that mention a draft are read (at most 15) and the deadline attached to the procedure.
+- **BMBFSFJ** (www.bmbfsfj.bund.de, the family ministry; www.bmfsfj.de redirects). The 'Gesetze' listing `/bmbfsfj/ministerium/gesetze` (newest first; tagline Gesetzgebungsvorhaben, Gesetzgebungsvorgang or Gesetz; no dates), each of its ten items' pages read for its date; and two RSS feeds, Pressemitteilungen (`/service/rss/bmbfsfj/111102/feed.rss`) and Aktuelle Meldungen (`/108854/feed.rss`). The ministry also lists every published Stellungnahme (`/gesetze/gesetze-stellungnahmen`, 1,318), not read: it lists statements, not drafts.
+- **BMG** (www.bundesgesundheitsministerium.de). 'Gesetze und Verordnungen' (`/service/gesetze-und-verordnungen`, the latest ten procedures with dates), each detail page in the window read for its category ('Laufendes Verfahren', 'Gesetz', 'Verordnung') and latest stage ("Referentenentwurf: 03.07.2026", "Bundestag, 2./3. Lesung: 15.10.2026"); and `/pressemitteilungen.xml` (RSS, 217 items back to 2022).
+- **Bundesregierung** (www.bundesregierung.de). RSS feeds `/service/rss/breg-de/1151246/feed.xml` (Artikel, explanations of cabinet decisions) and `/1151244/feed.xml` (Pressemitteilungen), 20 items each, about three weeks: enough for a weekly run.
+
+Doc types: a procedure still in draft is a `bill_draft` (`regulation_draft` for a Verordnung), its stage in `status`; once its page says Gesetz or Verordnung (in force) it is `law` / `regulation`. Press releases are `press_release`, the Bundesregierung's articles and the BMBFSFJ's Meldungen `publication`. A closing date is set only where the ministry prints one (BMJV press releases; any page read that says "bis zum ... Stellung"). BMBFSFJ and BMG pages publish none.
+
+robots.txt, read 16 October 2026:
+
+- www.bmjv.de (and www.bmj.de): `Disallow: /SiteGlobals/`, `Disallow: /DE/Service/`, but `Allow: /SiteGlobals/Functions/RSSNewsfeed/`. The feeds are allowed; the procedure search forms under `/SiteGlobals/Forms/Gesetzgebungsverfahrensuche/` are disallowed and not used. `/SharedDocs/` is allowed.
+- www.bmbfsfj.bund.de: `User-agent: *` / `Disallow:` (empty: everything allowed).
+- www.bundesgesundheitsministerium.de: `Allow: /`, with `Disallow: /*?id=*`, `/*cHash`, `/*tx_form_formframework`, `/*tx_solr` and `/typo3/`; none touches the listing, the detail pages or the feeds.
+- www.bundesregierung.de: no group for `*` or for our agent; only named crawlers (AhrefsBot, SemrushBot, YandexBot and others) are disallowed.
+
+Routes tried that were not used: the BMJV procedure search (`/SiteGlobals/Forms/...`, disallowed by robots.txt; the RSS feed carries the same procedures); the BMJV's RSS overview page `/DE/presse/newsletter/rssnewsfeed/rss_node.html` (read once to find the feeds). The Referentenentwurf PDFs (which also print the deadline) are not read: the press release carries it in text.
+
+Measured, live run of 16 October 2026 against a scratch store (`.probe/scratch-de.db`, about 45 s of fetching): BMJV 26 listed in the window (19 press releases, 7 procedures), 2 on our ground; 4 procedures carried a deadline from their press release (6 November, 30 October twice, 23 October), 1 of them on our ground. BMBFSFJ 44 listed, 1 on our ground. BMG 14 listed, 0. Bundesregierung 40 listed, 0. In all 124 listed, 3 on our ground, no gaps; 1 open deadline row.
+
+Examples:
+
+- "Gesetz zur weiteren Verbesserung des Schutzes bei häuslicher Gewalt", `bill_draft`, BMJV, status "Entwurf; Referentenentwurf", closes 30 October 2026 (area 5).
+- "Weiterer Gesetzentwurf zum Schutz bei häuslicher Gewalt: Neue Regeln für die Lösung aus einem gemeinsamen Mietvertrag und für den Schutz von Angehörigen", `press_release`, BMJV, 5 October 2026 (area 5).
+- "Ministerin Prien wirbt in Brüssel für gemeinsame europäische Regeln zum Schutz von Kindern und Jugendlichen im Netz", `press_release`, BMBFSFJ, 16 July 2026 (area 7).
+
+Just outside the window on 16 October: BMG's Suizidpräventionsgesetz Referentenentwurf of 3 July 2026 (the listing's date); it would have been a `bill_draft` on our ground with no deadline printed.

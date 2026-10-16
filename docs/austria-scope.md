@@ -502,3 +502,35 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 `tools/country_since_vote.py --cc at` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py at --since-vote` adds it to the profiles. Only the Klub's vote is recorded: every row is the group's vote (X5), listed and never named as drift. The published store of 11 October held no Austrian speeches yet, so no sample.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py at`, branch `ukp2-service`): every Nationalrat and Bundesrat mandate with its dates, Klub and Wahlpartei from each member's biography (`/person/<PAD>?json=TRUE`, 242 of 243 read; one is disallowed by robots.txt and skipped). The Klub's full name is matched to the vote record's abbreviation through the sitting members. DERIVED positions (X5) are now given only for a day the member sat, by the Klub they were in that day: on the 11 October sample this left out 179 positions the latest-Klub derivation gave (members who took their seat later), and gave Veit Valentin Dengler NEOS's votes up to 10 July 2026 (ohne Klub since). Every four weeks. See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+UK parity for "government consultations and publications": `src/gov_doc_sources/at.py`, run by `tools/country_gov_docs.py at` into `gov_docs`. The edition adapter supplies the taxonomy (taxonomy-atch). No key anywhere.
+
+Sources used:
+
+- **Ministerialentwürfe in Begutachtung (mirror).** `src/petition_sources/at.py` already reads the Parliament's Filter list 81 (`www.parlament.gv.at/Filter/api/filter/data/81`, a documented Open Data API) into `country_petitions` (cc 'at', source 'me', kind 'consultation') each week. The gov_docs step re-files those rows rather than fetching twice: a draft law is a `bill_draft`, a draft Verordnung a `regulation_draft`, `closing_date` the Begutachtungsfrist, `body` the ministry. The step must run after the petitions step (it does in the weekly job's order).
+- **Ministerrat papers** (www.bundeskanzleramt.gv.at). `/medien/ministerraete.html` names the current government's index (`/medien/ministerraete/ministerraete-seit-maerz-2025.html`), which lists each Council of Ministers sitting and circular resolution (Umlaufbeschluss); each sitting's page lists the Ministerratsvorträge as PDFs ("Titel; 66/5"). Every paper of a sitting in the window is a `publication` (body "Bundesregierung (Ministerrat)"), annexes, Vorblätter and Erläuterungen left out. At most 16 sitting pages a run.
+- **Nachrichten der Bundesregierung** (`/bundeskanzleramt/nachrichten-der-bundesregierung/<year>.html?currentPage=N`): the Chancellery's news, including the family, youth and integration minister's, card listings with date, title and teaser; pages read back to the window start. `press_release`.
+- **Sozialministerium (BMASGPK) Aktuelles** (www.sozialministerium.gv.at `/Services/Aktuelles/archiv-<year>.html`): the social, health and care ministry's news, one page per year (50 items back to April). `press_release`.
+
+robots.txt, read 16 October 2026:
+
+- www.bundeskanzleramt.gv.at: `User-agent: *`, `Disallow: /401`, `Disallow: /401.html` only.
+- www.sozialministerium.gv.at: `Disallow: /.search/`, `/Portal.Node/`, the test folders and `/.syndication/`. `/.syndication/` is the ministry's RSS route, so its feeds are not used; `/Services/Aktuelles/` is allowed.
+- www.parlament.gv.at `/Filter/api/`: documented API (already in DOCUMENTED_APIS), read by the petitions step, not by this one.
+
+Blocked, and the routes tried:
+
+- **RIS OGD API** (`https://data.bka.gv.at/ris/api/v2.6/Bundesrecht?Applikation=BgblAuth...`, the documented open-data API of the Bundesgesetzblatt, listed on data.gv.at with its documentation at `https://data.bka.gv.at/ris/ogd/v2.6/Documents/Dokumentation_OGD-RIS_API.pdf`). Refused by the guard: `https://data.bka.gv.at/robots.txt` reads `User-agent: *` / `Disallow: /` (its only other lines name `DG_JUSTICE_CRAWLER` and an ECLI sitemap). Not fetched. Whether the documented API belongs in DOCUMENTED_APIS is for the lead to decide; until then made law (BGBl I and II) is not read.
+- **RIS website** (www.ris.bka.gv.at): answers 503 with a "Security Check" page (a Myra WAF challenge) to our identified agent, robots.txt included. Never bypassed.
+- **Sozialministerium RSS** (`/.syndication/`): disallowed by robots.txt; the Aktuelles listing is read instead. Its press releases page sends readers to APA-OTS (www.ots.at; robots.txt allows the article pages, the OTS API needs a key): not used.
+- **Justiz press releases** (www.justiz.gv.at, `Allow: *`): read once; it lists court and prosecution office notices, not the ministry's drafts, so it is not a source.
+
+Measured, live run of 16 October 2026 against a scratch store (`.probe/scratch-at.db`, the pulled store's `country_petitions` copied read-only; about 25 s): Begutachtung mirror 11 listed in the window, all 11 with a Frist (12 October to 12 November), 0 on our ground (as the petitions layer also found). Ministerrat 97 papers from 13 sittings, 1 on our ground. Chancellery news 66 listed, 1 on our ground. Sozialministerium 29 listed, 0. In all 203 listed, 2 on our ground, no gaps; no open deadline row on our ground this week.
+
+Examples:
+
+- "Nationaler Verweisungsmechanismus (NVM) zur Bekämpfung von Menschenhandel – Umsetzung der Richtlinie (EU) 2024/1712; Kenntnisnahme" (paper 64/13), `publication`, Bundesregierung (Ministerrat), 64. Ministerrat am 30. September 2026 (area 12).
+- "Integrationsministerin Bauer: "Dürfen beim Religionsunterricht nicht auf einem Auge blind sein"", `press_release`, Bundeskanzleramt, 28 September 2026 (area 8).
+- Mirrored, off our ground: "Zivildienstgesetz, Änderung", `bill_draft`, Büro der Bundesministerin für Europa, Integration und Familie, closes 12 November 2026.

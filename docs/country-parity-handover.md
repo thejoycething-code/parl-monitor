@@ -1696,6 +1696,148 @@ note, and the scope docs say what was applied.
   dataset links now point at `/explore/assets/<id>/` directly (the old
   `/explore/dataset/` form redirects).
 
+## What a vote is ON, not just its title: amendment text for six countries (16 October 2026, branch `country-clausetext`)
+
+UK parity with `src/clausetext.py` (#194, #200). Recorded votes in DE, FR, NL,
+IT, PT and ES often carry titles that only NAME what is put ("l'amendement n°
+516 de Mme Rousseau à l'article 44 ...", "Emendamento 7-bis.1 ...",
+"Amendement van het lid X ter vervanging van nr. 12", "(Änderungsantrag)"),
+so their areas came only from the bill, and an amendment putting abortion or
+gender into an unrelated bill was invisible. Now each country's weekly reads
+the text and matches the country's own taxonomy over it.
+
+- **Design** (`src/amendtext.py`, `tools/amendment_text.py`): one reader per
+  country (`src/amendtext_<cc>.py`); the link from vote to text is by the
+  source's own identifiers only, a non-unique link is a gap. Store cache
+  `amendment_text` (one row per vote read; failures retried; a reader
+  `version` bump re-reads). Match source "amendment text". **Ledger gate** as
+  the UK's: only a tier-1 term in the text's PURPOSE (the exposé sommaire's
+  opening, the "impegna il Governo" / "verzoekt de regering" operative part,
+  the Drucksache's title and "wolle beschließen" words, the JUSTIFICACIÓN)
+  adds its areas, terms and tier 1 to the division (union, never removes);
+  any other match is stored and listed for review only
+  (`tools/amendment_text.py --cc XX --report`). Re-applied every week from the
+  cache after the collector, so a collector upsert or `--reclassify` never
+  drops it. Fail loud: "could not read amendment text (<reason>)" in gaps (25
+  rows a run, the rest summed). Fetches go through `robots_guard.guard`.
+- **France** (AN): `Amendements.json.zip` on data.assemblee-nationale.fr is
+  NOT downloaded whole (327 MB): its central directory (16 MB) and each
+  needed amendment are read by HTTP Range, pinned to one ETag because the CDN
+  serves several builds at once (measured: three in six requests). Link:
+  dossier + séance organe PO838901 + number + day the séance disposed of it
+  (`dateSort`), then article and author. `AMENDTEXT_FR_ZIP=<local copy>` for
+  a backfill. The Sénat's scrutins are not read (no per-scrutin identifier
+  for ameli amendments in our store).
+- **Germany**: DIP `/drucksache-text` (src/dip.py key order). The voted paper
+  is the poll's linked Drucksache, or for "(Änderungsantrag)" /
+  "(Entschließungsantrag)" polls the paper the House's own record of that
+  day names (DIP Vorgangsposition, "Namentliche Abstimmung"); polls with no
+  paper (before about 2019) are found in that record by date and tally.
+  abgeordnetenwatch's API is not read (robots.txt disallows `/api/v2/`).
+  Landtag polls are not read.
+- **Netherlands**: the zaak's own Amendement/Motie document (OData resource,
+  Word or PDF), latest version dated by the vote; applied to `nl_zaken`
+  (tier) and every `nl_divisions` row on the zaak.
+- **Italy (Camera)**: the Allegato A of the vote's sitting and earlier ones on
+  documenti.camera.it (`eme.<n>._ac.<AC>` paragraphs, `si.9_ac...`,
+  `si.1-<n>`, `si.6-<n>` blocks; aic/banchedati disallow us and are not
+  used). A vote on named commitments ("capoverso settimo della parte
+  dispositiva", "CPV 4, 5") reads only those; one on the premises gives no
+  purpose. The Senate's amendments stay with `tools/it_senato_amendments.py`.
+- **Portugal**: the party's proposals paper (or its "Requerimento de
+  Avocação") among the initiative's annexes in the Iniciativas dump, by
+  initiative key, vote id and party; the passage on the article named is the
+  purpose. Only 54 plenary votes qualify (amendments are voted in committee).
+- **Spain**: the BOCG amendments publications of the initiative
+  (BOCG-15-B-240-4 ...), "ENMIENDA NÚM. N" by the group named. The XV
+  Congreso is dissolved: the stored votes are read once.
+- **Weeklies**: a step in `jobs/{fr,nl,it,pt,es}-weekly.sh` after the
+  collector, and in `jobs/de-weekly.sh` plus `.github/workflows/de-weekly.yml`
+  after `de_amendments.py`. **Backlog**: `jobs/amendtext-backfill.sh` (by hand
+  on the Mini, `AMENDTEXT_CC="nl fr it de pt es"`, rerun until nothing is
+  left; coverage `ON_DEMAND` "Amendment text backfill"). No reclassify is
+  needed: the step applies its own matches.
+
+## Government consultations and publications: gov_docs (16 October 2026, branch `country-govdocs`)
+
+UK parity for GOV.UK's consultations and publications (tools/govuk_docs.py)
+in every country with an edition. One shared table, `gov_docs` (src/db.py:
+cc, doc_id, title, doc_type, body, published, closing_date, url, areas,
+matched_terms, tier, first_seen, last_seen, plus source, summary, status,
+watch_keys), and `gov_doc_runs` (one row per source per run, ok=0 on a gap).
+Shared module src/gov_docs.py; one reader per country in
+src/gov_doc_sources/<cc>.py; runner tools/country_gov_docs.py; the weekly
+step tools/gov_docs_step.sh <cc>, never fatal, inserted before the edition
+in the 23 weeklies below (after the petitions step, which the mirrors read;
+before the `*_monitor.py --edition` block in us, ie, au, ca; inside the
+collector subshell in de; in jobs/mx-collect.sh for Mexico, on GitHub).
+`<CC>_RECLASSIFY` jobs that reclassify petitions now reclassify gov_docs too.
+
+Matching: each country's own taxonomies on title + summary. Precision gate
+as the UK's: a consultation, call for evidence, draft bill or draft
+regulation out for comment is kept on any match; a made regulation, act,
+press release or report needs tier 1 or a watchlist key. Only rows on our
+ground are stored. Doc types: consultation, call_for_evidence,
+regulation_draft, bill_draft (DEADLINE_TYPES), regulation, law,
+publication, guidance, statistics, report, press_release,
+consultation_outcome.
+
+For the country countdown (another agent renders it): keep these names
+stable. `gov_docs.deadline_rows(conn, cc, start, end)` (deadline types on our
+ground with a closing date in the window: DEADLINE rows),
+`publication_rows(conn, cc, since, until)`, `in_preparation_rows(...)` (draft
+bills and regulations with no published deadline, Poland's register), and
+`coverage_lines(conn, cc)` (one line naming each source's last run and gaps).
+
+First live run, 16 October 2026, each country into a scratch store (listed
+in the window / stored on our ground / open deadline rows):
+
+| cc | Sources | Listed | On ground | Open deadlines |
+|---|---|---|---|---|
+| de | BMJV procedures and press RSS (deadline from the Referentenentwurf release), BMBFSFJ, BMG, Bundesregierung RSS | 124 | 3 | 1: Schutz bei häuslicher Gewalt, bill_draft, BMJV, 30 Oct |
+| at | Begutachtung (mirror), Ministerrat papers, BKA news, Sozialministerium | 203 | 2 | 0 (11 drafts with Frist, none on our ground) |
+| ch | Vernehmlassungen (mirror), News Service Bund RSS, AS via fedlex SPARQL | 637 | 2 | 0 |
+| fr | JORF (DILA open data), ecology consultations, solidarites.gouv.fr RSS | 551 | 1 | 0 (27 open, all environmental) |
+| be | belgium.be news and consultations, FPS Health, FPS Justice, IEFH | 40 | 0 | 0 |
+| nl | Kamerbrieven (TK OData), Staatsblad | 900 | 17 | 0 (no consultation source: internetconsultatie refuses) |
+| pl | Council of Ministers' register CSV, Dziennik Ustaw and Monitor Polski (ELI), Sejm consultations (mirror) | 392 | 9 | 3 (Sejm, e.g. Kodeks karny, 7 Nov) |
+| it | Gazzetta Ufficiale (30 days), ParteciPa (mirror) | 279 | 0 | 0 |
+| es | BOE API Section I, Igualdad, Sanidad, Presidencia, Justicia, Educación | 122 | 2 | 2: IVE información previa RD (Igualdad, 19 Oct); RD 1277/2003 and 831/2010 consulta previa (Sanidad, 20 Oct) |
+| pt | Diário da República RSS (Série I, II C), ConsultaLEX | 70 | 0 | 0 |
+| hr | e-Savjetovanja via data.gov.hr, Narodne novine | 443 | 1 | 0 |
+| sk | Slov-Lex eLegislatíva (MPK and preliminary information) | 377 | 7 | 2: LP/2026/531 (26 Oct), LP/2026/511 (2 Nov), MPSVR |
+| hu | kormany.hu társadalmi egyeztetés, Magyar Közlöny (mirror) | 604 | 25 | 3, e.g. 518/2020 Korm. rendelet amendment (20 Oct) |
+| us | Federal Register (mirror of us_fr_documents) | 1,250 | 8 | 2: Federal Scholarship Tax Credit (1 Dec), Child Welfare reporting (4 Nov) |
+| ca | Consulting with Canadians CSV, Canada Gazette (mirror), News Centre | 1,132 | 6 | 1: SDG Voluntary National Review (ESDC, 18 Dec) |
+| ie | Irish Statute Book SIs | 3 | 0 | 0 (gov.ie refuses us: consultations are a gap) |
+| au | Health Citizen Space API, Federal Register of Legislation | 468 | 0 | 0 |
+| ar | Boletín Oficial primera sección, consultapublica (mirror) | 116 | 0 | 0 |
+| br | Senado legislation list (DOU refuses us), Brasil Participativo (mirror) | 212 | 3 | 0 |
+| mx | DOF via SIDOF web service | 853 | 3 | 0 (8 draft NOMs dated, none on our ground) |
+| co | SUCOP (mirror) | 51 | 4 | 3 (press freedom protocols, 30 Oct) |
+| cl | Diario Oficial normas generales | 165 | 0 | 0 |
+| pe | El Peruano normas legales (drafts dated from their pages) | 1,162 | 0 | 0 |
+
+Not attempted: UY, EC, BO, PY and the rest of Latam. Blocked hosts and the
+alternatives tried are in docs/robots-runtime.md ("Government documents:
+blocked hosts"); each scope doc has a "Government consultations and
+publications (gov_docs, 16 October 2026)" section with its routes and counts.
+
+Open points for Chris:
+- DOCUMENTED_APIS candidates (not added): KOOP SRU (repository.overheid.nl,
+  robots.txt `Disallow: /`, would open Dutch Staatscourant and consultations
+  notices), the RIS OGD API (data.bka.gv.at, `Disallow: /`, Austrian made
+  law); allowed anyway and optional: BOE datosabiertos, SIDOF, Narodne
+  novine API, open.canada.ca CSV, data.gov.hr CKAN.
+- Written-permission routes: Moniteur belge (FPS Justice), RIS (BKA), KOOP.
+- The precision gate keeps almost no made acts this week (their matches are
+  tier 2); thin Irish and Australian wording in the English taxonomy; the
+  Croatian stem `udžbenic*` misses "udžbenika" (`udžbeni*` would match).
+- Portugal's Diário RSS carries only the latest issue: a daily read (5 s)
+  would catch every issue; the weekly catches one in five.
+- Spain's two TLS-failing ministry hosts may read from the Mini if its
+  Python has a current OpenSSL.
+
 ## The countdown layout on the fifteen editions (16 October 2026, branch `country-countdown`)
 
 Chris asked for the UK weekly's "A · Countdown" layout (PRs #205-#210) on the

@@ -498,3 +498,28 @@ Length of service: **built, legislatures only** 11 October 2026 (`tools/member_s
 ## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **done**. A same-day alert for new items on our ground, watched or tier 1 with the minimum evidence, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`) with one DM to Chris for the vote briefs and the new items together, de-duplicated against the weekly editions, the vote briefs and `data/day-sweep/be.json` (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Chamber's recent-documents listing (French, then Dutch on a day with a new dossier); a dossier whose document 001 is dated in the window is new. Its page (type, authors) and the Senate stay weekly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/be.py`, run by `tools/country_gov_docs.py be` into `gov_docs` (tests: `tests/test_gov_docs_be.py`, fixtures captured live in `tests/fixtures/gov_docs/be/`). Titles are French and are classified with taxonomy-nl and taxonomy-fr through the edition adapter. No key, no account anywhere.
+
+Sources used:
+
+- **belgium.be (code `portal`)**: `https://www.belgium.be/fr/actualites/overview`, the federal portal's news (HTML, ten a page, newest first). Its federal public consultations ("Donnez votre avis sur ...", "Consultation publique sur ...") are `consultation`s; for those announced in the window the item page is read, whose description gives the period and the organiser ("Du 17 août au 15 octobre 2026 inclus, une consultation publique est organisée par le SPF Santé publique, ..."), so the closing date and body are filled. A results item is a `consultation_outcome`, other news a `publication`. Low volume: ten items span August 2026 back to November 2025.
+- **FPS Health (code `health`)**: `https://www.health.belgium.be/fr/news?page=N` (HTML, twelve a page): `press_release`, tier 1 only.
+- **FPS Justice (code `justice`)**: `https://justice.belgium.be/fr/news/rss` (official RSS, ten items, French dates): `press_release`, tier 1 only.
+- **Institute for the Equality of Women and Men (code `iefh`)**: `https://igvm-iefh.belgium.be/fr/actualite` (HTML, about 15 press releases and news items back to June): `press_release` or `publication`, tier 1 only.
+
+robots.txt per host:
+
+- www.belgium.be, www.health.belgium.be, justice.belgium.be, igvm-iefh.belgium.be: Drupal defaults ("Disallow: /admin/", "/search/", "/core/", "/profiles/" ...); health.belgium.be adds "Disallow: /*?find=" and its search pages. The paths read are allowed. www.health.belgium.be/fr/rss.xml redirects to /fr/node/48?find=rss%20xml, which "Disallow: /*?find=" refuses (the guard refused the redirect hop), so the listing is read instead.
+
+Routes tried that failed:
+
+- The Moniteur belge / Belgisch Staatsblad, www.ejustice.just.fgov.be: robots.txt ("User-agent: *") disallows /cgi/, /eli/, /mopdf/, /sum_a/, /sum_m/, /loi/, /wet/, /doc/ and every other path its summaries, texts and PDFs live under; the home page only redirects to /cgi/welcome.pl. www.moniteur.be and www.staatsblad.be serve the same robots.txt. No open-data copy was found: data.gov.be (allowed) lists no Moniteur dataset. Recorded as a gap; a written permission from the FPS Justice would be the route.
+- news.belgium.be (the federal government's press releases, including the Council of Ministers' decisions), www.premier.be and www.belgiquelex.be / www.belgielex.be: HTTP 403 to our user agent, robots.txt included. Not bypassed.
+- justice.belgium.be/fr/rss.xml: answers, but its newest item is from February 2018 (the news RSS at /fr/news/rss is current and is used).
+
+Measured on 16 October 2026 (scratch store): portal 10 listed, 1 in the window (the POP plan consultation, closed 15 October, environmental), one item page read; FPS Health 21 in the window; FPS Justice 10; IEFH 8. Nothing on our ground in the 92-day window. With a 120-day window the IEFH's 24 June release "Discours de haine, maternité, responsabilités familiales : les signalements explosent en 2025" is kept (tier 1, area 7). Under 10 seconds in all.
+
+Examples: "Donnez votre avis sur le projet de cinquième plan national de mise en œuvre relatif aux polluants organiques persistants (POP)" (consultation, SPF Santé publique, Sécurité de la chaîne alimentaire et Environnement, closes 15 October 2026); "Plan Cancer belge 2026-2036" (press_release, FPS Health); "Lancement du Plan interfédéral contre le racisme" (press_release, SPF Justice).

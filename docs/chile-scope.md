@@ -453,3 +453,17 @@ Length of service: **built** 11 October 2026 (`tools/member_service.py cl`, bran
 ## Daily sweep of new items (built 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **done**. A same-day alert for new items on our ground, a step of the daily vote-briefs job (`jobs/vote-briefs-daily.sh`, one DM to Chris), read through the Latam alerts' own reader and rule (`src/latam.py`, `tools/latam_alerts.py`: watched, or tier 1 with the minimum evidence) and de-duplicated against `data/latam-alerts/cl.json` both ways, so nothing is sent twice with the alert step after the weekly collection (`src/country_day_sweep.py`, `src/day_sweep_sources.py`). Read every daily run: the Senate's tramitación since the window (both chambers' new bills, the Senate's votes). Cámara votes stay weekly. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/cl.py` (TAXONOMIES taxonomy-es for Chile), tests `tests/test_gov_docs_cl.py`, fixtures `tests/fixtures/gov_docs/cl/`. No key needed.
+
+**Source used: the Diario Oficial's Normas Generales summary** (www.diariooficial.interior.gob.cl, HTML). `/edicionelectronica/index.php` (no query) is today's edition: the Normas Generales under PODER LEGISLATIVO / PODER EJECUTIVO / other headings, by ministry and service, one row per norm with its official summary line ("Resolución exenta número 668, de 2026.- Determina ...") and its PDF (CVE number). `index.php?date=DD-MM-YYYY&edition=N` is an earlier edition; a wrong date for a number answers an empty page, and asking by date alone redirects to `select_edition.php`, which robots.txt disallows (the guard refuses the hop). So the reader walks back from today's number, trying each earlier number against the preceding four dates and then the same date (no edition on Sundays and holidays). Each run reads 14 days. The PDFs are not read. doc_type: "Ley núm." and "Decreto con fuerza de ley" are `law`; a norm putting something to public or citizen consultation ("Somete a consulta pública", "consulta ciudadana") `regulation_draft` (period in the PDF: no closing date); every other row `regulation`.
+
+**robots.txt** (www.diariooficial.interior.gob.cl): `User-agent: *` / `Disallow: /publicaciones/`, `/edicionelectronica/`, `/media/`, then `Allow: /publicaciones/*/*/*/*/01/` and `Allow: /edicionelectronica/index.php`; and `User-agent: node-XMLHttpRequest` / `Disallow: /`. Only index.php is read.
+
+**Routes not used**: ministries' consultas ciudadanas (one page per ministry, no national listing found).
+
+**Measured, live run 16 October 2026** (scratch store): 12 editions back to 2 October (16 pages asked, about 90 s: the host is slow), 165 norms listed, 0 on our ground; 3 laws and one consultation among them.
+
+**Examples (listed, not on our ground)**: "Resolución exenta número 545, de 2026.- Dispone efectuar consulta ciudadana en el marco de la elaboración de..." (regulation_draft, Ministerio de las Culturas, las Artes y el Patrimonio, 15 October); "Resolución exenta número 668, de 2026.- Determina tasas de interés de referencia..." (regulation, Ministerio de Hacienda, 16 October).

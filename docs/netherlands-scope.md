@@ -547,3 +547,40 @@ Shared machinery: `src/petitions.py` (one table, `country_petitions`, with signa
 `tools/country_since_vote.py --cc nl` (src/country_since_vote.py; docs/debate-pack-social.md, "Between votes, new countries"): per area, each member's last recorded vote on it and their speeches since, with excerpts. Drift is named only once the vote's reading is confirmed and a person or the free session judge has read the words (`--queue-out` / `--reads`); until then "awaiting sign-off", ranked by recency and volume. Manual, no job; `tools/member_profiles.py nl --since-vote` adds it to the profiles. Most Dutch votes are a fractie's show of hands: those rows are labelled the group's vote (X5) and never name drift; only roll calls (hoofdelijke stemmingen) can. The published store of 11 October held no Dutch votes or speeches, so no sample yet.
 
 Length of service: **built** 11 October 2026 (`tools/member_service.py nl`, branch `ukp2-service`): every Tweede Kamer fractie seat with its dates (FractieZetelPersoon, the gegevensmagazijn), joined end to end into periods; each seat is a dated fractie spell matched to the vote record by Fractie_Id. DERIVED positions (show of hands, X5) are now given only for a day the member sat, by the fractie they sat in that day. Weekly; coverage starts at the earliest seat the source records. See docs/country-parity-handover.md, section 3c.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/nl.py`, run by `tools/country_gov_docs.py nl` (src/gov_docs.py). Tests: `tests/test_gov_docs_nl.py` on fixtures captured live on 16 October (`tests/fixtures/gov_docs/nl/`).
+
+**Sources used** (no key for either):
+
+- **Kamerbrieven** (`kb`): the Tweede Kamer's Open Data Portaal, `gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document`, OData JSON, filtered to Soort 'Brief regering' dated in the 92-day window, with the signing minister (DocumentActor, its Functie names the ministry) and the Kamerstukdossier (its title is classified with the subject). Paged by @odata.nextLink. A documented API (src/robots_guard.DOCUMENTED_APIS), so no robots.txt read. Since 28 April 2026 most central government documents are published only on open.overheid.nl (rijksoverheid.nl/documenten says so), which refuses crawlers; the letters ministers send the Kamer are the complete, machine-readable stream of policy papers, evaluations, research reports and cabinet responses. Filed as 'publication', so the precision gate asks tier 1.
+- **Staatsblad** (`stb`): acts and orders in council as made. The day's page `www.officielebekendmakingen.nl/staatsblad` (HTML, today's numbers) and each publication's page `zoek.officielebekendmakingen.nl/stb-YYYY-N.html`, whose Dublin Core meta tags give title, type (Wet, AMvB, Koninklijk besluit), ministry and issue date. The numbers run in sequence, so the reader walks down from the day's highest (on a day with none it probes from an estimate, 1.12 numbers a day) for at most 40 pages, stopping at a publication older than 35 days. A Wet is a 'law', the rest 'regulation'. Pages are not archived (page-per-item).
+
+**robots.txt, per host (read 16 October 2026):**
+
+- `www.officielebekendmakingen.nl`, `zoek.officielebekendmakingen.nl`: `User-agent: *` with `Disallow: /noindex/*`, `Disallow: /zoeken/resultaat*`, `Disallow: /resultaten*`. The day page and the item pages are allowed; the search results are not, and are never requested.
+- `gegevensmagazijn.tweedekamer.nl/OData/`: documented API (robots.txt answers 500, as recorded earlier).
+- `internetconsultatie.nl`: `User-agent: * Disallow: /` (recorded 11 October). **Not fetched.** Dutch government consultations and their closing dates are therefore not read: a gap.
+- `repository.overheid.nl` (KOOP's SRU service, which carries the Staatsblad and Staatscourant with full metadata): `User-agent: * Disallow: /`. Refused.
+- `zoekservice.overheid.nl`: `User-agent: * Disallow: /`. `linkeddata.overheid.nl`: `User-agent: * Disallow: /`. `open.overheid.nl`: only Googlebot is allowed some paths; `User-agent: * Disallow: /`.
+- `data.overheid.nl`: `Disallow: /data/` (the CKAN API) and query-string searches; dataset pages are allowed but searching for a consultation dataset is not.
+- `www.rijksoverheid.nl`: `User-Agent: *` with no Disallow (allowed). `opendata.rijksoverheid.nl`: no robots.txt (404).
+- `www.overheid.nl`: `User-agent: *` disallows `/dienstverlening/`, `/zoekresultaat/`, `/resultpage/`, `/berichten-over-uw-buurt/`; the rest allowed.
+
+**Routes tried that failed, and why:**
+
+- KOOP SRU (`repository.overheid.nl/sru`): refused by robots.txt. On `zoek.officielebekendmakingen.nl` (robots allows the path) `/sru/Search` answers HTTP 500 and `/sru` 404.
+- Rijksoverheid open data API: only the school holidays infotype still answers (`/v1/infotypes/schoolholidays`); `document`, `documents`, `news` and the old `/v1/sources/rijksoverheid/documents` answer 404. The /opendata page now lists only school holidays and development cooperation.
+- Rijksoverheid news: `/actueel/nieuws` is rendered by JavaScript (the listing is not in the HTML); its Google News sitemap (`/news/sitemap.xml`) holds the last two days only (5 items), too short for a weekly read. `feeds.rijksoverheid.nl` does not resolve; the RSS links are built in the browser.
+- Rijksoverheid documents: `/documenten` says that since 28 April 2026 most documents appear only on open.overheid.nl (refused).
+- Internet consultations as open data on another host: none found. overheid.nl's help page links only to internetconsultatie.nl; data.overheid.nl's search is refused; linkeddata.overheid.nl refused.
+- Staatscourant (ministerial regulations): no allowed listing beyond the day's issue (`/staatscourant`), and its numbers are too many to walk.
+
+**Measured, live run of 16 October 2026** (scratch store): Kamerbrieven 860 in the window, 14 on our ground; Staatsblad 40 pages read (numbers 322 down to 283), 3 on our ground; no deadline rows (no consultation source). About 50 seconds.
+
+Examples:
+
+- "Kabinetsreactie advies Gezondheidsraad Transgenderzorg voor Jongeren", publication, minister van Volksgezondheid, Welzijn en Sport, 13 October 2026.
+- "IGJ Jaarrapportage 2025 Wet afbreking zwangerschap (Wafz)", publication, minister van Volksgezondheid, Welzijn en Sport, 12 October 2026.
+- Wet strafbaarstelling conversiehandelingen (Staatsblad 2026, 294), law, Ministerie van Justitie en Veiligheid.

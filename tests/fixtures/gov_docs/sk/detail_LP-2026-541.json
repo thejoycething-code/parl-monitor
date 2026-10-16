@@ -1,0 +1,45 @@
+{
+ "uuid": "c4edeed4-be98-4381-9367-ffde819e5d99",
+ "typ": {
+  "uuid": "3c128ed9-4477-4146-a800-851eb02fd2c2",
+  "nazov": "Nariadenie vlády Slovenskej republiky",
+  "uroven": 1,
+  "kod": "NariadenieVlady",
+  "prefix": "LP",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "23dafd1e-2208-40a6-9106-381849977a8f",
+   "nazov": "Životné prostredie",
+   "uroven": 2,
+   "kod": "ZivotneProstrendie",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/541",
+ "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa mení nariadenie vlády Slovenskej republiky č. 174/2017 Z. z., ktorým sa ustanovujú citlivé oblasti a zraniteľné oblasti v znení nariadenia vlády Slovenskej republiky č. 62/2022 Z. z.",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-16",
+ "zodpovednaInstitucia": {
+  "uuid": "210eb74c-4a3f-476c-8d0b-a0d829db1081",
+  "skratenyNazov": "MŽPSR",
+  "nazov": "Ministerstvo životného prostredia Slovenskej republiky",
+  "ldapUuid": "897979c9-f1cd-38ff-bb9b-53ca9e1d0e64",
+  "email": "jana.oslejova@enviro.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-16",
+ "datumUkonceniaPkMpk": "2026-11-05"
+}

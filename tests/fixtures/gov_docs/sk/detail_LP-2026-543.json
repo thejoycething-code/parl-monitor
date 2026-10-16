@@ -1,0 +1,45 @@
+{
+ "uuid": "ea2bc455-687d-41db-ac6f-501a0c6ca986",
+ "typ": {
+  "uuid": "0e89a0e7-57e6-495f-91e5-5c257fd9a141",
+  "nazov": "Poslanecký návrh zákona",
+  "uroven": 1,
+  "kod": "PoslaneckyNavrhZakon",
+  "prefix": "LP",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "af1911d8-df1d-49ec-a6f5-b63a0ceda1dd",
+   "nazov": "Správne právo",
+   "uroven": 1,
+   "kod": "SpravnePravo",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/543",
+ "nazov": "Návrh poslancov Národnej rady Slovenskej republiky Miroslava ČELLÁRA, Richarda ELIÁŠA a Štefana GAŠPAROVIČA na vydanie zákona, ktorým sa mení zákon č. 180/2014 Z. z. o podmienkach výkonu volebného práva a o zmene a doplnení niektorých zákonov v znení neskorších predpisov (tlač 1441)",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-16",
+ "zodpovednaInstitucia": {
+  "uuid": "d53d6379-9c42-439e-a9d7-8969b4f97600",
+  "skratenyNazov": "MVSR",
+  "nazov": "Ministerstvo vnútra Slovenskej republiky",
+  "ldapUuid": "6acc1c79-eccc-372a-8654-6b66edbd5e13",
+  "email": "oznamopk@minv.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-16",
+ "datumUkonceniaPkMpk": "2026-10-26"
+}
