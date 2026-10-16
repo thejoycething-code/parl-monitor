@@ -203,6 +203,24 @@ PERMISSIONS = (
         "selected dataset endpoints count as API-client usage and it does not apply to them. "
         "No robots.txt change is needed: the email is the confirmation.",
         "docs/robots-runtime.md#written-permissions"),
+    # abgeordnetenwatch.de (16 October 2026): its robots.txt disallows
+    # /api/v2/ to every agent; the Product Owner wrote that the rule targets
+    # general crawlers and search engines, not targeted API queries. Unlike
+    # the Opendatasoft portals the API has no datasets: the permission names
+    # the uses (votes, MP profiles, daily vote briefs) and the API prefix;
+    # the website's own pages are still asked.
+    Permission(
+        ("https://www.abgeordnetenwatch.de/api/v2/",),
+        "abgeordnetenwatch.de: Till Wolschina, Product Owner, abgeordnetenwatch | "
+        "Parlamentwatch e.V. (wolschina@abgeordnetenwatch.de)",
+        "2026-10-16",
+        "The robots.txt Disallow /api/v2/ targets general crawlers and search engines and is "
+        "not a ban on targeted automated API queries. CitizenGO-ParlMonitor/1.0 may use the "
+        "API as described: weekly votes of the Bundestag and the Landtage, MP profiles, daily "
+        "vote briefs. Conditions: technical limit 30 requests per minute per IP; fair use at "
+        "most 1 request per second; larger pulls preferably between 22:00 and 06:00; on HTTP "
+        "429, throttle and retry after a short wait. (Paraphrased.)",
+        "docs/robots-runtime.md#written-permissions"),
     # Recorded, never a skip: ALMG granted access by rewriting robots.txt,
     # which still disallows paging and sorting (p=, tp=, ord=, ordenacao=).
     Permission(

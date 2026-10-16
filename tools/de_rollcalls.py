@@ -43,8 +43,15 @@ sys.path.insert(0, ROOT)
 
 from src import db, drain, filter as filt  # noqa: E402
 from src.http import FetchError, HttpClient  # noqa: E402
+from src.robots_guard import guard  # noqa: E402
 
 API = "https://www.abgeordnetenwatch.de/api/v2"
+HOST = "www.abgeordnetenwatch.de"
+# abgeordnetenwatch's limits (written permission, 16 October 2026): 30
+# requests a minute per IP (HTTP 429 above it), fair use at most 1 a second.
+# 2.5 s apart keeps well under both; a 429 is retried after a wait by
+# src/http.py (Retry-After honoured).
+SPACING_S = 2.5
 PARLIAMENTS = API + "/parliaments?range_end=100"
 TAXONOMY = os.path.join(ROOT, "config", "taxonomy-de.yaml")
 WATCHLIST = os.path.join(ROOT, "config", "watchlist-de.yaml")
@@ -357,6 +364,16 @@ def repair_members(conn, today, log=print):
     return cleaned, filled, ambiguous
 
 
+def make_client(raw_dir, feed="de-rollcalls", log=print):
+    """The guarded client (robots_guard.guard): /api/v2/ passes under the
+    written permission of 16 October 2026 (robots_guard.PERMISSIONS) with no
+    robots.txt read; any other URL would be asked. SPACING_S between
+    requests to the API host."""
+    client = guard(HttpClient(raw_dir=raw_dir), feed, log=log)
+    client.set_host_throttle(HOST, SPACING_S)
+    return client
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -376,10 +393,7 @@ def main():
                     help="list the legislature and its vote count, store nothing")
     args = ap.parse_args()
     import datetime
-    client = HttpClient(raw_dir=os.path.join(ROOT, "data", "raw"))
-    # abgeordnetenwatch.de/api asks for at most 30 requests a minute per IP
-    # (HTTP 429 above it): 2.5 s apart keeps us under it with room.
-    client.set_host_throttle("www.abgeordnetenwatch.de", 2.5)
+    client = make_client(os.path.join(ROOT, "data", "raw"))
     today = datetime.date.today().isoformat()
     if args.dry_run:
         leg, label = (args.legislature, "") if args.legislature else current_legislature(client)

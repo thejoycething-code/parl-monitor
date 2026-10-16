@@ -630,25 +630,25 @@ class DE:
     that day: the vote of the same morning was already listed. A quiet day
     costs 2 requests (the current legislature, the list).
 
-    abgeordnetenwatch's robots.txt disallows /api/v2/. Chris's decision of 13
-    October 2026 (docs/robots-runtime.md, the abgeordnetenwatch row) is to
-    keep reading it as a documented open API (CC0) while written permission
-    is requested, at most one request every 2.5 s (its published limit is 30
-    a minute), as tools/de_rollcalls.py does; so this reader uses the
-    unguarded client underneath the daily job's guard, for this host only."""
+    abgeordnetenwatch's robots.txt disallows /api/v2/; its Product Owner
+    granted written permission on 16 October 2026 (robots_guard.PERMISSIONS,
+    docs/robots-runtime.md "Written permissions"), daily vote briefs named.
+    So this reader uses the daily job's guarded client as it comes: the
+    permission lets /api/v2/ pass without a robots.txt read, anything else
+    is asked. At most one request every 2.5 s (their limits: 30 a minute,
+    fair use 1 a second); a 429 is retried after a wait (src/http.py)."""
 
     HOST = "www.abgeordnetenwatch.de"
 
     @staticmethod
     def collect(conn, client, since, today, log=print):
         import de_rollcalls as der
-        raw = getattr(client, "_client", client)
-        setter = getattr(raw, "set_host_throttle", None)
+        setter = getattr(client, "set_host_throttle", None)
         if setter:
-            setter(DE.HOST, 2.5)
+            setter(DE.HOST, der.SPACING_S)
         tax = der.filt.load_taxonomy(der.TAXONOMY)
         wl = der.filt.load_watchlist(der.WATCHLIST)
-        seen, new, gaps = der.pull(conn, raw, today, log=log, tax=tax, wl=wl, since=since)
+        seen, new, gaps = der.pull(conn, client, today, log=log, tax=tax, wl=wl, since=since)
         if gaps and not new:
             raise ValueError("abgeordnetenwatch's votes were not read ({0} gap(s))".format(gaps))
         log("de: {0} recorded vote(s) since {1}".format(new, since))
