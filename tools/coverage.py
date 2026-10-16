@@ -1137,8 +1137,9 @@ ON_DEMAND = {
                     "when someone asks for it.",
     "Provinces session judge": "Mac Mini only (jobs/prov-session-judge.sh, "
                                "Wednesdays after the Provinces weekly): Claude "
-                               "Code scores pending provincial items on the plan "
-                               "allowance; no GitHub workflow, and a run with "
+                               "Code scores pending provincial items, then the "
+                               "Canada federal judge's (since 16 October 2026), on "
+                               "the plan allowance; no GitHub workflow, and a run with "
                                "nothing pending or claude signed out publishes "
                                "nothing, so no cadence is expected; mini_run.sh "
                                "DMs its failures.",
@@ -1158,6 +1159,13 @@ ON_DEMAND = {
                                "allowance; no GitHub workflow, and a run with "
                                "nothing pending or claude signed out publishes "
                                "nothing, so no cadence is expected.",
+    "Europe session judge": "Mac Mini only (jobs/europe-session-judge.sh, Mondays "
+                            "14:30 after the EU and Germany weeklies): Claude Code "
+                            "scores the German judge's, the EU judge's and the German "
+                            "stance pass's pending rows on the plan allowance (paid AI "
+                            "off since 16 October 2026); no GitHub workflow, and a run "
+                            "with claude signed out publishes nothing, so no cadence is "
+                            "expected; mini_run.sh DMs its failures.",
     "UK session judge": "Mac Mini only (jobs/uk-session-judge.sh, Sundays 12:30 "
                         "between the Sunday pull and the Monday publish): Claude Code "
                         "scores the UK weekly's pending items, devolved rows and 5CA "

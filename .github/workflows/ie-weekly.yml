@@ -94,7 +94,6 @@ jobs:
         # alternative and off. The free default is the session judge, Mini
         # only (jobs/ie-session-judge.sh, Fridays 18:30).
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           IE_JUDGE: ${{ vars.IE_JUDGE }}
           IE_PUBLISH: "false"
           IE_RECLASSIFY: ${{ inputs.reclassify }}

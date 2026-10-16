@@ -272,8 +272,6 @@ jobs:
       - name: Judge (PROV_JUDGE)
         if: always() && steps.fetch.outcome == 'success' && vars.PROV_JUDGE == 'on' && (github.event_name == 'schedule' || inputs.provinces == '')
         timeout-minutes: 25
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 tools/prov_triage.py --budget-seconds 1200 | tee /tmp/prov-triage.log
 
       # --- The backfill, only when dispatched with `provinces` ---------------

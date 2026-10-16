@@ -206,3 +206,39 @@ def forget(conn, item):
     """A --rescore clears the row's score; clear its session note with it."""
     conn.execute(PROVENANCE_SQL)
     conn.execute("DELETE FROM session_scores WHERE item = ?", (item,))
+
+
+def queue_out_items(path, items, title, marker, system_prompt, label, log=print, total=None):
+    """Write `items` (already capped and ordered) for a session and log the
+    line tools/session_judge.sh counts. Returns the number written."""
+    n = write_queue(path, items, title, marker, system_prompt)
+    counts = {}
+    for it in items:
+        t = it.id.partition(":")[0]
+        counts[t] = counts.get(t, 0) + 1
+    log("{0}: session queue: {1} item(s) written to {2} ({3}); {4} unscored in all.".format(
+        label, n, path, ", ".join("{0} {1}".format(v, k) for k, v in counts.items()) or "none",
+        n if total is None else total))
+    return n
+
+
+def queue_in_rows(conn, path, marker, sources, label, judge, apply_fn, today, log=print):
+    """Read a filled-in queue strictly, vet it against row-scored tables
+    ({table: key column}), apply through the judge's own apply_fn, note the
+    session's provenance, and log the line tools/session_judge.sh counts.
+    Returns (scored, refused, blank), or None when the file is not this
+    judge's queue."""
+    results, refused, blank = read_queue(path, marker)
+    if refused and refused[0][0] == "(file)":
+        log("  [gap] session queue {0} refused: {1}".format(path, refused[0][1]))
+        return None
+    good, more = check_rows(conn, results, sources, label)
+    refused = refused + more
+    apply_fn(conn, good)
+    scored = len(good)
+    record(conn, judge, good, today)
+    for iid, why in refused:
+        log("  [gap] queue item refused: {0}: {1}".format(iid, why))
+    log("{0}: session queue: {1} item(s) scored, {2} refused, {3} left blank "
+        "(they stay pending for the next run).".format(label, scored, len(refused), len(blank)))
+    return scored, len(refused), len(blank)

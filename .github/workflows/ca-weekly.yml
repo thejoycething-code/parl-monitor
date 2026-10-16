@@ -363,11 +363,10 @@ jobs:
 
       - name: Judge petitions on our ground (newest first, on a clock)
         # AFTER every collector, so this week's new petitions are in the queue.
-        # The key is scoped to this step alone; nothing else here calls the API.
+        # PAID AI OFF (16 October 2026): no API key reaches GitHub's runners, so
+        # this leaves the rows for the free session judge on the Mini (rules only).
         # A scheduled run has no inputs, so the clock falls back to 1200.
         if: always() && steps.fetch.outcome == 'success'
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           SECS="${{ inputs.judge_seconds }}"; SECS="${SECS:-1200}"
           if [ "$SECS" -gt 2700 ]; then SECS=2700; fi

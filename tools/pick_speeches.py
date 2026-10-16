@@ -60,6 +60,10 @@ def main():
         for c in cands:
             print("   %-28s %-8s %5d words" % (c["name"], c["party"], c["words"]))
         return
+    from src import paid_ai
+    if not paid_ai.allowed("speech-pick"):
+        # PAID AI OFF (16 October 2026): no free route for this hand-run pick yet.
+        raise SystemExit(paid_ai.off_line("speech-pick") + " Pick the speeches by hand from the pack.")
     secrets = publish.load_secrets()
     key = secrets.get("anthropic_api_key")
     if not key:

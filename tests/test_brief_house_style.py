@@ -197,6 +197,14 @@ class NarrativeDraftBudgetTests(unittest.TestCase):
     draft now caps effort, doubles the budget, retries once on a cut, and
     refuses to parse a reply the model could not finish."""
 
+    def setUp(self):
+        # The paid draft is opt-in since 16 October 2026 (src/paid_ai.py); these
+        # tests exercise that opted-in path with a fake transport.
+        from unittest import mock
+        p = mock.patch.dict(os.environ, {"BRIEF_NARRATIVE_PAID": "1"})
+        p.start()
+        self.addCleanup(p.stop)
+
     def _mod(self):
         spec = importlib.util.spec_from_file_location("make_briefs", os.path.join(ROOT, "tools", "make_briefs.py"))
         mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)

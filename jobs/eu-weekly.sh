@@ -7,7 +7,9 @@
 # (tests/test_mini_jobs.py holds the two together). As there, the steps stop at the first failure.
 # Whatever was gathered is published, as the workflow's guarded publish
 # steps do.
-# Triage spends (the routine weekly) and the edition is DMed, with the
+# Triage no longer spends (paid AI off, 16 October 2026): without
+# EU_TRIAGE_PAID=1 it leaves its rows to the free session judge
+# (jobs/europe-session-judge.sh, Mondays 14:30). The edition is DMed, with the
 # secrets in config/secrets.yaml, as the workflow writes them.
 #
 # mini_run: commit editions partner_site docs briefs

@@ -69,6 +69,11 @@ def generate(args):
         for s in speakers:
             print("   %-26s %-14s %5d words  onside=%s" % (s["name"], s["party"], s["words"] or 0, s["confirmed_onside"]))
         return
+    from src import paid_ai
+    if not paid_ai.allowed("debate-report"):
+        # PAID AI OFF (16 October 2026). The free route is the template-drafted
+        # report (src/country_debatereport.py, "no paid" by design).
+        raise SystemExit(paid_ai.off_line("debate-report"))
     secrets = publish.load_secrets()
     key = secrets.get("anthropic_api_key")
     if not key:

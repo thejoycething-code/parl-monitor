@@ -194,7 +194,6 @@ jobs:
         # On GitHub's own run the three are read inline (tools/us_states_github.py).
         if: always() && steps.fetch.outcome == 'success'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # Phase 1b: House amendment purposes from Congress.gov, and phase
           # 3a: the Congressional Record's listing on GovInfo (one api.data.gov
           # key; sent as a header by tools/us_rollcalls.py and

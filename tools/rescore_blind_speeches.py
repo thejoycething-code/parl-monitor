@@ -60,6 +60,11 @@ def main():
     if not apply:
         print("\ndry run; re-run with --apply to spend that and re-score")
         return
+    from src import paid_ai
+    if not paid_ai.allowed("stance-rescore"):
+        # PAID AI OFF (16 October 2026): nothing deleted, nothing sent.
+        print(paid_ai.off_line("stance-rescore", len(blind), "speech(es)"))
+        return
 
     conn.executemany("DELETE FROM stance WHERE ref = ?", [(r,) for r in blind])
     conn.commit()

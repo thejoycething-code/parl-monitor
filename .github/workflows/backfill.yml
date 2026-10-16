@@ -198,7 +198,6 @@ jobs:
         if: always() && steps.fetch.outcome == 'success' && (startsWith(inputs.what, 'Holyrood') || startsWith(inputs.what, 'Senedd') || startsWith(inputs.what, 'NI Assembly'))
         run: |
           cat > config/secrets.yaml <<EOF
-          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           EOF
       - name: "Devolved: judge the divisions, apply the signed verdicts"
         # devolved_triage's default window is recent items plus EVERY

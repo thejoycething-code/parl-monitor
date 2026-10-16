@@ -115,11 +115,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/raw_state.py --pull
       - name: Write secrets file
-        # anthropic_api_key for the judge and the stance pass; dip_api_key
+        # No API key (paid AI off, 16 October 2026: the session judge scores); dip_api_key
         # for the protocols. No Slack: a backfill posts nothing.
         run: |
           cat > config/secrets.yaml <<EOF
-          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           dip_api_key: "${{ secrets.DIP_API_KEY }}"
           EOF
       - name: The chosen Bundestag terms' recorded votes

@@ -87,7 +87,11 @@ def build(args):
         d = directions.get(str(s["member_id"] or s["name"]))
         return d is None or (d.get("words") is not None and s["words"] > d["words"] * 1.5 + 40)
     missing = [s for s in speaks if stale(s)]
-    if missing and not args.no_read:
+    from src import paid_ai
+    if missing and not args.no_read and not paid_ai.allowed("debate-pack"):
+        # PAID AI OFF (16 October 2026): directions are not read by the API.
+        print(paid_ai.off_line("debate-pack", len(missing), "speaker(s)"))
+    elif missing and not args.no_read:
         key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
         if key:
             conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))

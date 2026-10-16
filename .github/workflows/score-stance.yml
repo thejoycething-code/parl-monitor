@@ -76,7 +76,6 @@ jobs:
       - name: Write secrets file
         run: |
           cat > config/secrets.yaml <<EOF
-          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           EOF
       - name: Score
         run: |
