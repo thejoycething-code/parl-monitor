@@ -85,7 +85,10 @@ class RegionRead:
     that failed while the plenary read): those are recorded but the region
     still counts as read."""
 
-    def __init__(self, items=(), units=(), source="", note="", gaps=()):
+    def __init__(self, items=(), units=(), source="", note="", gaps=(), skipped=False):
+        # skipped: the region was deliberately not asked this run (a quota
+        # rotation): no rows touched, status 'skipped', the note says why.
+        self.skipped = skipped
         self.items = list(items)
         self.units = list(units)
         self.source = source
@@ -107,7 +110,8 @@ def day(dated, body=None):
 
 
 class Ctx:
-    def __init__(self, today, until, log=print, budget_end=None):
+    def __init__(self, today, until, log=print, budget_end=None, conn=None):
+        self.conn = conn              # the store, for a reader's own ledger (US quota)
         self.today = today            # ISO date
         self.until = until            # ISO date: the horizon asked for
         self.log = log
@@ -372,8 +376,9 @@ def collect(conn, cc, client, today, days=DEFAULT_DAYS, regions=None, log=print,
     mod = mod or module(cc)
     until = (datetime.date.fromisoformat(today) + datetime.timedelta(days=days)).isoformat()
     budget_end = _time.monotonic() + budget_seconds if budget_seconds else None
-    ctx = Ctx(today, until, log=log, budget_end=budget_end)
-    summary = {"read": [], "gap": [], "no-route": [], "blocked": [], "rows": 0, "new": 0,
+    ctx = Ctx(today, until, log=log, budget_end=budget_end, conn=conn)
+    summary = {"read": [], "gap": [], "no-route": [], "blocked": [], "skipped": [],
+               "rows": 0, "new": 0,
                "ours": 0, "tba": 0, "pruned": 0, "per_region": {}}
 
     def gap(code, detail):
@@ -414,6 +419,12 @@ def collect(conn, cc, client, today, days=DEFAULT_DAYS, regions=None, log=print,
             continue
         for g in read.gaps:
             gap(code, g)
+        if read.skipped:
+            summary["skipped"].append(code)
+            record_run(conn, cc, code, today, "skipped", note=read.note or "not asked this run")
+            summary["per_region"][code] = {"status": "skipped", "rows": 0, "ours": 0,
+                                           "horizon": None, "note": read.note}
+            continue
         rows = rows_for(mod, code, reg, read)
         new = ours = tba = 0
         for row in rows:
@@ -453,13 +464,16 @@ def collect(conn, cc, client, today, days=DEFAULT_DAYS, regions=None, log=print,
 
 
 def summary_line(cc, s):
-    n = len(s["read"]) + len(s["gap"]) + len(s["no-route"]) + len(s["blocked"])
+    n = (len(s["read"]) + len(s["gap"]) + len(s["no-route"]) + len(s["blocked"])
+         + len(s.get("skipped", [])))
     return ("{0} regional agendas: {1} of {2} region(s) read ({3} item(s), {4} new, {5} on our "
             "ground, {6} to be announced, {7} stale removed); gaps: {8}; no route: {9}; "
-            "blocked: {10}.".format(
+            "blocked: {10}{11}.".format(
                 cc.upper(), len(s["read"]), n, s["rows"], s["new"], s["ours"], s["tba"],
                 s["pruned"], ", ".join(s["gap"]) or "none",
-                ", ".join(s["no-route"]) or "none", ", ".join(s["blocked"]) or "none"))
+                ", ".join(s["no-route"]) or "none", ", ".join(s["blocked"]) or "none",
+                "; not asked this run (rotation): {0}".format(len(s["skipped"]))
+                if s.get("skipped") else ""))
 
 
 # --- shared parsing helpers ------------------------------------------------------

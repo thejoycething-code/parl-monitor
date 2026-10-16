@@ -1,0 +1,624 @@
+{
+"results": [
+{
+"id": "ocd-event/46c31ce4-b0d3-4238-b80f-2d682ee474e7",
+"name": "Appropriations",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Voting meeting on and any other business that may come before the committee.",
+"classification": "event",
+"start_date": "2026-10-19",
+"end_date": "",
+"all_day": true,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 140,Main Capitol",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Jordan Harris",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/2313ce98-7ac4-44b9-a61d-5b128338a405",
+"name": "Jordan Harris"
+}
+},
+{
+"note": "participant",
+"name": "House Appropriations",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/e50fbc1f-5bbb-4fac-8e13-81944b24cab3",
+"name": "Appropriations",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Voting meeting on and any other business that may come before the committee.",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "participant",
+"name": "House Appropriations",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/e50fbc1f-5bbb-4fac-8e13-81944b24cab3",
+"name": "Appropriations",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/69f319d3-3153-4eeb-ad3f-843ba7357e70",
+"name": "State Government",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "(to consider House Bill No. 2187)",
+"classification": "event",
+"start_date": "2026-10-19",
+"end_date": "",
+"all_day": true,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Rules Committee,Conference Room",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/senate/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Cris Dush",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/402d7e3b-1935-47fa-8124-61490037d016",
+"name": "Cris Dush"
+}
+},
+{
+"note": "participant",
+"name": "Senate State Government",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/4a05f531-2b82-4c40-8883-82916db509c9",
+"name": "State Government",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "Senate \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "(to consider House Bill No. 2187)",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "HB 2187",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/947a9932-4d72-46d5-aec7-5f1a83c75482",
+"session": "2025-2026",
+"identifier": "HB 2187",
+"title": "An Act amending the act of April 9, 1929 (P.L.177, No.175), known as The Administrative Code of 1929,  in administrative organization, further providing for criminal history background checks of employees and contractors with access to Federal tax information.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-hb2187"
+}
+]
+}
+},
+{
+"note": "participant",
+"name": "Senate State Government",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/4a05f531-2b82-4c40-8883-82916db509c9",
+"name": "State Government",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "Senate \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/af139a34-2bdf-41b2-b28e-6000f0d9fb48",
+"name": "Tourism, Recreation & Economic Development",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Voting meeting on HR 654 and any other business that may come before the committee.",
+"classification": "event",
+"start_date": "2026-10-19T14:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 523,Irvis Office",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Mary Jo Daley",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/2b9c199b-dd4e-477a-a5d0-849180c956a0",
+"name": "Mary Jo Daley"
+}
+},
+{
+"note": "participant",
+"name": "House Tourism, Recreation & Economic Development",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/69158604-d70b-468b-aba5-4eaf43cccb6f",
+"name": "Tourism, Recreation and Economic Development",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Voting meeting on HR 654 and any other business that may come before the committee.",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "HR 654",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/1a0c382e-82ba-46ec-89fd-bfe17067fecf",
+"session": "2025-2026",
+"identifier": "HR 654",
+"title": "A Resolution recognizing October 21, 2026, as \"Bill White Day\" in Pennsylvania.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-hr654"
+}
+]
+}
+},
+{
+"note": "participant",
+"name": "House Tourism, Recreation & Economic Development",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/69158604-d70b-468b-aba5-4eaf43cccb6f",
+"name": "Tourism, Recreation and Economic Development",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/bf2dde43-3d71-46a3-b3ee-03565189ef3c",
+"name": "Judiciary",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Voting meeting on SB 1431 and any other business that may come before the committee..",
+"classification": "event",
+"start_date": "2026-10-19T14:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 140,Main Capitol",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Tim Briggs",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/5c752a95-ba5d-4f1f-81aa-6cb1c7875581",
+"name": "Tim Briggs"
+}
+},
+{
+"note": "participant",
+"name": "House Judiciary",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/f741c717-f0d2-422e-9ae2-10eb9038e407",
+"name": "Judiciary",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Voting meeting on SB 1431 and any other business that may come before the committee..",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "SB 1431",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/782661e4-f96e-407e-b21e-1cdd79d4cda2",
+"session": "2025-2026",
+"identifier": "SB 1431",
+"title": "An Act amending Title 34 (Game) of the Pennsylvania Consolidated Statutes, in Pennsylvania Game Commission, further providing for Game Commission officers and employees; and, in enforcement, further providing for powers and duties of enforcement officers.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-sb1431"
+}
+]
+}
+},
+{
+"note": "participant",
+"name": "House Judiciary",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/f741c717-f0d2-422e-9ae2-10eb9038e407",
+"name": "Judiciary",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/e8908131-f08e-41f8-9eac-76d825298963",
+"name": "Communications & Technology",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Public hearing on Mitigating Risks from Frontier AI Models: HB 2800 and HB 2829..",
+"classification": "event",
+"start_date": "2026-10-19T14:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 205,Ryan Office",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Joe Ciresi",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/c9521d0e-56ca-40d2-b9bc-7a1f1be639bc",
+"name": "Joe Ciresi"
+}
+},
+{
+"note": "participant",
+"name": "House Communications & Technology",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/53d7a956-0e12-4e13-b488-2a0bbdf02f94",
+"name": "Communications and Technology",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Public hearing on Mitigating Risks from Frontier AI Models: HB 2800 and HB 2829..",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "HB 2800",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/d46d3ad3-6ea1-4735-ba86-b810ea00f00e",
+"session": "2025-2026",
+"identifier": "HB 2800",
+"title": "An Act providing for artificial intelligence risk prevention; establishing standards for frontier developers in addressing critical safety incidents and catastrophic risks; imposing duties on the Pennsylvania Emergency Management Agency and the Attorney General; and imposing penalties.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-hb2800"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "HB 2829",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/221dfe4b-36e4-4582-8a4d-78e13bdafd6a",
+"session": "2025-2026",
+"identifier": "HB 2829",
+"title": "An Act providing for the establishment of standards, protections and transparency of artificial intelligence frameworks developed by frontier developers; imposing duties on the Pennsylvania Emergency Management Agency and the Attorney General; and imposing penalties.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-hb2829"
+}
+]
+}
+},
+{
+"note": "participant",
+"name": "House Communications & Technology",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/53d7a956-0e12-4e13-b488-2a0bbdf02f94",
+"name": "Communications and Technology",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/f175cf53-af0b-4ff2-b30d-4dc47884142d",
+"name": "Education",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Voting meeting on SB 922, SB 998, HR 650, and any other business that may come before the committee.",
+"classification": "event",
+"start_date": "2026-10-19T14:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room G50,Irvis Office",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Peter Schweyer",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/63936c68-ec65-40a9-9a68-0d956939404a",
+"name": "Pete Schweyer"
+}
+},
+{
+"note": "participant",
+"name": "House Education",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/48408863-c5c6-4f94-b3f3-ba353ec9dc72",
+"name": "Education",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Voting meeting on SB 922, SB 998, HR 650, and any other business that may come before the committee.",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "SB 922",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/4b2b9000-646b-4e94-9099-9bb534f3eafd",
+"session": "2025-2026",
+"identifier": "SB 922",
+"title": "An Act amending the act of January 28, 1988 (P.L.24, No.11), known as the Private Academic Schools Act, further providing for application for license, for issuance and renewal of license and for promulgation of rules and regulations.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-sb922"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "SB 998",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/6627cab9-4623-4e64-8d9b-e39bd75d40e7",
+"session": "2025-2026",
+"identifier": "SB 998",
+"title": "An Act providing for the Nurse Education Capacity Expansion Grant Program; and imposing duties on the Department of Community and Economic Development.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-sb998"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "HR 650",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/eb9c25f5-6cf2-4b02-a223-ccea18e48bcd",
+"session": "2025-2026",
+"identifier": "HR 650",
+"title": "A Resolution designating the week of November 16 through 20, 2026, as \"Pennsylvania Education for Students Experiencing Homelessness Awareness Week\" and November 20, 2026, as \"Red Shirt Day\" in Pennsylvania.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-pa-2025_2026-hr650"
+}
+]
+}
+},
+{
+"note": "participant",
+"name": "House Education",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/48408863-c5c6-4f94-b3f3-ba353ec9dc72",
+"name": "Education",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+}
+],
+"pagination": {
+"per_page": 20,
+"page": 1,
+"max_page": 2,
+"total_items": 22
+}
+}

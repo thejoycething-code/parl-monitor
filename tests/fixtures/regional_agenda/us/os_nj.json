@@ -1,0 +1,434 @@
+{
+"results": [
+{
+"id": "ocd-event/d4a90804-24d8-4603-81eb-793ddf496a09",
+"name": "Meeting of the Assembly Labor Committee",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:nj/government",
+"name": "New Jersey",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-19T14:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "tentative",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Committee Room 15, 4th Floor, State House Annex, 131-137 W State St, Trenton, NJ 08608",
+"url": ""
+},
+"sources": [
+{
+"url": "http://www.njleg.state.nj.us/downloads.asp",
+"note": ""
+},
+{
+"url": "https://www.njleg.state.nj.us/live-proceedings/2026-10-19-10:00:00/ALA/Meeting",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "host",
+"name": "Assembly Labor Committee",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/4267952d-05ed-410d-bb36-6f77c3bdf0cc",
+"name": "Labor",
+"classification": "committee"
+}
+}
+],
+"agenda": [
+{
+"description": "Meeting of the Assembly Labor Committee",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "A 5433",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/42ed75d7-ec28-4b8f-b362-07609326620b",
+"session": "222",
+"identifier": "A 5433",
+"title": "Consolidates administration of \"New Jersey Public Employees' Occupational Safety and Health Act\" under DOLWD.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5433"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5517",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/48b3fcb3-baff-4ca8-9323-be4aaac6f830",
+"session": "222",
+"identifier": "A 5517",
+"title": "Requires employers to provide certain notices to tipped workers.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5517"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5535",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/7f783e22-4171-477d-9655-fc1eb93ed36a",
+"session": "222",
+"identifier": "A 5535",
+"title": "Concerns UI employer contribution reports.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5535"
+}
+]
+}
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/ecaff224-31f9-4f44-9e6f-fe62d3112560",
+"name": "Meeting of the Assembly Public Safety and Preparedness Committee",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:nj/government",
+"name": "New Jersey",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-19T14:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "tentative",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Committee Room 16, 4th Floor, State House Annex, 131-137 W State St, Trenton, NJ 08608",
+"url": ""
+},
+"sources": [
+{
+"url": "http://www.njleg.state.nj.us/downloads.asp",
+"note": ""
+},
+{
+"url": "https://www.njleg.state.nj.us/live-proceedings/2026-10-19-10:00:00/APS/Meeting",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "host",
+"name": "Assembly Public Safety and Preparedness Committee",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/054b0030-5e39-40a9-983e-1f8ebf0102a2",
+"name": "Public Safety and Preparedness",
+"classification": "committee"
+}
+}
+],
+"agenda": [
+{
+"description": "Meeting of the Assembly Public Safety and Preparedness Committee",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "A 759",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/7bb9ba9d-a2c4-4d25-95b6-531fc50cd237",
+"session": "222",
+"identifier": "A 759",
+"title": "Requires AG to study law enforcement use of facial recognition technology and issue report with recommendations for Statewide policy.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a759"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 3058",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/3a8cf373-55e1-4df5-9d1d-bb406ae61320",
+"session": "222",
+"identifier": "A 3058",
+"title": "Establishes Deepfake Technology Unit in DLPS; appropriates $2 million.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a3058"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 3076",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/1f574af9-bad6-4e29-8eee-ac88c5a2c19d",
+"session": "222",
+"identifier": "A 3076",
+"title": "Requires AG to study use of artificial intelligence for certain law enforcement purposes and issue report.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a3076"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 3395",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/0ab5172e-0510-4b62-a868-fc2cc024045c",
+"session": "222",
+"identifier": "A 3395",
+"title": "Revises law related to EMT eligibility for receiving funds from \"Emergency Medical Technician Training Fund.\"",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a3395"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 4202",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/8bb7adee-e99e-498d-b59d-74da4a738144",
+"session": "222",
+"identifier": "A 4202",
+"title": "Requires collection of deoxyribonucleic acid sample for certain crimes.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a4202"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5423",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/2df93cb4-e515-426f-87eb-2a72c7bf6947",
+"session": "222",
+"identifier": "A 5423",
+"title": "Prohibits using facial recognition technology as sole basis for establishing probable cause for arrest warrant.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5423"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5483",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/18cb28d3-28f5-4f51-8fbe-d829590f8479",
+"session": "222",
+"identifier": "A 5483",
+"title": "Prohibits private use and regulates government use of automated license plate readers.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5483"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5607",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/a591b0e6-3608-4842-b5b5-c0c1e01b0076",
+"session": "222",
+"identifier": "A 5607",
+"title": "Establishes content and data privacy requirements for chatbot providers.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5607"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5637",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/f589d214-fe4b-41f1-a962-c9841b8a67ca",
+"session": "222",
+"identifier": "A 5637",
+"title": "Concerns automated license plate readers.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5637"
+}
+]
+}
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/f7709db7-a2dd-47f9-80d3-631cfce1bb7d",
+"name": "Meeting of the Assembly Science, Innovation and Technology Committee",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:nj/government",
+"name": "New Jersey",
+"classification": "state"
+},
+"description": "",
+"classification": "committee-meeting",
+"start_date": "2026-10-19T17:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "tentative",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Committee Room 16, 4th Floor, State House Annex, 131-137 W State St, Trenton, NJ 08608",
+"url": ""
+},
+"sources": [
+{
+"url": "http://www.njleg.state.nj.us/downloads.asp",
+"note": ""
+},
+{
+"url": "https://www.njleg.state.nj.us/live-proceedings/2026-10-19-13:00:00/AST/Meeting",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "host",
+"name": "Assembly Science, Innovation and Technology Committee",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/72ca368f-6da1-46ea-86a7-ab970fdf20ca",
+"name": "Science, Innovation and Technology",
+"classification": "committee"
+}
+}
+],
+"agenda": [
+{
+"description": "Meeting of the Assembly Science, Innovation and Technology Committee",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "consideration",
+"name": "A 3065",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/27595579-8437-4c49-aa54-08064415d75c",
+"session": "222",
+"identifier": "A 3065",
+"title": "Establishes civil right of action for misuse of individual's name, image, likeness, or voice.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a3065"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5089",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/77107fee-2387-4e3b-8b44-5ebf5c7a870b",
+"session": "222",
+"identifier": "A 5089",
+"title": "\"AI Image Disclosure Act\"; concerns disclosure of certain AI-generated content.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5089"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5090",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/ffdafc6e-ccf0-4693-a3f5-c2ed80113346",
+"session": "222",
+"identifier": "A 5090",
+"title": "\"GAI Accountability Act;\" imposes civil penalties on generative artificial intelligence platforms engaging in harmful activity, including exploitation of children.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5090"
+}
+]
+}
+},
+{
+"note": "consideration",
+"name": "A 5275",
+"entity_type": "bill",
+"bill": {
+"id": "ocd-bill/3f10db58-89b9-4bbf-8879-d9f84d4f3f3b",
+"session": "222",
+"identifier": "A 5275",
+"title": "Requires certain artificial intelligence developers to make certain disclosures to Attorney General.",
+"other_identifiers": [
+{
+"identifier": "ocd-bill-nj-222-a5275"
+}
+]
+}
+}
+],
+"media": []
+}
+]
+}
+],
+"pagination": {
+"per_page": 20,
+"page": 1,
+"max_page": 1,
+"total_items": 5
+}
+}

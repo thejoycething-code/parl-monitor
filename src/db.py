@@ -565,7 +565,7 @@ CREATE INDEX IF NOT EXISTS sd_agenda_dated ON sd_agenda (dated);
 -- keeps its rows and records a gap. Written by tools/regional_agenda.py
 -- (src/regional_agenda.py, one source module per country in
 -- src/regional_agendas/). regional_agenda_runs: one row per region per run
--- (status read | gap | no-route | blocked), the coverage line's source.
+-- (status read | gap | no-route | blocked | skipped), the coverage line's source.
 CREATE TABLE IF NOT EXISTS regional_agenda (
   key TEXT PRIMARY KEY,           -- <cc>:<region>:<meeting or date/body>:<item>
   cc TEXT NOT NULL,               -- 'de', 'ca', 'us' ...
@@ -587,7 +587,7 @@ CREATE INDEX IF NOT EXISTS regional_agenda_dated ON regional_agenda (cc, dated);
 CREATE INDEX IF NOT EXISTS regional_agenda_region ON regional_agenda (cc, region, dated);
 CREATE TABLE IF NOT EXISTS regional_agenda_runs (
   cc TEXT NOT NULL, region TEXT NOT NULL, run_date TEXT NOT NULL,
-  status TEXT NOT NULL,           -- read | gap | no-route | blocked
+  status TEXT NOT NULL,           -- read | gap | no-route | blocked | skipped
   items INTEGER, on_ground INTEGER,
   horizon TEXT,                   -- the latest dated item read
   note TEXT,                      -- the route, or why there is none

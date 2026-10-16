@@ -1,0 +1,85 @@
+{
+"results": [
+{
+"id": "ocd-event/8f75a784-c9a8-455d-9fc9-c199305eec72",
+"name": "Meeting on October 20, 2026 of the Joint Highway Priority Construction",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:la/government",
+"name": "Louisiana",
+"classification": "state"
+},
+"description": "",
+"classification": "event",
+"start_date": "2026-10-20T15:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Houma, LA",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.legis.la.gov/legis/Agenda.aspx?m=6179",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "host",
+"name": "Joint Highway Priority Construction",
+"entity_type": "committee"
+}
+],
+"agenda": []
+},
+{
+"id": "ocd-event/9bc106ae-c0f4-4db0-a2be-7bf888687746",
+"name": "Meeting on October 20, 2026 of the House Committee on Natural Resources and Environment",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:la/government",
+"name": "Louisiana",
+"classification": "state"
+},
+"description": "",
+"classification": "event",
+"start_date": "2026-10-20T16:00:00+00:00",
+"end_date": "",
+"all_day": false,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 4",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.legis.la.gov/legis/Agenda.aspx?m=26171",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "host",
+"name": "House Committee on Natural Resources and Environment",
+"entity_type": "committee",
+"organization": {
+"id": "ocd-organization/74f27a52-beee-4d02-a2b0-76f3df5b10e8",
+"name": "Natural Resources and Environment",
+"classification": "committee"
+}
+}
+],
+"agenda": []
+}
+],
+"pagination": {
+"per_page": 20,
+"page": 1,
+"max_page": 1,
+"total_items": 14
+}
+}

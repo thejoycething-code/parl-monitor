@@ -1,0 +1,172 @@
+{
+"results": [
+{
+"id": "ocd-event/74e8959a-e6be-4bf7-b496-0c980d7eaaca",
+"name": "Appropriations",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Voting meeting on and any other business that may come before the committee.",
+"classification": "event",
+"start_date": "2026-11-09",
+"end_date": "",
+"all_day": true,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 140,Main Capitol",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Jordan Harris",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/2313ce98-7ac4-44b9-a61d-5b128338a405",
+"name": "Jordan Harris"
+}
+},
+{
+"note": "participant",
+"name": "House Appropriations",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/e50fbc1f-5bbb-4fac-8e13-81944b24cab3",
+"name": "Appropriations",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Voting meeting on and any other business that may come before the committee.",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "participant",
+"name": "House Appropriations",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/e50fbc1f-5bbb-4fac-8e13-81944b24cab3",
+"name": "Appropriations",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+},
+{
+"id": "ocd-event/0fc8abbd-723a-4f32-b0f2-4c7fdc347323",
+"name": "Appropriations",
+"jurisdiction": {
+"id": "ocd-jurisdiction/country:us/state:pa/government",
+"name": "Pennsylvania",
+"classification": "state"
+},
+"description": "Voting meeting on and any other business that may come before the committee.",
+"classification": "event",
+"start_date": "2026-11-10",
+"end_date": "",
+"all_day": true,
+"status": "confirmed",
+"upstream_id": "",
+"deleted": false,
+"location": {
+"name": "Room 140,Main Capitol",
+"url": ""
+},
+"sources": [
+{
+"url": "https://www.palegis.us/house/committees/meeting-schedule",
+"note": ""
+}
+],
+"participants": [
+{
+"note": "Chair",
+"name": "Jordan Harris",
+"entity_type": "person",
+"person": {
+"id": "ocd-person/2313ce98-7ac4-44b9-a61d-5b128338a405",
+"name": "Jordan Harris"
+}
+},
+{
+"note": "participant",
+"name": "House Appropriations",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/e50fbc1f-5bbb-4fac-8e13-81944b24cab3",
+"name": "Appropriations",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"agenda": [
+{
+"description": "Voting meeting on and any other business that may come before the committee.",
+"classification": [],
+"order": 0,
+"subjects": [],
+"notes": [],
+"extras": {},
+"related_entities": [
+{
+"note": "participant",
+"name": "House Appropriations",
+"entity_type": "organization",
+"organization": {
+"id": "ocd-organization/e50fbc1f-5bbb-4fac-8e13-81944b24cab3",
+"name": "Appropriations",
+"classification": "committee"
+}
+},
+{
+"note": "participant",
+"name": "House \r\n                                                            \r\n                                                            - opens in a new tab",
+"entity_type": "organization"
+}
+],
+"media": []
+}
+]
+}
+],
+"pagination": {
+"per_page": 20,
+"page": 2,
+"max_page": 2,
+"total_items": 22
+}
+}
