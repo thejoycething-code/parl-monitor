@@ -70,7 +70,10 @@ PIPELINES = {
     # morning is the longest legitimate gap.
     "Day sweep": (1, 3, "the day's speeches on our issues, and the radar"),
     # Scheduled 26 September 2026, Tuesdays. Grace 4 as for the other weeklies.
-    "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette"),
+    # 16 October 2026 (branch ca-gaps): also the week ahead (country_agenda,
+    # cc='ca'), member profiles (profiles/ca/) and the vote briefs after the
+    # collectors; the vote pages come with the Sunday editions-session-judge.
+    "Canada weekly": (7, 4, "Parliament of Canada: House, Senate, petitions, Gazette, week ahead, member profiles, vote briefs"),
     "US weekly": (7, 4, "US Congress: bills, House and Senate roll calls"),
     # Scheduled 9 October 2026, Fridays (au-weekly.yml; the Mac Mini first).
     "Australia weekly": (7, 4, "Australia's Federal Parliament: bills, House and Senate divisions"),
@@ -364,9 +367,12 @@ FEEDS = [
     # is re-stamped with its vote, so it gets the same.
     # The new countries' week ahead (10 October 2026, src/agenda.py): one
     # table, written by a step of each country's weekly (NL, PL, CH, BR, IT,
-    # FR, AT, ES, AR; BE, PT, SK from 11 October 2026). Every point a run reads is re-stamped, and the Dutch and
+    # FR, AT, ES, AR; BE, PT, SK from 11 October 2026; Canada, House and Senate,
+    # from 16 October 2026). Every point a run reads is re-stamped, and the Dutch and
     # French agendas are never empty (procedure meetings, study groups), so
     # the table moves every week whatever the councils do.
+    # Germany from 16 October 2026 (src/agendas/de.py, a step of the Germany
+    # weekly; de_agenda, the edition's own committee table, is watched above).
     ("country_agenda", "last_seen", 7, 4, "Week-ahead agendas of the country editions "
      "(a step of each country's weekly)"),
     # The new countries' petitions and consultations (11 October 2026,
@@ -376,6 +382,14 @@ FEEDS = [
     # never empty (petitions stay open for years), so it moves every week.
     ("country_petitions", "last_seen", 7, 4, "Petitions and consultations of the country "
      "editions (a step of each country's weekly)"),
+    # Government consultations and publications (16 October 2026,
+    # src/gov_docs.py, a step of 23 country weeklies): only documents on our
+    # ground are stored, and each run re-stamps every one still listed, so
+    # across the 23 countries the table moves every week; a month without a
+    # sighting means the step stopped everywhere. Each source's own runs and
+    # gaps are in gov_doc_runs and the coverage line.
+    ("gov_docs", "last_seen", 31, 31, "Government consultations and publications of the "
+     "country editions (tools/gov_docs_step.sh, a step of each country's weekly)"),
     ("nl_members", "last_seen", 7, 4, "Tweede Kamer members (Netherlands weekly)"),
     ("nl_fracties", "last_seen", 7, 4, "Tweede Kamer fracties (Netherlands weekly)"),
     ("nl_divisions", "last_seen", 31, 31, "Tweede Kamer votes (Netherlands weekly)"),
@@ -752,8 +766,10 @@ from src import chamber_store as _chamber  # noqa: E402
 # moves every week; the newest stamp over all seven is what this watches. Each
 # source's own stamp is in mi_runs (cc, source, last_seen) and the weekly log's
 # "member-intel <cc>:" line says what it read.
+# Germany joined on 16 October 2026 (branch de-ca-gaps): the Bundestag's
+# committee seats, a step of the Germany weekly.
 FEEDS += [("mi_runs", "last_seen", 7, 4,
-           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT weeklies)")]
+           "member intelligence: committees, groups, interests (BR NL CH PL FR IT AT DE weeklies)")]
 
 # France's HATVP declarations of interests (11 October 2026, tools/fr_hatvp.py,
 # src/fr_hatvp.py), a step of the France weekly: at most every four weeks it
@@ -1173,6 +1189,13 @@ ON_DEMAND = {
                         "2026); no GitHub workflow, and a run with claude signed out "
                         "publishes nothing, so no cadence is expected; mini_run.sh "
                         "DMs its failures.",
+    "Brief narratives": "Mac Mini only (jobs/brief-narratives.sh, Sundays 18:15 "
+                        "before the German weekly and the Monday publish build the "
+                        "briefs): Claude Code drafts Campaigns Brief narratives on the "
+                        "plan allowance (paid AI off since 16 October 2026), at most 6 a "
+                        "week; no GitHub workflow, and a week with no new brief subject "
+                        "drafts nothing, so no cadence is expected; mini_run.sh DMs its "
+                        "failures.",
     "Editions session judge": "Mac Mini only (jobs/editions-session-judge.sh, "
                               "Sundays after the country weeklies): Claude Code "
                               "scores pending items of the fifteen country "
@@ -1210,7 +1233,8 @@ ON_DEMAND = {
                               "which Monday's deploy ships.",
     "Daily vote briefs": "Mac Mini only (jobs/vote-briefs-daily.sh, 21:40 "
                          "Mon-Fri and 06:40 Tue-Sat London): the Netherlands, "
-                         "Poland, Switzerland, Brazil and Italy read directly "
+                         "Poland, Switzerland, Brazil, Italy and (since 16 "
+                         "October 2026) Canada's House of Commons read directly "
                          "into a throwaway store; it never publishes the "
                          "store, so it stamps no heartbeat, and each "
                          "country's weekly step is its backstop; mini_run.sh "
@@ -1224,7 +1248,10 @@ ON_DEMAND = {
                          "Panama, Honduras and Uruguay (the Latam ones "
                          "through the Latam alerts' ledger) "
                          "(src/country_day_sweep.py), one DM for both; the "
-                         "weekly collections remain its backstop.",
+                         "weekly collections remain its backstop. Germany "
+                         "since 16 October 2026: the Bundestag's recorded "
+                         "votes (abgeordnetenwatch), DIP's Vorgänge and the "
+                         "Bundestag's agenda.",
     "Edition publish": "Mac Mini only (jobs/edition-publish.sh, 06:31 and "
                        "21:10 London daily): sends the new country editions "
                        "and the Latam monthly whose review window has ended "
@@ -1471,6 +1498,8 @@ AWAITING_STEP_UNTIL = {
                        "twelve country weeklies on merge; it fills on the first of them"),
     "country_petitions": ("2026-10-25", "the petitions step (tools/country_petitions.py) joins "
                           "eleven country weeklies on merge; it fills on the first of them"),
+    "gov_docs": ("2026-10-26", "the gov docs step (tools/gov_docs_step.sh) joins 23 "
+                     "country weeklies on merge; it fills on the first of them"),
     # Speeches added to two chamber steps that already stamp their heartbeat
     # with questions (11 October 2026, branch gaps-speeches): excused while
     # empty until the chamber has sat and spoken on our ground. The Sejm sits

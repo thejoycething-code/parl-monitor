@@ -74,6 +74,18 @@ is: who confirmed it, when, and the -2..2 values of a Yes and a No. No page
 places a member in a 5CA column; that stays with the 5CA pages
 (tools/make_country_5ca_web.py), gated on confirmed placements.
 
+CANADA (additive, 16 October 2026): Canada's 5CA predates
+src/country5ca.py (tools/ca_5ca.py, config/ca_stance.yaml in its own
+format), so it has no country5ca Spec, and adding one would let the new
+countries' drafter write to its stance file. Its reader adapter
+(src/editions/ca.py) carries `READINGS` instead: the store's divisions with
+tallies, the stance entries (read with src/readings5ca.py), the status
+reader, who signed, the position words, the labels and the chambers.
+`own_readings(cc)` returns it for any country whose adapter has one; every
+country with a country5ca Spec reads exactly as before. A Canadian reading
+is CONFIRMED only when readings5ca.status says so; one signed as evidence
+only (placeable: false) shows "evidence only", with no direction.
+
 PORTRAITS AND PARTY COLOURS (additive, 12 October 2026, src/portraits.py):
 build() also returns "_keys" (the member keys, aligned with "members"; never
 rendered). tools/make_country_votes.py passes the data to portraits.attach,
@@ -89,6 +101,7 @@ from __future__ import annotations
 
 import datetime
 import html
+import importlib
 import json
 import os
 import re
@@ -103,7 +116,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Every country with member-level or party-group votes (Uruguay's profiles
 # hold questions only: no votes we can reach).
-COUNTRIES = tuple(cc for cc, s in mp.SPECS.items() if s.positions is not None)
+# Germany has its own vote page (tools/make_de_votes.py, partner_site/de-votes.html,
+# since September 2026); its profile spec (16 October 2026) must not make a
+# second page under the same name (OWN_PAGE, additive).
+OWN_PAGE = ("de",)
+COUNTRIES = tuple(cc for cc, s in mp.SPECS.items() if s.positions is not None
+                  and cc not in OWN_PAGE)
 
 # Size: France has over 1,200 votes on our ground by 577 deputies. A page
 # lists the latest MAX_DIVISIONS, with every member's position on each; the
@@ -117,6 +135,15 @@ SAMPLE_MARK = "SAMPLE PAGE"
 
 AWAITING = "awaiting sign-off"
 NOT_DRAFTED = "no reading drafted"
+EVIDENCE_ONLY = "evidence only"
+
+
+def own_readings(cc):
+    """The READINGS of a country whose 5CA is its own (Canada), from its
+    reader adapter; None for every country with a country5ca Spec."""
+    if cc in c5.SPECS or not os.path.exists(mp.edition_module(cc)):
+        return None
+    return getattr(importlib.import_module("src.editions.{0}".format(cc)), "READINGS", None)
 
 
 def page_name(cc):
@@ -127,6 +154,9 @@ def _chamber_label(cc, code):
     code = ce.clean(code) or ""
     if cc in c5.SPECS and code in c5.SPECS[cc].chambers:
         return c5.SPECS[cc].chambers[code]
+    own = own_readings(cc)
+    if own and code in own["chambers"]:
+        return own["chambers"][code]
     return mp.CHAMBERS.get(cc, {}).get(code, code) or None
 
 
@@ -141,17 +171,29 @@ def side_of(cc, word):
     """'yea', 'nay', 'abstain' or None for a stored position (country5ca's
     lists of what each chamber records as a Yes, a No, an abstention)."""
     if cc not in c5.SPECS:
-        return None
+        own = own_readings(cc)
+        return own["side"](word) if own else None
     return c5.SPECS[cc].side(word)
 
 
-def reading_of(entry):
+def reading_of(entry, own=None):
     """What a page may say about CitizenGO's reading of a division.
 
     Confirmed: {state, by, on, yea, nay}. Anything else: {state} only, with
-    no direction fields at all, so an unsigned call can never reach a page."""
+    no direction fields at all, so an unsigned call can never reach a page.
+    `own` (a country's READINGS, Canada): its status reader and signer; a
+    reading signed as evidence only is {state: "evidence only"}."""
     if not entry:
         return {"state": NOT_DRAFTED}
+    if own is not None:
+        st = own["status"](entry)
+        if st == "unplaceable":
+            return {"state": EVIDENCE_ONLY}
+        if st != "confirmed":
+            return {"state": AWAITING}
+        by, on = own["signed"](entry)
+        return {"state": "confirmed", "by": by, "on": on, "yea": entry.get("yea"),
+                "nay": entry.get("nay")}
     if r5.status(entry) != "confirmed":
         return {"state": AWAITING}
     return {"state": "confirmed", "by": ce.clean(entry.get("confirmed_by")),
@@ -217,8 +259,14 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
         m.service = service["by_member"].get(m.key)
     items = mp.vote_items(conn, cc, today, config_dir)
     conn.row_factory = sqlite3.Row
-    store_divs = {r["key"]: r for r in c5.divisions(conn, cc)} if cc in c5.SPECS else {}
-    entries = c5.load(cc, config_dir)[0] if cc in c5.SPECS else {}
+    own = own_readings(cc)
+    if own:
+        store_divs = {r["key"]: r for r in own["divisions"](conn)}
+        entries = own["entries"](config_dir)
+    else:
+        store_divs = {r["key"]: r for r in c5.divisions(conn, cc)} if cc in c5.SPECS else {}
+        entries = c5.load(cc, config_dir)[0] if cc in c5.SPECS else {}
+    status_of = own["status"] if own else r5.status
     seen, ordered = set(), []
     for it in sorted(items, key=lambda i: (i["date"] or "", str(i["key"])), reverse=True):
         div = str(it.get("division") or it["key"])
@@ -251,7 +299,7 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
                          None if derived else basis))
         conn.row_factory = sqlite3.Row
         sd = store_divs.get(div) or {}
-        reading = reading_of(entries.get(div))
+        reading = reading_of(entries.get(div), own)
         if reading["state"] == "confirmed":
             counts["confirmed"] += 1
         elif reading["state"] == AWAITING:
@@ -273,12 +321,12 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
         member_list.append([m.name, m.party or "", m.chamber or "", m.region or "",
                             None if m.current is None else bool(m.current), bool(m.stub),
                             _service_text(cc, m, service, today)])
-    yes_label, no_label = (c5.SPECS[cc].labels if cc in c5.SPECS else ("Yes", "No"))
+    yes_label, no_label = labels_of(cc)
     wl = mp.watchlist(cc, config_dir)
     return {
         "cc": cc, "name": mp.country_name(cc), "today": today,
         "basis": spec.basis, "party_note": mp.party_note({"spec": spec, "service": service}),
-        "store_note": c5.SPECS[cc].note if cc in c5.SPECS else "",
+        "store_note": c5.SPECS[cc].note if cc in c5.SPECS else (own["note"] if own else ""),
         "labels": [yes_label, no_label],
         "members": member_list, "words": words.items, "groups": groups.items,
         "bases": bases.items, "bases_short": [mp.short_basis(b) for b in bases.items],
@@ -290,7 +338,7 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
         "watched_total": sum(1 for _d, it in ordered if it.get("watched")),
         "latest": ordered[0][1]["date"] if ordered else None,
         "chambers": sorted({d["c"] for d in divisions if d["c"]}),
-        "readings": {k: sum(1 for e in entries.values() if r5.status(e) == k)
+        "readings": {k: sum(1 for e in entries.values() if status_of(e) == k)
                      for k in ("confirmed", "draft", "unread", "unplaceable")},
         "watchlist_size": len(wl), "area_labels": {str(k): v for k, v in
                                                    ce.AREA_LABELS.items()},
@@ -299,6 +347,14 @@ def build(conn, cc, today, config_dir=None, max_divisions=MAX_DIVISIONS):
         # never rendered (render_page drops every "_" key).
         "_keys": [by_key[i] for i in range(len(members.items))],
     }
+
+
+def labels_of(cc):
+    """The chamber's words for a Yes and a No ('Yea', 'Nay' in Canada)."""
+    if cc in c5.SPECS:
+        return c5.SPECS[cc].labels
+    own = own_readings(cc)
+    return own["labels"] if own else ("Yes", "No")
 
 
 def _service_text(cc, m, service, today):
@@ -485,7 +541,11 @@ def render_tracker(datas, today, sample=False):
 
 def reading_words(reading):
     if reading.get("state") == "confirmed":
+        if not reading.get("on"):           # Canada's file signs in batches (src/editions/ca.py)
+            return "confirmed by {0}".format(reading["by"])
         return "confirmed by {0} on {1}".format(reading["by"], reading["on"])
+    if reading.get("state") == EVIDENCE_ONLY:
+        return "signed as evidence only"
     return reading.get("state") or AWAITING
 
 
@@ -534,6 +594,9 @@ BILLS = {
     "gt": "SELECT numero, resumen, NULL, NULL, NULL, NULL, NULL FROM gt_initiatives",
     "co": "SELECT bill_key, COALESCE(nickname, title), filed_at, status, NULL, NULL, NULL "
           "FROM co_bills",
+    # Canada (16 October 2026): LEGISinfo's own stage words and dates.
+    "ca": "SELECT bill_key, COALESCE(short_title, long_title), introduced_at, last_stage, "
+          "last_stage_at, royal_assent_at, 'Royal Assent' FROM ca_bills",
 }
 
 _ES_STEP = re.compile(r"([^\n]+?)\s*\n\s*([^\n]+?)\s*\n\s*desde (\d{2}/\d{2}/\d{4})"
@@ -605,7 +668,7 @@ def timelines(conn, cc, today, config_dir=None):
         for k in {it["key"], it.get("watch_key")} - {None}:
             items.setdefault(str(k), []).append(it)
     conn.row_factory = sqlite3.Row
-    labels = c5.SPECS[cc].labels if cc in c5.SPECS else ("Yes", "No")
+    labels = labels_of(cc)
     out = []
     for key in wl:
         key = str(key)
@@ -635,7 +698,7 @@ def timelines(conn, cc, today, config_dir=None):
                 if p.get("status"):
                     text += " ({0})".format(ce.clean(p["status"]))
                 events.append((ce.day(p["date"]), "agenda", text, p.get("url")))
-        for d in dp.bill_divisions(conn, cc, [key], wl):
+        for d in bill_divisions(conn, cc, key, wl):
             tally = tally_text({"y": _int(d.get("yes")), "n": _int(d.get("no")),
                                 "ab": _int(d.get("abstain"))}, labels)
             question = ce.clip(d.get("question") or "", 200).rstrip(".")
@@ -660,6 +723,16 @@ def timelines(conn, cc, today, config_dir=None):
             "events": dated, "last": dated[-1][0]})
     out.sort(key=lambda b: (b["last"], b["key"]), reverse=True)
     return out
+
+
+def bill_divisions(conn, cc, key, wl):
+    """Every division of the store on one bill, oldest first: the debate
+    packs' reader (country5ca), or for Canada its READINGS by bill key."""
+    from src import country_debatepack as dp
+    own = own_readings(cc)
+    if own is None:
+        return dp.bill_divisions(conn, cc, [key], wl)
+    return [r for r in own["divisions"](conn) if r.get("bill_key") == key]
 
 
 KIND_WORDS = {"introduced": "introduced", "stage": "stage", "agenda": "agenda",

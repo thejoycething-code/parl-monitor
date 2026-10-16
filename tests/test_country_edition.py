@@ -157,8 +157,11 @@ class FrameworkTests(Base):
         # Chris, 11 October 2026: the votes-only Dutch DM (NL3) shows the week ahead.
         ahead = [ce.item("xx", "agenda", "ag1", "2026-10-13", "Stemmingen over de Embryowet", [10], 1)]
         hook = lambda conn, today, wl: list(ahead)  # noqa: E731
+        # The classic layout's line; the countdown's DM is tested in
+        # tests/test_country_countdown.py.
         on = ce.dm_summary(sqlite3.connect(":memory:"),
-                           fake(self.items(), dm_kinds=("vote",), week_ahead=hook, dm_ahead=True),
+                           fake(self.items(), dm_kinds=("vote",), week_ahead=hook, dm_ahead=True,
+                                layout="classic"),
                            TODAY, SINCE, config_dir=self.cfg, directory=self.eds)
         self.assertIn("*Week ahead*: 1 agenda point(s)", on)
         self.assertIn("Stemmingen over de Embryowet", on)
@@ -238,7 +241,10 @@ class PolishTests(Base):
         sub = next(i for i, ln in enumerate(lines) if ln.startswith("_Diet."))
         self.assertEqual(lines[sub + 2], "> **Parliament is dissolved.**")
         self.assertEqual(lines[sub + 3], "")
-        self.assertIn("**A quiet week.**", lines[sub + 4])
+        # The countdown (16 October 2026): the tables follow the notice, the
+        # quiet-week lines sit under Reference.
+        self.assertTrue(lines[sub + 4].startswith("## This week"), lines[sub + 4])
+        self.assertIn("**A quiet week.**", text.split("## Reference")[1])
         calls = []
 
         def notice(conn, today, dm):

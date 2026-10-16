@@ -478,3 +478,22 @@ Length of service: **built, legislatures only** 11 October 2026 (`tools/member_s
 ## Daily sweep of new items (measured 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **not built**. Measured and left out: the Cámara's hosts refuse UK connections (the Mini's too), and the Gaceta lists iniciativas only per period, with no date filter. The Senate stays out (MX4). See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/mx.py`, tests `tests/test_gov_docs_mx.py`, fixtures `tests/fixtures/gov_docs/mx/`. No key needed. **This works from the UK laptop**, unlike the Chamber's hosts.
+
+**Source used: the Diario Oficial de la Federación through SIDOF's documented web service.** sidof.segob.gob.mx publishes a "Datos abiertos" page (`/datos_abiertos`, "Consumo de WebServices"; the "Notas" manual is `/datos_abiertos/getPDF/57`, sample JSON `/datos_abiertos/getJSON/57`):
+
+- `GET https://sidof.segob.gob.mx/dof/sidof/notas/{dd-mm-yyyy}` (JSON): every note of every edition of that day: codNota, titulo, the issuing branch (codOrgaUno: PE, OD, OA, PL, PJ; CV/AV are tenders and notices) and secretariat (codOrgaDos). 60 to 175 notes a weekday, none at weekends.
+- `GET https://sidof.segob.gob.mx/dof/sidof/notas/nota/{codNota}` (JSON): one note with its full HTML text.
+
+Kept: titled notes of the executive, decentralised and autonomous bodies, legislature and judiciary (tenders and notices out). doc_type: a decree issuing or amending a law, code or the Constitution is `law`; "Aviso de consulta pública del Proyecto de Norma Oficial Mexicana" (and any "Proyecto de ...") is `regulation_draft`; agreements, regulations, guidelines and NOMs `regulation`; the rest `publication`. Each run reads 62 days (one request a day, about 85 s), so every draft NOM still open (60 natural days) is listed every run. **Deadlines**: each draft's own note is read (at most 40 a run) and the closing date computed from the period it states ("dentro de los 60 días naturales contados a partir del día de su publicación": publication + 59; "a partir del día siguiente": publication + 60); a period in working days is not computed.
+
+**robots.txt** (sidof.segob.gob.mx): `User-agent: *`, `Disallow: /CopiasCert?` and about 100 single `/notas/<id>` and `/notas/docFuente/<id>` pages (presumably withdrawn notes); `/dof/sidof/` is not disallowed. Checked by the guard each run (not a DOCUMENTED_APIS entry; candidate below).
+
+**Routes tried that failed**: www.dof.gob.mx: TLS certificate for another host (hostname mismatch), not read. CONAMER's consultation of draft regulations: cofemersimir.gob.mx and www.cofemersimir.gob.mx do not resolve from the UK; conamer.gob.mx serves a certificate for another host; www.gob.mx/conamer (robots.txt allows all) links no consultation listing. A February 2026 law-firm note says the old portal became an archive and drafts moved to a new federal platform, whose address was not found. Worth retrying from a GitHub runner later (not built).
+
+**Measured, live run 16 October 2026** (scratch store): 62 days read (16 August to 16 October), 853 notes listed in the window, 3 on our ground; 8 draft NOMs out for comment, every one with a computed closing date (2 to 29 November), none on our ground.
+
+**Examples**: on our ground: "Decreto de entornos digitales seguros para niñas, niños y adolescentes" (regulation, Presidencia de la República, 14 October; areas 6 and 7). Deadline rows (listed, not on our ground): PROY-NOM-027-SSA-2026, prevention and elimination of leprosy (regulation_draft, Secretaría de Salud, published 1 October, closes 29 November); NOM-003-SSPC-2011 modification, civil protection signs (regulation_draft, Seguridad y Protección Ciudadana, closes 23 November).

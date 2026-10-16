@@ -1,0 +1,45 @@
+{
+ "uuid": "e227c43a-f666-4997-81e1-bdbd82621951",
+ "typ": {
+  "uuid": "9fe9f993-e578-4a40-8a59-f444d5f827b7",
+  "nazov": "Predbežná informácia",
+  "uroven": 1,
+  "kod": "PredbeznaInfo",
+  "prefix": "PI",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "20e5e5ba-08c7-463d-94cd-9ab3ed2fda36",
+   "nazov": "Telekomunikačné služby",
+   "uroven": 3,
+   "kod": "TelekomunikacneSluzby",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "PI/2026/244",
+ "nazov": "Návrh vyhlášky Úradu pre reguláciu elektronických komunikácií a poštových služieb z ... /2026, ktorou sa mení a dopĺňa vyhláška Úradu pre reguláciu elektronických komunikácií a poštových služieb č. 286/2022 Z. z.  o národnom číslovacom pláne v znení vyhlášky č. 98/2023 Z. z.",
+ "stadium": {
+  "hodnota": "VYJADRENIA",
+  "nazov": "Vyjadrenia k predbežnej informácii"
+ },
+ "poslednaZmena": "2026-10-09",
+ "zodpovednaInstitucia": {
+  "uuid": "74f28324-4b48-4f98-90ec-fbf6f90f059f",
+  "skratenyNazov": "UpREKaPŠ",
+  "nazov": "Úrad pre reguláciu elektronických komunikácií a poštových služieb",
+  "ldapUuid": "ad39758f-15ab-41c7-88b8-36e19a1c30c9",
+  "email": "paulina.stanova@teleoff.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-09",
+ "datumUkonceniaPkMpk": "2026-10-16"
+}

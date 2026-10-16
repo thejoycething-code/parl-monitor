@@ -520,3 +520,17 @@ Length of service: **not built** (11 October 2026, branch `ukp2-service`): no so
 ## Daily sweep of new items (measured 11 October 2026, branch `gaps-day-sweep`)
 
 Phase list: **not built**. Measured and left out: no cheap list carries a filing date (each bill's page is 750 KB), and CO3 rules out votes. See docs/mac-mini.md, "Daily sweep of new items for the new countries", and `docs/day-sweep-samples/`.
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+Reader: `src/gov_doc_sources/co.py` (TAXONOMIES taxonomy-es for Colombia), tests `tests/test_gov_docs_co.py`, fixture `tests/fixtures/gov_docs/co/country_petitions-sucop.json`. No key needed.
+
+**Source used**: SUCOP draft decrees and resolutions (www.sucop.gov.co, SharePoint REST), **mirrored** from `country_petitions` (source `sucop`, read weekly by the petitions step). Each is filed as a `regulation_draft`, the comment window's end (Bogotá date) as the closing date, the entity from the draft's own path as the body. No second fetch.
+
+**robots.txt**: www.sucop.gov.co disallows only SharePoint's internals (as found on 11 October).
+
+**Routes tried that failed**: the Diario Oficial: www.diariooficial.gov.co does not resolve; the Imprenta Nacional's svrpubindc.imprenta.gov.co has no robots.txt (404) but no listing of the day's acts that answers without a script was found. The Presidency's decrees (dapre.presidencia.gov.co/normativa/...): robots.txt and the listing both answered 0 bytes. Función Pública's Gestor Normativo (robots.txt `Disallow:` empty, allows all): its search (`/dafpIndexerBGN/norma/index`) answers a 4 KB shell filled by script.
+
+**Measured, live run 16 October 2026** (scratch store, `country_petitions` copied read-only from the laptop store, SUCOP last read 15 October): 51 drafts listed, 4 on our ground, 3 open (closing 30 October).
+
+**Examples (deadline rows)**: "Protocolo y/o guía para la protección de la libertad de prensa frente a actos de censura..." (regulation_draft, gobernacionboyaca, closes 30 October; area 7); "Protocolo y/o guía para la protección de mujeres y personas LGBTIQ+ periodistas..." (regulation_draft, gobernacionboyaca, closes 30 October; areas 5 and 7); the Justice Ministry's draft regulating Ley 2137 of 2021 (regulation_draft, minjusticia, closed 14 October; areas 5 and 12).

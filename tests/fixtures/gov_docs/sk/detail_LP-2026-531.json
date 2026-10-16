@@ -1,0 +1,45 @@
+{
+ "uuid": "d7c6693c-2a83-4658-8fb7-8490456e65fb",
+ "typ": {
+  "uuid": "106a4dfe-03f8-4fb8-8904-77da04581b10",
+  "nazov": "Nelegislatívny všeobecný materiál",
+  "uroven": 1,
+  "kod": "NelegislativnyVseobecnyMaterial",
+  "prefix": "LP",
+  "legislativny": false,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "78c4e193-4bf7-4ebd-9171-76bd5312af09",
+   "nazov": "Pracovné právo",
+   "uroven": 1,
+   "kod": "PracovnePravo",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/531",
+ "nazov": "Stratégia rozvoja ľudských zdrojov v nových demografických, technologických a environmentálnych podmienkach do roku 2050",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-13",
+ "zodpovednaInstitucia": {
+  "uuid": "05ed395f-31cd-4b23-abc7-f8bfc1af02c9",
+  "skratenyNazov": "MPSVRSR",
+  "nazov": "Ministerstvo práce, sociálnych vecí a rodiny Slovenskej republiky",
+  "ldapUuid": "2a428220-6f26-3c58-8b90-9f8e51c1c774",
+  "email": "oznamopk@employment.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-13",
+ "datumUkonceniaPkMpk": "2026-10-26"
+}

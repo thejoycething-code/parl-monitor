@@ -79,6 +79,12 @@ if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_vote_briefs.py --country pe --send \
     || echo "  [gap] vote briefs failed for pe; the next run retries"
 fi
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh pe
 # Instant Latam alerts (tools/latam_alerts.py): this country's watched and
 # tier-1 items, a short DM each to Chris alone, de-duplicated in
 # data/latam-alerts/pe.json (committed with data/). Never stops the run.

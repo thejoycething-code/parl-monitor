@@ -218,6 +218,23 @@ Change log of the interface (additive only):
                    and the DM add a line counting them, and a week quiet
                    nationally but not there is not a quiet week.
 
+  16 October 2026  the countdown layout (src/country_countdown.py; the UK's
+                   "A · Countdown", PRs #205-#210), the default for every
+                   country (Country.layout="countdown"; "classic" keeps the
+                   old edition): sitting-days line, Big dates, This week and
+                   Further afield tables (When | Where | What | Issue, 8 weeks),
+                   Key questions, Petitions, Consultations, Government
+                   publications, then Reference (a board of the watched bills,
+                   and every classic section demoted one level; no Week ahead
+                   section, its points are rows of the tables). render() hands
+                   over to it; render_classic(..., parts=True) gives it the
+                   classic header and body. Country.timeline_extra (default
+                   None): fn(conn, today, until, wl) -> [item] for forward rows
+                   the agenda table does not hold (France, Croatia). The DM
+                   adds the countdown's sitting line, big dates and this
+                   week's rows in place of the week-ahead line. Nothing else
+                   for adapters to do.
+
 Read-only on the store.
 
 """
@@ -324,6 +341,12 @@ class Country:
     cadence_days: int = DEFAULT_DAYS
     frequency: str = "Weekly"
     extra_sections: Optional[Callable] = None
+    # 16 October 2026 (src/country_countdown.py): "countdown" (the default)
+    # or "classic"; and an optional fn(conn, today, until, wl) -> [item]
+    # adding dated or pending forward items the agenda table does not hold
+    # (France's scheduled dossier acts, Croatia's session agenda).
+    layout: str = "countdown"
+    timeline_extra: Optional[Callable] = None
 
     @property
     def period(self):
@@ -914,13 +937,34 @@ def title_line(country, today, since=None):
 def render(conn, country, today, since=None, sample=False, config_dir=None,
            directory=None, review=None, draft_until=None):
     """The edition's Markdown. `review` honours a review file
-    (src/edition_review.py); `draft_until` (ISO) adds the draft line."""
+    (src/edition_review.py); `draft_until` (ISO) adds the draft line.
+
+    16 October 2026: every country renders the countdown layout
+    (src/country_countdown.py, the UK's "A · Countdown" of PRs #205-#210)
+    unless its adapter sets layout="classic"; the classic body is kept,
+    reordered, under the countdown's Reference."""
+    if country.layout == "countdown":
+        from src import country_countdown
+        return country_countdown.render(conn, country, today, since, sample, config_dir,
+                                        directory, review, draft_until)
+    return render_classic(conn, country, today, since, sample, config_dir, directory, review,
+                          draft_until)
+
+
+def render_classic(conn, country, today, since=None, sample=False, config_dir=None,
+                   directory=None, review=None, draft_until=None, parts=False):
+    """The classic edition (one section per kind, then the Watchlist, the
+    week ahead and Coverage). With `parts`, returns {"header", "body",
+    "since", "until", "got", "wl", "dropped", "extras"} instead of the text:
+    the header lines (title, subtitle, sample, draft, notice and review
+    lines) and the body lines without the Week ahead section and without
+    post_render, for src/country_countdown.py."""
     conn.row_factory = sqlite3.Row
     since, until = window(country.cc, today, since, directory, country.cadence_days)
     dropped = []
     got = gather(conn, country, since, until, config_dir, dropped, review)
     ahead = []
-    if country.week_ahead:
+    if country.week_ahead and not parts:
         ahead, _ = noise_for(country).split(
             country.week_ahead(conn, today, watchlist_of(country, config_dir)) or [],
             config_dir)
@@ -946,6 +990,15 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
     reviewed = edition_review.note_line(review)
     if reviewed:
         out += [reviewed, ""]
+    header = out
+    if parts:
+        out = []
+
+    def done(lines):
+        if parts:
+            return {"header": header, "body": lines, "since": since, "until": until,
+                    "got": got, "wl": wl, "dropped": dropped, "extras": extras}
+        return finish(conn, country, today, lines, wl)
 
     if not got and not ahead and not n_extra:
         out += ["**A quiet {0}.** Nothing on our ground in the {1} between {2} and {3}.".format(
@@ -959,7 +1012,7 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
         for _, _, _, cover in extras:
             out += ["- " + clean(c) for c in cover]
         out.append("")
-        return finish(conn, country, today, out, wl)
+        return done(out)
 
     out.append(honesty(country, edition_judge.judged(got)))
     out += ["", "## In brief", ""]
@@ -1043,14 +1096,14 @@ def render(conn, country, today, since=None, sample=False, config_dir=None,
         note = country.ahead_note(conn, today)
         if note:
             out.append("- " + clean(note))
-    elif not country.week_ahead:
+    elif not country.week_ahead and not parts:
         out.append("- No agenda is collected yet, so there is no week-ahead section.")
     out += ["- **Left out by the noise filters** (config/edition-noise-{0}.yaml, "
             "config/edition-mute-{0}.yaml; never a watched item): {1}.".format(
                 country.cc, dropped_text(dropped) or "nothing"),
             "- Decisions: [docs/country-decisions-2026-10-10.md]({0}docs/"
             "country-decisions-2026-10-10.md).".format(REPO), ""]
-    return finish(conn, country, today, out, wl)
+    return done(out)
 
 
 def extras_of(conn, country, since, until, wl, config_dir=None, dropped=None):
@@ -1115,7 +1168,12 @@ def dm_summary(conn, country, today, since=None, path=None, config_dir=None, dir
                     KIND_NAMES.get(it["kind"], (it["kind"],))[0].capitalize(),
                     clip(it.get("title") or "", 90), area_text(it["areas"]) or "watched",
                     ", watched" if it["watched"] else ""))
-    if country.dm_ahead and country.week_ahead:
+    if country.layout == "countdown":
+        # 16 October 2026: the countdown's sitting line, big dates and this
+        # week's rows take the place of the week-ahead line (dm_ahead).
+        from src import country_countdown
+        lines += country_countdown.dm_lines(conn, country, today, config_dir)
+    elif country.dm_ahead and country.week_ahead:
         ahead, _ = noise_for(country).split(
             country.week_ahead(conn, today, watchlist_of(country, config_dir)) or [], config_dir)
         if ahead:

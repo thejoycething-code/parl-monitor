@@ -46,6 +46,12 @@ python3 tools/hr_rollcalls.py --budget-seconds "$(bash tools/collector_budget.sh
 # below, which then finds those pages already read (the chamber step stores
 # their party sightings too). Time-boxed, never fatal, skipped on GitHub.
 bash tools/chamber_step.sh hr "$SECONDS"
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh hr
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   # The weekly edition (src/country_edition.py, tools/hr_monitor.py), to Chris
   # alone by DM, archived to editions/. Once a day: an edition already

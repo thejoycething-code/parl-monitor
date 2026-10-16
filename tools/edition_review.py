@@ -38,7 +38,7 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 from src import country_edition as ce  # noqa: E402
 from src import edition_review as er  # noqa: E402
 
-NAMES = {"latam": "Latam"}
+NAMES = {"latam": "Latam", "de": "Germany"}
 
 
 def name_of(cc):
@@ -61,6 +61,16 @@ def due(now, state_dir=None, reviews_dir=None, log=print):
 def render_one(conn, st, review, editions_dir=None):
     """(edition text, DM text, edition path, (items, watched)) for one window."""
     cc, date = st["cc"], st["date"]
+    if cc == "de":                         # tools/de_monitor.py renders its own (16 October 2026)
+        import de_monitor
+        path = os.path.join(editions_dir or os.path.join(ROOT, "editions"),
+                            "de-monitor-{0}.md".format(date))
+        text = de_monitor.render_edition(conn, date, review=review, write=False)
+        dm = de_monitor.dm_summary(conn, date, review=review)
+        items = de_monitor.review_items(conn, date)
+        items = [it for it in items if not review or review.decision(
+            "de|{0}|{1}".format(it["kind"], it["key"]))[0] != "cut"]
+        return text, dm, path, (len(items), 0)
     if cc == er.LATAM:
         import latam_monitor
         from src import latam

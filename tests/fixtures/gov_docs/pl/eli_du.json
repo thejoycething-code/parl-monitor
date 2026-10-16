@@ -1,0 +1,1052 @@
+{
+"count": 17,
+"items": [
+{
+"address": "WDU20260001340",
+"announcementDate": "2026-09-04",
+"changeDate": "2026-10-16T09:54:42",
+"displayAddress": "Dz.U. 2026 poz. 1340",
+"pos": 1340,
+"promulgation": "2026-10-15",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": false,
+"title": "Ustawa z dnia 4 września 2026 r. o zmianie ustawy o związkach zawodowych oraz ustawy o informowaniu pracowników i przeprowadzaniu z nimi konsultacji",
+"type": "Ustawa",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-30",
+"inForce": "IN_FORCE",
+"keywords": [
+"związki zawodowe",
+"pracownicy"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty zmienione": [
+{
+"id": "DU/2006/550",
+"date": "2026-10-30"
+},
+{
+"id": "DU/1991/234",
+"date": "2026-10-30"
+}
+]
+},
+"releasedBy": [
+"SEJM"
+],
+"texts": [],
+"ELI": "DU/2026/1340"
+},
+{
+"address": "WDU20260001339",
+"announcementDate": "2026-10-13",
+"changeDate": "2026-10-16T09:41:06",
+"displayAddress": "Dz.U. 2026 poz. 1339",
+"pos": 1339,
+"promulgation": "2026-10-15",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": false,
+"title": "Rozporządzenie Ministra Infrastruktury z dnia 13 października 2026 r. zmieniające rozporządzenie w sprawie rejestru okrętowego i postępowania rejestrowego",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-19",
+"inForce": "IN_FORCE",
+"keywords": [
+"morskie prawo",
+"dokumenty",
+"rejestr okrętowy",
+"opłaty"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty zmienione": [
+{
+"id": "DU/2003/400",
+"date": "2026-10-19"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/2001/1545"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2001/1545",
+"art": "art. 38"
+}
+]
+},
+"releasedBy": [
+"MIN. INFRASTRUKTURY"
+],
+"texts": [],
+"ELI": "DU/2026/1339"
+},
+{
+"address": "WDU20260001338",
+"announcementDate": "2026-10-14",
+"changeDate": "2026-10-16T09:37:52",
+"displayAddress": "Dz.U. 2026 poz. 1338",
+"pos": 1338,
+"promulgation": "2026-10-15",
+"publisher": "DU",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": false,
+"title": "Rozporządzenie Prezesa Rady Ministrów z dnia 14 października 2026 r. w sprawie przedterminowych wyborów wójta gminy Sadlinki w województwie pomorskim",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-16",
+"inForce": "IN_FORCE",
+"keywords": [
+"gminy",
+"kodeks wyborczy",
+"administracja samorządowa",
+"samorząd terytorialny",
+"wybory"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2011/112"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2011/112",
+"art": "art. 474 par. 2"
+}
+]
+},
+"releasedBy": [
+"PREZ. RADY MINISTRÓW"
+],
+"texts": [],
+"ELI": "DU/2026/1338"
+},
+{
+"address": "WDU20260001337",
+"announcementDate": "2026-10-14",
+"changeDate": "2026-10-16T09:04:17",
+"displayAddress": "Dz.U. 2026 poz. 1337",
+"pos": 1337,
+"promulgation": "2026-10-15",
+"publisher": "DU",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": false,
+"title": "Rozporządzenie Prezesa Rady Ministrów z dnia 14 października 2026 r. w sprawie przedterminowych wyborów wójta gminy Michów w województwie lubelskim",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-16",
+"inForce": "IN_FORCE",
+"keywords": [
+"gminy",
+"samorząd terytorialny",
+"wybory"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2011/112"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2011/112",
+"art": "art. 474 par.2"
+}
+]
+},
+"releasedBy": [
+"PREZ. RADY MINISTRÓW"
+],
+"texts": [],
+"ELI": "DU/2026/1337"
+},
+{
+"address": "WDU20260001336",
+"announcementDate": "2026-10-02",
+"changeDate": "2026-10-16T08:59:45",
+"displayAddress": "Dz.U. 2026 poz. 1336",
+"pos": 1336,
+"promulgation": "2026-10-15",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": false,
+"title": "Obwieszczenie Marszałka Sejmu Rzeczypospolitej Polskiej z dnia 2 października 2026 r. w sprawie ogłoszenia jednolitego tekstu ustawy - Kodeks postępowania w sprawach o wykroczenia",
+"type": "Obwieszczenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"inForce": "IN_FORCE",
+"keywords": [
+"kodeks postępowania w sprawach o wykroczenia",
+"wykroczenia"
+],
+"keywordsNames": [],
+"legalStatusDate": "2026-09-27",
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2000/718"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2000/718",
+"art": "art. 16 ust. 1"
+}
+],
+"Tekst jednolity dla aktu": [
+{
+"id": "DU/2001/1148"
+}
+]
+},
+"releasedBy": [
+"MARSZAŁEK SEJMU"
+],
+"texts": [],
+"ELI": "DU/2026/1336"
+},
+{
+"address": "WDU20260001335",
+"announcementDate": "2026-09-17",
+"changeDate": "2026-10-16T09:29:27",
+"displayAddress": "Dz.U. 2026 poz. 1335",
+"pos": 1335,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Obwieszczenie Marszałka Sejmu Rzeczypospolitej Polskiej z dnia 17 września 2026 r. w sprawie ogłoszenia jednolitego tekstu ustawy - Prawo wodne",
+"type": "Obwieszczenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [
+{
+"address": "32017D0848",
+"date": "2017-05-17",
+"title": "Decyzja Komisji (UE) 2017/848 z dnia 17 maja 2017 r. ustanawiająca kryteria i standardy metodologiczne dotyczące dobrego stanu środowiska wód morskich oraz specyfikacje i ujednolicone metody monitorowania i oceny, oraz uchylająca decyzję 2010/477/UE (Tekst mający znaczenie dla EOG. )"
+},
+{
+"address": "32015R0207",
+"date": "2015-01-20",
+"title": "Rozporządzenie wykonawcze Komisji (UE) 2015/207 z dnia 20 stycznia 2015 r. ustanawiające szczegółowe zasady wykonania rozporządzenia Parlamentu Europejskiego i Rady (UE) nr 1303/2013 w odniesieniu do wzoru sprawozdania z postępów, formatu dokumentu służącego przekazywaniu informacji na temat dużych projektów, wzorów wspólnego planu działania, sprawozdań z wdrażania w ramach celu \"Inwestycje na rzecz wzrostu i zatrudnienia\" , deklaracji zarządczej, strategii audytu, opinii audytowej i rocznego sprawozdania z kontroli oraz metodyki przeprowadzania analizy kosztów i korzyści, a także zgodnie z rozporządzeniem Parlamentu Europejskiego i Rady (UE) nr 1299/2013 w odniesieniu do wzoru sprawozdań z wdrażania w ramach celu \"Europejska współpraca terytorialna\""
+},
+{
+"address": "32014R1143",
+"date": "2014-10-22",
+"title": "Rozporządzenie Parlamentu Europejskiego i Rady (UE) nr 1143/2014 z dnia 22 października 2014 r. w sprawie działań zapobiegawczych i zaradczych w odniesieniu do wprowadzania i rozprzestrzeniania inwazyjnych gatunków obcych"
+},
+{
+"address": "32013R1299",
+"date": "2013-12-17",
+"title": "Rozporządzenie Parlamentu Europejskiego i Rady (UE) nr 1299/2013 z dnia 17 grudnia 2013 w sprawie przepisów szczegółowych dotyczących wsparcia z Europejskiego Funduszu Rozwoju Regionalnego w ramach celu \"Europejska współpraca terytorialna\""
+},
+{
+"address": "32013R1303",
+"date": "2013-12-17",
+"title": "Rozporządzenie Parlamentu Europejskiego i Rady (UE) nr 1303/2013 z dnia 17 grudnia 2013 r. ustanawiające wspólne przepisy dotyczące Europejskiego Funduszu Rozwoju Regionalnego, Europejskiego Funduszu Społecznego, Funduszu Spójności, Europejskiego Funduszu Rolnego na rzecz Rozwoju Obszarów Wiejskich oraz Europejskiego Funduszu Morskiego i Rybackiego oraz ustanawiające przepisy ogólne dotyczące Europejskiego Funduszu Rozwoju Regionalnego, Europejskiego Funduszu Społecznego, Funduszu Spójności i Europejskiego Funduszu Morskiego i Rybackiego oraz uchylające rozporządzenie Rady (WE) nr 1083/2006"
+},
+{
+"address": "32009R0401",
+"date": "2009-04-23",
+"title": "ROZPORZĄDZENIE PARLAMENTU EUROPEJSKIEGO I RADY (WE) NR 401/2009 z dnia 23 kwietnia 2009 r. w sprawie Europejskiej Agencji Środowiska oraz Europejskiej Sieci Informacji i Obserwacji Środowiska (wersja ujednolicona)"
+},
+{
+"address": "32008L0105",
+"date": "2008-12-16",
+"title": "DYREKTYWA PARLAMENTU EUROPEJSKIEGO I RADY 2008/105/WE z dnia 16 grudnia 2008 r. w sprawie środowiskowych norm jakości w dziedzinie polityki wodnej, zmieniająca i w następstwie uchylająca dyrektywy Rady 82/176/EWG, 83/513/EWG, 84/156/EWG, 84/491/EWG i 86/280/EWG oraz zmieniająca dyrektywę 2000/60/WE Parlamentu Europejskiego i Rady"
+},
+{
+"address": "32008L0056",
+"date": "2008-06-17",
+"title": "DYREKTYWA PARLAMENTU EUROPEJSKIEGO I RADY 2008/56/WE z dnia 17 czerwca 2008 r. ustanawiająca ramy działań Wspólnoty w dziedzinie polityki środowiska morskiego (dyrektywa ramowa w sprawie strategii morskiej) (Tekst mający znaczenie dla EOG)"
+},
+{
+"address": "32007L0060",
+"date": "2007-10-23",
+"title": "DYREKTYWA 2007/60/WE PARLAMENTU EUROPEJSKIEGO I RADY z dnia 23 października 2007 r. w sprawie oceny ryzyka powodziowego i zarządzania nim (Tekst mający znaczenie dla EOG)"
+},
+{
+"address": "32006L0118",
+"date": "2006-12-12",
+"title": "DYREKTYWA 2006/118/WE PARLAMENTU EUROPEJSKIEGO I RADY z dnia 12 grudnia 2006 r. w sprawie ochrony wód podziemnych przed zanieczyszczeniem i pogorszeniem ich stanu"
+},
+{
+"address": "32006L0007",
+"date": "2006-02-15",
+"title": "Dyrektywa 2006/7/WE Parlamentu Europejskiego i Rady z dnia 15 lutego 2006 r. dotycząca zarządzania jakością wody w kąpieliskach i uchylająca dyrektywę 76/160/EWG"
+},
+{
+"address": "32000L0060",
+"date": "2000-10-23",
+"title": "Dyrektywa 2000/60/WE Parlamentu Europejskiego i Rady z dnia 23 października 2000 r. ustanawiająca ramy wspólnotowego działania w dziedzinie polityki wodnej"
+},
+{
+"address": "31991L0676",
+"date": "1991-12-12",
+"title": "Dyrektywa Rady 91/676/EWG z dnia 12 grudnia 1991 r. dotycząca ochrony wód przed zanieczyszczeniami powodowanymi przez azotany pochodzenia rolniczego"
+},
+{
+"address": "31991L0271",
+"date": "1991-05-21",
+"title": "Dyrektywa Rady 91/271/EWG z dnia 21 maja 1991 r. dotycząca oczyszczania ścieków komunalnych"
+},
+{
+"address": "31970R1108",
+"date": "1970-04-06",
+"title": "Rozporządzenie Rady (EWG) nr 1108/70 z dnia 4 czerwca 1970 r. wprowadzające system księgowy dla wydatków na infrastrukturę w transporcie kolejowym, drogowym i w żegludze śródlądowej"
+}
+],
+"inForce": "IN_FORCE",
+"keywords": [
+"wodne prawo",
+"wody"
+],
+"keywordsNames": [],
+"legalStatusDate": "2026-09-14",
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2000/718"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2000/718",
+"art": "art. 16 ust. 1"
+}
+],
+"Tekst jednolity dla aktu": [
+{
+"id": "DU/2017/1566"
+}
+]
+},
+"releasedBy": [
+"MARSZAŁEK SEJMU"
+],
+"texts": [
+{
+"fileName": "D20261335.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261335.pdf",
+"type": "I"
+},
+{
+"fileName": "D20261335L.pdf",
+"type": "T"
+}
+],
+"ELI": "DU/2026/1335"
+},
+{
+"address": "WDU20260001334",
+"announcementDate": "2026-09-28",
+"changeDate": "2026-10-15T09:41:53",
+"displayAddress": "Dz.U. 2026 poz. 1334",
+"pos": 1334,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": true,
+"title": "Rozporządzenie Prezydenta Rzeczypospolitej Polskiej z dnia 28 września 2026 r. w sprawie uznania za pomnik historii \"Szczecin - Cmentarz Centralny\"",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-15",
+"inForce": "IN_FORCE",
+"keywords": [
+"pomnik historii",
+"zabytki"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2003/1568"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2003/1568",
+"art": "art. 15 ust. 1"
+}
+]
+},
+"releasedBy": [
+"PREZYDENT RZECZYPOSPOLITEJ POLSKIEJ"
+],
+"texts": [
+{
+"fileName": "D20261334.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261334.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1334"
+},
+{
+"address": "WDU20260001333",
+"announcementDate": "2026-10-12",
+"changeDate": "2026-10-15T09:41:53",
+"displayAddress": "Dz.U. 2026 poz. 1333",
+"pos": 1333,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Rozporządzenie Ministra Finansów i Gospodarki z dnia 12 października 2026 r. zmieniające rozporządzenie w sprawie stawek opłat oraz sposobu ich obliczania",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-29",
+"inForce": "IN_FORCE",
+"keywords": [
+"celne prawo",
+"stawki",
+"opłaty"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty zmienione": [
+{
+"id": "DU/2017/375",
+"date": "2026-10-29"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/2004/622"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2004/622",
+"art": "art. 93 ust. 2"
+}
+]
+},
+"releasedBy": [
+"MIN. FINANSÓW I GOSPODARKI"
+],
+"texts": [
+{
+"fileName": "D20261333.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261333.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1333"
+},
+{
+"address": "WDU20260001332",
+"announcementDate": "2026-10-08",
+"changeDate": "2026-10-15T09:41:53",
+"displayAddress": "Dz.U. 2026 poz. 1332",
+"pos": 1332,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Rozporządzenie Ministra Obrony Narodowej z dnia 8 października 2026 r. zmieniające rozporządzenie w sprawie badań oraz turnusów dla funkcjonariuszy Służby Kontrwywiadu Wojskowego oraz Służby Wywiadu Wojskowego po zakończeniu służby poza granicami państwa",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-29",
+"inForce": "IN_FORCE",
+"keywords": [
+"badania lekarskie"
+],
+"keywordsNames": [
+"Służba Kontrwywiadu Wojskowego",
+"Służba Wywiadu Wojskowego"
+],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty zmienione": [
+{
+"id": "DU/2020/395",
+"date": "2026-10-29"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/2006/710"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2006/710",
+"art": "art. 4a ust. 9"
+}
+]
+},
+"releasedBy": [
+"MIN. OBRONY NARODOWEJ"
+],
+"texts": [
+{
+"fileName": "D20261332.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261332.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1332"
+},
+{
+"address": "WDU20260001331",
+"announcementDate": "2026-10-12",
+"changeDate": "2026-10-15T09:41:53",
+"displayAddress": "Dz.U. 2026 poz. 1331",
+"pos": 1331,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Rozporządzenie Ministra Finansów i Gospodarki z dnia 12 października 2026 r. zmieniające rozporządzenie w sprawie urzędów celno-skarbowych oraz podległych im oddziałów celnych, w których są dokonywane czynności przewidziane przepisami prawa celnego w zależności od rodzaju towarów lub procedur celnych, którymi mogą być obejmowane towary",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-29",
+"inForce": "IN_FORCE",
+"keywords": [
+"cło",
+"celne prawo",
+"urzędy skarbowe",
+"urzędy celne"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty zmienione": [
+{
+"id": "DU/2017/372",
+"date": "2026-10-29"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/2004/622"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2004/622",
+"art": "art. 17"
+}
+]
+},
+"releasedBy": [
+"MIN. FINANSÓW I GOSPODARKI"
+],
+"texts": [
+{
+"fileName": "D20261331.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261331.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1331"
+},
+{
+"address": "WDU20260001330",
+"announcementDate": "2026-10-08",
+"changeDate": "2026-10-15T09:41:53",
+"displayAddress": "Dz.U. 2026 poz. 1330",
+"pos": 1330,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Rozporządzenie Ministra Zdrowia z dnia 8 października 2026 r. zmieniające rozporządzenie w sprawie wskaźników jakości opieki zdrowotnej",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-29",
+"inForce": "IN_FORCE",
+"keywords": [
+"wskaźnik",
+"opieka zdrowotna"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty zmienione": [
+{
+"id": "DU/2024/1349",
+"date": "2026-10-29"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/2023/1692"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2023/1692",
+"art": "art. 4 ust. 2"
+}
+]
+},
+"releasedBy": [
+"MIN. ZDROWIA"
+],
+"texts": [
+{
+"fileName": "D20261330.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261330.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1330"
+},
+{
+"address": "WDU20260001328",
+"announcementDate": "2026-09-01",
+"changeDate": "2026-10-16T09:23:57",
+"displayAddress": "Dz.U. 2026 poz. 1328",
+"pos": 1328,
+"promulgation": "2026-10-14",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Obwieszczenie Marszałka Sejmu Rzeczypospolitej Polskiej z dnia 1 września 2026 r. w sprawie ogłoszenia jednolitego tekstu ustawy o odpadach",
+"type": "Obwieszczenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"inForce": "IN_FORCE",
+"keywords": [
+"odpady"
+],
+"keywordsNames": [],
+"legalStatusDate": "2026-08-24",
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2000/718"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2000/718",
+"art": "art. 16 ust. 1"
+}
+],
+"Tekst jednolity dla aktu": [
+{
+"id": "DU/2013/21"
+}
+]
+},
+"releasedBy": [
+"MARSZAŁEK SEJMU"
+],
+"texts": [
+{
+"fileName": "D20261328.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261328.pdf",
+"type": "I"
+},
+{
+"fileName": "D20261328L.pdf",
+"type": "T"
+}
+],
+"ELI": "DU/2026/1328"
+},
+{
+"address": "WDU20260001326",
+"announcementDate": "2026-09-18",
+"changeDate": "2026-10-16T09:20:07",
+"displayAddress": "Dz.U. 2026 poz. 1326",
+"pos": 1326,
+"promulgation": "2026-10-13",
+"publisher": "DU",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": true,
+"title": "Ustawa z dnia 18 września 2026 r. o ratyfikacji Umowy między Rzecząpospolitą Polską a Japonią o zabezpieczeniu społecznym, podpisanej w Tokio dnia 15 kwietnia 2026 r.",
+"type": "Ustawa",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-28",
+"inForce": "IN_FORCE",
+"keywords": [
+"umowy międzynarodowe",
+"ratyfikacja",
+"ubezpieczenia społeczne"
+],
+"keywordsNames": [
+"Japonia"
+],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {},
+"releasedBy": [
+"SEJM"
+],
+"texts": [
+{
+"fileName": "D20261326.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261326.pdf",
+"type": "I"
+},
+{
+"fileName": "D20261326L.pdf",
+"type": "T"
+}
+],
+"ELI": "DU/2026/1326"
+},
+{
+"address": "WDU20260001319",
+"announcementDate": "2026-08-06",
+"changeDate": "2026-10-13T10:08:44",
+"displayAddress": "Dz.U. 2026 poz. 1319",
+"pos": 1319,
+"promulgation": "2026-10-12",
+"publisher": "DU",
+"status": "bez statusu",
+"textHTML": false,
+"textPDF": true,
+"title": "Oświadczenie rządowe z dnia 6 sierpnia 2026 r. w sprawie mocy obowiązującej Porozumienia wykonawczego między Rządem Rzeczypospolitej Polskiej a Rządem Stanów Zjednoczonych Ameryki do Umowy między Rządem Rzeczypospolitej Polskiej a Rządem Stanów Zjednoczonych Ameryki o wzmocnionej współpracy obronnej w sprawie zatrudniania lokalnych pracowników cywilnych, podpisanego w Warszawie dnia 20 lutego 2025 r. oraz w Stuttgarcie dnia 3 kwietnia 2025 r.",
+"type": "Oświadczenie rządowe",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"inForce": "IN_FORCE",
+"keywords": [
+"obrona narodowa",
+"umowy międzynarodowe",
+"zatrudnianie"
+],
+"keywordsNames": [
+"Stany Zjednoczone Ameryki"
+],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Odesłania": [
+{
+"id": "DU/2026/1318"
+}
+]
+},
+"releasedBy": [],
+"texts": [
+{
+"fileName": "D20261319.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261319.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1319"
+},
+{
+"address": "WDU20260001308",
+"announcementDate": "2026-09-04",
+"changeDate": "2026-10-13T10:32:13",
+"displayAddress": "Dz.U. 2026 poz. 1308",
+"pos": 1308,
+"promulgation": "2026-10-08",
+"publisher": "DU",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": true,
+"title": "Ustawa z dnia 4 września 2026 r. o Uniwersytecie Mazowieckim w Płocku",
+"type": "Ustawa",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-10-15",
+"inForce": "IN_FORCE",
+"keywords": [
+"szkolnictwo wyższe"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [
+{
+"link": "https://www.sejm.gov.pl/Sejm10.nsf/PrzebiegProc.xsp?nr=3015",
+"linkPrintAPI": "https://api.sejm.gov.pl/sejm/term10/prints/3015",
+"linkProcessAPI": "https://api.sejm.gov.pl/sejm/term10/processes/3015",
+"number": "3015",
+"term": 10
+}
+],
+"references": {},
+"releasedBy": [
+"SEJM"
+],
+"texts": [
+{
+"fileName": "D20261308.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261308.pdf",
+"type": "I"
+},
+{
+"fileName": "D20261308L.pdf",
+"type": "T"
+}
+],
+"ELI": "DU/2026/1308"
+},
+{
+"address": "WDU20260001255",
+"announcementDate": "2026-09-25",
+"changeDate": "2026-09-28T11:16:34",
+"displayAddress": "Dz.U. 2026 poz. 1255",
+"pos": 1255,
+"promulgation": "2026-09-25",
+"publisher": "DU",
+"status": "akt jednorazowy",
+"textHTML": false,
+"textPDF": true,
+"title": "Postanowienie Prezydenta Rzeczypospolitej Polskiej z dnia 25 września 2026 r. w sprawie zarządzenia wyborów uzupełniających do Senatu Rzeczypospolitej Polskiej",
+"type": "Postanowienie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-09-25",
+"inForce": "IN_FORCE",
+"keywords": [
+"senatorowie",
+"kodeks wyborczy",
+"wybory"
+],
+"keywordsNames": [
+"Senat"
+],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Podstawa prawna": [
+{
+"id": "DU/2011/112"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/2011/112",
+"art": "art. 283 par. 1 pkt 1"
+}
+]
+},
+"releasedBy": [
+"PREZYDENT RZECZYPOSPOLITEJ POLSKIEJ"
+],
+"texts": [
+{
+"fileName": "D20261255.pdf",
+"type": "O"
+},
+{
+"fileName": "D20261255.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/1255"
+},
+{
+"address": "WDU20260000966",
+"announcementDate": "2026-07-17",
+"changeDate": "2026-07-21T10:28:46",
+"displayAddress": "Dz.U. 2026 poz. 966",
+"pos": 966,
+"promulgation": "2026-07-20",
+"publisher": "DU",
+"status": "obowiązujący",
+"textHTML": false,
+"textPDF": true,
+"title": "Rozporządzenie Ministra Edukacji z dnia 17 lipca 2026 r. w sprawie sposobu nauczania szkolnego oraz zakresu treści dotyczących wiedzy o życiu seksualnym człowieka, o zasadach świadomego i odpowiedzialnego rodzicielstwa, o wartości rodziny, życia w fazie prenatalnej oraz metodach i środkach świadomej prokreacji zawartych w podstawie programowej kształcenia ogólnego",
+"type": "Rozporządzenie",
+"volume": 0,
+"year": 2026,
+"authorizedBody": [],
+"directives": [],
+"entryIntoForce": "2026-09-01",
+"inForce": "IN_FORCE",
+"keywords": [
+"szkolnictwo",
+"oświata i wychowanie"
+],
+"keywordsNames": [],
+"obligated": [],
+"previousTitle": [],
+"prints": [],
+"references": {
+"Akty uchylone": [
+{
+"id": "DU/2025/467",
+"date": "2026-09-01"
+}
+],
+"Podstawa prawna": [
+{
+"id": "DU/1993/78"
+}
+],
+"Podstawa prawna z art.": [
+{
+"id": "DU/1993/78",
+"art": "art. 4 ust. 3"
+}
+]
+},
+"releasedBy": [
+"MIN. EDUKACJI"
+],
+"texts": [
+{
+"fileName": "D20260966.pdf",
+"type": "O"
+},
+{
+"fileName": "D20260966.pdf",
+"type": "I"
+}
+],
+"ELI": "DU/2026/966"
+}
+],
+"offset": 0,
+"totalCount": 17,
+"searchQuery": {
+"comparator": {
+"column": "publisher",
+"dir": "asc"
+},
+"dateEffectType": "NONE",
+"dateFrom": "2026-07-16",
+"dateType": "AFTER",
+"exile": false,
+"keyword": [],
+"position": -1,
+"pubDateType": "NONE",
+"publisher": "DU",
+"publisherName": "Dziennik Ustaw",
+"statusInForce": false,
+"title": "",
+"type": [],
+"volume": -1,
+"year": -1
+}
+}

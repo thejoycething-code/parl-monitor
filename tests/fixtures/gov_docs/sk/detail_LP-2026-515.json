@@ -1,0 +1,45 @@
+{
+ "uuid": "26b00a2e-c545-4891-b07e-6a563b39f583",
+ "typ": {
+  "uuid": "2649da38-b466-4cf4-993f-4843fc243934",
+  "nazov": "Opatrenie",
+  "uroven": 1,
+  "kod": "Opatrenie",
+  "prefix": "LP",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "a34515a7-3a96-4af9-aebf-4fb8f73b9de0",
+   "nazov": "Právo sociálneho zabezpečenia",
+   "uroven": 1,
+   "kod": "PravoSocialnehoZabezpecenia",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/515",
+ "nazov": "Návrh opatrenia Ministerstva práce, sociálnych vecí a rodiny Slovenskej republiky o úprave súm a koeficientov kompenzačného príspevku baníkom",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-13",
+ "zodpovednaInstitucia": {
+  "uuid": "05ed395f-31cd-4b23-abc7-f8bfc1af02c9",
+  "skratenyNazov": "MPSVRSR",
+  "nazov": "Ministerstvo práce, sociálnych vecí a rodiny Slovenskej republiky",
+  "ldapUuid": "2a428220-6f26-3c58-8b90-9f8e51c1c774",
+  "email": "oznamopk@employment.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-13",
+ "datumUkonceniaPkMpk": "2026-11-02"
+}

@@ -723,3 +723,59 @@ vocabulary (adopted at taxonomy v1.20, narrowed or rejected term by term).
 5. **Committee hearings**: committee divisions are kept (61, 48 on bills)
    and members' words in committee are read (98 speeches on our ground);
    witnesses' evidence (as in Canada's committees) is not. Collect it?
+
+## Government consultations and publications (gov_docs, 16 October 2026)
+
+UK parity for "government consultations and publications": the Irish
+reader is `src/gov_doc_sources/ie.py`, run by `tools/country_gov_docs.py ie`
+into the shared `gov_docs` table. Classified with the English shared
+taxonomy and its Irish vocabulary (`config/taxonomy.yaml`), as
+`tools/ie_monitor.py` classifies. No key is needed.
+
+### The block
+
+`www.gov.ie` answers our user agent with a CloudFront 403 ("Request
+blocked"), robots.txt included (16 October 2026, from the laptop). The
+guard reads a 4xx robots.txt as "no rules", so the consultations page
+itself was then asked, and answered 403 too. That is an address block: never
+worked around. Government consultations and publications therefore have no
+reader for Ireland yet.
+
+### Legitimate routes tried
+
+| Route | Outcome |
+|---|---|
+| Iris Oifigiúil (`www.irisoifigiuil.ie`) | robots.txt `Disallow: /` for every agent: not read |
+| data.gov.ie | robots.txt `Disallow: /api/` (the CKAN API) and every faceted search: no programmatic search |
+| merrionstreet.ie (the Government news service) | 403 to robots.txt |
+| ncca.ie (curriculum council: SPHE and RSE consultations) | 403 to robots.txt |
+| hiqa.ie, cnam.ie, electoralcommission.ie, lawreform.ie, citizensassembly.ie | answer, robots.txt allows (HIQA disallows only Drupal paths and search; the WordPress sites only `/wp/wp-admin/`), but none publishes a machine-readable list of consultations with closing dates; HIQA's "Consultations" page (`/get-touch/consultations`) is prose with no structured list. Each would be its own small HTML scraper: later options |
+| assets.gov.ie | robots.txt now answers (it blocks named AI crawlers, not us), but it holds files with no listing |
+| GitHub's runners | untested; a one-off probe workflow for gov.ie remains the next step |
+
+### What is read: statutory instruments (`isb`)
+
+The electronic Irish Statute Book (`https://www.irishstatutebook.ie/eli/<year>/si/`,
+HTML) lists every SI of the year on one page: number and title, no date
+(515 for 2026 on 16 October, 11 of them PDF-only and not yet hyperlinked).
+robots.txt answers 404 (no rules). The newest 250 numbers are candidates;
+those whose title matches the taxonomy have their page read
+(`/eli/<year>/si/<n>/made/en/html`, at most 40 a run), which gives the date
+the making was notified in Iris Oifigiúil (the published date), the maker
+("Minister for Education and Youth") and the Explanatory Note (or, without
+one, the enacting words) as the summary. Each is a `regulation`. Titles
+that do not match are not read and carry no date, so they fall outside the
+window; a regulation needs tier 1 to be kept anyway. In January to April
+the previous year's tail is read too.
+
+### Live run, 16 October 2026 (scratch store)
+
+| Source | Listed in the window | On our ground | Deadline rows with a closing date |
+|---|---|---|---|
+| `isb` | 3 (of 251 in the tail; 3 titles matched, 3 pages read) | 0 | n/a |
+
+Nothing was kept. The three SIs read were S.I. 350 to 352 of 2026, data
+protection regulations for the Commission of Investigation into the
+Handling of Historical Child Sexual Abuse in Day and Boarding Schools
+(Minister for Education and Youth, notified 24 July 2026): area 6 at tier
+2 ("child sexual abuse"), below the gate for a made regulation.

@@ -1,0 +1,45 @@
+{
+ "uuid": "b2bae5d7-4ee2-439d-9147-9b9d0c0882c7",
+ "typ": {
+  "uuid": "9fe9f993-e578-4a40-8a59-f444d5f827b7",
+  "nazov": "Predbežná informácia",
+  "uroven": 1,
+  "kod": "PredbeznaInfo",
+  "prefix": "PI",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "23dafd1e-2208-40a6-9106-381849977a8f",
+   "nazov": "Životné prostredie",
+   "uroven": 2,
+   "kod": "ZivotneProstrendie",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "PI/2026/245",
+ "nazov": "Návrh zákona o čistení komunálnych odpadových vôd a o zmene a doplnení niektorých zákonov",
+ "stadium": {
+  "hodnota": "VYJADRENIA",
+  "nazov": "Vyjadrenia k predbežnej informácii"
+ },
+ "poslednaZmena": "2026-10-16",
+ "zodpovednaInstitucia": {
+  "uuid": "210eb74c-4a3f-476c-8d0b-a0d829db1081",
+  "skratenyNazov": "MŽPSR",
+  "nazov": "Ministerstvo životného prostredia Slovenskej republiky",
+  "ldapUuid": "897979c9-f1cd-38ff-bb9b-53ca9e1d0e64",
+  "email": "jana.oslejova@enviro.gov.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-16",
+ "datumUkonceniaPkMpk": "2026-10-29"
+}

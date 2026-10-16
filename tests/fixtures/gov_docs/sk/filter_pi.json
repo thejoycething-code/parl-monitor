@@ -1,0 +1,91 @@
+{
+ "totalElements": 7,
+ "number": 1,
+ "size": 1000,
+ "legMaterialList": [
+  {
+   "uuid": "2ff8b69b-08ad-42b7-a313-8349c947ec69",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/236",
+   "nazov": "Návrh opatrenia Ministerstva financií Slovenskej republiky č. MF/004767/2026-371, ktorým sa mení a dopĺňa výnos Ministerstva financií Slovenskej republiky z 24. mája 2006 č. MF/010546/2006-32, ktorým sa vykonávajú niektoré ustanovenia zákona č. 291/2002 Z. z. o Štátnej pokladnici a o zmene a doplnení niektorých zákonov v znení neskorších predpisov v znení neskorších predpisov",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-10-13"
+  },
+  {
+   "uuid": "b2bae5d7-4ee2-439d-9147-9b9d0c0882c7",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/245",
+   "nazov": "Návrh zákona o čistení komunálnych odpadových vôd a o zmene a doplnení niektorých zákonov",
+   "stadium": {
+    "hodnota": "VYJADRENIA",
+    "nazov": "Vyjadrenia k predbežnej informácii"
+   },
+   "zaciatokStadia": "2026-10-16",
+   "datumUkonceniaPkMpk": "2026-10-29"
+  },
+  {
+   "uuid": "1370788f-d31b-42e0-9da5-0047b49bc15a",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/226",
+   "nazov": "Návrh Opatrenia MPSVR SR o ustanovení súm rodičovského príspevku.",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-09-24",
+   "datumUkonceniaPkMpk": "2026-09-23"
+  },
+  {
+   "uuid": "d7448896-fd3b-4ee2-8a78-f0d840309497",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/18",
+   "nazov": "Návrh zákona o ochrane maloletých v digitálnom priestore a o zmene a doplnení niektorých zákonov",
+   "stadium": {
+    "hodnota": "PROCES_UKONCENY",
+    "nazov": "Proces ukončený"
+   },
+   "zaciatokStadia": "2026-09-01",
+   "datumUkonceniaPkMpk": "2026-01-30"
+  },
+  {
+   "uuid": "4d30a582-bcf2-43b8-9b3b-2e26f9b29cc0",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/238",
+   "nazov": "Návrh nariadenia vlády Slovenskej republiky, ktorým sa mení nariadenie vlády Slovenskej republiky č. 668/2004 Z. z. o rozdeľovaní výnosu dane z príjmov územnej samospráve v znení neskorších predpisov",
+   "stadium": {
+    "hodnota": "VYJADRENIA",
+    "nazov": "Vyjadrenia k predbežnej informácii"
+   },
+   "zaciatokStadia": "2026-10-13",
+   "datumUkonceniaPkMpk": "2026-10-16"
+  },
+  {
+   "uuid": "e227c43a-f666-4997-81e1-bdbd82621951",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/244",
+   "nazov": "Návrh vyhlášky Úradu pre reguláciu elektronických komunikácií a poštových služieb z ... /2026, ktorou sa mení a dopĺňa vyhláška Úradu pre reguláciu elektronických komunikácií a poštových služieb č. 286/2022 Z. z.  o národnom číslovacom pláne v znení vyhlášky č. 98/2023 Z. z.",
+   "stadium": {
+    "hodnota": "VYJADRENIA",
+    "nazov": "Vyjadrenia k predbežnej informácii"
+   },
+   "zaciatokStadia": "2026-10-09",
+   "datumUkonceniaPkMpk": "2026-10-16"
+  },
+  {
+   "uuid": "3a88beb6-e2df-4ae1-979f-fe2c495cd02e",
+   "typNazov": "Predbežná informácia",
+   "cisloLegislativnehoMaterialu": "PI/2026/223",
+   "nazov": "Vyhláška Ministerstva zdravotníctva Slovenskej republiky z ... 2026, ktorou sa ustanovujú podrobnosti o vykonávaní organizovaného skríningu onkologických chorôb",
+   "stadium": {
+    "hodnota": "VYJADRENIA",
+    "nazov": "Vyjadrenia k predbežnej informácii"
+   },
+   "zaciatokStadia": "2026-09-18",
+   "datumUkonceniaPkMpk": "2026-10-30"
+  }
+ ]
+}

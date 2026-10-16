@@ -1,0 +1,45 @@
+{
+ "uuid": "432089a6-c92c-4cd6-8c67-f9799e8c8248",
+ "typ": {
+  "uuid": "c7040540-825f-415c-8486-c36da10169aa",
+  "nazov": "Zákon",
+  "uroven": 1,
+  "kod": "Zakon",
+  "prefix": "LP",
+  "legislativny": true,
+  "platny": true,
+  "existujeFormular": null,
+  "generovanySystemom": null,
+  "povolitZadavanieFormularom": null
+ },
+ "oblastList": [
+  {
+   "uuid": "09cc703a-58e9-4f34-8db5-4d792114438e",
+   "nazov": "Vodná doprava",
+   "uroven": 3,
+   "kod": "VodnaDoprava",
+   "prefix": null,
+   "legislativny": null,
+   "platny": true,
+   "existujeFormular": null,
+   "generovanySystemom": null,
+   "povolitZadavanieFormularom": null
+  }
+ ],
+ "cisloLegislativnehoMaterialu": "LP/2026/529",
+ "nazov": "Návrh zákona, ktorým sa mení a dopĺňa zákon č. 435/2000 Z. z. o námornej plavbe v znení neskorších predpisov",
+ "stadium": {
+  "hodnota": "MPK",
+  "nazov": "Pripomienkové konanie"
+ },
+ "poslednaZmena": "2026-10-12",
+ "zodpovednaInstitucia": {
+  "uuid": "a2f091ac-3293-4b5a-8ce3-8536fe7d3929",
+  "skratenyNazov": "MDSR",
+  "nazov": "Ministerstvo dopravy Slovenskej republiky",
+  "ldapUuid": "386cc723-451c-349f-a21a-f896aa9f2058",
+  "email": "oznamopk@mindop.sk"
+ },
+ "datumZaciatkuPkMpk": "2026-10-12",
+ "datumUkonceniaPkMpk": "2026-10-30"
+}

@@ -41,6 +41,7 @@ cd "$(dirname "$0")/.."
 export GITHUB_WORKFLOW="${GITHUB_WORKFLOW:-Portugal weekly}"
 if [ "${PT_RECLASSIFY:-}" = "true" ]; then
   python3 tools/country_petitions.py pt --reclassify
+  python3 tools/country_gov_docs.py pt --reclassify
   python3 tools/pt_rollcalls.py --reclassify
   python3 tools/pt_chamber.py --reclassify
 fi
@@ -99,6 +100,12 @@ fi
 if [ "$rc" -eq 0 ] || [ "$rc" -eq 3 ]; then
   python3 tools/country_petitions.py pt || echo "  [gap] the petitions step failed"
 fi
+# Government consultations and publications (tools/gov_docs_step.sh,
+# tools/country_gov_docs.py, src/gov_docs.py, 16 October 2026): this
+# country's government consultations and publications on our ground into
+# gov_docs, before the edition, so the countdown's deadline rows are this
+# week's. Never fatal: a source that failed is a [gap] line and a gaps row.
+bash tools/gov_docs_step.sh pt
 # The edition, from the store just collected (not when the collector failed
 # outright: a half-read week is not worth a DM; nor on a backfill run,
 # PT_LEGISLATURE set).

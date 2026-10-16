@@ -1,0 +1,416 @@
+{
+"@odata.context": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/$metadata#Document(Id,DocumentNummer,Onderwerp,Titel,Datum,DocumentActor(ActorNaam,Functie,Relatie),Kamerstukdossier(Nummer,Titel))",
+"value": [
+{
+"Id": "1bb20738-bf94-464e-8ecb-2748c72af6c5",
+"DocumentNummer": "2026D51642",
+"Titel": null,
+"Onderwerp": "Verlenging subsidiemodule Hoogwaardige mestverwerking",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J. van Essen",
+"Functie": "minister van Landbouw, Visserij, Voedselzekerheid en Natuur",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "d60afde7-3963-486a-914a-2d3bc90236fe",
+"DocumentNummer": "2026D51613",
+"Titel": null,
+"Onderwerp": "Het niet uitvoeren van de op 6 oktober 2026 aangenomen motie van de leden Flach en Boomsma over een centrale doorstroomtoets en de herijking van de wettelijke functies ervan in samenhang uitwerken in een wetsvoorstel",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J.Z.C.M. Tielen",
+"Functie": "staatssecretaris van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "9af729ba-6125-4c44-8d25-47b96dfb0cda",
+"DocumentNummer": "2026D51594",
+"Titel": null,
+"Onderwerp": "Toestemming voor deelname aan een technische briefing over de uitvoeringswet Gigabitinfrastructuurverordening op 29 oktober 2026",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "W.J.M. Aerdts",
+"Functie": "staatssecretaris van Economische Zaken en Klimaat",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "12a3b4e6-0313-4194-b0ae-725fd0c676a7",
+"DocumentNummer": "2026D51430",
+"Titel": null,
+"Onderwerp": "Schriftelijke antwoorden op vragen gesteld tijdens de eerste termijn van de begrotingsbehandeling van Volksgezondheid, Welzijn en Sport (XVI) op 14 oktober 2026",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "S.T.M. Hermans",
+"Functie": "minister van Volksgezondheid, Welzijn en Sport",
+"Relatie": "Eerste ondertekenaar"
+},
+{
+"ActorNaam": "W.R.C. Sterk",
+"Functie": "minister van Langdurige Zorg, Jeugd en Sport",
+"Relatie": "Mede ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "ac67c83f-6ec7-47d8-b4f4-77e63c3d0f32",
+"DocumentNummer": "2026D51600",
+"Titel": null,
+"Onderwerp": "Voortgang Professionals voor Maatwerk Multiproblematiek",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "A.A. Aartsen",
+"Functie": "minister van Werk en Participatie",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "646d74b1-28b1-4ca7-a0cb-7def06776b73",
+"DocumentNummer": "2026D51669",
+"Titel": null,
+"Onderwerp": "Eindrapport EBA Defensie-industrie ",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "D.G. Boswijk",
+"Functie": "staatssecretaris van Defensie",
+"Relatie": "Mede ondertekenaar"
+},
+{
+"ActorNaam": "D. Yeşilgöz-Zegerius",
+"Functie": "minister van Defensie",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "84a20f8b-0c15-42f0-aa0f-8637c3dd5bcb",
+"DocumentNummer": "2026D51479",
+"Titel": null,
+"Onderwerp": "'Criminaliteit en rechtshandhaving 2025: Ontwikkelingen en samenhangen’",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "D.M. van Weel",
+"Functie": "minister van Justitie en Veiligheid",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "4901b7af-4e43-4247-94d4-8a90ce12f5b0",
+"DocumentNummer": "2026D51435",
+"Titel": "Vaststelling van de begrotingsstaten van het Ministerie van Volksgezondheid, Welzijn en Sport (XVI) voor het jaar 2027",
+"Onderwerp": "Reactie op de motie van het lid Bikker c.s. over mogelijkheden om de stapeling van zorgkosten voor chronisch zieken te beperken door de aftrek specifieke zorgkosten te behouden (Kamerstuk 37020-31)",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "W.R.C. Sterk",
+"Functie": "minister van Langdurige Zorg, Jeugd en Sport",
+"Relatie": "Mede ondertekenaar"
+},
+{
+"ActorNaam": "S.T.M. Hermans",
+"Functie": "minister van Volksgezondheid, Welzijn en Sport",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Vaststelling van de begrotingsstaten van het Ministerie van Volksgezondheid, Welzijn en Sport (XVI) voor het jaar 2027",
+"Nummer": 37020
+}
+]
+},
+{
+"Id": "8a654237-c6fc-4e8e-8847-a13a7a018bbe",
+"DocumentNummer": "2026D51638",
+"Titel": null,
+"Onderwerp": "Uitstel toezending BNC-fiches over het Fair Labour Mobility package",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J.A. Vijlbrief",
+"Functie": "minister van Sociale Zaken en Werkgelegenheid",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "8bf0730f-0027-46a5-b27a-a5bd8055a2cd",
+"DocumentNummer": "2026D51470",
+"Titel": "Vaststelling van de begrotingsstaten van het Ministerie van Volksgezondheid, Welzijn en Sport (XVI) voor het jaar 2027",
+"Onderwerp": "Appreciaties op de reeds ingediende amendementen op de Ontwerpbegroting VWS 2027",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "W.R.C. Sterk",
+"Functie": "minister van Langdurige Zorg, Jeugd en Sport",
+"Relatie": "Mede ondertekenaar"
+},
+{
+"ActorNaam": "S.T.M. Hermans",
+"Functie": "minister van Volksgezondheid, Welzijn en Sport",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": [
+{
+"Titel": "Vaststelling van de begrotingsstaten van het Ministerie van Volksgezondheid, Welzijn en Sport (XVI) voor het jaar 2027",
+"Nummer": 37020
+}
+]
+},
+{
+"Id": "30aacdff-c5fd-4d56-b661-b936585ca367",
+"DocumentNummer": "2026D51586",
+"Titel": null,
+"Onderwerp": "Uitkomst gesprekken over vertrouwelijk delen informatie aan de cao-tafel ter uitvoering van de motie van het lid Moorman (Kamerstuk 27923-521)",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "R.M. Letschert",
+"Functie": "minister van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "ffa991c7-aa3e-41d9-935d-c7393ac3f18b",
+"DocumentNummer": "2026D51606",
+"Titel": null,
+"Onderwerp": "Risico's en regulering van onbemenste systemen en AI",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "D. Yeşilgöz-Zegerius",
+"Functie": "minister van Defensie",
+"Relatie": "Eerste ondertekenaar"
+},
+{
+"ActorNaam": "D.G. Boswijk",
+"Functie": "staatssecretaris van Defensie",
+"Relatie": "Mede ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "a619391e-2700-432d-a9dc-06896e909201",
+"DocumentNummer": "2026D51540",
+"Titel": null,
+"Onderwerp": "Reactie op een burgerbrief over thuisonderwijs",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J.Z.C.M. Tielen",
+"Functie": "staatssecretaris van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "76d46118-353b-44c0-aeb9-c95d690f1e53",
+"DocumentNummer": "2026D51046",
+"Titel": null,
+"Onderwerp": "Kabinetsreactie advies Gezondheidsraad Transgenderzorg voor Jongeren",
+"Datum": "2026-10-13T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "S.T.M. Hermans",
+"Functie": "minister van Volksgezondheid, Welzijn en Sport",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "db91fbf5-43b9-4975-b4b6-6bab7f272c2c",
+"DocumentNummer": "2026D50439",
+"Titel": null,
+"Onderwerp": "IGJ Jaarrapportage 2025 Wet afbreking zwangerschap (Wafz)",
+"Datum": "2026-10-12T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "S.T.M. Hermans",
+"Functie": "minister van Volksgezondheid, Welzijn en Sport",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "9a1bb50e-e969-41f3-bd92-dbbe32813d1c",
+"DocumentNummer": "2026D51544",
+"Titel": null,
+"Onderwerp": "Rapporten Inspectie van het Onderwijs: Van po naar vo: doorlopende leerlijn of nieuwe start? en Regionale verschillen in schoolloopbanen in het basis- en voortgezet onderwijs",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J.Z.C.M. Tielen",
+"Functie": "staatssecretaris van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "0aefdc86-67ad-4315-9591-dd7d2c394271",
+"DocumentNummer": "2026D51401",
+"Titel": null,
+"Onderwerp": "Verslag Raad Buitenlandse Zaken Defensie 28 september 2026",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "D. Yeşilgöz-Zegerius",
+"Functie": "minister van Defensie",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "b5520acd-6fd4-412b-9b05-e2d123e1b94d",
+"DocumentNummer": "2026D51557",
+"Titel": null,
+"Onderwerp": "Contouren wetsvoorstel onderwijs aan nieuwkomers",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J.Z.C.M. Tielen",
+"Functie": "staatssecretaris van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "1dab542b-0dfb-4174-bf42-ec33dfafb048",
+"DocumentNummer": "2026D51675",
+"Titel": null,
+"Onderwerp": "Uitkomst onderhandelingen Meta Facebook Pages DPIA ",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "E. van der Burg",
+"Functie": "staatssecretaris van Binnenlandse Zaken en Koninkrijksrelaties",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "3d5316c9-5577-4db0-812d-f80a2dfb69d9",
+"DocumentNummer": "2026D51533",
+"Titel": null,
+"Onderwerp": "Moties en toezegging over schoolpleinen, staat schooltoiletten, middelen verduurzaming schoolgebouwen",
+"Datum": "2026-10-15T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "J.Z.C.M. Tielen",
+"Functie": "staatssecretaris van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "e2294820-aa85-4b0f-9b54-019eb641793a",
+"DocumentNummer": "2026D51361",
+"Titel": null,
+"Onderwerp": "Eindevaluatie Nationaal Actieplan voor meer diversiteit en inclusie in het hoger onderwijs en onderzoek",
+"Datum": "2026-10-14T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "R.M. Letschert",
+"Functie": "minister van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "6411d60f-2518-4568-8081-01f7b0b8be43",
+"DocumentNummer": "2026D51356",
+"Titel": null,
+"Onderwerp": "Reactie op verzoek van de commissie Onderwijs, Cultuur en Wetenschap over de opzet van de periodieke rapportage Onderzoek en wetenschap",
+"Datum": "2026-10-14T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "R.M. Letschert",
+"Functie": "minister van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "97143f2d-59ca-410c-b159-05ee25d846c2",
+"DocumentNummer": "2026D51123",
+"Titel": null,
+"Onderwerp": "Rapport WODC verzekerbaarheid schade bij rampen Caribisch Nederland",
+"Datum": "2026-10-14T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "D.M. van Weel",
+"Functie": "minister van Justitie en Veiligheid",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "74da0ef1-0836-4121-b8ee-204fd954df04",
+"DocumentNummer": "2026D51384",
+"Titel": null,
+"Onderwerp": "KNAW-adviezen ",
+"Datum": "2026-10-14T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "R.M. Letschert",
+"Functie": "minister van Onderwijs, Cultuur en Wetenschap",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+},
+{
+"Id": "9487ef34-afbb-4ae3-ba7b-2bea6c591c9d",
+"DocumentNummer": "2026D51183",
+"Titel": null,
+"Onderwerp": "Reactie op verzoek van het lid Westerveld, gedaan tijdens de regeling van werkzaamheden op 13 oktober 2026, over het bericht dat Veilig Thuis het aantal meldingen niet meer aankan",
+"Datum": "2026-10-14T00:00:00+02:00",
+"DocumentActor": [
+{
+"ActorNaam": "W.R.C. Sterk",
+"Functie": "minister van Langdurige Zorg, Jeugd en Sport",
+"Relatie": "Eerste ondertekenaar"
+}
+],
+"Kamerstukdossier": []
+}
+],
+"@odata.nextLink": "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0/Document?$filter=Soort%20eq%20%27Brief%20regering%27%20and%20Verwijderd%20eq%20false%20and%20Datum%20ge%202026-07-16&$orderby=Datum%20desc&$select=Id%2CDocumentNummer%2COnderwerp%2CTitel%2CDatum&$expand=DocumentActor%28%24select%3DActorNaam%2CFunctie%2CRelatie%29%2CKamerstukdossier%28%24select%3DNummer%2CTitel%29&$skiptoken=Datum-2026-10-01T00%3A00%3A00%2B02%3A00,Id-e25a1fb5-5012-406f-8099-0d8b0a9c8ade"
+}
