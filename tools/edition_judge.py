@@ -54,6 +54,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
+from src import chamber_store, country_countdown, petitions  # noqa: E402
 from src import country_edition as ce  # noqa: E402
 from src import db, edition_judge as ej, edition_review as er, latam, session_queue, triage  # noqa: E402
 
@@ -115,8 +116,19 @@ def country_items(conn, cc, today, config_dir=None, directory=None):
         since = edition_since(country, today, directory)
         wl = ce.watchlist_of(country, config_dir)
         got = country.items(conn, since, today, wl) or []
+        # 16 October 2026: what the edition adds besides the adapter's own
+        # items (the chamber layer's speeches and questions, petitions) and
+        # the countdown's forward rows (src/country_countdown.forward_items:
+        # agenda points, regional agendas, consultations and deadlines over
+        # the 8-week horizon), so the judge reads a watched bill's agenda
+        # points with its why-line and the big dates can be scored.
+        got += chamber_store.edition_items(conn, cc, since, today, wl)
+        got += petitions.edition_items(conn, cc, since, today, wl)
         if country.kinds:
             got = [it for it in got if it["kind"] in country.kinds]
+        if country.layout == "countdown":
+            got += [it for it in country_countdown.forward_items(conn, country, today, wl)
+                    if not it.get("standing")]
         kept, _ = ce.noise_for(country).split(got, config_dir)
         items = ej.annotate(conn, ce.collapse_titles(kept))
         return [it for it in items if not (it.get("judge") == 0 and not it["watched"])]

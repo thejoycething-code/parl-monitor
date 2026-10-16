@@ -1695,3 +1695,54 @@ note, and the scope docs say what was applied.
   number, name and party are read from `adr`). data.bs.ch and data.bl.ch
   dataset links now point at `/explore/assets/<id>/` directly (the old
   `/explore/dataset/` form redirects).
+
+## The countdown layout on the fifteen editions (16 October 2026, branch `country-countdown`)
+
+Chris asked for the UK weekly's "A · Countdown" layout (PRs #205-#210) on the
+fifteen own editions. `src/country_countdown.py` renders it for every country
+in `src/country_edition.py` (Country.layout defaults to "countdown";
+"classic" keeps the old edition). Order: header and a **sitting-days line**
+(only what the country's own agenda says: plenary days per chamber this
+week, else committee days, else the next plenary it names; regional
+parliaments shown in the tables, from `regional_agenda`); **Big dates** (rows
+the free session judge scored 3, 8-week horizon, at most three, nearest
+first, never a private or closed sitting, "BIG DATE" label, no star; Context
+cites the last recorded vote on the bill the row names, else the judge's
+why-line); **This week** (edition day to the Sunday of the coming week) and
+**Further afield** (next Monday to 8 weeks on), When | Where | What | Issue,
+"Thu 22 Oct"; a committee meeting's points fold into one row; **Key
+questions** (three weeks, judge score then recency, tier 1 counts 2 while
+unread, one member's same-day questions on one area as one row, max six);
+**Petitions** and **Consultations** (country_petitions; a consultation
+closing in the horizon is a GOVT row instead); **Government publications**
+(`gov_docs`, another agent's table; a coverage line while absent);
+**Reference** (Bills we track with Where and Next, then every classic
+section demoted one level, post_render sections included). No Week ahead
+section (its points are rows), no Latest votes, no "Also announced". The
+window's recorded votes stay as the classic "Recorded votes" section under
+Reference (they are the edition's record and NL's DM, NL3; not the UK's
+cross-legislature "Latest votes" list).
+
+Where tags: TWEEDE KAMER / EERSTE KAMER, NATIONALRAT / BUNDESRAT, NATIONALRAT
+/ STÄNDERAT, SEJM / SENAT, CÂMARA / SENADO, CAMERA / SENATO, ASSEMBLÉE
+NATIONALE / SÉNAT, CONGRESO / SENADO, CHAMBER, ASSEMBLEIA DA REPÚBLICA,
+NÁRODNÁ RADA, SENADO / DIPUTADOS, SABOR, ORSZÁGGYŰLÉS; regional rows LANDTAG
+<x>, CANTON <x>, CONSIGLIO <x>, PARLAMENTO <x>, SEJMIK <x>, ASSEMBLEIA <x>,
+CONGRESO <x>, LEGISLATURA <x>; GOVT, a regulator's own name, DEADLINE.
+
+The judge: `tools/edition_judge.py` now queues the chamber layer's and
+petitions' items and the countdown's forward rows (agenda points over the
+horizon, regional agenda rows, consultations, deadlines) as kind "agenda",
+each with the watched bill's why-line, so the weekly session judge can
+score the big dates. The agenda collector reads 63 days ahead
+(`agenda.FETCH_DAYS`; Poland's per-day committee crawl capped at 28 days);
+measured 16 October: NL 1,438 points to 17 December (74 on our ground), AT
+88 to 22 October (the source publishes that far), BR 23 to 3 November. France
+and Croatia add rows through `Country.timeline_extra` (scheduled dossier
+acts and Senate sittings; the session's undated agenda as "This session"
+rows; the FR4 decrees as a standing row). The DM adds the sitting line, the
+big dates and this week's rows in place of the week-ahead line. No new Mini
+job; the agenda steps already run in each weekly. Not converted: the Latam
+monthly (tools/latam_monitor.py: a monthly digest of thirteen countries;
+only Panama's and Honduras's agendas are stored, so most tables would be
+empty; left for a decision).
