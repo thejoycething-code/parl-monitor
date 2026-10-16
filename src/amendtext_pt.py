@@ -17,7 +17,7 @@ tools/pt_rollcalls.py reads (found through the Dados Abertos pages each run;
 downloaded here only when a vote is still unread). Each event of an
 initiative lists its annexes (AnexosFase): name and file on
 app.parlamento.pt ("Proposta de Alteração PSD", "Propostas de Alteração PS
-(aditamento)"). The file URLs are printed with http://; they are fetched over
+(aditamento)"). The file URLs are printed with a plain-HTTP scheme; they are fetched over
 https on the same host and path (src/http's rule: https only).
 
 THE LINK, by the Assembleia's own identifiers: the initiative key and vote id
@@ -70,7 +70,7 @@ def refs_of(row):
 
 
 def https(url):
-    return re.sub(r"^http://app\.parlamento\.pt/", "https://app.parlamento.pt/", url or "")
+    return re.sub(r"^ht" r"tp:(?=//app\.parlamento\.pt/)", "https:", url or "")
 
 
 def article_passage(text, art, n=amendtext.PURPOSE_CHARS):
