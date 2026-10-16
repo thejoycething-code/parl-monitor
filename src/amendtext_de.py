@@ -121,7 +121,7 @@ class GermanyReader(amendtext.Reader):
     def candidates(self, conn):
         rows = conn.execute("SELECT vote_id, date, label, areas, document_url, yes, no, abstain "
                             "FROM de_divisions WHERE parliament=? AND (document_url IS NOT NULL OR date >= ?) "
-                            "ORDER BY date, vote_id", (BUNDESTAG, FIRST_TALLY_DAY))
+                            "ORDER BY date DESC, vote_id DESC", (BUNDESTAG, FIRST_TALLY_DAY))
         return [dict(zip(("key", "date", "title", "areas", "document_url", "yes", "no", "abstain"), r))
                 for r in rows]
 

@@ -132,7 +132,7 @@ class NetherlandsReader(amendtext.Reader):
         rows = conn.execute(
             "SELECT z.zaak_nummer, MAX(d.date), z.soort, z.onderwerp, z.areas FROM nl_zaken z "
             "JOIN nl_divisions d USING (zaak_nummer) WHERE z.soort IN ('Amendement', 'Motie') "
-            "GROUP BY z.zaak_nummer ORDER BY MAX(d.date), z.zaak_nummer")
+            "GROUP BY z.zaak_nummer ORDER BY MAX(d.date) DESC, z.zaak_nummer")
         return [{"key": r[0], "date": r[1], "soort": r[2], "title": "{0}: {1}".format(r[2], r[3] or ""),
                  "areas": r[4]} for r in rows]
 

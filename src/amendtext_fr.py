@@ -361,7 +361,7 @@ class FranceReader(amendtext.Reader):
         rows = [dict(zip(("key", "date", "title", "areas", "dossier_ref"), r)) for r in conn.execute(
             "SELECT division_key, date, title, areas, dossier_ref FROM fr_divisions "
             "WHERE chamber='an' AND (title LIKE 'l''amendement%' OR title LIKE 'le sous-amendement%' "
-            "OR title LIKE 'les amendements%' OR title LIKE 'l’amendement%') ORDER BY date, number")]
+            "OR title LIKE 'les amendements%' OR title LIKE 'l’amendement%') ORDER BY date DESC, number DESC")]
         if any(not r["dossier_ref"] for r in rows):
             # The budget bills' texts are filed in several dossiers, so the
             # collector left those scrutins unjoined; the dossiers carrying

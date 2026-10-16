@@ -118,7 +118,7 @@ class SpainReader(amendtext.Reader):
         rows = conn.execute(
             "SELECT d.division_key, d.date, d.title, d.subgroup, d.areas, d.initiative_key, i.bocg "
             "FROM es_divisions d LEFT JOIN es_initiatives i USING (initiative_key) "
-            "WHERE d.subgroup LIKE 'Enmienda%' ORDER BY d.date, d.division_key")
+            "WHERE d.subgroup LIKE 'Enmienda%' ORDER BY d.date DESC, d.division_key DESC")
         out = []
         for r in rows:
             d = dict(zip(("key", "date", "bill", "subgroup", "areas", "initiative_key", "bocg"), r))

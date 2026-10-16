@@ -112,7 +112,7 @@ class PortugalReader(amendtext.Reader):
 
     def candidates(self, conn):
         rows = conn.execute("SELECT division_key, vote_id, legislature, ini_key, date, phase, description, areas "
-                            "FROM pt_divisions WHERE description LIKE '%Proposta%' ORDER BY date, vote_id")
+                            "FROM pt_divisions WHERE description LIKE '%Proposta%' ORDER BY date DESC, vote_id DESC")
         out = []
         for r in rows:
             d = dict(zip(("key", "vote_id", "legislature", "ini_key", "date", "phase", "description", "areas"), r))

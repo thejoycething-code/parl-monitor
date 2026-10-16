@@ -1695,3 +1695,65 @@ note, and the scope docs say what was applied.
   number, name and party are read from `adr`). data.bs.ch and data.bl.ch
   dataset links now point at `/explore/assets/<id>/` directly (the old
   `/explore/dataset/` form redirects).
+
+## What a vote is ON, not just its title: amendment text for six countries (16 October 2026, branch `country-clausetext`)
+
+UK parity with `src/clausetext.py` (#194, #200). Recorded votes in DE, FR, NL,
+IT, PT and ES often carry titles that only NAME what is put ("l'amendement n°
+516 de Mme Rousseau à l'article 44 ...", "Emendamento 7-bis.1 ...",
+"Amendement van het lid X ter vervanging van nr. 12", "(Änderungsantrag)"),
+so their areas came only from the bill, and an amendment putting abortion or
+gender into an unrelated bill was invisible. Now each country's weekly reads
+the text and matches the country's own taxonomy over it.
+
+- **Design** (`src/amendtext.py`, `tools/amendment_text.py`): one reader per
+  country (`src/amendtext_<cc>.py`); the link from vote to text is by the
+  source's own identifiers only, a non-unique link is a gap. Store cache
+  `amendment_text` (one row per vote read; failures retried; a reader
+  `version` bump re-reads). Match source "amendment text". **Ledger gate** as
+  the UK's: only a tier-1 term in the text's PURPOSE (the exposé sommaire's
+  opening, the "impegna il Governo" / "verzoekt de regering" operative part,
+  the Drucksache's title and "wolle beschließen" words, the JUSTIFICACIÓN)
+  adds its areas, terms and tier 1 to the division (union, never removes);
+  any other match is stored and listed for review only
+  (`tools/amendment_text.py --cc XX --report`). Re-applied every week from the
+  cache after the collector, so a collector upsert or `--reclassify` never
+  drops it. Fail loud: "could not read amendment text (<reason>)" in gaps (25
+  rows a run, the rest summed). Fetches go through `robots_guard.guard`.
+- **France** (AN): `Amendements.json.zip` on data.assemblee-nationale.fr is
+  NOT downloaded whole (327 MB): its central directory (16 MB) and each
+  needed amendment are read by HTTP Range, pinned to one ETag because the CDN
+  serves several builds at once (measured: three in six requests). Link:
+  dossier + séance organe PO838901 + number + day the séance disposed of it
+  (`dateSort`), then article and author. `AMENDTEXT_FR_ZIP=<local copy>` for
+  a backfill. The Sénat's scrutins are not read (no per-scrutin identifier
+  for ameli amendments in our store).
+- **Germany**: DIP `/drucksache-text` (src/dip.py key order). The voted paper
+  is the poll's linked Drucksache, or for "(Änderungsantrag)" /
+  "(Entschließungsantrag)" polls the paper the House's own record of that
+  day names (DIP Vorgangsposition, "Namentliche Abstimmung"); polls with no
+  paper (before about 2019) are found in that record by date and tally.
+  abgeordnetenwatch's API is not read (robots.txt disallows `/api/v2/`).
+  Landtag polls are not read.
+- **Netherlands**: the zaak's own Amendement/Motie document (OData resource,
+  Word or PDF), latest version dated by the vote; applied to `nl_zaken`
+  (tier) and every `nl_divisions` row on the zaak.
+- **Italy (Camera)**: the Allegato A of the vote's sitting and earlier ones on
+  documenti.camera.it (`eme.<n>._ac.<AC>` paragraphs, `si.9_ac...`,
+  `si.1-<n>`, `si.6-<n>` blocks; aic/banchedati disallow us and are not
+  used). A vote on named commitments ("capoverso settimo della parte
+  dispositiva", "CPV 4, 5") reads only those; one on the premises gives no
+  purpose. The Senate's amendments stay with `tools/it_senato_amendments.py`.
+- **Portugal**: the party's proposals paper (or its "Requerimento de
+  Avocação") among the initiative's annexes in the Iniciativas dump, by
+  initiative key, vote id and party; the passage on the article named is the
+  purpose. Only 54 plenary votes qualify (amendments are voted in committee).
+- **Spain**: the BOCG amendments publications of the initiative
+  (BOCG-15-B-240-4 ...), "ENMIENDA NÚM. N" by the group named. The XV
+  Congreso is dissolved: the stored votes are read once.
+- **Weeklies**: a step in `jobs/{fr,nl,it,pt,es}-weekly.sh` after the
+  collector, and in `jobs/de-weekly.sh` plus `.github/workflows/de-weekly.yml`
+  after `de_amendments.py`. **Backlog**: `jobs/amendtext-backfill.sh` (by hand
+  on the Mini, `AMENDTEXT_CC="nl fr it de pt es"`, rerun until nothing is
+  left; coverage `ON_DEMAND` "Amendment text backfill"). No reclassify is
+  needed: the step applies its own matches.

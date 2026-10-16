@@ -232,7 +232,7 @@ class ItalyReader(amendtext.Reader):
             "(title LIKE 'Emendament%' OR title LIKE 'Identici%' OR title LIKE 'Articol_ aggiuntiv%' "
             "OR title LIKE 'Subemendament%' OR title LIKE 'Ordine del giorno n.%' "
             "OR title LIKE 'Mozione n.%' OR title LIKE 'Risoluzione n.%' OR title LIKE 'MOZ %' "
-            "OR title LIKE 'RIS %') ORDER BY date, division_key")
+            "OR title LIKE 'RIS %') ORDER BY date DESC, division_key DESC")
         return [dict(zip(("key", "date", "title", "areas"), r)) for r in rows]
 
     def refs(self, row):
