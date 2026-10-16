@@ -48,7 +48,8 @@ class RF4RulesTest(unittest.TestCase):
         src = open(os.path.join(ROOT, "tools", "make_briefs.py"),
                    encoding="utf-8").read()
         self.assertIn("This is a TOPIC stance", src)
-        self.assertIn("not this \"\n                             \"subject's backers", src)
+        # Whitespace-blind: the string's indentation moved with write_one.
+        self.assertRegex(src, r"not this \"\n\s+\"subject's backers")
 
     def test_scores_stay_blank_in_the_csv(self):
         import csv

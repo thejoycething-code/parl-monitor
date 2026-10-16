@@ -1865,7 +1865,7 @@ def main():
     if api_key and not paid_ai.allowed("brief-narrative"):
         # PAID AI OFF (16 October 2026): the briefs take the no-key path, with
         # [CAMPAIGNER] placeholders, never a "draft failed" banner.
-        print(paid_ai.off_line("brief-narrative") + " Narrative fields are placeholders.")
+        print(paid_ai.off_line("brief-narrative") + " Narratives come from the session judge (tools/brief_narratives.py).")
         api_key = None
 
     subs = subjects(conn)

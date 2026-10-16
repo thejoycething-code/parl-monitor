@@ -475,7 +475,7 @@ def main():
     from src import paid_ai
     if api_key and not paid_ai.allowed("brief-narrative"):
         # PAID AI OFF (16 October 2026): placeholders, as with no key.
-        print(paid_ai.off_line("brief-narrative") + " Narrative fields are placeholders.")
+        print(paid_ai.off_line("brief-narrative") + " Narratives come from the session judge (tools/brief_narratives.py).")
         api_key = None
     written = failed = 0
     for s in found:
