@@ -200,9 +200,12 @@ at:
     areas: [7, 8]
     why: the human rights committee
 
-# Germany (PROPOSED 16 October 2026, branch de-ca-gaps; for Chris to confirm):
-# the Bundestag's committees as the Bundestag names them, mirroring the
-# German-language rules approved for Austria above.
+# Germany: proposed 16 October 2026 (branch de-ca-gaps), APPROVED by Chris on
+# 16 October 2026 with the areas extended: the health committee also gender
+# medicine and surrogacy/embryology, the legal affairs committee also
+# sex-based rights and surrogacy/embryology. The Bundestag's committees as
+# the Bundestag names them, mirroring the German-language rules approved for
+# Austria above.
 de:
   - match: "familie"
     areas: [6, 9]
@@ -211,11 +214,11 @@ de:
     areas: [6, 9]
     why: the Kinderkommission, the children's commission of the family committee
   - match: "^ausschuss fur gesundheit"
-    areas: [1, 2]
-    why: the health committee
+    areas: [1, 2, 3, 10]
+    why: the health committee (abortion, assisted dying, gender medicine, embryology)
   - match: "^ausschuss fur recht"
-    areas: [7, 9]
-    why: the legal affairs committee
+    areas: [5, 7, 9, 10]
+    why: the legal affairs committee (sex-based rights, free speech, family law, surrogacy)
   - match: "menschenrechte"
     areas: [8]
     why: the human rights committee

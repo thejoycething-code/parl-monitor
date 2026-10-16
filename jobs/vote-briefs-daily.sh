@@ -39,6 +39,16 @@
 # Tagesordnung PDF and the committees' sittings, once a day), through the
 # reader adapter src/editions/de.py. About 5 s from the laptop.
 #
+# PORTUGAL'S DIÁRIO DA REPÚBLICA (16 October 2026, Chris: read it daily): its
+# official RSS feeds carry only the latest issue, so the weekly gov_docs step
+# saw about one issue in five. Each day this job reads the two feeds (Série I
+# and Série II Parte C; robots.txt asked through the guard, about 5 s) into
+# the committed ledger data/gov-docs-daily/pt.json, keyed by act (no
+# duplicates), every act matching the taxonomy kept 35 days
+# (tools/country_gov_docs.py pt --daily, src/gov_doc_sources/pt.py). No store
+# is opened: the Portugal weekly's gov_docs step stores the ledger's acts in
+# gov_docs beside the latest issue, and stays the backstop. Never fatal.
+#
 # Lean: a quiet day costs a handful of requests per country; a reader that
 # fails is a [gap] line and costs the others nothing. No store is read or
 # written; the raw payloads it archived are published at the end.
@@ -57,6 +67,8 @@ export PYTHONUNBUFFERED=1
 ARGS=(--daily --send)
 [ -n "${VOTE_BRIEFS_DAYS:-}" ] && ARGS+=(--days "$VOTE_BRIEFS_DAYS")
 [ "${DAY_SWEEP:-}" = "off" ] && ARGS+=(--no-sweep)
+python3 tools/country_gov_docs.py pt --daily \
+  || echo "  [gap] pt-govdocs: the daily Diário read failed or had gaps; the weekly reads the latest issue"
 python3 tools/country_vote_briefs.py "${ARGS[@]}"
 # No pull first: a push merges the published folder beneath the local
 # files, so a folder two runs archive into on the same day ends as the union.

@@ -401,9 +401,9 @@ Christopher's call whether to ask, or to read it by hand.
 
 `gov.ie` (consultations, the RSS feed, `assets.gov.ie`) answers **403 from
 CloudFront** to our UA, a browser UA and curl alike: an address block, like
-`gov.wales` and `senate.gov`. **Not yet tested from GitHub's runners**; that
-is the next step before deciding anything (a one-off probe workflow, as for
-the US Senate).
+`gov.wales` and `senate.gov`. **GitHub's runners refuse it too** (16 October 2026, probe-hosts.yml run
+38899782777: robots.txt answered the same 919-byte CloudFront 403, so the
+listing was not asked). No reader; recorded in docs/robots-runtime.md.
 
 ### Irish Statute Book: works, HTML
 
@@ -719,7 +719,8 @@ vocabulary (adopted at taxonomy v1.20, narrowed or rejected term by term).
    guardianship bills, pregnancy loss leave, the Mental Health Bill's
    consent provisions.
 3. **Iris Oifigiúil** forbids robots. Ask them, read it by hand, or leave it?
-4. **gov.ie**: may a one-off probe workflow test it from GitHub's runners?
+4. ~~**gov.ie**: may a one-off probe workflow test it from GitHub's runners?~~
+   Approved and run 16 October 2026: blocked there too (CloudFront 403).
 5. **Committee hearings**: committee divisions are kept (61, 48 on bills)
    and members' words in committee are read (98 speeches on our ground);
    witnesses' evidence (as in Canada's committees) is not. Collect it?
@@ -751,7 +752,7 @@ reader for Ireland yet.
 | ncca.ie (curriculum council: SPHE and RSE consultations) | 403 to robots.txt |
 | hiqa.ie, cnam.ie, electoralcommission.ie, lawreform.ie, citizensassembly.ie | answer, robots.txt allows (HIQA disallows only Drupal paths and search; the WordPress sites only `/wp/wp-admin/`), but none publishes a machine-readable list of consultations with closing dates; HIQA's "Consultations" page (`/get-touch/consultations`) is prose with no structured list. Each would be its own small HTML scraper: later options |
 | assets.gov.ie | robots.txt now answers (it blocks named AI crawlers, not us), but it holds files with no listing |
-| GitHub's runners | untested; a one-off probe workflow for gov.ie remains the next step |
+| GitHub's runners | 16 October 2026 (probe-hosts.yml run 38899782777): robots.txt answers the same CloudFront 403; host stopped, listing not asked |
 
 ### What is read: statutory instruments (`isb`)
 
