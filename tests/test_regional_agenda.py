@@ -189,6 +189,21 @@ class CoreTest(unittest.TestCase):
         got = sorted(r[0] for r in conn.execute("SELECT business FROM regional_agenda"))
         self.assertEqual(got, ["A2 item", "B item"])
 
+    def test_window_for_one_body(self):
+        def r1(client, ctx):
+            return ra.RegionRead([ra.item("2026-10-20", "Old LA item", "Assembly"),
+                                  ra.item("2026-10-20", "Old LC item", "Council")],
+                                 [ra.window(ctx.today, ctx.until)])
+        conn, _, _ = self._run({"SA": ra.region("South Australia", r1)})
+
+        def r2(client, ctx):
+            return ra.RegionRead([ra.item("2026-10-21", "New LA item", "Assembly")],
+                                 [ra.window(ctx.today, ctx.until, "Assembly")])
+        conn, _, _ = self._run({"SA": ra.region("South Australia", r2)}, conn=conn,
+                               today="2026-10-17")
+        got = sorted(r[0] for r in conn.execute("SELECT business FROM regional_agenda"))
+        self.assertEqual(got, ["New LA item", "Old LC item"])
+
     def test_region_language_override(self):
         def r(client, ctx):
             return ra.RegionRead([ra.item("2026-10-20", "Projet de loi sur l'aide au suicide",

@@ -516,6 +516,21 @@ scope doc's "Forward agenda (regional_agenda, 16 October 2026)" section.
 | regional_agendas/it | www.consiglio.provincia.tn.it (/attivita/convocazioni/Pages/Convocazioni-per-data.aspx) | scraper | yes | allowed; /opendata/ and /normattiva/ disallowed, not used |
 | regional_agendas/it | www.consiglioregionale.calabria.it (/, /portale/Istituzione/Commissioni/VisualizzaOdG) | scraper | yes | allowed |
 | regional_agendas/it | Lombardia, Puglia (robots.txt Disallow: /), Basilicata (/consiglio-api disallowed), Veneto (Akamai 403) | - | yes | blocked, never bypassed |
+| regional_agendas/ca | www.ola.org (/en/legislative-business/house-documents/..., /en/ajax/calendar-month/<date>) | scraper | yes | only /*? disallowed; path URLs only |
+| regional_agendas/ca | www.assnat.qc.ca (/fr/travaux-parlementaires/calendrier-travaux.html[?Date=]) | scraper | yes | allowed; /json/ and /scripts/ disallowed and not used (so the calendar JSON is not read) |
+| regional_agendas/ca | www.leg.bc.ca (/parliamentary-business/parliamentary-calendar) | scraper | yes | Drupal standard; allowed |
+| regional_agendas/ca | www.assembly.ab.ca (/assembly-business/assembly-records/order-papers, /assembly-business/committees), docs.assembly.ab.ca (/LADDAR_files/docs/houserecords/op/) | scraper | yes | sitemap line only |
+| regional_agendas/ca | www.legassembly.sk.ca (/api/days, /api/documents), docs.legassembly.sk.ca (/legdocs/Assembly/Orders/) | API (the site's calendar JSON) | yes | robots.txt 404 (no rules) |
+| regional_agendas/ca | www.gov.mb.ca (/legislature/business/orderpaper.pdf, sessional_order_<y>.pdf, /legislature/committees/meeting_notices.html and notice PDFs) | scraper | yes | `*` allows /legislature/; named AI crawlers refused, our UA not (as for prov_collect, 2 Oct) |
+| regional_agendas/ca | www.legnb.ca (/en/calendar/<y>-<m>) | scraper | yes | Crawl-delay 10, honoured |
+| regional_agendas/ca | nslegislature.ca (/get-involved/calendar/ical/legislative-assembly, /ical/committee) | iCalendar | yes | Crawl-delay 10, honoured |
+| regional_agendas/ca | www.assembly.nl.ca (/HouseBusiness/OrderPapers/) | scraper | yes | allowed |
+| regional_agendas/ca | www.ntassembly.ca (/file/orders, /committees/upcoming-meeting-dates) | scraper | yes | allowed |
+| regional_agendas/ca | www.assembly.pe.ca (Radware CAPTCHA), yukonassembly.ca (Cloudflare 403) | - | - | blocked, never bypassed; Nunavut publishes no order paper ahead (no-route) |
+| regional_agendas/au | www.parliament.vic.gov.au (/api/calendar/twelve-months) | API (the page's JSON) | yes | names only Facebook crawlers; 2 s throttle |
+| regional_agendas/au | dynamic-content-api.parliament.sa.gov.au (/api/documentlibrary, /api/GetFileDownloadLink), prodinterappst.blob.core.windows.net | API | yes | robots.txt 404 (no rules) |
+| regional_agendas/au | search.parliament.tas.gov.au (/search/quicksearch/<y>/sittingdays.html, the Notice Papers database search, its .docx files) | scraper (search engine) | yes | robots.txt 404 (no rules) |
+| regional_agendas/au | NSW, ACT, NT (Cloudflare 403), QLD, WA (Azure WAF 403) | - | - | blocked, never bypassed; NSW's API host carries only past Hansard |
 <!-- regional-agenda-rows -->
 
 ## Tests

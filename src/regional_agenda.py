@@ -96,9 +96,11 @@ class RegionRead:
         self.gaps = list(gaps)
 
 
-def window(start, end):
-    """Every row of the region dated start..end (inclusive) is this run's."""
-    return ("window", str(start), str(end))
+def window(start, end, body=None):
+    """Every row of the region dated start..end (inclusive) is this run's;
+    with `body`, only that body's rows (one House of a bicameral parliament
+    read while the other failed)."""
+    return ("window", str(start), str(end), body)
 
 
 def meeting(meeting_id):
@@ -340,6 +342,9 @@ def prune(conn, cc, code, units, keys):
     for unit in units:
         if unit[0] == "window":
             where, params = "dated >= ? AND dated <= ?", [unit[1], unit[2]]
+            if len(unit) > 3 and unit[3]:
+                where += " AND body = ?"
+                params.append(unit[3])
         elif unit[0] == "meeting":
             where, params = "meeting_id = ?", [unit[1]]
         elif unit[0] == "day":
