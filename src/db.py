@@ -194,6 +194,25 @@ CREATE TABLE IF NOT EXISTS clause_text (
   clauses TEXT,                   -- json [{label, amendment_id, url, decision, text}]
   fetched_at TEXT NOT NULL
 );
+-- Amendment, motion and resolution texts read for COUNTRY votes whose titles
+-- only name them (src/amendtext.py, src/amendtext_<cc>.py, 16 October 2026):
+-- the country analogue of clause_text. One row per vote read successfully
+-- (failures are retried); the texts are kept so a taxonomy change re-matches
+-- offline. ledger = 1 when a tier-1 term sat in the text's purpose and the
+-- division took the areas.
+CREATE TABLE IF NOT EXISTS amendment_text (
+  cc TEXT NOT NULL,
+  division_key TEXT NOT NULL,     -- the country division table's own key
+  refs TEXT,                      -- json: the source's identifiers the vote names
+  texts TEXT,                     -- json [{label, kind, source_id, url, purpose, text}]
+  fetched_at TEXT NOT NULL,
+  areas TEXT, matched_terms TEXT, tier INTEGER,
+  labels TEXT,                    -- json: the texts that carried the match
+  ledger INTEGER,                 -- 1: gate passed, areas applied to the division
+  match_source TEXT,              -- 'amendment text' when anything matched
+  matched_at TEXT,
+  PRIMARY KEY (cc, division_key)
+) WITHOUT ROWID;
 CREATE TABLE IF NOT EXISTS cv_votes (
   division_id INTEGER NOT NULL,
   member_id INTEGER NOT NULL,
@@ -1586,6 +1605,7 @@ TABLES = (
     "cv_divisions",
     "cv_votes",
     "clause_text",
+    "amendment_text",
     "mp_alignment",
     "mp_defiance",
     "mp_events",
