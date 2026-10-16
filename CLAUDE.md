@@ -23,6 +23,7 @@ A weekly parliamentary monitoring pipeline: ingest UK Parliament open data (plus
 - Parliament APIs are keyless and may be probed live, but only through `src/http.py` (UA string, throttle, retry with backoff per handoff §3). Archive every raw response to `data/raw/` before parsing, including during development.
 - Acceptance tests run against the frozen fixtures in `data/raw/2026-08-01/`. If live data diverges from fixtures, fixtures win for tests; record the divergence in `docs/api-notes.md`.
 - `ANTHROPIC_API_KEY` may be absent. Everything must run end to end with `TRIAGE=stub`.
+- **No paid AI** (16 October 2026): every model pass is scored by the free session judge on the Mac Mini (`tools/session_judge.sh`). A pass may call the paid API only when its own flag in `src/paid_ai.py` is `1`; a key is never consent, no workflow carries one, and no job sets a flag.
 - Rendered editions use British spelling and contain no em dashes.
 - Small single-purpose commits with plain descriptive messages. Write tests alongside each ingester using the fixtures. Run the full test suite before reporting any build step complete.
 

@@ -39,6 +39,12 @@ def main():
     print("{0} refs to score {1}".format(len(pending), kinds or ""))
     if dry or not pending:
         return
+    from src import paid_ai
+    if not paid_ai.allowed("stance-rescore"):
+        # PAID AI OFF (16 October 2026): tools/uk_stance_judge.py places these
+        # free, in jobs/uk-session-judge.sh.
+        print(paid_ai.off_line("stance-rescore", len(pending), "ref(s)"))
+        return
 
     cfg = stance.load_overrides(os.path.join(ROOT, "config", "stance_overrides.yaml"))
     stats = stance.score_pending(

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Germany and European Parliament session judge on the Mac Mini (jobs/europe-session-judge.sh):
+     Mondays 14:30 London, after the EU weekly (Saturday 11:00) and the Germany weekly (Sunday
+     20:00), clear of the Monday publish (04:00), the un-weekday slot (08:30) and the 19:00
+     Division watch. Claude Code scores at most 200 pending items (German judge, EU judge, German
+     stances) on the work subscription's plan allowance, not the API (paid AI off, 16 October
+     2026). Mac Mini only: no GitHub workflow and no mini-check gate. Time limit 2 hours.
+     Needs Claude Code installed and signed in to the work account (claude auth login).
+     Install: cp to ~/Library/LaunchAgents, then
+     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/net.citizengo.parlmonitor.europe-session-judge.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>net.citizengo.parlmonitor.europe-session-judge</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/christopherjoyce/runner/parl-monitor/tools/mini_run.sh</string>
+    <string>europe-session-judge</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>JOB_TIMEOUT</key>
+    <string>7200</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>14</integer><key>Minute</key><integer>30</integer></dict>
+  <key>StandardOutPath</key>
+  <string>/Users/christopherjoyce/runner/logs/europe-session-judge.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/christopherjoyce/runner/logs/europe-session-judge.log</string>
+</dict>
+</plist>

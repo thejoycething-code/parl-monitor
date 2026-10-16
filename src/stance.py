@@ -249,6 +249,9 @@ def _build_payload(batch, system=None):
 
 
 def _default_transport(payload, api_key):  # pragma: no cover - real network
+    # PAID AI OFF (16 October 2026, src/paid_ai.py): refused unless a pass opted in.
+    from src import paid_ai
+    paid_ai.check_transport()
     import urllib.error
     import urllib.request
 

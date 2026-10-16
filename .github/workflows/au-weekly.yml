@@ -118,7 +118,6 @@ jobs:
           AU_PUBLISH: "false"
           AU_RECLASSIFY: ${{ inputs.reclassify }}
           AU_JUDGE: ${{ vars.AU_JUDGE }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_DM_USER_ID: U05LJP0BT61
         run: bash jobs/au-weekly.sh | tee /tmp/au-weekly.log

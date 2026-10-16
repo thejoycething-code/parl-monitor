@@ -8,7 +8,9 @@
 # happened, as there.
 # Whatever was gathered is published, as the workflow's guarded publish
 # steps do.
-# Triage and stance spend (the routine weekly) and the edition is DMed.
+# Triage and stance no longer spend (paid AI off, 16 October 2026): without
+# DE_TRIAGE_PAID=1 / DE_STANCE_PAID=1 they leave their rows to the free
+# session judge (jobs/europe-session-judge.sh, Mondays 14:30). The edition is DMed.
 #
 # mini_run: commit editions reviews docs/judge-eval.md partner_site/de-issues.html partner_site/de-issue-*.html partner_site/de-votes.html
 set -o pipefail

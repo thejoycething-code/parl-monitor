@@ -111,12 +111,13 @@ def queue_out(conn, path, today, limit, raw_dir=None, log=print):
     return len(chosen)
 
 
-def read_queue(path):
+def read_queue(path, marker=QUEUE_MARKER):
     """(results, refused, blank). STANCE must be -2..2; a placed item needs
-    a WHY; an id may appear once; a file without the marker is refused."""
+    a WHY; an id may appear once; a file without the marker is refused.
+    tools/de_stance.py reads its own queue through this with its marker."""
     with open(path, encoding="utf-8") as fh:
         lines = fh.read().splitlines()
-    if QUEUE_MARKER not in lines[:5]:
+    if marker not in lines[:5]:
         return [], [("(file)", "not this judge's queue: marker missing")], []
     results, refused, blank, seen = [], [], [], set()
     cur = None

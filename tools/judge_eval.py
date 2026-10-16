@@ -99,7 +99,12 @@ def main():
             print("rescore would send {0} labelled item(s) to {1} in {2} call(s); this SPENDS API funds. "
                   "Re-run with --spend to do it.".format(n, triage.TRIAGE_MODEL, (n + 19) // 20))
         else:
-            from src import publish, spend
+            from src import paid_ai, publish, spend
+            if not paid_ai.allowed("judge-rescore"):
+                # PAID AI OFF (16 October 2026).
+                print(paid_ai.off_line("judge-rescore", n))
+                conn.close()
+                return 0
             key = publish.load_secrets().get("anthropic_api_key") or os.environ.get("ANTHROPIC_API_KEY")
             out = evalbank.rescore(conn, key, limit=args.limit,
                                    usage_sink=lambda usage, model: spend.record(conn, "judge-rescore", model, usage))

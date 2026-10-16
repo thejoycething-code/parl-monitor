@@ -155,13 +155,12 @@ jobs:
         # so after the first passes this costs new arrivals only.
         run: python3 tools/de_profiles.py | tee /tmp/de-profiles.log
       - name: Write secrets file
-        # anthropic_api_key: the triage judge. slack: the weekly DM to
+        # No API key (paid AI off, 16 October 2026). slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted, the
         # same hold the EU edition is under. A missing secret makes the step
         # skip-with-disclosure, never fail.
         run: |
           cat > config/secrets.yaml <<EOF
-          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
           slack_dm_user_id: U05LJP0BT61
           dip_api_key: "${{ secrets.DIP_API_KEY }}"

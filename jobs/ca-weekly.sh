@@ -8,7 +8,9 @@
 # Whatever was gathered is published, as the workflow's guarded publish
 # steps do.
 # The dispatch-only backfills and repairs stay on GitHub. The petition
-# judge spends (the routine weekly), on the workflow's default clock. Then
+# judge no longer spends (paid AI off, 16 October 2026): without
+# CA_TRIAGE_PAID=1 it leaves its rows to the free session judge
+# (jobs/prov-session-judge.sh, Wednesdays 16:15). Then
 # the edition and its DM (tools/ca_monitor.py), committed with the state.
 #
 # mini_run: commit editions

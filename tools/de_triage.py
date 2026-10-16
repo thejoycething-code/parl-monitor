@@ -17,6 +17,19 @@ EVERY de_ table that carries `areas` belongs in SOURCES. A structural test
 fails if one is missing, because the EU monitor grew five collectors whose
 rows sat unscored while the run cheerfully printed "nothing unscored".
 
+THE FREE SESSION JUDGE IS THE DEFAULT (Chris, 16 October 2026: "ALL model
+scoring moves off the paid Claude API"). --queue-out writes the newest --limit
+pending rows, with the German frame and the text the API judge would read,
+for a Claude Code session on the Mac Mini (jobs/europe-session-judge.sh
+through tools/session_judge.sh, plan allowance); --queue-in applies its SCORE
+and WHY lines strictly, through apply(), and banks them for the German judge
+evaluation (mode 'session'). The paid API path below runs only with
+DE_TRIAGE_PAID=1 (src/paid_ai.py); a key alone leaves the rows unscored for
+the session judge, never stub-scored.
+
+    python3 tools/de_triage.py --queue-out /tmp/q.md --limit 25
+    python3 tools/de_triage.py --queue-in /tmp/q.md
+
 ONE WRITER AT A TIME on data/parl-monitor.db.
 """
 
@@ -30,7 +43,10 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, drain, evalbank, spend, triage  # noqa: E402
+from src import db, drain, evalbank, paid_ai, session_queue, spend, triage  # noqa: E402
+
+QUEUE_MARKER = "<!-- de-session-queue v1 -->"
+PASS = "de-triage"
 
 # table -> (key column, text columns joined for the judge)
 SOURCES = {
@@ -170,9 +186,53 @@ def apply(conn, results):
     propagate(conn)
 
 
+def queue_out(conn, path, today, limit, log=print):
+    """The newest `limit` pending rows, for a Claude Code session. No spend."""
+    propagate(conn)
+    queued = pending(conn)
+    items = queued[:max(0, limit)]
+    return session_queue.queue_out_items(
+        path, items, "German monitor judge queue, {0}".format(today), QUEUE_MARKER,
+        triage.SYSTEM_PROMPT_DE, PASS, log=log, total=len(queued))
+
+
+def queue_in(conn, path, today, log=print):
+    """Apply a filled-in queue strictly; bank the verdicts as a session's."""
+    seen = {it.id: it for it in pending(conn)}
+    got = session_queue.queue_in_rows(
+        conn, path, QUEUE_MARKER, {t: v[0] for t, v in SOURCES.items()}, PASS, "de",
+        apply, today, log=log)
+    if got and got[0]:
+        try:
+            results = [r for r in session_queue.read_queue(path, QUEUE_MARKER)[0] if r.id in seen]
+            week = (datetime.date.fromisoformat(today) - datetime.timedelta(
+                days=datetime.date.fromisoformat(today).weekday())).isoformat()
+            evalbank.bank(conn, week, list(seen.values()),
+                          [triage.TriageResult(id=r.id, score=r.score, areas=[], why_it_matters=r.why)
+                           for r in results],
+                          session_queue.SESSION_MODEL, "session", triage.SYSTEM_PROMPT_DE)
+            evalbank.export(conn, week)
+        except Exception as exc:                            # noqa: BLE001
+            log("  [gap] de-triage: banking the session verdicts failed: {0}".format(str(exc)[:120]))
+    return got
+
+
+def _arg(name, default=None):
+    return sys.argv[sys.argv.index(name) + 1] if name in sys.argv else default
+
+
 def main():
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
+    conn = db.init_db(db.connect(_arg("--db", os.path.join(ROOT, "data", "parl-monitor.db"))))
     ensure_columns(conn)
+    if "--queue-out" in sys.argv:
+        queue_out(conn, _arg("--queue-out"), _arg("--date", datetime.date.today().isoformat()),
+                  int(_arg("--limit", 25)))
+        conn.close()
+        return 0
+    if "--queue-in" in sys.argv:
+        got = queue_in(conn, _arg("--queue-in"), _arg("--date", datetime.date.today().isoformat()))
+        conn.close()
+        return 1 if got is None else 0
     if "--rescore" in sys.argv:
         for ref in sys.argv[sys.argv.index("--rescore") + 1:]:
             if ref.startswith("--"):
@@ -195,6 +255,11 @@ def main():
               "the rest wait -- disclosed, not silent.".format(len(queued), len(items)))
     if not items:
         print("de-triage: nothing unscored.")
+        conn.close()
+        return 0
+    if not paid_ai.allowed(PASS):
+        # PAID AI OFF (16 October 2026): left for the free session judge.
+        print(paid_ai.off_line(PASS, len(queued), "row(s)"))
         conn.close()
         return 0
     api_key = os.environ.get("ANTHROPIC_API_KEY")

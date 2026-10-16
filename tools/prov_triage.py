@@ -49,7 +49,8 @@ item (one digit 0-3 and a why-line, or refused with its reason), and applies
 the scores to prov_scores exactly as API scores are applied, model
 'claude-code-session'. Once ever still holds: an item scored meanwhile is
 not overwritten. Neither flag needs ANTHROPIC_API_KEY or spends anything;
-PROV_JUDGE (the paid API path below) stays the alternative, and off.
+PROV_JUDGE (the paid API path below) stays the alternative, and off; since 16
+October 2026 it also needs PROV_TRIAGE_PAID=1 in the environment (src/paid_ai.py).
 """
 
 from __future__ import annotations
@@ -63,7 +64,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, drain, spend, triage, prov_store, session_queue  # noqa: E402
+from src import db, drain, spend, triage, prov_store, session_queue, paid_ai  # noqa: E402
 
 SLICE = 4
 LIMIT = 500
@@ -425,6 +426,11 @@ def main():
     if len(queued) > len(items):
         print("prov-triage: {0} unscored; judging the newest {1} this run, the rest wait "
               "-- disclosed, not silent.".format(len(queued), len(items)))
+    if not paid_ai.allowed("prov-triage"):
+        # PAID AI OFF (16 October 2026, src/paid_ai.py): PROV_JUDGE=on is no
+        # longer enough on its own; PROV_TRIAGE_PAID=1 must be set as well.
+        print(paid_ai.off_line("prov-triage", len(items)))
+        return 0
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         path = os.path.join(ROOT, "config", "secrets.yaml")

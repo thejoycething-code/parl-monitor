@@ -14,6 +14,19 @@ Scored once, ever: rows keep their score, so the weekly cost is the
 week's NEW matched rows -- single digits. Spend is recorded in api_spend
 under pass 'eu-triage' like every other paid pass.
 
+THE FREE SESSION JUDGE IS THE DEFAULT (Chris, 16 October 2026: "ALL model
+scoring moves off the paid Claude API"). --queue-out writes up to --limit
+pending rows with the EU frame for a Claude Code session on the Mac Mini
+(jobs/europe-session-judge.sh through tools/session_judge.sh, plan
+allowance); --queue-in applies its SCORE and WHY lines strictly, through
+apply() (so inherited divisions take their text's score). The paid path,
+and with it the no-key stub above, runs only with EU_TRIAGE_PAID=1
+(src/paid_ai.py). Without it the rows stay UNSCORED for the session judge:
+never stub-scored, because scores are written once ever.
+
+    python3 tools/eu_triage.py --queue-out /tmp/q.md --limit 25
+    python3 tools/eu_triage.py --queue-in /tmp/q.md
+
 Separation guarantee: writes triage_score/why_it_matters on eu_ tables
 only.
 ONE WRITER AT A TIME on data/parl-monitor.db.
@@ -29,7 +42,10 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, spend, triage
+from src import db, paid_ai, session_queue, spend, triage
+
+PASS = "eu-triage"
+QUEUE_MARKER = "<!-- eu-session-queue v1 -->"
 
 # table -> (key column, text columns joined for the judge)
 # EVERY eu_ table that carries `areas` belongs here. The first version
@@ -161,10 +177,39 @@ def rescore(conn, ref):
     return n
 
 
+def queue_out(conn, path, today, limit, log=print):
+    """Up to `limit` pending rows, for a Claude Code session. No spend."""
+    propagate(conn)
+    queued = pending(conn)
+    items = queued[:max(0, limit)]
+    return session_queue.queue_out_items(
+        path, items, "European Parliament judge queue, {0}".format(today), QUEUE_MARKER,
+        triage.SYSTEM_PROMPT_EU, PASS, log=log, total=len(queued))
+
+
+def queue_in(conn, path, today, log=print):
+    return session_queue.queue_in_rows(
+        conn, path, QUEUE_MARKER, {t: v[0] for t, v in SOURCES.items()}, PASS, "eu",
+        apply, today, log=log)
+
+
+def _arg(name, default=None):
+    return sys.argv[sys.argv.index(name) + 1] if name in sys.argv else default
+
+
 def main():
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data",
-                                              "parl-monitor.db")))
+    conn = db.init_db(db.connect(_arg("--db", os.path.join(ROOT, "data",
+                                                           "parl-monitor.db"))))
     ensure_columns(conn)
+    if "--queue-out" in sys.argv:
+        queue_out(conn, _arg("--queue-out"), _arg("--date", datetime.date.today().isoformat()),
+                  int(_arg("--limit", 25)))
+        conn.close()
+        return 0
+    if "--queue-in" in sys.argv:
+        got = queue_in(conn, _arg("--queue-in"), _arg("--date", datetime.date.today().isoformat()))
+        conn.close()
+        return 1 if got is None else 0
     if "--rescore" in sys.argv:
         for ref in sys.argv[sys.argv.index("--rescore") + 1:]:
             if ref.startswith("--"):
@@ -176,6 +221,12 @@ def main():
     items = pending(conn)
     if not items:
         print("eu-triage: nothing unscored.")
+        return 0
+    if not paid_ai.allowed(PASS):
+        # PAID AI OFF (16 October 2026): left UNSCORED for the free session
+        # judge -- never stub-scored, as scores are written once ever.
+        print(paid_ai.off_line(PASS, len(items), "row(s)"))
+        conn.close()
         return 0
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:

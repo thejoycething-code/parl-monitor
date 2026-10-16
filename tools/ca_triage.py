@@ -34,6 +34,17 @@ the headnote passage that matched, and the Court's holding is judged, never
 the parties' names. A tier-2 match on "coercion" in Trinity Western is
 exactly what a judgement separates. Each slice is one source, so each call
 carries the right frame. A judgment is context only: it never places anyone.
+
+THE FREE SESSION JUDGE IS THE DEFAULT (Chris, 16 October 2026: "ALL model
+scoring moves off the paid Claude API"). --queue-out writes the newest
+--limit pending rows with both Canadian frames, for a Claude Code session on
+the Mac Mini (jobs/prov-session-judge.sh, which judges Canada federal and the
+provinces together, through tools/session_judge.sh, plan allowance);
+--queue-in applies its SCORE and WHY lines strictly. The paid API path runs
+only with CA_TRIAGE_PAID=1 (src/paid_ai.py); a key alone never does.
+
+    python3 tools/ca_triage.py --queue-out /tmp/q.md --limit 25
+    python3 tools/ca_triage.py --queue-in /tmp/q.md
 """
 
 from __future__ import annotations
@@ -47,7 +58,10 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import ca_store, db, drain, spend, triage  # noqa: E402
+from src import ca_store, db, drain, paid_ai, session_queue, spend, triage  # noqa: E402
+
+PASS = "ca-triage"
+QUEUE_MARKER = "<!-- ca-session-queue v1 -->"
 
 SLICE = 4
 LIMIT = 600
@@ -167,6 +181,7 @@ def rescore(conn, pid):
         return 0
     n = conn.execute("UPDATE {0} SET triage_score = NULL, why_it_matters = NULL "
                      "WHERE {1} = ?".format(table, SOURCES[table][0]), (key,)).rowcount
+    session_queue.forget(conn, table + ":" + key)
     conn.commit()
     return n
 
@@ -209,6 +224,28 @@ def judge(conn, items, api_key, today, log=print, budget=None, transport=None):
     return scored, gaps[0]
 
 
+def _queue_frame():
+    """Both frames, each named by the items it applies to."""
+    return ("Items whose id starts ca_petitions: use THIS frame.\n\n{0}\n\n"
+            "Items whose id starts ca_judgments: use THIS frame instead.\n\n{1}".format(
+                SYSTEM_PROMPT_CA.strip(), SYSTEM_PROMPT_CA_JUDGMENTS.strip()))
+
+
+def queue_out(conn, path, today, limit, log=print):
+    """The newest `limit` pending rows, for a Claude Code session. No spend."""
+    queued = pending(conn)
+    items = queued[:max(0, limit)]
+    return session_queue.queue_out_items(
+        path, items, "Canada federal judge queue, {0}".format(today), QUEUE_MARKER,
+        _queue_frame(), PASS, log=log, total=len(queued))
+
+
+def queue_in(conn, path, today, log=print):
+    return session_queue.queue_in_rows(
+        conn, path, QUEUE_MARKER, {t: v[0] for t, v in SOURCES.items()}, PASS, "ca",
+        apply, today, log=log)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -218,11 +255,25 @@ def main():
     ap.add_argument("--rescore", nargs="+", metavar="ID",
                     help="a petition id, or ca_judgments:<lexum id>")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--date", default=datetime.date.today().isoformat())
+    q = ap.add_mutually_exclusive_group()
+    q.add_argument("--queue-out", metavar="PATH",
+                   help="write the newest --limit pending rows for a Claude Code session; no spend")
+    q.add_argument("--queue-in", metavar="PATH",
+                   help="apply a session's SCORE/WHY lines from PATH; no spend")
     args = ap.parse_args()
     conn = ca_store.ensure_schema(db.init_db(db.connect(args.db)))
-    today = datetime.date.today().isoformat()
+    today = args.date
     for pid in args.rescore or []:
         print("ca-triage: {0} row(s) re-queued for {1}".format(rescore(conn, pid), pid))
+    if args.queue_out:
+        queue_out(conn, args.queue_out, today, args.limit)
+        conn.close()
+        return 0
+    if args.queue_in:
+        got = queue_in(conn, args.queue_in, today)
+        conn.close()
+        return 1 if got is None else 0
     queued = pending(conn)
     items = queued[:args.limit]
     calls = (len(items) + SLICE - 1) // SLICE
@@ -236,6 +287,11 @@ def main():
     if len(queued) > len(items):
         print("ca-triage: {0} unscored; judging the newest {1} this run, the rest wait "
               "-- disclosed, not silent.".format(len(queued), len(items)))
+    if not paid_ai.allowed(PASS):
+        # PAID AI OFF (16 October 2026): left for the free session judge.
+        print(paid_ai.off_line(PASS, len(queued), "row(s)"))
+        conn.close()
+        return 0
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         path = os.path.join(ROOT, "config", "secrets.yaml")

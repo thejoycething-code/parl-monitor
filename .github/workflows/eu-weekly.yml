@@ -147,13 +147,12 @@ jobs:
         # after the first full pass this costs new arrivals only.
         run: python3 tools/eu_meps_enrich.py | tee /tmp/eu-enrich.log
       - name: Write secrets file
-        # anthropic_api_key: the triage judge. slack: the weekly DM to
+        # No API key (paid AI off, 16 October 2026). slack: the weekly DM to
         # Christopher ONLY -- the channel is deliberately not posted
         # (his call, 2026-09-01: hold the Slack, DM the proof of concept).
         # A missing secret makes the step skip-with-disclosure, never fail.
         run: |
           cat > config/secrets.yaml <<EOF
-          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"
           slack_dm_user_id: U05LJP0BT61
           EOF

@@ -249,7 +249,7 @@ def facts(conn, subject):
     return got
 
 
-def render(subject, fields, mb, today, drafted):
+def render(subject, fields, mb, today, drafted, paid_off=False):
     """The brief, in the house shape minus the Westminster-only blocks.
 
     No Five Column Analysis tally and no RF1 expectation: both are computed
@@ -260,7 +260,12 @@ def render(subject, fields, mb, today, drafted):
     """
     name = fields.get("campaign_name") or subject["title"]
     lines = ["# Campaigns Brief (DRAFT): {0}".format(name), ""]
-    if not drafted:
+    if not drafted and paid_off:
+        # PAID AI OFF (16 October 2026): not a failure, a decision.
+        lines.append("> **NARRATIVE NOT DRAFTED: the paid AI is off (src/paid_ai.py). "
+                     "Every prose field below is a placeholder for the campaigner to write.**")
+        lines.append("")
+    elif not drafted:
         lines.append("> **{0}**".format(
             mb.DRAFT_FAILED_NOTE.strip(" -").format(subject["slug"])
             .replace("tools/make_briefs.py", "tools/de_briefs.py")))
@@ -381,7 +386,7 @@ def write_brief(conn, subject, mb, api_key, today):
     subject["_facts"] = got
     fields = mb.draft_narrative(subject, got, api_key)
     drafted = bool(fields)
-    body = render(subject, fields or {}, mb, today, drafted)
+    body = render(subject, fields or {}, mb, today, drafted, paid_off=not api_key)
     if not os.path.isdir(BRIEFS_DIR):
         os.makedirs(BRIEFS_DIR)
     path = os.path.join(BRIEFS_DIR, subject["slug"] + ".md")
@@ -462,13 +467,19 @@ def main():
 
     from src import publish
     api_key = publish.load_secrets().get("anthropic_api_key")
+    from src import paid_ai
+    if api_key and not paid_ai.allowed("brief-narrative"):
+        # PAID AI OFF (16 October 2026): placeholders, as with no key.
+        print(paid_ai.off_line("brief-narrative") + " Narrative fields are placeholders.")
+        api_key = None
     written = failed = 0
     for s in found:
         path, drafted = write_brief(conn, s, mb, api_key, today)
         written += 1
         failed += 0 if drafted else 1
         print("  {0}  {1}".format(os.path.relpath(path, ROOT),
-                                  "" if drafted else "(NARRATIVE DRAFT FAILED)"))
+                                  "" if drafted else "(narrative not drafted: paid AI off)"
+                                  if not api_key else "(NARRATIVE DRAFT FAILED)"))
     print("de-briefs: {0} brief(s) written{1}.".format(
         written,
         "" if not failed else ", {0} with no narrative".format(failed)))

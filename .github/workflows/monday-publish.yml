@@ -130,7 +130,6 @@ jobs:
         if: env.SKIP != '1'
         run: |
           cat > config/secrets.yaml <<EOF
-          anthropic_api_key: "${{ secrets.ANTHROPIC_API_KEY }}"
           asana_pat: "${{ secrets.ASANA_PAT }}"
           asana_workspace: "826488630492934"
           slack_bot_token: "${{ secrets.SLACK_BOT_TOKEN }}"

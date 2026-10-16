@@ -32,6 +32,19 @@ surface that does not exist.
 NO VERDICT ON A DIVISION. This scores speech. Which way a German division ran
 for us stays a signed human judgement.
 
+THE FREE SESSION JUDGE IS THE DEFAULT (Chris, 16 October 2026: "ALL model
+scoring moves off the paid Claude API"). --queue-out writes the newest
+--limit unscored speeches, with the German stance frame and the very window
+of text the API judge would read (stance._evidence_text), for a Claude Code
+session on the Mac Mini (jobs/europe-session-judge.sh through
+tools/session_judge.sh with uk_stance_judge.STANCE_PROMPT); --queue-in reads
+STANCE (-2..2) and WHY back strictly (tools/uk_stance_judge.read_queue) and
+stores them as the API pass does, model 'claude-code-session'. The paid path
+runs only with DE_STANCE_PAID=1 (src/paid_ai.py); a key alone does nothing.
+
+    python3 tools/de_stance.py --queue-out /tmp/q.md --limit 25
+    python3 tools/de_stance.py --queue-in /tmp/q.md
+
 ONE WRITER AT A TIME on data/parl-monitor.db.
 """
 
@@ -46,7 +59,13 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import db, publish, spend, stance  # noqa: E402
+from src import db, paid_ai, publish, spend, stance  # noqa: E402
+
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import uk_stance_judge  # noqa: E402  (the stance queue's reader and prompt)
+
+QUEUE_MARKER = "<!-- de-stance-session-queue v1 -->"
+SESSION_MODEL = "claude-code-session"
 
 PASS_NAME = "de-stance"
 REF = "de-speech:{0}"
@@ -115,8 +134,56 @@ def report(conn, log=print, top=8):
     return rows
 
 
+def queue_out(conn, path, today, limit, log=print):
+    """The newest `limit` unscored speeches, for a Claude Code session."""
+    allev = evidence(conn)
+    chosen = allev[:max(0, limit)]
+    head = uk_stance_judge.HEADER.replace("# UK stance queue", "# German stance queue")
+    blocks = [head.format(today=today, marker=QUEUE_MARKER,
+                          system_prompt=stance.SYSTEM_PROMPT_DE.strip())]
+    for ev in chosen:
+        blocks += ["### item: {0}".format(ev.ref),
+                   "- kind: {0} | areas: {1}".format(ev.kind, ", ".join(str(a) for a in ev.areas) or "-"),
+                   "- line: {0}".format(" ".join((ev.line or "").split())),
+                   "- text: {0}".format(" ".join(stance._evidence_text(ev).split())),
+                   "STANCE: ", "WHY: ", ""]
+    d = os.path.dirname(os.path.abspath(path))
+    os.makedirs(d, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(blocks))
+    log("de-stance: session queue: {0} item(s) written to {1}; {2} unscored in all.".format(
+        len(chosen), path, len(allev)))
+    return len(chosen)
+
+
+def queue_in(conn, path, today, log=print):
+    """Store a filled-in queue's stances strictly. None if not our file."""
+    results, refused, blank = uk_stance_judge.read_queue(path, QUEUE_MARKER)
+    if refused and refused[0][0] == "(file)":
+        log("  [gap] session queue {0} refused: {1}".format(path, refused[0][1]))
+        return None
+    open_refs = {ev.ref for ev in evidence(conn)}
+    good = []
+    for res in results:
+        if res.ref in open_refs:
+            good.append(res)
+        else:
+            refused.append((res.ref, "not an unscored German speech"))
+    stance.store_scores(conn, good, today, model=SESSION_MODEL)
+    conn.commit()
+    for ref, why in refused:
+        log("  [gap] queue item refused: {0}: {1}".format(ref, why))
+    log("de-stance: session queue: {0} item(s) scored, {1} refused, {2} left blank.".format(
+        len(good), len(refused), len(blank)))
+    return len(good)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--db", default=os.path.join(ROOT, "data", "parl-monitor.db"))
+    ap.add_argument("--date", default=datetime.date.today().isoformat())
+    ap.add_argument("--queue-out", metavar="PATH")
+    ap.add_argument("--queue-in", metavar="PATH")
     ap.add_argument("--limit", type=int, help="score at most this many")
     ap.add_argument("--dry-run", action="store_true",
                     help="what would be scored, and roughly what it costs")
@@ -124,8 +191,16 @@ def main():
                     help="print the placements already scored, offline")
     args = ap.parse_args()
 
-    conn = db.init_db(db.connect(os.path.join(ROOT, "data", "parl-monitor.db")))
-    today = datetime.date.today().isoformat()
+    conn = db.init_db(db.connect(args.db))
+    today = args.date
+    if args.queue_out:
+        queue_out(conn, args.queue_out, today, args.limit or 25)
+        conn.close()
+        return 0
+    if args.queue_in:
+        got = queue_in(conn, args.queue_in, today)
+        conn.close()
+        return 1 if got is None else 0
     if args.report:
         report(conn)
         conn.close()
@@ -147,6 +222,11 @@ def main():
         conn.close()
         return 0
 
+    if not paid_ai.allowed(PASS_NAME):
+        # PAID AI OFF (16 October 2026): left for the free session judge.
+        print(paid_ai.off_line(PASS_NAME, len(items), "speech(es)"))
+        conn.close()
+        return 0
     secrets = publish.load_secrets()
 
     def _spend(usage, model):

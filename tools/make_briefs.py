@@ -1163,8 +1163,13 @@ def parse_narrative(text, field_ids):
 
 
 def draft_narrative(subject, facts, api_key):
-    """Model-drafted narrative fields; None on any failure (caller stubs)."""
-    if not api_key:
+    """Model-drafted narrative fields; None on any failure (caller stubs).
+
+    PAID AI OFF (16 October 2026, src/paid_ai.py): drafted only with
+    BRIEF_NARRATIVE_PAID=1; otherwise None, and the brief carries its
+    placeholders for a person to fill (tools/de_briefs.py shares this)."""
+    from src import paid_ai
+    if not api_key or not paid_ai.allowed("brief-narrative"):
         return None
     prompt = {
         "subject": subject["title"], "kind": subject["kind"],
@@ -1542,6 +1547,12 @@ def main():
         import yaml
         api_key = (yaml.safe_load(open(secrets_path)) or {}).get("anthropic_api_key")
     api_key = os.environ.get("ANTHROPIC_API_KEY") or api_key
+    from src import paid_ai
+    if api_key and not paid_ai.allowed("brief-narrative"):
+        # PAID AI OFF (16 October 2026): the briefs take the no-key path, with
+        # [CAMPAIGNER] placeholders, never a "draft failed" banner.
+        print(paid_ai.off_line("brief-narrative") + " Narrative fields are placeholders.")
+        api_key = None
 
     subs = subjects(conn)
     done = {r["slug"] for r in conn.execute("SELECT slug FROM brief_log")}

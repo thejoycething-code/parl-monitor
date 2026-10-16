@@ -47,7 +47,8 @@ applies the scores through apply() exactly as API scores are applied; the
 rows carry no model column, so session_scores notes each one as model
 'claude-code-session'. Once ever still holds: a row scored meanwhile is not
 overwritten. Neither flag needs ANTHROPIC_API_KEY or spends anything;
-AU_JUDGE (the paid API path) stays the alternative, and off.
+AU_JUDGE (the paid API path) stays the alternative, and off; since 16 October
+2026 it also needs AU_TRIAGE_PAID=1 in the environment (src/paid_ai.py).
 """
 
 from __future__ import annotations
@@ -61,7 +62,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from src import au_store, db, drain, spend, triage, session_queue  # noqa: E402
+from src import au_store, db, drain, spend, triage, session_queue, paid_ai  # noqa: E402
 
 SLICE = 4
 LIMIT = 800
@@ -303,6 +304,11 @@ def main():
     if len(queued) > len(items):
         print("au-triage: {0} unscored; judging the newest {1} this run, the rest wait "
               "-- disclosed, not silent.".format(len(queued), len(items)))
+    if not paid_ai.allowed("au-triage"):
+        # PAID AI OFF (16 October 2026, src/paid_ai.py): AU_JUDGE=on is no
+        # longer enough on its own; AU_TRIAGE_PAID=1 must be set as well.
+        print(paid_ai.off_line("au-triage", len(items)))
+        return 0
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         path = os.path.join(ROOT, "config", "secrets.yaml")
