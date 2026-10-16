@@ -1177,6 +1177,13 @@ ON_DEMAND = {
                         "2026); no GitHub workflow, and a run with claude signed out "
                         "publishes nothing, so no cadence is expected; mini_run.sh "
                         "DMs its failures.",
+    "Brief narratives": "Mac Mini only (jobs/brief-narratives.sh, Sundays 18:15 "
+                        "before the German weekly and the Monday publish build the "
+                        "briefs): Claude Code drafts Campaigns Brief narratives on the "
+                        "plan allowance (paid AI off since 16 October 2026), at most 6 a "
+                        "week; no GitHub workflow, and a week with no new brief subject "
+                        "drafts nothing, so no cadence is expected; mini_run.sh DMs its "
+                        "failures.",
     "Editions session judge": "Mac Mini only (jobs/editions-session-judge.sh, "
                               "Sundays after the country weeklies): Claude Code "
                               "scores pending items of the fifteen country "
