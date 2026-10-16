@@ -80,6 +80,16 @@ processes: ["Conversion Practices Bill", "Cass Review", "Sullivan Review", "PATH
 organisations: [Right To Life UK, SPUC, CARE, Christian Concern, ADF International,
                 Care Not Killing, Sex Matters, Christian Institute, Coalition for Marriage,
                 BPAS, MSI Reproductive Choices, Dignity in Dying, Humanists UK, Stonewall, Mermaids]
+# Entity vetoes (16 October 2026, the round-4 GOV.UK run): an entity does not
+# match where the same text also carries one of these. "CARE" (Christian
+# Action Research and Education) is also the public-sector pension acronym,
+# Career Average Revalued Earnings: "Police Pension Scheme 2015: CPI
+# revaluation" matched the charity. Bare "pension" is not a veto: a Holyrood
+# motion on the Work and Pensions Secretary's links to CARE is the charity.
+# Measured on the store: 79 CARE hits, 3 vetoed (two Public Service Pensions
+# Bill speeches, a Holyrood pension-scheme question). Same syntax as taxonomy guards.
+entity_vetoes:
+  CARE: ["pension scheme*", "pensionable", "Public Service Pensions", "career average", "revalued earnings", "revaluation"]
 parliamentarians:         # seed only; extended from voting tracker + EDM signatories
   - Kim Leadbeater
   - Lauren Edwards

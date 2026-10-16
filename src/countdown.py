@@ -40,8 +40,52 @@ NI_ASSEMBLY, NI_GOVT = "NI ASSEMBLY", "NI GOVT"
 HOLYROOD, SCOT_GOVT = "HOLYROOD", "SCOT GOVT"
 SENEDD, WELSH_GOVT = "SENEDD", "WELSH GOVT"
 DEADLINE = "DEADLINE"
+# Round 5 (16 October 2026): a non-departmental regulator is not the UK
+# Government. Its rows carry the body's own name (Ofcom's call for evidence
+# was tagged UK GOVT in the round-4 test). Keys are folded organisation names.
+REGULATOR_TAGS = {"ofcom": "OFCOM", "nhs england": "NHS ENGLAND",
+                  "equality and human rights commission": "EHRC", "ehrc": "EHRC",
+                  "human fertilisation and embryology authority": "HFEA", "hfea": "HFEA",
+                  "nice": "NICE", "general medical council": "GMC", "gmc": "GMC",
+                  "care quality commission": "CQC", "nursing and midwifery council": "NMC",
+                  "office for students": "OFS", "ofsted": "OFSTED", "charity commission": "CHARITY COMMISSION"}
+REGULATOR = "REGULATOR"     # a regulator the table above does not name
 TAGS = (COMMONS, LORDS, JOINT, UK_GOVT, NI_ASSEMBLY, NI_GOVT, HOLYROOD, SCOT_GOVT, SENEDD,
-        WELSH_GOVT, DEADLINE)
+        WELSH_GOVT, DEADLINE, REGULATOR) + tuple(sorted(set(REGULATOR_TAGS.values())))
+
+
+def regulator_tag(organisation, regulator=False):
+    """The Where tag for a document's organisation: a regulator's own name
+    (OFCOM, NHS ENGLAND, EHRC, HFEA), REGULATOR for one not named, or None
+    for a government department. `organisation` may list several bodies
+    ('A; B'): the first regulator found wins."""
+    for org in (organisation or "").split(";"):
+        key = " ".join(org.lower().split())
+        if key in REGULATOR_TAGS:
+            return REGULATOR_TAGS[key]
+    return REGULATOR if regulator else None
+
+
+_CALL_FOR = re.compile(r"\bcalls? for (evidence|input|views|information)\b", re.I)
+
+
+def deadline_detail(title, doc_type=None, committee=False):
+    """Round 5 (16 October 2026): the deadline wording follows the item.
+    A committee inquiry: 'evidence closes'; a call for evidence: 'call for
+    evidence closes' (a call for input or views says so); a consultation:
+    'consultation closes'."""
+    if committee:
+        return "evidence closes"
+    if "call_for_evidence" in (doc_type or ""):
+        return "call for evidence closes"
+    m = _CALL_FOR.search(title or "")
+    if m:
+        return "call for {0} closes".format(m.group(1).lower())
+    return "consultation closes"
+
+
+def _closing(detail):
+    return (detail or "").endswith("closes")
 NATION_GOVT = {"ni": NI_GOVT, "scotland": SCOT_GOVT, "wales": WELSH_GOVT}
 
 # The devolved watching briefs hide migration (area 11) everywhere they are
@@ -236,7 +280,8 @@ def short_title(row):
         short, rewritten = compress(title, 80)
         base = short[:1].upper() + short[1:]
     if row.kind in ("deadline", "consultation") and "closes" not in base.lower():
-        base += " closes" if row.kind == "consultation" else ", evidence closes"
+        base += ", " + (row.detail if _closing(row.detail) else
+                        "consultation closes" if row.kind == "consultation" else "evidence closes")
     return base
 
 
@@ -326,9 +371,12 @@ def from_deadline(d):
     if evidence and committee and why.startswith(committee):
         why = why[len(committee):].lstrip("; ").strip()
     # A UK Government consultation (the gov.uk feed) is UK GOVT; a committee's
-    # call for evidence stays DEADLINE (round 3, 16 October 2026).
-    return Row(date=d.get("deadline"), where=DEADLINE if evidence else UK_GOVT, title=title, url=d.get("url"),
-               detail="written evidence closes" if evidence else "consultation closes",
+    # call for evidence stays DEADLINE (round 3, 16 October 2026); a
+    # regulator's consultation carries the regulator's name (round 5).
+    where = DEADLINE if evidence else (regulator_tag(d.get("regulator"), regulator=bool(d.get("regulator")))
+                                       or UK_GOVT)
+    return Row(date=d.get("deadline"), where=where, title=title, url=d.get("url"),
+               detail=deadline_detail(title, committee=evidence),
                lead=None, note=why or None, areas=list(d.get("areas") or []),
                score=d.get("score"), kind="deadline",
                extra_md=committee)
@@ -364,7 +412,7 @@ def timeline_for(edition):
         if d and ws <= d <= he:
             rows.append(Row(date=d.isoformat(), where=nation.get(c.get("nation"), NI_GOVT),
                             title=_clean(c.get("title")), url=c.get("url"),
-                            detail="consultation closes", kind="consultation"))
+                            detail=deadline_detail(c.get("title")), kind="consultation"))
     rows = fold_sittings(dedupe(rows), edition.week_commencing)
     for r in mark_big(rows, edition.week_commencing):
         r.context = r.note
@@ -402,7 +450,7 @@ def devolved_consultations(conn, start, end):
         if not areas:
             continue
         out.append(Row(date=r["closes"], where=NATION_GOVT.get(r["nation"], (r["nation"] or "").upper()),
-                       title=_clean(r["title"]), url=r["url"], detail="consultation closes",
+                       title=_clean(r["title"]), url=r["url"], detail=deadline_detail(r["title"]),
                        note=_clean(r["why"]) or None, areas=areas, score=r["score"],
                        kind="consultation"))
     return out
@@ -952,10 +1000,20 @@ def petitions_from_store(conn, week_commencing):
         return [], PETITIONS_NOTE
     ws, _we, _fs, he = windows(week_commencing)
     since = (ws - datetime.timedelta(days=7)).isoformat()
+    # The petitions noise list (round 5, 16 October 2026): measured false
+    # positives take an area off for the edition only (config/
+    # uk-petitions-noise.yaml, src/uk_petition_noise.py).
+    from src.uk_petition_noise import PetitionNoise
+    mute = PetitionNoise()
     out = []
     for r in _select(conn, "uk_petitions", ("petition_id", "title", "state", "signatures", "threshold_reached",
-                                            "response_date", "debate_date", "url", "areas")):
+                                            "response_date", "debate_date", "url", "areas", "matched_terms")):
         areas = _areas(r["areas"], hidden=PETITION_HIDDEN)
+        try:
+            terms = json.loads(r["matched_terms"] or "[]")
+        except (TypeError, ValueError):
+            terms = []
+        areas, _muted = mute.judge(r["petition_id"], r["title"], areas, terms)
         th = _threshold(r)
         if not areas or not th:
             continue
@@ -1040,7 +1098,7 @@ def govuk_from_store(conn, week_commencing):
     since = (ws - datetime.timedelta(days=PUBLICATIONS_DAYS)).isoformat()
     rows, pubs = [], []
     for r in _select(conn, "govuk_docs", ("base_path", "title", "doc_type", "organisation", "public_updated_at",
-                                          "closing_date", "url", "areas", "matched_terms")):
+                                          "closing_date", "url", "areas", "matched_terms", "source")):
         areas = _areas(r["areas"], hidden=PETITION_HIDDEN)
         if not areas:
             continue
@@ -1051,11 +1109,14 @@ def govuk_from_store(conn, week_commencing):
         # gov.uk's content_store_document_type: open_consultation (or a bare
         # "consultation") is a deadline; consultation_outcome, the
         # Government's response, is a publication.
-        if kind in ("open_consultation", "consultation"):
+        if kind in ("open_consultation", "consultation", "open_call_for_evidence"):
             close = _date(r["closing_date"])
             if close and ws <= close <= he:
-                rows.append(Row(date=close.isoformat(), where=UK_GOVT, title=_clean(r["title"]), url=url,
-                                detail="consultation closes", areas=areas, kind="consultation",
+                # Ofcom, NHS England, EHRC, HFEA: the regulator's own tag,
+                # never UK GOVT (round 5, 16 October 2026).
+                where = regulator_tag(r["organisation"], regulator=(r["source"] or "govuk") != "govuk") or UK_GOVT
+                rows.append(Row(date=close.isoformat(), where=where, title=_clean(r["title"]), url=url,
+                                detail=deadline_detail(r["title"], kind), areas=areas, kind="consultation",
                                 extra_md=_clean(r["organisation"]) or None))
             continue
         updated = (r["public_updated_at"] or "")[:10]
@@ -1075,8 +1136,11 @@ def govuk_from_store(conn, week_commencing):
 def render_publications(pubs):
     if not pubs:
         return None
+    # A regulator (NHS England, Ofcom) is not the UK Government (round 5).
+    regs = any(regulator_tag(p.get("organisation")) for p in pubs)
     out = ["## Government publications", "",
-           "*UK Government publications on our issues from the last week.*", ""]
+           "*UK Government{0} publications on our issues from the last week.*".format(
+               " and regulator" if regs else ""), ""]
     for p in pubs:
         title = "[{0}]({1})".format(p["title"], p["url"]) if p.get("url") else p["title"]
         bits = [x for x in (p.get("organisation"), p.get("type")) if x]
@@ -1101,7 +1165,10 @@ def merge_consultations(rows, govuk_rows):
     for g in govuk_rows:
         hit = index.get((g.url or "").rstrip("/").lower()) or index.get((g.date, g.title.lower()))
         if hit:
-            hit.where = UK_GOVT if hit.where == DEADLINE and hit.detail == "consultation closes" else hit.where
+            # A consultation (not a committee's evidence call) takes the gov.uk
+            # row's tag: UK GOVT, or the regulator's name (round 5).
+            if hit.where in (DEADLINE, UK_GOVT) and hit.detail != "evidence closes":
+                hit.where = g.where
             continue
         out.append(g)
     return out

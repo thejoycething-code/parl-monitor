@@ -38,7 +38,10 @@ class NdaaTermTests(unittest.TestCase):
             self.assertIn(area, filt.filter_item(TAX, WL, text).issue_areas, roll)
 
     def test_the_guards_hold(self):
-        self.assertEqual(filt.filter_item(TAX, WL, "A survey of schools; gender identity").issue_areas,
+        # Bare survey company is not the survey-and-form guard. (Since v1.26
+        # "schools" is company for the area-3 form, so the example names
+        # employers instead.)
+        self.assertEqual(filt.filter_item(TAX, WL, "A survey of employers; gender identity").issue_areas,
                          [])
         self.assertEqual(filt.filter_item(
             TAX, WL, "Parking bays designated exclusively for females").issue_areas, [])

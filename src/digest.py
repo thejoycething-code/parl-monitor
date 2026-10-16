@@ -1461,8 +1461,11 @@ def render(edition):
     blocks = [render_bills_board(edition.board_rows, edition.devolved_board or devolved.get("bills"))]
     if not recess:
         blocks.append(render_amendments(edition.amendment_rows))
-    blocks.append(render_latest_votes(edition) if not recess else render_latest_votes(
-        _without_week_votes(edition)))
+    # "Latest votes on our issues" was removed in round 5 (Chris, 16 October
+    # 2026: it goes stale), with the division lines it had absorbed: in the
+    # round-5 test those were the 11 September Second Reading, five weeks
+    # old. Big-date Context lines may still cite the last vote.
+    # render_latest_votes stays for anything that calls it.
     blocks.append(render_si(edition))
     blocks.append(render_pqs(edition))
     blocks.append(render_deadlines_beyond(edition, shown_urls))
@@ -1512,14 +1515,6 @@ def render(edition):
                  "taxonomy{0} with human review.*".format(
                      " v" + edition.taxonomy_version if edition.taxonomy_version else ""))
     return "\n".join(parts) + "\n"
-
-
-def _without_week_votes(edition):
-    """Recess has no divisions of its own week to report."""
-    import copy
-    e = copy.copy(edition)
-    e.votes = []
-    return e
 
 
 def write_edition(conn, edition, editions_dir, generated_at):

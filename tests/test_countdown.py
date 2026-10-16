@@ -226,7 +226,7 @@ class RenderTests(unittest.TestCase):
         self.assertIn("> **BIG DATE** · **Thursday 22 October** · LORDS · Gender medicine (children)", md)
         self.assertIn("| **Wed 28 Oct · BIG DATE** | LORDS |", md)
         self.assertIn("| Tue 27 Oct | DEADLINE | Home Affairs Committee, [Work-based immigration](https://c/e), "
-                      "written evidence closes | Migration |", md)
+                      "evidence closes | Migration |", md)
         # The rolling consultation is not in a table, so it keeps its place in Reference.
         self.assertIn("### Consultations and calls for evidence, later or rolling", md)
         self.assertIn("| [Health Bill](https://bills.parliament.uk/bills/4124) | Westminster | "
