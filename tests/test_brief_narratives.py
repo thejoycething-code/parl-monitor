@@ -260,6 +260,13 @@ class StrictReadingTests(Base):
                                    [f for f, _ in self.b.mb.NARRATIVE_FIELDS], [17165])
         self.assertIsNone(bn_check)
 
+    def test_talk_about_the_record_is_refused(self):
+        bg = narrative()["background"].replace(
+            "It would change", "The record holds no quotation from the sponsor, so we offer none here. It would change")
+        self.assertIn("talks about the drafting material", self.refused_for(narrative(background=bg)))
+        self.assertIn("talks about the drafting material", self.refused_for(narrative(
+            listen="The decision-maker is not yet confirmed in our records, but MPs answer to constituents.")))
+
     def test_length_limit(self):
         self.assertIn("over", self.refused_for(narrative(campaign_name="Tell MPs: " + "no " * 80)))
 
