@@ -39,10 +39,33 @@ is a gap. A vote on a part ("limitatamente al capoverso terzo", "premessa",
 "dispositivo") is linked to the whole text, said so in the label; which
 words the part was is never guessed.
 
-THE PURPOSE for the ledger gate: an order of the day, motion or resolution
-commits the Government in its operative part, "impegna il Governo ..." to the
-end; the premises ("premesso che ...") are context. An amendment is short
-operative text, and its opening is its purpose.
+THE PURPOSE for the ledger gate is the OPERATIVE part (17 October 2026,
+Chris): what the House is asked to decide, never the premises.
+
+  * An order of the day, motion or resolution: from the line that opens the
+    dispositive part to the signature, WHOLE. The Allegato A prints that
+    opening on a line of its own after "La Camera, premesso che: ...":
+    "impegna il Governo:", "impegna il Governo a:", "impegna il Governo"
+    + "a valutare l'opportunità di ...", "impegnano il Governo", "impegna
+    altresì il Governo", "impegna il Governo e il Ministro ...", "invita il
+    Governo", "delibera", and a missions resolution's "autorizza" / "non
+    autorizza". Only a LINE that opens with one counts: a premise citing
+    another motion "che impegna il Governo alla stabilizzazione" mid-line is
+    not the operative part (598_004). With no such line, the last mid-text
+    "impegna il Governo" is used. The premises stay in the body as context:
+    a tier-1 term there is review only.
+    Version 4 clipped this purpose at 3,000 characters, so a commitment past
+    it (motion 1-00545's "legge n. 194 del 1978", 5,400 characters into its
+    operative part; 1-00526's, 4,000) never reached the gate. Now the whole
+    operative part does (at most amendtext.TEXT_CHARS).
+  * A vote on some commitments only reads those (vote_part); a vote on the
+    premises reads none; a vote on "la premessa della parte dispositiva"
+    reads only the opening line(s) before the first commitment.
+  * An amendment: its whole operative text ("sostituire ...", "sopprimere
+    ...", "aggiungere il seguente: ..."), up to its signature line ("1.30.
+    Dori, Borrelli.") and without the financial-cover sentence ("Agli oneri
+    derivanti ... si provvede ..."), which names the fund cut, not what the
+    amendment is for.
 """
 
 from __future__ import annotations
@@ -59,7 +82,7 @@ LEGISLATURE = 19
 ALLEGATO = "https://documenti.camera.it/leg{leg}/resoconti/assemblea/html/sed{sed:04d}/allegato_a.htm"
 FEED = "it-amendment-text"
 LOOKBACK = 25            # earlier sittings searched for a bill's amendment texts
-PURPOSE_AMENDMENT = 350
+PURPOSE_CHARS = amendtext.TEXT_CHARS   # a whole operative part (or amendment) is the purpose
 
 _KEY = re.compile(r"^camera-vs(?P<leg>\d+)_(?P<sed>\d+)_\d+$")
 _DDL = re.compile(r"\b(?:DDL|PDL|DOC|C\.)\s*n\.?\s*0*(?P<n>\d+)", re.I)
@@ -72,6 +95,12 @@ _ATTO_SHORT = re.compile(r"^(?P<kind>MOZ|RIS)\.?\s+(?P<t>[16])-0*(?P<n>\d{1,5})\
 _PART = re.compile(r"limitatamente\s+[^-]+?(?=\s+[A-Z' ]{3,}\s*\(|\s+-\s+Votazione|$)|"
                    r",\s*(?:premessa|dispositivo)\b", re.I)
 _IMPEGNA = re.compile(r"\bimpegna(?:no)?\s+il\s+Governo\b", re.I)
+_OPENS = re.compile(
+    r"^(?:(?:e|ed)\s+)?(?:"
+    r"(?:impegna(?:no)?|invita(?:no)?)(?:\s*,?\s*(?:altres[iì]|inoltre|pertanto|quindi|conseguentemente)\s*,?)?"
+    r"\s+(?:il\s+Governo|l['’]\s*Esecutivo|il\s+Presidente\s+del\s+Consiglio)\b"
+    r"|delibera\b|(?:non\s+)?autorizza\b)", re.I | re.M)
+_SIGNED = re.compile(r"^(?:\((?:[16]-\d{3,5}|\d+/)|9/\d)", re.M)     # "(1-00191)(Nuova ...", "9/1866-A/2. L'Abbate."
 
 
 def refs_of(title, key):
@@ -100,36 +129,64 @@ def refs_of(title, key):
 
 _ORD = ("primo secondo terzo quarto quinto sesto settimo ottavo nono decimo undicesimo dodicesimo "
         "tredicesimo quattordicesimo quindicesimo sedicesimo diciassettesimo diciottesimo "
-        "diciannovesimo ventesimo").split()
-_ORD += ["vent" + x for x in "unesimo iduesimo itreesimo iquattresimo icinquesimo iseiesimo isettesimo "
-         "ottesimo inovesimo".split()] + ["trentesimo"]
+        "diciannovesimo").split()
+for _tens in ("vent", "trent", "quarant", "cinquant"):           # ventesimo ... cinquantanovesimo
+    _v = "i" if _tens == "vent" else "a"
+    _ORD += [_tens + "esimo"]
+    _ORD += [_tens + x for x in ("unesimo", _v + "duesimo", _v + "treesimo", _v + "quattresimo", _v + "cinquesimo",
+                                 _v + "seiesimo", _v + "settesimo", "ottesimo", _v + "novesimo")]
+_ORD += ["sessantesimo"]
 ORDINALS = {w: i + 1 for i, w in enumerate(_ORD)}
-_NUMS = r"(?:\d+|{0})(?:\s*(?:,|e)\s*(?:\d+|{0}))*".format("|".join(sorted(ORDINALS, key=len, reverse=True)))
-_ITEMS = re.compile(r"\b(?:CPV|capovers[oi]|IMP|impegn[oi])\s+(?P<nums>{0})".format(_NUMS), re.I)
+_NUM = r"(?:\d+(?:\s*-\s*\d+)?|{0})".format("|".join(sorted(ORDINALS, key=len, reverse=True)))
+_NUMS = r"{0}(?:\s*(?:,|e)\s*{0})*".format(_NUM)
+_ITEMS = re.compile(r"\b(?:CPV|capovers[oi]|IMP|impegn[oi])\s*(?:nn?\.\s*)?(?P<nums>{0})".format(_NUMS), re.I)
+_ORDS = r"(?:{0})".format("|".join(sorted(ORDINALS, key=len, reverse=True)))
+_ITEMS_AFTER = re.compile(r"\b(?P<nums>{0}(?:\s*(?:,|e)\s*{0})*)\s+(?:capovers[oi]|impegn[oi])\b".format(_ORDS), re.I)
 _EXCEPT = re.compile(r"\b(?:ad\s+eccezion[ei]|eccetto|NO)\b", re.I)
 _PREMISE = re.compile(r"\bpremess[ae]\b", re.I)
+# a part the title names but the Allegato A does not number: a missions
+# resolution's "IMP AGG SCHEDA 3" (the added commitment on mission 3) or "DISP
+# AFRICA 22", "PARTE NON PRECLUSA", "CPV PREM E DISP" (unnumbered paragraphs),
+# "la restante parte" (the complement of another part vote)
+_UNLOCATED = re.compile(r"\bSCHED[AE]\b|\bIMP\s+AGG\b|\bDISP\s+(?:AFRICA|GDF|EUROPA|ASIA|AMERICA)\b|"
+                        r"\bPARTE\s+NON\s+PRECLUSA\b|\bCPV\s+PREM|\brestante\s+parte\b", re.I)
+# "PREM NO CPV 4, 5, 16 E 18": the premises, all but those paragraphs
+_PREM_EXCEPT = re.compile(r"(?<!NO )\bPREM\w*\s+(?:NO|ad\s+eccezione)\b", re.I)
+_ALINEA = re.compile(r"\bpremessa\s+(?:della|alla)\s+parte\s+dispositiva\b", re.I)
 _DISPOSITIVE = re.compile(r"\b(?:dispositiv[oa]|impegn[oi]|IMP|CPV|capovers[oi])\b", re.I)
 
 
 def vote_part(title):
     """What part of a motion or resolution a vote put: ('whole', []), ('premise', []),
-    ('items', [n, ...]) or ('except', [n, ...]), from the Camera's own wording:
-    "limitatamente al capoverso terzo della parte dispositiva", "MOZ 1-593 CPV 4,
-    5, 16, 18", "RIS 6-254 NO IMP 3, 4 E PREMESSE", "RIS 6-285, PREMESSA"."""
+    ('alinea', []), ('part', []) (named but not locatable: review only), ('items', [n, ...]) or ('except', [n, ...]), from the Camera's
+    own wording: "limitatamente al capoverso terzo della parte dispositiva", "MOZ
+    1-593 CPV 4, 5, 16, 18", "RIS 6-254 NO IMP 3, 4 E PREMESSE", "RIS 6-285,
+    PREMESSA", "MOZ 1-526 RIF CPV 6 E 16 PREMESSA" (paragraphs of the premises),
+    "sulla premessa della parte dispositiva" (the operative part's opening)."""
     t = " ".join((title or "").split())
     head = t.split(" - Votazione")[0]
-    m = _ITEMS.search(head)
+    if _ALINEA.search(head):
+        return "alinea", []
+    if _UNLOCATED.search(head):
+        return "part", []
+    m = _ITEMS.search(head) or _ITEMS_AFTER.search(head)       # "CPV 4", "al ventunesimo capoverso"
     nums = []
     if m:
-        for x in re.split(r"\s*(?:,|\be\b)\s*", m.group("nums")):
+        for x in re.split(r"\s*(?:,|\be\b)\s*", m.group("nums"), flags=re.I):
             x = x.strip().lower()
-            if x.isdigit():
+            r = re.match(r"^(\d+)\s*-\s*(\d+)$", x)
+            if r and int(r.group(1)) < int(r.group(2)) <= 60:
+                nums.extend(range(int(r.group(1)), int(r.group(2)) + 1))
+            elif x.isdigit():
                 nums.append(int(x))
             elif x in ORDINALS:
                 nums.append(ORDINALS[x])
     if nums:
         how = "except" if _EXCEPT.search(head[:m.start()][-40:]) else "items"
-        if re.match(r"\W*(?:della|delle|dalla|dalle)\s+premess", head[m.end():], re.I):
+        if _PREM_EXCEPT.search(head[:m.start()]) and not re.match(r"\W*DIS", head[m.end():], re.I):
+            return "premise", []
+        if re.match(r"\W*(?:capovers\w*\s+)?(?:(?:della|delle|dalla|dalle)\s+)?(?:premess|P(?:REM\w*)?\b)",
+                    head[m.end():], re.I):
             # paragraphs of the PREMISES: a vote on them is on context only;
             # all but some of them leaves the operative part whole, unless the
             # vote was limited to the premises as well
@@ -202,13 +259,89 @@ def _si_ids(ref):
 
 
 def operative(text):
-    m = _IMPEGNA.search(text or "")
-    return text[m.start():].strip() if m else ""
+    """The dispositive part of an order of the day, motion or resolution: from
+    the line that opens it ("impegna il Governo:", "autorizza", ...) to the
+    signature, or "" when there is none."""
+    text = text or ""
+    m = _OPENS.search(text)
+    if m is None:
+        mids = list(_IMPEGNA.finditer(text))
+        if not mids:
+            return ""
+        m = mids[-1]               # the operative part comes last; an earlier one is a premise citing another text
+    op = text[m.start():]
+    end = _SIGNED.search(op)
+    return (op[:end.start()] if end else op).strip()
+
+
+def alinea(operative_text):
+    """The opening of an operative part, before its first commitment: the
+    lines up to "1)" when the commitments are numbered, else the first line."""
+    lines = [l for l in (operative_text or "").split("\n") if l.strip()]
+    if not lines:
+        return ""
+    out = [lines[0]]
+    if operative_items(operative_text):
+        for l in lines[1:]:
+            if _ITEM_NO.match(l.strip()):
+                break
+            out.append(l)
+    return "\n".join(out).strip()
+
+
+_SIGNATURE = re.compile(r"^\*?\d+(?:-[a-z]+)*\.\s?0?\d+(?:-[a-z]+)*\.\s+\S", re.M)
+_COVER = re.compile(r"(?:^|(?<=[.;:]\s))(?:Ai\s+|Agli\s+)(?:relativi\s+|maggiori\s+)?oneri\b[^\n]*?"
+                    r"si\s+provvede\b[^\n]*?(?:\.(?=\s|$)|$)", re.I | re.M)
+
+
+def amendment_operative(text):
+    """An amendment's operative text: up to its signature line ("1.30. Dori,
+    Borrelli."), without the financial-cover sentence."""
+    text = text or ""
+    end = _SIGNATURE.search(text)
+    body = text[:end.start()] if end else text
+    return _COVER.sub("", body).strip()
+
+
+# FALSE FRIENDS in long Italian texts (17 October 2026). A whole operative
+# part or amendment carries words a title never does; two tier-1 terms meet
+# them in the stored Camera texts:
+#   * "cittadinanza" (migration, tier 1, bare) for social citizenship: "favorire
+#     il pieno sviluppo della persona, la cittadinanza, attraverso l'inclusione
+#     sociale" (motion 1-00444 on the minimum wage), "reddito di cittadinanza",
+#     "cittadinanza attiva / digitale". Masked in a text with no migration word.
+#   * "silenzio-assenso" (organ donation, guarded by "organi") for the
+#     administrative device: "si applica il meccanismo del silenzio-assenso"
+#     to appointing an Agency's "organi" (amendment 1.64 to A.C. 2586).
+#     Masked in a text with no donation or transplant word.
+_CITIZEN_FF = re.compile(r"\b(?:reddito|pensione)\s+di\s+cittadinanza\b|"
+                         r"\bcittadinanza\s+(?:attiva|digitale|scientifica|economica|sociale|consapevole|"
+                         r"responsabile|onoraria|europea|democratica|globale|sanitaria)\b|"
+                         r"\beducazione\s+(?:civica\s+e\s+)?alla\s+cittadinanza\b", re.I)
+_MIGRATION = re.compile(r"stranier|migra|naturalizza|apolid|rifugiat|richiedent|\bius\s+(?:soli|scholae|culturae|"
+                        r"sanguinis)\b|\b91\s+del\s+1992\b|91/1992|permess[oi]\s+di\s+soggiorno|"
+                        r"cittadinanza\s+italiana|(?:domand|istanz|richiest|pratich|procediment)\w*\s+di\s+"
+                        r"cittadinanza|cittadinanza\s+per\s+(?:matrimonio|residenza|discendenza|nascita)|(?:acquisto|concessione|conferimento|riconoscimento|revoca|"
+                        r"perdita)\s+della\s+cittadinanza", re.I)
+_CITIZEN = re.compile(r"\bcittadinanza\b", re.I)
+_SILENZIO = re.compile(r"\bsilenzio[\s-]+assenso\b", re.I)
+_DONATION = re.compile(r"donazion|donator|trapiant|espiant|prelievo\s+di\s+organi|organi\s+e\s+(?:di\s+)?tessuti", re.I)
+
+
+def mask(text):
+    """A text with the false friends above blanked, as the matcher sees it."""
+    text = _CITIZEN_FF.sub(" ", text or "")
+    if not _MIGRATION.search(text):
+        text = _CITIZEN.sub(" ", text)
+    if not _DONATION.search(text):
+        text = _SILENZIO.sub(" ", text)
+    return text
 
 
 class ItalyReader(amendtext.Reader):
     cc, table, key_col = "it", "it_divisions", "division_key"
-    version = "4"     # 2: premises / named commitments only; 3: capoversi; 4: capoversi of the premises
+    version = "5"     # 2: premises / named commitments only; 3: capoversi; 4: capoversi of the premises;
+                      # 5: the whole operative part (no 3,000-character clip), line-opening verbs, amendments' whole text
 
     def __init__(self, client):
         self.client = client
@@ -223,7 +356,7 @@ class ItalyReader(amendtext.Reader):
             it = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(it)
             self._tax = (filt.load_taxonomy(it.taxonomy_path(), country=it.TAXONOMY_COUNTRY),
-                         it.empty_watchlist(), None)
+                         it.empty_watchlist(), mask)
         return self._tax
 
     def candidates(self, conn):
@@ -278,20 +411,24 @@ class ItalyReader(amendtext.Reader):
         part = _PART.search(row.get("title") or "")
         label = ref + (" (part put to the vote: '{0}'; whole text read)".format(part.group(0).strip(" ,"))
                        if part else "")
-        limit = amendtext.PURPOSE_CHARS
+        limit = PURPOSE_CHARS
         if ref.startswith("eme "):
             kind = "amendment"
-            purpose = text[:PURPOSE_AMENDMENT]
+            purpose = amendment_operative(text)
         else:
             kind = ref.split()[0]
-            purpose, limit = operative(text), amendtext.OPERATIVE_CHARS
+            purpose = operative(text)
             how, nums = vote_part(row.get("title"))
             if how != "whole":
                 label = "{0} (vote on {1}{2}; whole text read)".format(
                     ref, {"premise": "the premises", "items": "commitment(s) ",
-                          "except": "all but commitment(s) "}[how], ", ".join(str(n) for n in nums))
-            if how == "premise":
-                purpose = ""              # the premises are context: no ledger on them alone
+                          "except": "all but commitment(s) ",
+                          "alinea": "the opening of the operative part",
+                          "part": "a part not numbered in the text"}[how], ", ".join(str(n) for n in nums))
+            if how in ("premise", "part"):
+                purpose = ""              # the premises are context, and a part we cannot find is never guessed
+            elif how == "alinea":
+                purpose = alinea(purpose)
             elif how in ("items", "except"):
                 # The commitments are numbered "1) ..." or are the operative
                 # part's paragraphs (capoversi). A reformulated text printed

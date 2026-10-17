@@ -3,7 +3,11 @@
   "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0072/allegato_a.htm": "a1646ffaca1d",
   "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0251/allegato_a.htm": "242b33891348",
   "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0016/allegato_a.htm": "92ef06b4a26f",
-  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0009/allegato_a.htm": "e0861a8db6fe"
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0009/allegato_a.htm": "e0861a8db6fe",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0179/allegato_a.htm": "6de301460326",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0582/allegato_a.htm": "0da390a16f5d",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0626/allegato_a.htm": "e189461dece4",
+  "https://documenti.camera.it/leg19/resoconti/assemblea/html/sed0414/allegato_a.htm": "18c62dbb55ff"
  },
  "rows": {
   "camera-vs19_072_012": {
@@ -28,6 +32,54 @@
    "key": "camera-vs19_009_071",
    "date": "2022-11-10",
    "title": "Ordine del giorno n. 9/5/33 MARI FRANCESCO (AVS) - Votazione Ordine del giorno 9/5/33 DDL n. 0005",
+   "areas": "[]"
+  },
+  "camera-vs19_626_001": {
+   "key": "camera-vs19_626_001",
+   "date": "2026-03-04",
+   "title": "MOZ 1-545 NF - Votazione",
+   "areas": "[]"
+  },
+  "camera-vs19_582_009": {
+   "key": "camera-vs19_582_009",
+   "date": "2025-12-11",
+   "title": "MOZ 1-526 RIF NO CPV 12 DIS, 6,16 P - Votazione",
+   "areas": "[]"
+  },
+  "camera-vs19_582_010": {
+   "key": "camera-vs19_582_010",
+   "date": "2025-12-11",
+   "title": "MOZ 1-526 RIF CPV 12 DISP - Votazione",
+   "areas": "[]"
+  },
+  "camera-vs19_582_011": {
+   "key": "camera-vs19_582_011",
+   "date": "2025-12-11",
+   "title": "MOZ 1-526 RIF CPV 6 E 16 PREMESSA - Votazione",
+   "areas": "[]"
+  },
+  "camera-vs19_179_008": {
+   "key": "camera-vs19_179_008",
+   "date": "2023-10-17",
+   "title": "Mozione n. 1-00191 (Nuova formulazione), ad eccezione dei capoversi primo, settimo, nono e dodicesimo della parte dispositiva, BRAGA CHIARA (PD-IDP)  ed altri - Votazione Mozione 1_00191",
+   "areas": "[]"
+  },
+  "camera-vs19_179_029": {
+   "key": "camera-vs19_179_029",
+   "date": "2023-10-17",
+   "title": "Mozione n. 1-00197, come riformulato, ad eccezione dei capoversi quarto, settimo, ottavo e quindicesimo della parte dispositiva, ZANELLA LUANA (AVS) ed altri - Votazione Mozione 1_00197",
+   "areas": "[]"
+  },
+  "camera-vs19_179_033": {
+   "key": "camera-vs19_179_033",
+   "date": "2023-10-17",
+   "title": "Mozione n. 1-00197, sulla premessa della parte dispositiva, ZANELLA LUANA (AVS) ed altri - Votazione Mozione 1_00197",
+   "areas": "[]"
+  },
+  "camera-vs19_414_032": {
+   "key": "camera-vs19_414_032",
+   "date": "2025-01-22",
+   "title": "Risoluzione n. 6-00159 FARAONE DAVIDE (IVICRE) ed altri - Votazione Risoluzione 6_00159",
    "areas": "[]"
   }
  },
@@ -88,13 +140,9 @@
   "camera-vs19_009_071": {
    "status": "ok",
    "gap": null,
-   "areas": [
-    11
-   ],
-   "terms": [
-    "cittadinanza"
-   ],
-   "ledger": true,
+   "areas": [],
+   "terms": [],
+   "ledger": false,
    "refs": [
     "seduta 9",
     "odg 9/5/33",
