@@ -6,6 +6,14 @@ France, Assemblée nationale. From the parliamentary monitor's store; positions 
 - **Status:** not on the source's current list
 - **Source id:** `PA720066`
 
+## Length of service
+
+- **Last period ended:** 26 February 2026
+- **Periods:** 26 January 2026 to 26 February 2026 (Assemblée nationale; legislature 17); 8 July 2024 to 12 November 2025 (Assemblée nationale; legislature 17); 21 June 2017 to 9 June 2024 (Assemblée nationale; legislature 15, 16)
+- **What the source covers:** every Assemblée nationale mandate from the 12th legislature (from 19 June 2002; AMO30). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: NI (21 June 2017 to 26 June 2017); LaREM (27 June 2017 to 21 June 2022); NI (22 June 2022 to 28 June 2022); RE (29 June 2022 to 9 June 2024); NI (8 July 2024 to 18 July 2024); EPR (19 July 2024 to 12 November 2025); NI (26 January 2026 to 26 January 2026); EPR (27 January 2026 to 26 February 2026).
+
 ## Party history
 
 - Recorded at votes in the store: EPR (first 9 October 2024, last 26 February 2026); PO0 (first 2 December 2024, last 2 December 2024); NI (first 27 January 2026, last 29 January 2026).
@@ -13,7 +21,7 @@ France, Assemblée nationale. From the parliamentary monitor's store; positions 
 ## Votes on our ground (386)
 
 Recorded positions (386): “nonVotant” 295, “contre” 66, “pour” 24, “abstention” 1.
-By area (every vote): assisted dying: “nonVotant” 294, “contre” 61, “pour” 20, “abstention” 1; marriage and family: “contre” 5, “pour” 1; surrogacy and embryology: “pour” 3; organ donation: “nonVotant” 1.
+By area (every vote): abortion: “nonVotant” 3; assisted dying: “nonVotant” 294, “contre” 61, “pour” 20, “abstention” 1; free speech and civil liberties: “nonVotant” 1; religious freedom: “nonVotant” 2; marriage and family: “contre” 5, “pour” 1; surrogacy and embryology: “pour” 3, “nonVotant” 2; organ donation: “nonVotant” 1.
 
 The latest 20:
 
@@ -41,6 +49,22 @@ The latest 20:
 | 24 Feb 2026 | nonVotant | EPR (at the vote) | [l'amendement n° 506 de Mme Mansouri et les amendements identiques suivants de suppression de l'article 16 de la proposition de loi relative…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5710) · **watched** | assisted dying, tier 1 |
 
 366 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Attendance
+
+- **Commission des affaires sociales**: attended 47 of 95 sitting(s), 2024-07-20 to 2026-01-28.
+- **Commission d’enquête relative à l’organisation du système de santé et aux difficultés d’accès aux soins**: attended 4 of 29 sitting(s), 2025-03-05 to 2025-07-02.
+- **Mission d’information sur les causes et conséquences de la baisse de la natalité en France**: attended 0 of 25 sitting(s), 2025-06-24 to 2025-11-06.
+- **Commission des affaires culturelles et de l'éducation**: attended 0 of 9 sitting(s), 2025-10-21 to 2026-02-18.
+- **Commission des lois constitutionnelles, de la législation et de l'administration générale de la République**: attended 0 of 7 sitting(s), 2025-04-09 to 2026-02-25.
+- **Commission de la défense nationale et des forces armées**: attended 0 of 3 sitting(s) (3 excused or with a reason given), 2025-02-12 to 2025-02-12.
+- **Commission des affaires étrangères**: attended 0 of 2 sitting(s), 2026-02-11 to 2026-02-11.
+- **Commission du développement durable et de l'aménagement du territoire**: attended 1 of 2 sitting(s), 2025-05-21 to 2025-05-21.
+- **Commission des affaires économiques**: attended 0 of 1 sitting(s), 2025-11-12 to 2025-11-12.
+- **Commission mixte paritaire chargée de proposer un texte sur les dispositions restant en discussion du projet de loi de financement de la sécurité sociale pour 2025**: attended 1 of 1 sitting(s), 2024-11-27 to 2024-11-27.
+- **Délégation de l'Assemblée nationale aux droits des femmes et à l'égalité des chances entre les hommes et les femmes**: attended 1 of 1 sitting(s), 2025-01-21 to 2025-01-21.
+
+Basis: sittings: the parliament's roll for each sitting (present, absent, excused). A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

@@ -1,4 +1,26 @@
 {
+ "fr-autoriser-le-diagnostic-preimplantatoire-des-ane-dlr5l17n55079": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "4fdf57f76b68ecd71ba7f50964e578f6b055405e70a9bf002a100d7ce5d9cf74",
+  "generated": "2026-10-17",
+  "key": "DLR5L17N55079",
+  "ready": false,
+  "sha": "cbe28bc18fad8738ea89dcb81b78ef993eab0db0da64210f61331c6a9a661b87",
+  "title": "Autoriser le diagnostic préimplantatoire des aneuploïdies au bénéfice des couples, et des femmes engagées dans une démarche d’assistance médicale à la procréation"
+ },
+ "fr-examen-du-texte-ruanr5l17s2027idc461417pt37880": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "1e17b07151a13134f8a2c165fe0f666ad98168bebb8257808c305b7cb9b1526c",
+  "generated": "2026-10-17",
+  "key": "RUANR5L17S2027IDC461417PT37880",
+  "ready": false,
+  "sha": "fc283bdd62c7dffdadb7ebf5e195020f5cbefcb4bbb7d243b4e393de9019d319",
+  "title": "Examen du texte"
+ },
  "fr-nomination-de-rapporteur-ruanr5l17s2027idc461260pt37876": {
   "changelog": [
    "2026-10-10 tools/country_briefs.py drafted every cell"
@@ -10,37 +32,51 @@
   "sha": "d2dff91df2049d1543ef8fc351ff1bf82d3c905412c356feef07dbb56ffac977",
   "title": "Nomination de rapporteur"
  },
+ "fr-proposition-de-loi-visant-a-faciliter-l-acces-a-dlr5l17n55063": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "322b778863462d52c5c0567f7cd6a2ab04ad3f7bbc8dec703b719497a366efae",
+  "generated": "2026-10-17",
+  "key": "DLR5L17N55063",
+  "ready": false,
+  "sha": "737049a57ca3bf6abef4ae1ee5d7e0f50db17ccd5bcc407546b9a1fe6bb59af3",
+  "title": "Proposition de loi visant à faciliter l'accès à l'interruption volontaire de grossesse"
+ },
  "fr-proteger-les-mineurs-contre-les-dangers-des-rese-dlr5l17n54708": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "8b8b0eda064a1b03029bcc8ca2d91b812f164cd61f44685a16dcc472932590a9",
+  "content": "a39c3e12197b8681ad102db97dd4fb4ae509b143290dd620f1aa3a79f9804466",
   "generated": "2026-10-10",
   "key": "DLR5L17N54708",
   "ready": false,
-  "sha": "488eb5476ae9c744540d7ba9f566313321822bad0e313b1c55a270529a843fbb",
+  "sha": "f52108878b171debb13403bd972955e2119c12bc9b58b831fa80dc7f3d2d6643",
   "title": "Protéger les mineurs contre les dangers des réseaux sociaux"
  },
  "fr-rapport-d-information-depose-en-application-de-l-dlr5l17n55019": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "9f10689e4f0d71517968c8a0f9768a940724419bd0467a5c4bf1afa7d8466a36",
+  "content": "3da126b3ab81ac724e643869bf7484047d3258c701fe54db7d85caaf6b747fc8",
   "generated": "2026-10-10",
   "key": "DLR5L17N55019",
   "ready": false,
-  "sha": "e3c73b121466425b07c25c23b675ebceb68cb016c2fac1a6af4fbe7413a0c6f8",
+  "sha": "02c809c11035e538f419791c8fd815bcd356b624f76c1fd5a7321895e7ea28b8",
   "title": "Rapport d'information déposé en application de l'article 145 du règlement, par la commission des affaires culturelles et de l'éducation, en conclusion des travaux d'une mission d'information sur l’instruction en famille"
  },
  "fr-supprimer-la-clause-de-conscience-specifique-en-dlr5l17n54992": {
   "changelog": [
-   "2026-10-10 tools/country_briefs.py drafted every cell"
+   "2026-10-10 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "c9d188978e9191d1e1d50d8dceda92ae61b45cbf562d7f6d8ea89ce966f2f5b6",
+  "content": "209a2e310f1677fa8a9c26913bcc38e17321e22b38352490ad9ac4e56d60b907",
   "generated": "2026-10-10",
   "key": "DLR5L17N54992",
   "ready": false,
-  "sha": "a609e2d4659c0ee1177b0f37bc54e948f2a03fe8967f79241a314ee0ffedc195",
+  "sha": "35c2e40cc715e810ae14175df6e663e5c08374c2b6dba1ae2f894deddfd95c1b",
   "title": "Supprimer la clause de conscience spécifique en matière d’interruption volontaire de grossesse"
  }
 }

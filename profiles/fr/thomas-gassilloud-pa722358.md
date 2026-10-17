@@ -7,41 +7,81 @@ France, Assemblée nationale. From the parliamentary monitor's store; positions 
 - **Status:** sitting, on the source's current list
 - **Source id:** `PA722358`
 
+## Length of service
+
+- **Serving since:** 8 July 2024 (Assemblée nationale; legislature 17; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 21 June 2017 to 9 June 2024 (legislature 15, 16)
+- **What the source covers:** every Assemblée nationale mandate from the 12th legislature (from 19 June 2002; AMO30). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Group spells, as the source dates them: NI (21 June 2017 to 26 June 2017); LaREM (27 June 2017 to 26 May 2020); Agir ens (27 May 2020 to 21 June 2022); NI (22 June 2022 to 28 June 2022); RE (29 June 2022 to 9 June 2024); NI (8 July 2024 to 18 July 2024); EPR (19 July 2024 to now).
+
 ## Party history
 
-- Recorded at votes in the store: EPR (first 12 November 2024, last 7 October 2026).
+- Recorded at votes in the store: EPR (first 12 November 2024, last 13 October 2026).
 
-## Votes on our ground (64)
+## Votes on our ground (65)
 
-Recorded positions (64): “contre” 38, “pour” 23, “abstention” 3.
-By area (every vote): assisted dying: “contre” 38, “pour” 22, “abstention” 3; free speech and civil liberties: “pour” 1.
+Recorded positions (65): “contre” 38, “pour” 24, “abstention” 3.
+By area (every vote): assisted dying: “contre” 38, “pour” 22, “abstention” 3; free speech and civil liberties: “abstention” 1, “pour” 1; prostitution and trafficking: “pour” 1.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 21 Jul 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux (texte…](https://www.assemblee-nationale.fr/dyn/17/scrutins/8431) · **watched** | free speech and civil liberties, tier 1 |
-| 15 Jul 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/8280) · **watched** | assisted dying, tier 1 |
-| 30 Jun 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi relative au droit à l'aide à mourir (nouvelle lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/7894) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5729) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture).;…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5728) · **watched** | assisted dying, tier 2 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'article 9 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5727) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 5 de M. Valletoux à l'article 9 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxiè…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5726) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'article 6 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5725) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 4 de M. Valletoux à l'article 6 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxiè…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5724) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'article 4 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5723) · **watched** | assisted dying, tier 1 |
+| 7 Oct 2026 | pour | EPR (at the vote) | [l'amendement n° 1274 (rect.) du Gouvernement à l'article 25 de la proposition de loi apportant une réponse intégrale au phénomène des viole…](https://www.assemblee-nationale.fr/dyn/17/scrutins/8565) · bill's areas · their vote meant: to adopt amendment 1274 to the text “Apporter une réponse intégrale au phénomène des violences sexuelles et sexistes contre…” (by rule, from the vote's wording and the bill) | prostitution and trafficking, tier 1 |
+| 21 Jul 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux (texte…](https://www.assemblee-nationale.fr/dyn/17/scrutins/8431) · **watched** · their vote meant: to pass DLR5L17N53187 (the under-15 social media rule and age checks) as a whole (by rule, from the vote's wording and the bill) | free speech and civil liberties, tier 1 |
+| 15 Jul 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi relative au droit à l'aide à mourir (lecture définitive).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/8280) · **watched** · their vote meant: to pass DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) as a whole (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 30 Jun 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi relative au droit à l'aide à mourir (nouvelle lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/7894) · **watched** · their vote meant: to pass DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) as a whole (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5729) · **watched** · their vote meant: to pass DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) as a whole (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture).;…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5728) · **watched** · their vote meant: to pass DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026) as a whole (by rule, from the vote's wording and the bill) | assisted dying, tier 2 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'article 9 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5727) · **watched** · their vote meant: to adopt article 9 of DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 5 de M. Valletoux à l'article 9 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxiè…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5726) · **watched** · their vote meant: to adopt amendment 5 to DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'article 6 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5725) · **watched** · their vote meant: to adopt article 6 of DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 4 de M. Valletoux à l'article 6 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxiè…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5724) · **watched** · their vote meant: to adopt amendment 4 to DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'article 4 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5723) · **watched** · their vote meant: to adopt article 4 of DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
 | 25 Feb 2026 | abstention | EPR (at the vote) | [l'amendement n° 8 de M. Hetzel à l'article 4 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxième…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5722) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 1 du Gouvernement et l'amendement identique suivant à l'article 4 de la proposition de loi relative au droit à l'aide à mou…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5721) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 3 de M. Valletoux à l'article 2 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxiè…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5720) · **watched** | assisted dying, tier 1 |
-| 25 Feb 2026 | contre | EPR (at the vote) | [le sous-amendement n° 6 de Mme Gruet à l'amendement n° 3 de M. Valletoux à l'article 2 de la proposition de loi relative au droit à l'aide…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5719) · **watched** | assisted dying, tier 1 |
-| 24 Feb 2026 | contre | EPR (at the vote) | [l'amendement n° 506 de Mme Mansouri et les amendements identiques suivants de suppression de l'article 16 de la proposition de loi relative…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5710) · **watched** | assisted dying, tier 1 |
-| 24 Feb 2026 | pour | EPR (at the vote) | [l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5709) · **watched** | assisted dying, tier 1 |
-| 24 Feb 2026 | contre | EPR (at the vote) | [l'amendement n° 1890 de M. Bernhardt à l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: F…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5708) · **watched** | assisted dying, tier 1 |
-| 24 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 1710 de M. Juvin à l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin d…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5707) · **watched** | assisted dying, tier 1 |
-| 24 Feb 2026 | contre | EPR (at the vote) | [l'amendement n° 39 de M. Hetzel à l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5706) · **watched** | assisted dying, tier 1 |
-| 24 Feb 2026 | pour | EPR (at the vote) | [l'article 17 (examen prioritaire) de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5705) · **watched** | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 1 du Gouvernement et l'amendement identique suivant à l'article 4 de la proposition de loi relative au droit à l'aide à mou…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5721) · **watched** · their vote meant: to adopt amendment 1 to DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 3 de M. Valletoux à l'article 2 de la proposition de loi relative au droit à l'aide à mourir (seconde délibération) (deuxiè…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5720) · **watched** · their vote meant: to adopt amendment 3 to DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 25 Feb 2026 | contre | EPR (at the vote) | [le sous-amendement n° 6 de Mme Gruet à l'amendement n° 3 de M. Valletoux à l'article 2 de la proposition de loi relative au droit à l'aide…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5719) · **watched** · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 24 Feb 2026 | contre | EPR (at the vote) | [l'amendement n° 506 de Mme Mansouri et les amendements identiques suivants de suppression de l'article 16 de la proposition de loi relative…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5710) · **watched** · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 24 Feb 2026 | pour | EPR (at the vote) | [l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de vie](https://www.assemblee-nationale.fr/dyn/17/scrutins/5709) · **watched** · their vote meant: to adopt article 15 of DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 24 Feb 2026 | contre | EPR (at the vote) | [l'amendement n° 1890 de M. Bernhardt à l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: F…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5708) · **watched** · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 24 Feb 2026 | pour | EPR (at the vote) | [l'amendement n° 1710 de M. Juvin à l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin d…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5707) · **watched** · their vote meant: to adopt amendment 1710 to DLR5L17N51670 (Droit a l'aide a mourir (dossier 'Fin de vie')) (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
+| 24 Feb 2026 | contre | EPR (at the vote) | [l'amendement n° 39 de M. Hetzel à l'article 15 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture).; on: Fin de…](https://www.assemblee-nationale.fr/dyn/17/scrutins/5706) · **watched** · their vote meant: against adopting it, leaving the text as it stood (by rule, from the vote's wording and the bill) | assisted dying, tier 1 |
 
-44 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+45 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Committees and groups (23)
+
+- **Committees:** Commission de la défense nationale et des forces armées (Membre, since 14 November 2024); Commission spéciale chargée d'examiner le projet de loi relatif à la résilience des infrastructures critiques et au renforcement de la cybersécurité (Membre, since 18 March 2025); Commission spéciale chargée d'examiner le projet de loi relatif à la résilience des infrastructures critiques et au renforcement de la cybersécurité (Vice-Président, since 8 April 2025).
+- **Cross-party groups:** **Enseignement privé (Membre, since 16 January 2025)** (on our ground: the study group on independent schools); Aéronautique et espace (Membre, since 16 January 2025); Arctique, Antarctique, Terres australes et antarctiques françaises et grands fonds océaniques (Membre, since 16 January 2025); Attractivité économique et export (Membre, since 16 January 2025); Déserts médicaux et accès aux soins (Membre, since 16 January 2025); Économie, sécurité et souveraineté numériques (Membre, since 16 January 2025); Élevage et pastoralisme (Membre, since 16 January 2025); Énergies durables et hydrogène (Membre, since 16 January 2025); Forêt et filière bois (Membre, since 16 January 2025); Francophonie (Membre, since 16 January 2025); Industries de défense (Membre, since 16 January 2025); Montagne (Membre, since 16 January 2025); Réseaux sociaux (Membre, since 16 January 2025); Ruralité (Membre, since 16 January 2025); Sahara occidental (Membre, since 16 January 2025); Sapeurs-pompiers, sécurité civile et gestion des crises (Membre, since 16 January 2025); Simplification administrative (Membre, since 16 January 2025); Vie associative, éducation populaire et bénévolat (Membre, since 16 January 2025).
+- **Other bodies:** Mission d'information « Préparer le conflit de demain : du MCO de contrat au MCO de combat » (Co-rapporteur, since 8 April 2026); Mission d'information « Préparer le conflit de demain : du MCO de contrat au MCO de combat » (Membre, since 8 April 2026).
+
+As the parliament records them; a group is flagged on our ground by its name only, never by how its members vote.
+
+## Declared interests (6)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Fonction bénévole | Club d'Entreprises des Monts du Lyonnais | Fondateur et membre du conseil d'administration |  |  |
+| Mandat électif | Député du Rhône |  | rémunéré | 2022-06 to 2024-06 |
+| Participation à un organe dirigeant | SARL Luxinet | Société holding | rémunéré | 2023-01 to 2024-12 |
+| Participation à un organe dirigeant | SCI | Immobilier | non rémunéré | 2023-01 to 2024-12 |
+| Participation financière | SARL Luxinet | 100 % du capital |  |  |
+| Participation financière | SCI | 1 % du capital |  |  |
+
+From the declaration lodged with the HATVP on 24 March 2025; [the HATVP's page for this member](https://www.hatvp.fr/pages_nominatives/gassilloud-thomas).
+
+The register's own words; nothing here is a judgement of the interest.
+
+## Attendance
+
+- **Commission de la défense nationale et des forces armées**: attended 63 of 182 sitting(s) (44 excused or with a reason given), 2024-07-20 to 2026-10-15.
+- **Commission d'enquête sur les dépendances structurelles et les vulnérabilités systémiques dans le secteur du numérique et les risques pour l’indépendance de la France**: attended 0 of 47 sitting(s), 2026-02-18 to 2026-07-08.
+- **Commission spéciale chargée d'examiner le projet de loi relatif à la résilience des infrastructures critiques et au renforcement de la cybersécurité**: attended 5 of 23 sitting(s), 2025-04-08 to 2026-10-14.
+- **Commission des affaires étrangères**: attended 1 of 2 sitting(s), 2024-10-09 to 2024-10-09.
+
+Basis: sittings: the parliament's roll for each sitting (present, absent, excused). A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

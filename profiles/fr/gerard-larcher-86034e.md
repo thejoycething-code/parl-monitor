@@ -7,14 +7,18 @@ France, senat. From the parliamentary monitor's store; positions are as the reco
 - **Status:** sitting, on the source's current list
 - **Source id:** `86034E`
 
+## Length of service
+
+- Not in the service source read (fr-amo30, 17 October 2026: every Assemblée nationale mandate from the 12th legislature (from 19 June 2002; AMO30)): nothing is said about this member's service.
+
 ## Party history
 
-- Recorded at votes in the store: Les Républicains (first 10 October 2024, last 21 July 2026).
+- Recorded at votes in the store: Les Républicains (first 10 October 2023, last 21 July 2026).
 
-## Votes on our ground (64)
+## Votes on our ground (73)
 
-Recorded positions (64): “nonVotant” 64.
-By area (every vote): abortion: “nonVotant” 1; assisted dying: “nonVotant” 39; sex-based rights: “nonVotant” 4; free speech and civil liberties: “nonVotant” 5; religious freedom: “nonVotant” 8; marriage and family: “nonVotant” 4; prostitution and trafficking: “nonVotant” 1; organ donation: “nonVotant” 2.
+Recorded positions (73): “nonVotant” 73.
+By area (every vote): abortion: “nonVotant” 5; assisted dying: “nonVotant” 39; gender medicine and children: “nonVotant” 4; sex-based rights: “nonVotant” 4; parental rights and education: “nonVotant” 1; free speech and civil liberties: “nonVotant” 5; religious freedom: “nonVotant” 8; marriage and family: “nonVotant” 4; prostitution and trafficking: “nonVotant” 1; organ donation: “nonVotant” 2.
 
 The latest 20:
 
@@ -41,7 +45,21 @@ The latest 20:
 | 11 May 2026 | nonVotant | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture…](https://www.senat.fr/scrutin-public/2025/scr2025-251.html) · **watched** | assisted dying, tier 2 |
 | 5 May 2026 | nonVotant | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France; on: Proposition de loi visant à lutter contr…](https://www.senat.fr/scrutin-public/2025/scr2025-238.html) | religious freedom, tier 1 |
 
-44 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+53 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Declared interests (5)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Mandat électif | Président du Sénat |  | rémunéré | 2017-10 to 2023-10 |
+| Participation à un organe dirigeant | Société des courses de Rambouillet | Membre du CA | non rémunéré | 2017-01 to 2023-09 |
+| Participation financière | CENTRAVET | 2 part(s) |  |  |
+| Participation financière | Crédit Mutuel | 1 part(s) |  |  |
+| Participation financière | SCI | 30 % du capital |  |  |
+
+From the declaration lodged with the HATVP on 12 December 2023; [the HATVP's page for this member](https://www.hatvp.fr/pages_nominatives/larcher-gerard).
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

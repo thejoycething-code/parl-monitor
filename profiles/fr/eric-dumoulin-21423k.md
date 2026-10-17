@@ -7,6 +7,10 @@ France, senat. From the parliamentary monitor's store; positions are as the reco
 - **Status:** not on the source's current list
 - **Source id:** `21423K`
 
+## Length of service
+
+- Not in the service source read (fr-amo30, 17 October 2026: every Assemblée nationale mandate from the 12th legislature (from 19 June 2002; AMO30)): nothing is said about this member's service.
+
 ## Party history
 
 - Recorded at votes in the store: Les Républicains (first 22 October 2024, last 11 July 2025).
@@ -24,14 +28,14 @@ Every vote:
 | 3 Apr 2025 | contre | Les Républicains (at the vote) | [sur les amendements identiques n° 3 rectifié, présenté par Mme Véronique Guillotin et plusieurs de ses collègues, et n° 34, présenté par Mm…](https://www.senat.fr/scrutin-public/2024/scr2024-252.html) · bill's areas | sex-based rights |
 | 3 Apr 2025 | contre | Les Républicains (at the vote) | [sur l'amendement n° 19 rectifié, présenté par Mme Solanges Nadille et les membres du groupe Rassemblement des démocrates, progressistes et…](https://www.senat.fr/scrutin-public/2024/scr2024-251.html) · bill's areas | sex-based rights |
 | 3 Apr 2025 | contre | Les Républicains (at the vote) | [sur les amendements identiques n° 4 rectifié ter, présenté par Mme Annick Billon et plusieurs de ses collègues, n° 15 rectifié ter, présent…](https://www.senat.fr/scrutin-public/2024/scr2024-250.html) · bill's areas | sex-based rights |
-| 20 Mar 2025 | pour | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à reconnaître le préjudice subi par les personnes condamnées sur le fondement de la législat…](https://www.senat.fr/scrutin-public/2024/scr2024-237.html) | abortion, tier 1 |
+| 20 Mar 2025 | pour | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à reconnaître le préjudice subi par les personnes condamnées sur le fondement de la législat…](https://www.senat.fr/scrutin-public/2024/scr2024-237.html) · their vote meant: voted to pass the bill recognising the harm done to people convicted under abortion bans, and to all women, before the 1975 law legalising abortion (read by the free session judge) | abortion, tier 1 |
 | 20 Feb 2025 | pour | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à interdire un mariage en France lorsque l'un des futurs époux réside de façon irrégulière s…](https://www.senat.fr/scrutin-public/2024/scr2024-209.html) | marriage and family, tier 2 |
 | 20 Feb 2025 | pour | Les Républicains (at the vote) | [sur l'article unique de la proposition de loi visant à interdire un mariage en France lorsque l'un des futurs époux réside de façon irrégul…](https://www.senat.fr/scrutin-public/2024/scr2024-208.html) | marriage and family, tier 2 |
 | 20 Feb 2025 | contre | Les Républicains (at the vote) | [sur les amendements identiques n° 2, présenté par Mme Mélanie Vogel et les membres du groupe Écologiste - Solidarité et Territoires, n° 8,…](https://www.senat.fr/scrutin-public/2024/scr2024-207.html) | marriage and family, tier 2 |
 | 20 Feb 2025 | contre | Les Républicains (at the vote) | [sur la motion n° 1, présentée par Mme Marianne Margaté et les membres du groupe Communiste Républicain Citoyen et Écologiste - Kanaky, tend…](https://www.senat.fr/scrutin-public/2024/scr2024-206.html) | marriage and family, tier 2 |
-| 18 Feb 2025 | pour | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à assurer le respect du principe de laïcité dans le sport; on: Proposition de loi visant à a…](https://www.senat.fr/scrutin-public/2024/scr2024-199.html) | religious freedom, tier 1 |
-| 18 Feb 2025 | pour | Les Républicains (at the vote) | [sur l'article 1er de la proposition de loi visant à assurer le respect du principe de laïcité dans le sport; on: Proposition de loi visant…](https://www.senat.fr/scrutin-public/2024/scr2024-198.html) | religious freedom, tier 1 |
-| 18 Feb 2025 | contre | Les Républicains (at the vote) | [sur les amendements identiques n° 4, présenté par Mme Sylvie Robert et les membres du groupe Socialiste, Écologiste et Républicain, n° 9, p…](https://www.senat.fr/scrutin-public/2024/scr2024-197.html) | religious freedom, tier 1 |
+| 18 Feb 2025 | pour | Les Républicains (at the vote) | [sur l'ensemble de la proposition de loi visant à assurer le respect du principe de laïcité dans le sport; on: Proposition de loi visant à a…](https://www.senat.fr/scrutin-public/2024/scr2024-199.html) · their vote meant: voted to pass, as a whole, the bill on upholding the principle of secularism in sport (read by the free session judge) | religious freedom, tier 1 |
+| 18 Feb 2025 | pour | Les Républicains (at the vote) | [sur l'article 1er de la proposition de loi visant à assurer le respect du principe de laïcité dans le sport; on: Proposition de loi visant…](https://www.senat.fr/scrutin-public/2024/scr2024-198.html) · their vote meant: voted to adopt article 1 of the bill on upholding the principle of secularism in sport (read by the free session judge) | religious freedom, tier 1 |
+| 18 Feb 2025 | contre | Les Républicains (at the vote) | [sur les amendements identiques n° 4, présenté par Mme Sylvie Robert et les membres du groupe Socialiste, Écologiste et Républicain, n° 9, p…](https://www.senat.fr/scrutin-public/2024/scr2024-197.html) · their vote meant: voted against deleting article 1, leaving that article of the secularism in sport bill in place (read by the free session judge) | religious freedom, tier 1 |
 
 ## Notes
 

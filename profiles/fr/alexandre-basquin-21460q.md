@@ -7,6 +7,10 @@ France, senat. From the parliamentary monitor's store; positions are as the reco
 - **Status:** sitting, on the source's current list
 - **Source id:** `21460Q`
 
+## Length of service
+
+- Not in the service source read (fr-amo30, 17 October 2026: every Assemblée nationale mandate from the 12th legislature (from 19 June 2002; AMO30)): nothing is said about this member's service.
+
 ## Party history
 
 - Recorded at votes in the store: CRCE-K (first 5 November 2024, last 21 July 2026).
@@ -21,9 +25,9 @@ The latest 20:
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
 | 21 Jul 2026 | abstention | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux; on…](https://www.senat.fr/scrutin-public/2025/scr2025-337.html) · **watched** | free speech and civil liberties, tier 1 |
-| 7 Jul 2026 | contre | CRCE-K (at the vote) | [sur la motion n° 2, présentée par Mme Christine Bonfanti-Dossat au nom de la commission des affaires sociales, tendant à opposer la questio…](https://www.senat.fr/scrutin-public/2025/scr2025-328.html) | assisted dying, tier 1 |
-| 16 Jun 2026 | pour | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à réparer les préjudices causés par la transplantation de mineurs de La Réunion en France he…](https://www.senat.fr/scrutin-public/2025/scr2025-313.html) | organ donation, tier 1 |
-| 9 Jun 2026 | pour | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir la neutralité financière du don d'organes et d'autres éléments et produits du cor…](https://www.senat.fr/scrutin-public/2025/scr2025-294.html) | organ donation, tier 1 |
+| 7 Jul 2026 | contre | CRCE-K (at the vote) | [sur la motion n° 2, présentée par Mme Christine Bonfanti-Dossat au nom de la commission des affaires sociales, tendant à opposer la questio…](https://www.senat.fr/scrutin-public/2025/scr2025-328.html) · their vote meant: to refuse that motion, so the Senate goes on to debate and vote on the assisted dying bill at its new reading (read by the free session judge) | assisted dying, tier 1 |
+| 16 Jun 2026 | pour | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à réparer les préjudices causés par la transplantation de mineurs de La Réunion en France he…](https://www.senat.fr/scrutin-public/2025/scr2025-313.html) · their vote meant: to pass as a whole the bill providing redress for the harm caused by moving minors from La Réunion to mainland France between 1962 and 1984 (read by the free session judge) | organ donation, tier 1 |
+| 9 Jun 2026 | pour | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir la neutralité financière du don d'organes et d'autres éléments et produits du cor…](https://www.senat.fr/scrutin-public/2025/scr2025-294.html) · their vote meant: to pass as a whole the bill ensuring that living donors of organs and other body materials are not left out of pocket by donating (read by the free session judge) | organ donation, tier 1 |
 | 11 May 2026 | abstention | CRCE-K (at the vote) | [sur l'article 2 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture); on: Fin de vie](https://www.senat.fr/scrutin-public/2025/scr2025-265.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | abstention | CRCE-K (at the vote) | [sur les amendements identiques n° 31 rectifié, présenté par M. Alain Houpert et plusieurs de ses collègues, n° 306, présenté par M. Stéphan…](https://www.senat.fr/scrutin-public/2025/scr2025-264.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | abstention | CRCE-K (at the vote) | [sur l'amendement n° 358 rectifié, présenté par MM. Alain Duffourg et Arnaud Bazin, à l'article 2 de la proposition de loi relative au droit…](https://www.senat.fr/scrutin-public/2025/scr2025-263.html) · **watched** | assisted dying, tier 1 |
@@ -38,10 +42,27 @@ The latest 20:
 | 11 May 2026 | abstention | CRCE-K (at the vote) | [sur l'amendement n° 1, présenté par Mme Silvana Silvani et plusieurs de ses collègues, à l'article 2 de la proposition de loi relative au d…](https://www.senat.fr/scrutin-public/2025/scr2025-254.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | abstention | CRCE-K (at the vote) | [sur l'amendement n° 201 rectifié, présenté par Mme Jocelyne Antoine et plusieurs de ses collègues, à l'article 2 de la proposition de loi r…](https://www.senat.fr/scrutin-public/2025/scr2025-253.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | abstention | CRCE-K (at the vote) | [sur les amendements identiques n° 79 rectifié quater, présenté par M. Guillaume Chevrollier et plusieurs de ses collègues, n° 118 rectifié…](https://www.senat.fr/scrutin-public/2025/scr2025-252.html) · **watched** | assisted dying, tier 1 |
-| 11 May 2026 | contre | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture…](https://www.senat.fr/scrutin-public/2025/scr2025-251.html) · **watched** | assisted dying, tier 2 |
-| 5 May 2026 | contre | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France; on: Proposition de loi visant à lutter contr…](https://www.senat.fr/scrutin-public/2025/scr2025-238.html) | religious freedom, tier 1 |
+| 11 May 2026 | contre | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture…](https://www.senat.fr/scrutin-public/2025/scr2025-251.html) · **watched** · their vote meant: against passing it (by rule, from the vote's wording and the bill) | assisted dying, tier 2 |
+| 5 May 2026 | contre | CRCE-K (at the vote) | [sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France; on: Proposition de loi visant à lutter contr…](https://www.senat.fr/scrutin-public/2025/scr2025-238.html) · their vote meant: to reject the bill against Islamist entryism in France as a whole (read by the free session judge) | religious freedom, tier 1 |
 
 44 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Declared interests (8)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Activité professionnelle (cinq dernières années) | Eric BOCQUET Sénateur | Assistant parlementaire | rémunéré | 2018-01 to 2024-11 |
+| Fonction bénévole | Association Départementale des Elus Communistes et Républicains du Nord | Président |  |  |
+| Fonction bénévole | Association Départementale du Nord des Déportés et Internés Résistants et Patriotes | Adhérent |  |  |
+| Fonction bénévole | Union Aéronautique du Cambrésis | Adhérent |  |  |
+| Mandat électif | Maire |  | rémunéré | 2018-01 to 2024-11 |
+| Mandat électif | Vice-Président de la Communauté d'Agglomération du Caudrésis-Catésis |  | rémunéré | 2018-01 to 2024-11 |
+| Mandat électif | Vice-Président du Syndicat Mixte du PETR du Pays du Cambrésis |  | rémunéré | 2018-01 to 2024-11 |
+| Participation financière | SAS Société Nouvelle Liberté Edition | 25 % du capital |  |  |
+
+From the declaration lodged with the HATVP on 9 December 2024; [the HATVP's page for this member](https://www.hatvp.fr/pages_nominatives/basquin-alexandre-28265).
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 

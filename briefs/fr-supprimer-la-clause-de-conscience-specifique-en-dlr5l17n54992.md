@@ -41,7 +41,7 @@ Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nob
 - Who: [CAMPAIGNER: who brought it]; Assemblée nationale
 - Stage: Renvoi en commission au fond (2026-10-06)
 - Next date: none published
-- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11.
+- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11. seats in the Sénat: Les Républicains 124, UCI 63, SER 62, CRCE-K 18, RDSE 18, RDPI 16, GEST 15, Les Indépendants 15, UNT 15, NI 2.
 - Our history: [CAMPAIGNER: earlier CitizenGO campaigns on this issue, with signatures and links]
 
 ### ✏️ Estimated Launch date
@@ -90,7 +90,7 @@ All members of the Assemblée nationale (députés).
 ### ✏️ Why would they listen to us?
 
 [CAMPAIGNER: the lead sentence: if we <action>, <target> will <behaviour>, because <pressure point>]
-1. **Vote arithmetic:** seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11.
+1. **Vote arithmetic:** seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11. seats in the Sénat: Les Républicains 124, UCI 63, SER 62, CRCE-K 18, RDSE 18, RDPI 16, GEST 15, Les Indépendants 15, UNT 15, NI 2.
 2. **Whip:** [CAMPAIGNER: free vote or whipped, and by whom]
 3. **Our members in their seats:** [CAMPAIGNER: our members in each constituency, from the postcode data]
 
@@ -162,6 +162,7 @@ Left blank at build time (rulebook cell 35).
 - Tier: B (open parliamentary data, the FR store). Drafted by tools/country_briefs.py (rules and the record; no AI model).
 - Subject: tier 1 `DLR5L17N54992`, https://www.assemblee-nationale.fr/dyn/17/dossiers/supprimer_clause_conscience_ivg_17e, areas 1 (abortion).
 - Store takeaway: Proposition de loi ordinaire; latest act on 6 October 2026
+- Session judge: A new bill would abolish the specific conscience clause for abortion, forcing doctors and midwives to take part. It is a direct conscience rights threat and a clear lobbying trigger in France.
 - Key dates: introduced 2026-10-06; last recorded event 2026-10-06; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
 - SIGN-OFF: no bill direction on file for `DLR5L17N54992`. Add a `bill_directions` line (direction with/against, why) to config/fr_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc fr --confirm-direction DLR5L17N54992 --by NAME`.
@@ -173,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-10 tools/country_briefs.py drafted every cell
+- 2026-10-17 tools/country_briefs.py refreshed by the builder

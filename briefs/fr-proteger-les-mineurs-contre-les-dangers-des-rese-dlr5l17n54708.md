@@ -41,7 +41,7 @@ Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nob
 - Who: [CAMPAIGNER: who brought it]; Assemblée nationale
 - Stage: Renvoi en commission au fond (2026-07-23)
 - Next date: none published
-- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11.
+- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11. seats in the Sénat: Les Républicains 124, UCI 63, SER 62, CRCE-K 18, RDSE 18, RDPI 16, GEST 15, Les Indépendants 15, UNT 15, NI 2.
 - Our history: [CAMPAIGNER: earlier CitizenGO campaigns on this issue, with signatures and links]
 
 ### ✏️ Estimated Launch date
@@ -90,7 +90,7 @@ All members of the Assemblée nationale (députés).
 ### ✏️ Why would they listen to us?
 
 [CAMPAIGNER: the lead sentence: if we <action>, <target> will <behaviour>, because <pressure point>]
-1. **Vote arithmetic:** seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11.
+1. **Vote arithmetic:** seats in the Assemblée nationale: RN 121, EPR 90, LFI-NFP 70, SOC 68, DR 47, ECOS 38, DEM 37, HOR 35, LIOT 23, UDDPLR 17, GDR 17, NI 11. seats in the Sénat: Les Républicains 124, UCI 63, SER 62, CRCE-K 18, RDSE 18, RDPI 16, GEST 15, Les Indépendants 15, UNT 15, NI 2.
 2. **Whip:** [CAMPAIGNER: free vote or whipped, and by whom]
 3. **Our members in their seats:** [CAMPAIGNER: our members in each constituency, from the postcode data]
 
@@ -174,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-10 tools/country_briefs.py drafted every cell
+- 2026-10-17 tools/country_briefs.py refreshed by the builder

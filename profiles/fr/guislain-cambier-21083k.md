@@ -7,23 +7,27 @@ France, senat. From the parliamentary monitor's store; positions are as the reco
 - **Status:** sitting, on the source's current list
 - **Source id:** `21083K`
 
+## Length of service
+
+- Not in the service source read (fr-amo30, 17 October 2026: every Assemblée nationale mandate from the 12th legislature (from 19 June 2002; AMO30)): nothing is said about this member's service.
+
 ## Party history
 
-- Recorded at votes in the store: UCI (first 10 October 2024, last 21 July 2026).
+- Recorded at votes in the store: UCI (first 10 October 2023, last 21 July 2026).
 
-## Votes on our ground (64)
+## Votes on our ground (73)
 
-Recorded positions (64): “contre” 25, “pour” 19, “nonVotant” 14, “abstention” 6.
-By area (every vote): abortion: “pour” 1; assisted dying: “nonVotant” 14, “contre” 12, “pour” 7, “abstention” 6; sex-based rights: “contre” 3, “pour” 1; free speech and civil liberties: “contre” 3, “pour” 2; religious freedom: “contre” 5, “pour” 3; marriage and family: “contre” 2, “pour” 2; prostitution and trafficking: “pour” 1; organ donation: “pour” 2.
+Recorded positions (73): “contre” 31, “pour” 22, “nonVotant” 14, “abstention” 6.
+By area (every vote): abortion: “contre” 3, “pour” 2; assisted dying: “nonVotant” 14, “contre” 12, “pour” 7, “abstention” 6; gender medicine and children: “contre” 3, “pour” 1; sex-based rights: “contre” 3, “pour” 1; parental rights and education: “pour” 1; free speech and civil liberties: “contre” 3, “pour” 2; religious freedom: “contre” 5, “pour” 3; marriage and family: “contre” 2, “pour” 2; prostitution and trafficking: “pour” 1; organ donation: “pour” 2.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 21 Jul 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux; on…](https://www.senat.fr/scrutin-public/2025/scr2025-337.html) · **watched** | free speech and civil liberties, tier 1 |
-| 7 Jul 2026 | pour | UCI (at the vote) | [sur la motion n° 2, présentée par Mme Christine Bonfanti-Dossat au nom de la commission des affaires sociales, tendant à opposer la questio…](https://www.senat.fr/scrutin-public/2025/scr2025-328.html) | assisted dying, tier 1 |
-| 16 Jun 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à réparer les préjudices causés par la transplantation de mineurs de La Réunion en France he…](https://www.senat.fr/scrutin-public/2025/scr2025-313.html) | organ donation, tier 1 |
-| 9 Jun 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir la neutralité financière du don d'organes et d'autres éléments et produits du cor…](https://www.senat.fr/scrutin-public/2025/scr2025-294.html) | organ donation, tier 1 |
+| 21 Jul 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à protéger les mineurs des risques auxquels les expose l'utilisation des réseaux sociaux; on…](https://www.senat.fr/scrutin-public/2025/scr2025-337.html) · **watched** · their vote meant: to pass DLR5L17N53187 (the under-15 social media rule and age checks) as a whole (by rule, from the vote's wording and the bill) | free speech and civil liberties, tier 1 |
+| 7 Jul 2026 | pour | UCI (at the vote) | [sur la motion n° 2, présentée par Mme Christine Bonfanti-Dossat au nom de la commission des affaires sociales, tendant à opposer la questio…](https://www.senat.fr/scrutin-public/2025/scr2025-328.html) · their vote meant: to declare there is no need to debate the assisted dying bill at this new reading, so the Senate ends its consideration of it without examining the articles (read by the free session judge) | assisted dying, tier 1 |
+| 16 Jun 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à réparer les préjudices causés par la transplantation de mineurs de La Réunion en France he…](https://www.senat.fr/scrutin-public/2025/scr2025-313.html) · their vote meant: to pass as a whole the bill providing redress for the harm caused by moving minors from La Réunion to mainland France between 1962 and 1984 (read by the free session judge) | organ donation, tier 1 |
+| 9 Jun 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir la neutralité financière du don d'organes et d'autres éléments et produits du cor…](https://www.senat.fr/scrutin-public/2025/scr2025-294.html) · their vote meant: to pass as a whole the bill ensuring that living donors of organs and other body materials are not left out of pocket by donating (read by the free session judge) | organ donation, tier 1 |
 | 11 May 2026 | abstention | UCI (at the vote) | [sur l'article 2 de la proposition de loi relative au droit à l'aide à mourir (deuxième lecture); on: Fin de vie](https://www.senat.fr/scrutin-public/2025/scr2025-265.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | nonVotant | UCI (at the vote) | [sur les amendements identiques n° 31 rectifié, présenté par M. Alain Houpert et plusieurs de ses collègues, n° 306, présenté par M. Stéphan…](https://www.senat.fr/scrutin-public/2025/scr2025-264.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | nonVotant | UCI (at the vote) | [sur l'amendement n° 358 rectifié, présenté par MM. Alain Duffourg et Arnaud Bazin, à l'article 2 de la proposition de loi relative au droit…](https://www.senat.fr/scrutin-public/2025/scr2025-263.html) · **watched** | assisted dying, tier 1 |
@@ -38,10 +42,34 @@ The latest 20:
 | 11 May 2026 | abstention | UCI (at the vote) | [sur l'amendement n° 1, présenté par Mme Silvana Silvani et plusieurs de ses collègues, à l'article 2 de la proposition de loi relative au d…](https://www.senat.fr/scrutin-public/2025/scr2025-254.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | abstention | UCI (at the vote) | [sur l'amendement n° 201 rectifié, présenté par Mme Jocelyne Antoine et plusieurs de ses collègues, à l'article 2 de la proposition de loi r…](https://www.senat.fr/scrutin-public/2025/scr2025-253.html) · **watched** | assisted dying, tier 1 |
 | 11 May 2026 | abstention | UCI (at the vote) | [sur les amendements identiques n° 79 rectifié quater, présenté par M. Guillaume Chevrollier et plusieurs de ses collègues, n° 118 rectifié…](https://www.senat.fr/scrutin-public/2025/scr2025-252.html) · **watched** | assisted dying, tier 1 |
-| 11 May 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture…](https://www.senat.fr/scrutin-public/2025/scr2025-251.html) · **watched** | assisted dying, tier 2 |
-| 5 May 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France; on: Proposition de loi visant à lutter contr…](https://www.senat.fr/scrutin-public/2025/scr2025-238.html) | religious freedom, tier 1 |
+| 11 May 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à garantir l'égal accès de tous à l'accompagnement et aux soins palliatifs (deuxième lecture…](https://www.senat.fr/scrutin-public/2025/scr2025-251.html) · **watched** · their vote meant: to pass DLR5L17N51672 (Soins palliatifs et d'accompagnement, the companion bill to the aide a mourir law; promulgated 26 May 2026) as a whole (by rule, from the vote's wording and the bill) | assisted dying, tier 2 |
+| 5 May 2026 | pour | UCI (at the vote) | [sur l'ensemble de la proposition de loi visant à lutter contre l'entrisme islamiste en France; on: Proposition de loi visant à lutter contr…](https://www.senat.fr/scrutin-public/2025/scr2025-238.html) · their vote meant: to pass the bill against Islamist entryism in France as a whole (read by the free session judge) | religious freedom, tier 1 |
 
-44 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+53 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+
+## Declared interests (15)
+
+| Category | Interest | Function | Paid | Period |
+|---|---|---|---|---|
+| Activité professionnelle (cinq dernières années) | education nationale | principal | rémunéré | 2018-01 to 2018-12 |
+| Activité professionnelle (cinq dernières années) | education nationale | principal collège | rémunéré | 2019-01 to 2019-12 |
+| Mandat électif | conseiller municipal |  | non rémunéré | 2023-10 to now |
+| Mandat électif | conseiller régional |  | rémunéré | 2018-01 to 2021-07 |
+| Mandat électif | délégué parc naturel régional |  | non rémunéré | 2023-10 to now |
+| Mandat électif | maire |  | rémunéré | 2018-01 to 2021-07 |
+| Mandat électif | maire de Potelle |  | rémunéré | 2021-08 to 2023-10 |
+| Mandat électif | président pays de Mormal |  | rémunéré | 2022-01 to 2023-09 |
+| Mandat électif | président pays de mormal |  | rémunéré | 2018-01 to 2021-07 |
+| Mandat électif | président pnr avesnois |  | non rémunéré | 2019-01 to 2023-10 |
+| Mandat électif | président SEAA |  | rémunéré | 2020-12 to 2023-10 |
+| Mandat électif | vice-président conseil régional |  | rémunéré | 2020-08 to 2023-10 |
+| Participation à un organe dirigeant | CERDD | membre du CA | non rémunéré | 2021-07 to 2023-09 |
+| Participation à un organe dirigeant | SM pole métropolitain hainaut cambrésis | vice-président | non rémunéré | 2018-01 to 2023-09 |
+| Participation à un organe dirigeant | SM SCOT AVESNOIS | délégué communautaire | non rémunéré | 2018-01 to 2023-09 |
+
+From the declaration lodged with the HATVP on 15 January 2024; [the HATVP's page for this member](https://www.hatvp.fr/pages_nominatives/cambier-guislain-10499).
+
+The register's own words; nothing here is a judgement of the interest.
 
 ## Notes
 
