@@ -7,9 +7,14 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `matic-ivan-11-saziv`
 
+## Length of service
+
+- **Terms in the source:** saziv 11, Most (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
-- MOST: 23 June 2026 to 29 September 2026 (the Sabor's transcripts, seen in debate 12 time(s))
+- MOST: 23 June 2026 to 2 October 2026 (the Sabor's transcripts, seen in debate 13 time(s))
 
 ## Votes on our ground (1)
 

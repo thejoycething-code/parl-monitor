@@ -7,6 +7,11 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** not on the source's current list
 - **Source id:** `brnjac-nikolina-11-saziv`
 
+## Length of service
+
+- **Terms in the source:** saziv 11, HDZ (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Votes on our ground (2)
 
 Recorded positions (2): “for” 2.

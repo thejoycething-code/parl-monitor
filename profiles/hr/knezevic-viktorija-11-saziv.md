@@ -7,6 +7,15 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** not on the source's current list
 - **Source id:** `knezevic-viktorija-11-saziv`
 
+## Length of service
+
+- **Terms in the source:** saziv 11, Centar (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
+## Party history
+
+- Centar: 9 October 2024 to 15 July 2025 (the Sabor's transcripts, seen in debate 17 time(s))
+
 ## Votes on our ground (3)
 
 Recorded positions (3): “for” 2, “abstained” 1.
@@ -16,8 +25,8 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 15 Jul 2025 | abstained | Centar (as listed, not at the vote) | [KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O UDŽBENICIMA I DRUGIM OBRAZOVNIM MATERIJALIMA ZA OSNOVNU I SREDNJU ŠKOLU, drugo čit…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-izmjenama-i-dopunama-zakona-o-udzbenicima-i-drugim?t=155236&tid=213693) | parental rights and education, tier 2 |
-| 11 Oct 2024 | for | Centar (as listed, not at the vote) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH US…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2022/2065-europskog-parlamenta-i-vijeca-od-19?t=149408&tid=212876) | free speech and civil liberties, tier 1 |
+| 15 Jul 2025 | abstained | Centar (seen in debate, transcripts) | [KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O UDŽBENICIMA I DRUGIM OBRAZOVNIM MATERIJALIMA ZA OSNOVNU I SREDNJU ŠKOLU, drugo čit…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-izmjenama-i-dopunama-zakona-o-udzbenicima-i-drugim?t=155236&tid=213693) | parental rights and education, tier 2 |
+| 11 Oct 2024 | for | Centar (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH US…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2022/2065-europskog-parlamenta-i-vijeca-od-19?t=149408&tid=212876) · their vote meant: voted to accept at first reading the government's bill implementing the EU Digital Services Act in Croatia (read by the free session judge) | free speech and civil liberties, tier 1 |
 | 24 May 2024 | for | Centar (as listed, not at the vote) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA DJECU ZA 2022. GODINU - podnositeljica: pravobraniteljica za djecu](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-djecu-za-2022-godinu-podnositeljica-4?t=145970&tid=212661) | parental rights and education, tier 2 |
 
 ## Notes

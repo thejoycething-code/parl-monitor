@@ -7,9 +7,13 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `petrov-bozo-11-saziv`
 
+## Length of service
+
+- Not in the service source read (hr-sazivi, 17 October 2026: the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates): nothing is said about this member's service.
+
 ## Party history
 
-- MOST: 19 September 2025 to 22 September 2026 (the Sabor's transcripts, seen in debate 35 time(s))
+- MOST: 27 September 2024 to 30 September 2026 (the Sabor's transcripts, seen in debate 50 time(s))
 
 ## Votes on our ground (2)
 
@@ -20,8 +24,8 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 5 Dec 2025 | against | MOST (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTI…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2024/1083-o-uspostavi-zajednickog-okvira-za?t=157443&tid=214089) | free speech and civil liberties, tier 1 |
-| 11 Oct 2024 | abstained | Most (as listed, not at the vote) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH US…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2022/2065-europskog-parlamenta-i-vijeca-od-19?t=149408&tid=212876) | free speech and civil liberties, tier 1 |
+| 5 Dec 2025 | against | MOST (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI DIREKTI…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2024/1083-o-uspostavi-zajednickog-okvira-za?t=157443&tid=214089) · their vote meant: to reject that bill at first reading (read by the free session judge) | free speech and civil liberties, tier 1 |
+| 11 Oct 2024 | abstained | MOST (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH US…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2022/2065-europskog-parlamenta-i-vijeca-od-19?t=149408&tid=212876) | free speech and civil liberties, tier 1 |
 
 ## Notes
 

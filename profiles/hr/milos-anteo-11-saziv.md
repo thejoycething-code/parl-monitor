@@ -7,6 +7,11 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `milos-anteo-11-saziv`
 
+## Length of service
+
+- **Terms in the source:** saziv 11, IDS (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - IDS: 29 January 2026 to 9 July 2026 (the Sabor's transcripts, seen in debate 23 time(s))
@@ -20,8 +25,8 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 30 Apr 2026 | against | IDS (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-dopuni-obiteljskog-zakona-prvo-citanje-pz-br-244-predlagatelj?t=159616&tid=214348) · **watched** · question put: a conclusion not to accept the bill, so 'for' was to reject it | marriage and family, tier 1 |
-| 6 Mar 2026 | against | IDS (seen in debate, transcripts) | [KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-provedbi-uredbe-eu-2024/1083-o-uspostavi-zajednickog?t=159362&tid=214304) | free speech and civil liberties, tier 1 |
+| 30 Apr 2026 | against | IDS (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O DOPUNI OBITELJSKOG ZAKONA, prvo čitanje, P.Z. br. 244 - predlagatelj: Klub zastupnika SDP-a](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-dopuni-obiteljskog-zakona-prvo-citanje-pz-br-244-predlagatelj?t=159616&tid=214348) · **watched** · question put: a conclusion not to accept the bill, so 'for' was to reject it · their vote meant: against rejecting it (by rule, from the vote's wording and the bill) | marriage and family, tier 1 |
+| 6 Mar 2026 | against | IDS (seen in debate, transcripts) | [KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-provedbi-uredbe-eu-2024/1083-o-uspostavi-zajednickog?t=159362&tid=214304) · their vote meant: voting against passing the government law that implements the EU European Media Freedom Act in Croatia (read by the free session judge) | free speech and civil liberties, tier 1 |
 | 20 Feb 2026 | against | IDS (seen in debate, transcripts) | [KONAČNI PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNI ZAKONA O PREDŠKOLSKOM ODGOJU I OBRAZOVANJU, drugo čitanje, P.Z. br. 211 - predlagateljica: Vl…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-izmjenama-i-dopuni-zakona-o-predskolskom-odgoju-i?t=159037&tid=214278) | parental rights and education, tier 2 |
 
 ## Notes

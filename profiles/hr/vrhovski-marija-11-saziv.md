@@ -7,9 +7,13 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `vrhovski-marija-11-saziv`
 
+## Length of service
+
+- Not in the service source read (hr-sazivi, 17 October 2026: the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates): nothing is said about this member's service.
+
 ## Party history
 
-- HDZ: 15 September 2026 to 29 September 2026 (the Sabor's transcripts, seen in debate 6 time(s))
+- HDZ: 15 September 2026 to 13 October 2026 (the Sabor's transcripts, seen in debate 9 time(s))
 
 ## Votes on our ground (1)
 

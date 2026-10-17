@@ -1,0 +1,35 @@
+{
+ "hr-prijedlog-zakona-o-dopunama-zakona-o-provedbi-ur-11-273": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "fbe3333396c76c6806c029f0b06f9e7b18cbb1c6cd9af7962c330a80879860fb",
+  "generated": "2026-10-17",
+  "key": "11/273",
+  "ready": false,
+  "sha": "6a28dae15e8d0e90bf4e408a9a65a72385ccfbb4e66f4cbf2d73678629822d17",
+  "title": "PRIJEDLOG ZAKONA O DOPUNAMA ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH USLUGA I IZMJENI DIREKTIVE 2000/31/EZ (AKT O DIGITALNIM USLUGAMA), prvo čitanje, P.Z. br. 273 - predlagateljica: zastupnica Marija Selak Raspudić"
+ },
+ "hr-prijedlog-zakona-o-izmjenama-i-dopuni-zakona-o-m-11-214": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "9b0bcb23f45aa2e58119f17cc4f244f618d8bf257125fad63559485e3eb7a311",
+  "generated": "2026-10-17",
+  "key": "11/214",
+  "ready": false,
+  "sha": "528744b3a1d116ca291d52a3e00365dc166b5a55db1dbcc9ac2e720b03ed4b73",
+  "title": "PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNI ZAKONA O MEDICINSKI POMOGNUTOJ OPLODNJI, prvo čitanje, P.Z. br. 214 - predlagateljice: zastupnice Anka Mrak-Taritaš i Dalija Orešković"
+ },
+ "hr-prijedlog-zakona-o-prestanku-vazenja-zakona-o-po-11-41": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "ddc0953e2c39c556d5cc43adbea0df2e1fb4acbf9cbd0323542585f2c5f4f576",
+  "generated": "2026-10-17",
+  "key": "11/41",
+  "ready": false,
+  "sha": "6a08c80940f3bdde5add87044e7cc53feb4f4261ea6f6853f7986a4ed8b130d0",
+  "title": "PRIJEDLOG ZAKONA O PRESTANKU VAŽENJA ZAKONA O POTVRĐIVANJU KONVENCIJE VIJEĆA EUROPE O SPREČAVANJU I BORBI PROTIV NASILJA NAD ŽENAMA I NASILJA U OBITELJI, prvo čitanje, P.Z. br. 41 - predlagatelj: zastupnik Marijan Pavliček"
+ }
+}

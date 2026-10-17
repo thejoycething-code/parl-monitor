@@ -7,9 +7,13 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `selak-raspudic-marija-11-saziv`
 
+## Length of service
+
+- Not in the service source read (hr-sazivi, 17 October 2026: the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates): nothing is said about this member's service.
+
 ## Party history
 
-- Nezavisni: 24 September 2025 to 15 July 2026 (the Sabor's transcripts, seen in debate 27 time(s))
+- Nezavisni: 25 September 2024 to 15 July 2026 (the Sabor's transcripts, seen in debate 61 time(s))
 - DRITO: 20 August 2026 to 21 August 2026 (the Sabor's transcripts, seen in debate 2 time(s))
 
 ## Votes on our ground (7)
@@ -21,12 +25,12 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 6 Mar 2026 | against | Nezavisni (seen in debate, transcripts) | [KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-provedbi-uredbe-eu-2024/1083-o-uspostavi-zajednickog?t=159362&tid=214304) | free speech and civil liberties, tier 1 |
-| 6 Mar 2026 | against | Nezavisni (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo!](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-digitalnoj-zastiti-djece-prvo-citanje-pz-br-213-predlagatelj?t=158537&tid=214147) · **watched** · question put: a conclusion not to accept the bill, so 'for' was to reject it | parental rights and education, free speech and civil liberties, tier 1 |
+| 6 Mar 2026 | against | Nezavisni (seen in debate, transcripts) | [KONAČNI PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2024/1083 O USPOSTAVI ZAJEDNIČKOG OKVIRA ZA MEDIJSKE USLUGE NA UNUTARNJEM TRŽIŠTU I IZMJENI…](https://www.sabor.hr/hr/sjednice-sabora/konacni-prijedlog-zakona-o-provedbi-uredbe-eu-2024/1083-o-uspostavi-zajednickog?t=159362&tid=214304) · their vote meant: voting against passing the government law that implements the EU European Media Freedom Act in Croatia (read by the free session judge) | free speech and civil liberties, tier 1 |
+| 6 Mar 2026 | against | Nezavisni (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O DIGITALNOJ ZAŠTITI DJECE, prvo čitanje, P.Z. br. 213 - predlagatelj: Klub zastupnika Možemo!](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-digitalnoj-zastiti-djece-prvo-citanje-pz-br-213-predlagatelj?t=158537&tid=214147) · **watched** · question put: a conclusion not to accept the bill, so 'for' was to reject it · their vote meant: against rejecting it (by rule, from the vote's wording and the bill) | parental rights and education, free speech and civil liberties, tier 1 |
 | 21 Nov 2025 | against | Nezavisni (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNI ZAKONA O PREDŠKOLSKOM ODGOJU I OBRAZOVANJU, prvo čitanje, P.Z. br. 211 - predlagateljica: Vlada Repub…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-izmjenama-i-dopuni-zakona-o-predskolskom-odgoju-i-obrazovanju?t=156973&tid=213943) | parental rights and education, tier 2 |
 | 21 Nov 2025 | against | Nezavisni (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O DOPUNI ZAKONA O ODGOJU I OBRAZOVANJU U OSNOVNOJ I SREDNJOJ ŠKOLI, prvo čitanje, P.Z. br. 10 - predlagateljica: zastupnic…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-dopuni-zakona-o-odgoju-i-obrazovanju-u-osnovnoj-i-srednjoj-25?t=157061&tid=213987) · question put: a conclusion not to accept the bill, so 'for' was to reject it | parental rights and education, tier 2 |
-| 6 Jun 2025 | abstained | Drito (as listed, not at the vote) | [PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O UDŽBENICIMA I DRUGIM OBRAZOVNIM MATERIJALIMA ZA OSNOVNU I SREDNJU ŠKOLU, prvo čitanje, P.Z…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-izmjenama-i-dopunama-zakona-o-udzbenicima-i-drugim-obrazovnim?t=154602&tid=213614) | parental rights and education, tier 2 |
-| 11 Oct 2024 | for | Drito (as listed, not at the vote) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH US…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2022/2065-europskog-parlamenta-i-vijeca-od-19?t=149408&tid=212876) | free speech and civil liberties, tier 1 |
+| 6 Jun 2025 | abstained | Nezavisni (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O UDŽBENICIMA I DRUGIM OBRAZOVNIM MATERIJALIMA ZA OSNOVNU I SREDNJU ŠKOLU, prvo čitanje, P.Z…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-izmjenama-i-dopunama-zakona-o-udzbenicima-i-drugim-obrazovnim?t=154602&tid=213614) | parental rights and education, tier 2 |
+| 11 Oct 2024 | for | Nezavisni (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O PROVEDBI UREDBE (EU) 2022/2065 EUROPSKOG PARLAMENTA I VIJEĆA OD 19. LISTOPADA 2022. O JEDINSTVENOM TRŽIŠTU DIGITALNIH US…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-provedbi-uredbe-eu-2022/2065-europskog-parlamenta-i-vijeca-od-19?t=149408&tid=212876) · their vote meant: voted to accept at first reading the government's bill implementing the EU Digital Services Act in Croatia (read by the free session judge) | free speech and civil liberties, tier 1 |
 | 21 Jun 2024 | against | Drito (as listed, not at the vote) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA RAVNOPRAVNOST SPOLOVA ZA 2022. GODINU - podnositeljica: pravobraniteljica za ravnopravnost spolova](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-ravnopravnost-spolova-za-2022-godinu-4?t=146926&tid=212732) | sex-based rights, tier 2 |
 
 ## Notes

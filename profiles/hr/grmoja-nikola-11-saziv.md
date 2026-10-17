@@ -7,9 +7,14 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** sitting, on the source's current list
 - **Source id:** `grmoja-nikola-11-saziv`
 
+## Length of service
+
+- **Terms in the source:** saziv 10, Most; saziv 11, Most (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
-- MOST: 15 September 2025 to 30 September 2026 (the Sabor's transcripts, seen in debate 45 time(s))
+- MOST: 9 October 2024 to 13 October 2026 (the Sabor's transcripts, seen in debate 90 time(s))
 
 ## Votes on our ground (5)
 

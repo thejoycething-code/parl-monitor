@@ -7,6 +7,15 @@ Croatia, Hrvatski sabor. From the parliamentary monitor's store; positions are a
 - **Status:** not on the source's current list
 - **Source id:** `golubic-tomislav-11-saziv`
 
+## Length of service
+
+- **Terms in the source:** saziv 11, SDP (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the 10th and 11th sazivi only (the member lists the Sabor's site filters by); no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
+## Party history
+
+- SDP: 26 September 2024 to 23 April 2025 (the Sabor's transcripts, seen in debate 22 time(s))
+
 ## Votes on our ground (5)
 
 Recorded positions (5): “for” 5.
@@ -16,9 +25,9 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 14 Mar 2025 | for | SDP (as listed, not at the vote) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA DJECU ZA 2023. GODINU - podnositeljica: pravobraniteljica za djecu](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-djecu-za-2023-godinu-podnositeljica?t=152680&tid=213318) | parental rights and education, tier 2 |
-| 14 Mar 2025 | for | SDP (as listed, not at the vote) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA RAVNOPRAVNOST SPOLOVA ZA 2023. GODINU - podnositeljica: pravobraniteljica za ravnopravnost spolova](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-ravnopravnost-spolova-za-2023-godinu?t=152678&tid=213317) | sex-based rights, tier 2 |
-| 21 Feb 2025 | for | SDP (as listed, not at the vote) | [PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O RODILJNIM I RODITELJSKIM POTPORAMA, S KONAČNIM PRIJEDLOGOM ZAKONA, hitni postupak, prvo i…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-izmjenama-i-dopunama-zakona-o-rodiljnim-i-roditeljskim-17?t=152949&tid=213367) | marriage and family, tier 2 |
+| 14 Mar 2025 | for | SDP (seen in debate, transcripts) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA DJECU ZA 2023. GODINU - podnositeljica: pravobraniteljica za djecu](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-djecu-za-2023-godinu-podnositeljica?t=152680&tid=213318) | parental rights and education, tier 2 |
+| 14 Mar 2025 | for | SDP (seen in debate, transcripts) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA RAVNOPRAVNOST SPOLOVA ZA 2023. GODINU - podnositeljica: pravobraniteljica za ravnopravnost spolova](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-ravnopravnost-spolova-za-2023-godinu?t=152678&tid=213317) | sex-based rights, tier 2 |
+| 21 Feb 2025 | for | SDP (seen in debate, transcripts) | [PRIJEDLOG ZAKONA O IZMJENAMA I DOPUNAMA ZAKONA O RODILJNIM I RODITELJSKIM POTPORAMA, S KONAČNIM PRIJEDLOGOM ZAKONA, hitni postupak, prvo i…](https://www.sabor.hr/hr/sjednice-sabora/prijedlog-zakona-o-izmjenama-i-dopunama-zakona-o-rodiljnim-i-roditeljskim-17?t=152949&tid=213367) | marriage and family, tier 2 |
 | 21 Jun 2024 | for | SDP (as listed, not at the vote) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA RAVNOPRAVNOST SPOLOVA ZA 2022. GODINU - podnositeljica: pravobraniteljica za ravnopravnost spolova](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-ravnopravnost-spolova-za-2022-godinu-4?t=146926&tid=212732) | sex-based rights, tier 2 |
 | 24 May 2024 | for | SDP (as listed, not at the vote) | [IZVJEŠĆE O RADU PRAVOBRANITELJICE ZA DJECU ZA 2022. GODINU - podnositeljica: pravobraniteljica za djecu](https://www.sabor.hr/hr/sjednice-sabora/izvjesce-o-radu-pravobraniteljice-za-djecu-za-2022-godinu-podnositeljica-4?t=145970&tid=212661) | parental rights and education, tier 2 |
 
