@@ -61,7 +61,7 @@ The latest 20:
 | 16 Sep 2026 | [Finanzierung der Produktion von RTS des Films 'UNRWA, 75 Jahre einer provisorischen Geschichte'](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267750) | 26.7750 | submitted by | free speech and civil liberties |
 | 15 Sep 2026 | [Islamismus als Staatsfeind Nr. 1](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267689) | 26.7689 | submitted by | religious freedom |
 | 18 Jun 2026 | [Transparente Finanzierung von Moscheen schafft Vertrauen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263738) | 26.3738 | submitted by | religious freedom |
-| 18 Jun 2026 | [Neue Islamzentren, muslimischen Gebetsräume und Moscheen erfordern eine Sicherheitsüberprüfung der Trägerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263737) | 26.3737 | submitted by | religious freedom |
+| 18 Jun 2026 | [Neue Islamzentren, muslimische Gebetsräume und Moscheen erfordern eine Sicherheitsüberprüfung der Trägerschaft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263737) | 26.3737 | submitted by | religious freedom |
 | 1 Jun 2026 | [Islamistisch-terroristische Risikopersonen wie der Fall in Winterthur](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267325) | 26.7325 | submitted by | religious freedom |
 | 17 Dec 2025 | [Kopftuchverbot an Schulen für Schulpflichtige unter 16 Jahren](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254591) | 25.4591 | submitted by | parental rights and education, religious freedom |
 

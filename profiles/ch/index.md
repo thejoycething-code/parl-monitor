@@ -1,6 +1,6 @@
 # Switzerland: member profiles
 
-Store read 12 October 2026. 274 member(s) listed (sitting, or with a record), 266 with a record on our ground (a profile each); 298 vote(s) on our ground in the store.
+Store read 17 October 2026. 274 member(s) listed (sitting, or with a record), 266 with a record on our ground (a profile each); 298 vote(s) on our ground in the store.
 51 author or questioner line(s) on our ground name no listed member (the government, a committee, the other chamber, or a name not matched to exactly one member); they are not attributed.
 
 | Member | Party | Chamber | Constituency or region | Service | Votes | Authored | Questions |
@@ -90,7 +90,7 @@ Store read 12 October 2026. 274 member(s) listed (sitting, or with a record), 26
 | [Estelle Revaz](estelle-revaz-10823.md) | SP | Nationalrat | Genf | serving since 4 December 2023 | 197 | 1 |  |
 | [Esther Friedli](esther-friedli-4261.md) | SVP | Ständerat | St. Gallen | serving since 30 May 2023; 1 earlier period(s) from 2 December 2019 | 101 | 2 |  |
 | [Eva Herzog](eva-herzog-4239.md) | SP | Ständerat | Basel-Stadt | serving since 2 December 2019 | 101 |  |  |
-| [Fabian Molina](fabian-molina-4223.md) | SP | Nationalrat | Zürich | serving since 15 March 2018 | 197 | 13 |  |
+| [Fabian Molina](fabian-molina-4223.md) | SP | Nationalrat | Zürich | serving since 15 March 2018 | 197 | 14 |  |
 | [Fabien Fivaz](fabien-fivaz-4260.md) | GRÜNE | Ständerat | Neuenburg | serving since 2 June 2025; 1 earlier period(s) from 2 December 2019 | 170 |  |  |
 | [Fabienne Stämpfli](fabienne-stampfli-14810.md) | glp | Nationalrat | Bern | serving since 4 March 2025 | 107 | 1 |  |
 | [Fabio Regazzi](fabio-regazzi-4072.md) | M-E | Ständerat | Tessin | serving since 4 December 2023; 1 earlier period(s) from 5 December 2011 | 101 | 1 |  |
@@ -126,7 +126,7 @@ Store read 12 October 2026. 274 member(s) listed (sitting, or with a record), 26
 | [Jakob Stark](jakob-stark-4241.md) | SVP | Ständerat | Thurgau | serving since 2 December 2019 | 101 | 2 |  |
 | [Jean Tschopp](jean-tschopp-10827.md) | SP | Nationalrat | Waadt | serving since 4 December 2023 | 197 | 10 |  |
 | [Jean-Luc Addor](jean-luc-addor-4154.md) | SVP | Nationalrat | Wallis | serving since 30 November 2015 | 197 | 8 |  |
-| [Jessica Jaccoud](jessica-jaccoud-10820.md) | SP | Nationalrat | Waadt | serving since 4 December 2023 | 197 | 9 |  |
+| [Jessica Jaccoud](jessica-jaccoud-10820.md) | SP | Nationalrat | Waadt | serving since 4 December 2023 | 197 | 10 |  |
 | [Johanna Gapany](johanna-gapany-4306.md) | FDP-Liberale | Ständerat | Freiburg | serving since 2 December 2019 | 101 | 1 |  |
 | [Jon Pult](jon-pult-4281.md) | SP | Nationalrat | Graubünden | serving since 2 December 2019 | 197 | 2 |  |
 | [Josef Dittli](josef-dittli-4151.md) | FDP-Liberale | Ständerat | Uri | serving since 30 November 2015 | 101 | 1 |  |
@@ -192,18 +192,18 @@ Store read 12 October 2026. 274 member(s) listed (sitting, or with a record), 26
 | [Michèle Dünki-Bättig](michele-dunki-battig-17301.md) | SP | Nationalrat | Zürich | serving since 27 April 2026 | 26 | 6 |  |
 | [Mike Egger](mike-egger-4229.md) | SVP | Nationalrat | St. Gallen | serving since 4 March 2019 | 197 | 3 |  |
 | [Min Li Marti](min-li-marti-4197.md) | SP | Nationalrat | Zürich | serving since 30 November 2015 | 197 | 6 |  |
-| [Miriam Locher](miriam-locher-17201.md) | SP | Nationalrat | Basel-Landschaft | serving since 27 April 2026 | 26 | 6 |  |
+| [Miriam Locher](miriam-locher-17201.md) | SP | Nationalrat | Basel-Landschaft | serving since 27 April 2026 | 26 | 7 |  |
 | [Monika Rüegger](monika-ruegger-4285.md) | SVP | Nationalrat | Obwalden | serving since 2 December 2019 | 197 | 5 |  |
 | [Nadine Gobet](nadine-gobet-10809.md) | FDP-Liberale | Nationalrat | Freiburg | serving since 4 December 2023 | 197 | 1 |  |
-| [Nadine Masshardt](nadine-masshardt-4130.md) | SP | Nationalrat | Bern | serving since 4 March 2013 | 197 | 1 |  |
+| [Nadine Masshardt](nadine-masshardt-4130.md) | SP | Nationalrat | Bern | serving since 4 March 2013 | 197 | 2 |  |
 | [Nadja Umbricht Pieren](nadja-umbricht-pieren-4065.md) | SVP | Nationalrat | Bern | serving since 5 December 2011 | 197 |  |  |
 | [Nicolas Kolly](nicolas-kolly-10836.md) | SVP | Nationalrat | Freiburg | serving since 4 December 2023 | 197 | 5 |  |
 | [Nicolas Walder](nicolas-walder-4297.md) | GRÜNE | Nationalrat | Genf | last period ended 30 October 2025 | 150 | 5 |  |
-| [Nicole Barandun](nicole-barandun-10818.md) | M-E | Nationalrat | Zürich | serving since 4 December 2023 | 197 | 6 |  |
+| [Nicole Barandun](nicole-barandun-10818.md) | M-E | Nationalrat | Zürich | serving since 4 December 2023 | 197 | 7 |  |
 | [Nicolò Paganini](nicolo-paganini-4222.md) | M-E | Nationalrat | St. Gallen | serving since 12 March 2018 | 197 | 1 |  |
 | [Niklaus-Samuel Gugger](niklaus-samuel-gugger-4214.md) | EVP | Nationalrat | Zürich | serving since 27 November 2017 | 197 | 6 |  |
 | [Nina Fehr Düsel](nina-fehr-dusel-10833.md) | SVP | Nationalrat | Zürich | serving since 4 December 2023 | 197 | 15 |  |
-| [Nina Schläfli](nina-schlafli-10826.md) | SP | Nationalrat | Thurgau | serving since 4 December 2023 | 197 | 4 |  |
+| [Nina Schläfli](nina-schlafli-10826.md) | SP | Nationalrat | Thurgau | serving since 4 December 2023 | 197 | 5 |  |
 | [Olivier Feller](olivier-feller-4077.md) | FDP-Liberale | Nationalrat | Waadt | serving since 5 December 2011 | 197 | 4 |  |
 | [Paolo Pamini](paolo-pamini-10842.md) | SVP | Nationalrat | Tessin | serving since 4 December 2023 | 197 | 5 |  |
 | [Pascal Broulis](pascal-broulis-10805.md) | FDP-Liberale | Ständerat | Waadt | serving since 4 December 2023 | 101 |  |  |
@@ -300,6 +300,6 @@ Committees, cross-party groups and declared interests whose NAME the config read
 - No verdicts: which way a vote cut for our side is a signed judgement (5CA) that this country does not have yet.
 - 'Their vote meant' (watched and tier-1 votes) says what the member's Yes or No did, in English, by rule from the vote's wording and the bill, by the free session judge, or as a person wrote it in config/vote-meanings-ch.yaml (which wins); it is what the vote did, never whose side it was on.
 - Length of service: the parliament's own record of each member's periods (src/member_service.py; ch-council-history read 12 October 2026: every Nationalrat and Ständerat period since 1848 (MemberCouncilHistory)). 'Serving since' is the start of the current unbroken run of periods in the chamber, as the source dates them (a dissolution, a ministerial post or a resignation breaks it); 'at least' where it starts on the first day the source covers. A source that names terms only gives no 'since'. Nothing here says whether a term is a member's first.
-- Committees, groups and declared interests: the parliament's own open data (src/member_intel.py; ch-committees read 2026-10-12 (932 row(s)); ch-interests read 2026-10-12 (1971 row(s))). A membership is shown as recorded; a group is flagged on our ground by its name only (config/member-intel-groups.yaml).
+- Committees, groups and declared interests: the parliament's own open data (src/member_intel.py; ch-committees read 2026-10-17 (932 row(s)); ch-interests read 2026-10-17 (1971 row(s))). A membership is shown as recorded; a group is flagged on our ground by its name only (config/member-intel-groups.yaml).
 - Attendance: plenary vote participation derived from the stored vote records, which list the members who did not vote (the Federal Assembly's records list 'Nicht teilgenommen' and 'Entschuldigt'); the 365 days to 2026-10-02. Statuses are the record's own; excused absences are counted apart; nothing is inferred where a record lists no absences.
 - Generated by tools/member_profiles.py from the store each week; do not edit by hand.

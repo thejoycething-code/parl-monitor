@@ -53,10 +53,11 @@ The latest 20:
 
 177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (6)
+## Bills and items on our ground they authored or introduced (7)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
+| 2 Oct 2026 | [Gemeinsame Erwachsenenadoption durch geschiedene frühere Ehegatten ermöglichen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264563) | 26.4563 | submitted by | marriage and family |
 | 18 Mar 2026 | [Bundesmittel zur Finanzierung von dubiosen Veranstaltungen der ETHZ?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263191) | 26.3191 | submitted by | religious freedom |
 | 11 Mar 2026 | [Güterstand vor Jawort kennen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263084) | 26.3084 | submitted by | marriage and family |
 | 11 Mar 2026 | [Mehrwertbeteiligung nach Artikel 206 ZGB. Noch zeitgemäss oder reformbedürftig?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20261003) | 26.1003 | submitted by | marriage and family |

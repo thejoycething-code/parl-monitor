@@ -109,6 +109,17 @@
   "sha": "d5f47e88b8b23fd998078265f595c228bcbf9149dcff0de8ced984c19ee38775",
   "title": "Ne pas tolérer les systèmes d'IA destinés à la création de matériel pédopornographique"
  },
+ "ch-situation-des-droits-de-l-homme-de-la-communaute-26-4115": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "aa5610b0b649ef9807a5a48ae68d8b00ddf01131c88c1feea357a57f7e374573",
+  "generated": "2026-10-17",
+  "key": "26.4115",
+  "ready": false,
+  "sha": "25c430d70522838e084df58682db6eb10cc253bc2dff88e6e6849ac21e512c51",
+  "title": "Situation des droits de l’homme de la communauté serbe et des autres minorités au Kosovo - options d’interventions et plan d’action de la Suisse"
+ },
  "ch-strafbestimmung-gegen-menschenhandel-praxistaugl-24-4432": {
   "changelog": [
    "2026-10-10 tools/country_briefs.py drafted every cell",
@@ -197,6 +208,17 @@
   "ready": false,
   "sha": "f25dc12557026c802113b4fd8cb4452324c61e5e0e8674f78591bc56837994df",
   "title": "Titre suit"
+ },
+ "ch-ubergangsregelung-zur-verlangerung-der-lagerfris-25-405": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "7014405ed4c7007e56f6aa3602422c3574fd2d2bef9863dba3312db0b33b1383",
+  "generated": "2026-10-17",
+  "key": "25.405",
+  "ready": false,
+  "sha": "424f353c0e536b3d1960bcec58b6bf5256ba09742338e22fc5c69401584320af",
+  "title": "Übergangsregelung zur Verlängerung der Lagerfrist für kryokonservierte Eizellen"
  },
  "ch-verfahren-betreffend-kinder-unverheirateter-elte-26-4058": {
   "changelog": [

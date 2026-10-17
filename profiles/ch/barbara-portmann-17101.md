@@ -68,7 +68,7 @@ As the parliament records them; a group is flagged on our ground by its name onl
 | Keine Angaben | Vorstand Berufschule BSL Lenzburg | Vizepräsident(in) | bezahlt |  |
 | Stiftung | Stiftung Reusstal | Mitglied | ehrenamtlich |  |
 | Stiftung | Stiftung Schürmatt | Mitglied | bezahlt |  |
-| Verein | Mütter- und Väterberatung Region Aarau Plus | Mitglied | bezahlt |  |
+| Verein | Beratung Frühe Kindheit Region Aarau Plus | Mitglied | bezahlt |  |
 
 The register's own words; nothing here is a judgement of the interest.
 

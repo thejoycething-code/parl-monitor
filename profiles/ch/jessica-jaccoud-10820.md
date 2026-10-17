@@ -53,10 +53,11 @@ The latest 20:
 
 177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (9)
+## Bills and items on our ground they authored or introduced (10)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
+| 1 Oct 2026 | [Titel folgt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264473) | 26.4473 | submitted by | marriage and family |
 | 19 Jun 2026 | [Häusliche Gewalt. Prüfung der aktiven elektronischen Überwachung von Amtes wegen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263907) | 26.3907 | submitted by | sex-based rights |
 | 16 Jun 2026 | [Lebensende. Geltendes Recht und mögliche Entwicklungen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263652) | 26.3652 | submitted by | assisted dying |
 | 25 Sep 2025 | [Berücksichtigung von Gewalt in der elterlichen Paarbeziehung bei Entscheidungen über die Elternrechte](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20254226) | 25.4226 | submitted by | sex-based rights, parental rights and education, marriage and family |

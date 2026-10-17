@@ -53,10 +53,11 @@ The latest 20:
 
 177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (4)
+## Bills and items on our ground they authored or introduced (5)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
+| 2 Oct 2026 | [Kinderrechte für alle - auch in der Nothilfe im Asylbereich](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264613) | 26.4613 | submitted by | parental rights and education |
 | 19 Mar 2026 | [Beeinflussung und Desinformation russischer Staatsmedien vor eidgenössischen Abstimmungen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263226) | 26.3226 | submitted by | free speech and civil liberties, religious freedom |
 | 11 Mar 2026 | [Nachfrage zur IP 25.4709 zur Umsetzung des NAP gegen Menschenhandel: organisierte Kriminalität](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267221) | 26.7221 | submitted by | prostitution and trafficking |
 | 17 Sep 2025 | [Urteile wegen Menschenhandel zwecks Ausbeutung der Arbeitskraft](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257819) | 25.7819 | submitted by | prostitution and trafficking |

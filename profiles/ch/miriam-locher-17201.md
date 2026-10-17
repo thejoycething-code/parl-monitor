@@ -53,11 +53,12 @@ The latest 20:
 
 6 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (6)
+## Bills and items on our ground they authored or introduced (7)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 1 Oct 2026 | [Schwangerschaftsberatung, vertrauliche Geburt und die Zusammenarbeit öffentlicher Spitäler mit der SHMK](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264443) | 26.4443 | submitted by | abortion |
+| 30 Sep 2026 | [Griffige Regeln für Medfluencing - Gesundheits- und Konsumentenschutz auf sozialen Medien stärken](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264362) | 26.4362 | submitted by | parental rights and education, free speech and civil liberties |
 | 30 Sep 2026 | [ADHS und ASS: Wird der Einfluss der Bildschirmnutzung bei Diagnosen genügend berücksichtigt](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264342) | 26.4342 | submitted by | parental rights and education |
 | 23 Sep 2026 | [Nihilistische Online-Netzwerke und ihr Handeln in der Schweiz](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264232) | 26.4232 | submitted by | prostitution and trafficking |
 | 18 Jun 2026 | [Ausmass, Ursachen und Handlungsbedarf bei geschlechterspezifischer Preisgestaltung](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263787) | 26.3787 | submitted by | sex-based rights |

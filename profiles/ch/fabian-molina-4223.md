@@ -53,12 +53,13 @@ The latest 20:
 
 177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (13)
+## Bills and items on our ground they authored or introduced (14)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
+| 1 Oct 2026 | [Chinas neues «Ethnic Unity Law» und transnationale Repression](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20264436) | 26.4436 | submitted by | parental rights and education, religious freedom |
 | 19 Jun 2026 | [Setzt der Bundesrat seine restriktive Ukraine-Praxis unter neuen rechtlichen Vorzeichen fort?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263992) | 26.3992 | submitted by | religious freedom |
-| 19 Jun 2026 | [Religionsfreiheit in Ägypten. Die Lage der Bahá'í, Ahmadiyya, koptischer Christen und anderer religiöser Minderheiten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263975) | 26.3975 | submitted by | gender medicine and children, religious freedom, marriage and family |
+| 19 Jun 2026 | [Religionsfreiheit in Ägypten. Die Lage der Bahai, Ahmadiyya, koptischer Christen und anderer religiöser Minderheiten](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263975) | 26.3975 | submitted by | gender medicine and children, religious freedom, marriage and family |
 | 3 Jun 2026 | [Verfolgung ethnischer und religiöser Minderheiten im Iran](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267402) | 26.7402 | submitted by | religious freedom |
 | 18 Dec 2025 | [Ansiedlung des Messenger-Dienstes Session in der Schweiz und deren Auswirkungen auf Strafverfolgung und Rechtshilfe](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20251056) | 25.1056 | submitted by | prostitution and trafficking |
 | 11 Jun 2025 | [Völkerrechtsverletzungen durch Israel: Investitionen und Anleihen der SNB](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20257520) | 25.7520 | submitted by | religious freedom |

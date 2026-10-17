@@ -57,7 +57,7 @@ The latest 20:
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
-| 19 Jun 2026 | [Angesichts neuer wissenschaftlicher Erkenntnisse. Wird der Ausstieg aus HFO-Gasen beschleunigt?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263985) | 26.3985 | submitted by | abortion |
+| 19 Jun 2026 | [Angesichts neuer wissenschaftlicher Erkenntnisse : Wird der Ausstieg aus HFO-Gasen beschleunigt?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20263985) | 26.3985 | submitted by | abortion |
 | 3 Jun 2024 | [Leaving Care: Bedarfsgerechte Unterstützung für ausserfamiliär untertergebrachte junge Menschen](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20247389) | 24.7389 | submitted by | gender medicine and children |
 
 ## Committees and groups (3)

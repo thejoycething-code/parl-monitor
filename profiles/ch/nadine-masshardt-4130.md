@@ -53,10 +53,11 @@ The latest 20:
 
 177 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
-## Bills and items on our ground they authored or introduced (1)
+## Bills and items on our ground they authored or introduced (2)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
+| 1 Oct 2026 | [Schutz der parlamentarischen Redefreiheit - Schreiben der EMS-Chemie Holding AG an Nationalrat Fabian Molina](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20261050) | 26.1050 | submitted by | free speech and civil liberties |
 | 16 Sep 2026 | [Dossier Mengele: Werden Schwärzungen zur neuen Norm?](https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20267724) | 26.7724 | submitted by | free speech and civil liberties |
 
 ## Committees and groups (2)
