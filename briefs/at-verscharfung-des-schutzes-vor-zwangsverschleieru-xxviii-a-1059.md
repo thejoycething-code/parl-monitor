@@ -1,6 +1,6 @@
-# Campaigns Brief (DRAFT): Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild
+# Campaigns Brief (DRAFT): Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild (FPÖ)
 
-> **NOT READY: awaiting sign-off. CitizenGO's position on this bill has not been confirmed by a named person yet. Do not launch, target or recommend anything from this draft until they are confirmed.**
+> **READY: CitizenGO's position on this bill and every reading of its votes have been confirmed (Christopher Joyce).**
 
 > Draft generated on 2026-10-11 from the parliamentary record. The facts come from the record; [CAMPAIGNER: ...] marks what a campaigner writes. No AI model wrote any of it.
 
@@ -14,7 +14,7 @@
 | Urgency | Non-Urgent |
 | List | DE AT |
 | Sub-List |  |
-| Notes | Drafted with brief builder, see Builder tab · NOT READY: awaiting sign-off |
+| Notes | Drafted with brief builder, see Builder tab |
 | Approval Date |  |
 
 ## General information
@@ -33,11 +33,11 @@ Freedom
 
 ### 🔒 Background / Context
 
-What: Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild. Who: [CAMPAIGNER: who brought it]. The decision lies with the Nationalrat. Where it stands: [CAMPAIGNER: the current stage] (last recorded event: 2026-09-28). What's next: [CAMPAIGNER: the next key date (the record publishes none yet)] Why it matters: [CAMPAIGNER: why it matters: what changes in law or practice]
+What: Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild (FPÖ). Who: [CAMPAIGNER: who brought it]. The decision lies with the Nationalrat. Where it stands: [CAMPAIGNER: the current stage] (last recorded event: 2026-09-28). What's next: [CAMPAIGNER: the next key date (the record publishes none yet)] Why it matters: [CAMPAIGNER: why it matters: what changes in law or practice]
 
 Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet.
 
-- What: Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild (XXVIII/A/1059)
+- What: Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild (FPÖ) (XXVIII/A/1059)
 - Who: [CAMPAIGNER: who brought it]; Nationalrat
 - Stage: ? (2026-09-28)
 - Next date: none published
@@ -85,7 +85,7 @@ All members of the Nationalrat (Abgeordneten).
 
 ### ✏️ What are we asking for in the petition?
 
-[CAMPAIGNER: the ask, once CitizenGO's position on this bill is confirmed]
+Vote for Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhü... at its next vote.
 
 ### ✏️ Why would they listen to us?
 
@@ -97,7 +97,7 @@ All members of the Nationalrat (Abgeordneten).
 ### 🔒 What is happening that we are responding to?
 
 2026-09-28: Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internatio..., stage '?'.
-[CAMPAIGNER: the storytelling line, once CitizenGO's position on this bill is confirmed]
+Storytelling: villain = [CAMPAIGNER: the villain]; princess = the Abgeordneten who have not yet decided; hero = the reader (a voter); helper = CitizenGO (carries the signatures to the Nationalrat).
 
 ### ✏️ What is the key point of injustice that is at stake here?
 
@@ -127,7 +127,7 @@ N/A: AA emails carry the generic monthly-donation footer only.
 
 ### 🔒 Which sources do you want to include? Please provide the titles plus URLs:
 
-- Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild [Parlament Österreich]: https://www.parlament.gv.at/gegenstand/XXVIII/A/1059
+- Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild (FPÖ) [Parlament Österreich]: https://www.parlament.gv.at/gegenstand/XXVIII/A/1059
 - [CAMPAIGNER: a news report, in the list's language]
 - [CAMPAIGNER: the study or report behind the strongest argument]
 
@@ -165,13 +165,14 @@ Left blank at build time (rulebook cell 35).
 - Store takeaway: Motion for a resolution (Entschließungsantrag), 1059/A(E); in progress (stage 3 of 5)
 - Key dates: introduced 2026-09-28; last recorded event 2026-09-28; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
-- SIGN-OFF: bill direction `XXVIII/A/1059` = with is a DRAFT (Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes (motion).). Confirm with `python3 tools/country_5ca.py --cc at --confirm-direction XXVIII/A/1059 --by NAME`; the ask, the storytelling line and the campaign name wait for it.
+- SIGN-OFF: bill direction `XXVIII/A/1059` = with, confirmed by Christopher Joyce on 2026-10-12.
 - No watched or tier-1 vote on this bill in the store yet.
 - Language: campaigner text in English (rulebook rule 6); the petition itself is in German (Austrian).
 - Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns calendar (launch clash check), postcode member counts, the framing glossary (0 entries), the allies and opponents registers (0 / 0), the hostile-outlet deny-list.
 - Possible Survival: a free-speech or religious-freedom measure can reach CitizenGO itself; check before typing it Opportunity.
-- Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What are we asking for in the petition?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
+- Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 
 Changelog:
 
 - 2026-10-11 tools/country_briefs.py drafted every cell
+- 2026-10-17 tools/country_briefs.py refreshed by the builder; now READY (stances confirmed)

@@ -1,6 +1,6 @@
 # Campaigns Brief (DRAFT): Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026
 
-> **NOT READY: awaiting sign-off. No position of CitizenGO's on this bill is on file yet. Readings of its votes awaiting confirmation: 4. Do not launch, target or recommend anything from this draft until they are confirmed.**
+> **NOT READY: awaiting sign-off. Readings of its votes awaiting confirmation: 4. Do not launch, target or recommend anything from this draft until they are confirmed.**
 
 > Draft generated on 2026-10-11 from the parliamentary record. The facts come from the record; [CAMPAIGNER: ...] marks what a campaigner writes. No AI model wrote any of it.
 
@@ -85,7 +85,7 @@ All members of the Nationalrat (Abgeordneten).
 
 ### ✏️ What are we asking for in the petition?
 
-[CAMPAIGNER: the ask, once CitizenGO's position on this bill is confirmed]
+Vote against Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026 at its next vote.
 
 ### ✏️ Why would they listen to us?
 
@@ -97,7 +97,7 @@ All members of the Nationalrat (Abgeordneten).
 ### 🔒 What is happening that we are responding to?
 
 2026-07-15: the Bundesrat voted on 'Antrag, keinen Einspruch zu erheben' (?).
-[CAMPAIGNER: the storytelling line, once CitizenGO's position on this bill is confirmed]
+Storytelling: villain = [CAMPAIGNER: the villain]; princess = the Abgeordneten who have not yet decided; hero = the reader (a voter); helper = CitizenGO (carries the signatures to the Nationalrat).
 
 ### ✏️ What is the key point of injustice that is at stake here?
 
@@ -165,12 +165,12 @@ Left blank at build time (rulebook cell 35).
 - Store takeaway: Government bill (Regierungsvorlage), 525 d.B.; concluded (stage 5 of 5)
 - Key dates: introduced 2026-06-10; last recorded event 2026-07-15; next none in the store (no Urgent proposed: news-only dates never trigger it).
 - Launch window: earliest 2026-10-14; delivery 2026-11-04 (estimate). Working days skip weekends only; the country's public holidays are not checked.
-- SIGN-OFF: no bill direction on file for `XXVIII/I/525`. Add a `bill_directions` line (direction with/against, why) to config/at_stance.yaml, then confirm it: `python3 tools/country_5ca.py --cc at --confirm-direction XXVIII/I/525 --by NAME`.
+- SIGN-OFF: bill direction `XXVIII/I/525` = against, confirmed by Christopher Joyce on 2026-10-12.
 - Readings of this bill's watched or tier-1 votes: 4 on file, 0 confirmed, 4 waiting.
-  - `XXVIII/I/525@XXVIII/NRSITZ/87#205.1` 2026-07-07 Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, M...: needs reading
-  - `XXVIII/I/525@XXVIII/NRSITZ/87#210` 2026-07-07 Gesetzesvorschlag in zweiter Lesung: needs reading
-  - `XXVIII/I/525@XXVIII/NRSITZ/87#210+2` 2026-07-07 Gesetzesvorschlag in dritter Lesung: needs reading
-  - `XXVIII/I/525@BR/BRSITZ/993#22` 2026-07-15 Antrag, keinen Einspruch zu erheben: needs reading
+  - `XXVIII/I/525@XXVIII/NRSITZ/87#205.1` 2026-07-07 Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, M...: draft
+  - `XXVIII/I/525@XXVIII/NRSITZ/87#210` 2026-07-07 Gesetzesvorschlag in zweiter Lesung: draft
+  - `XXVIII/I/525@XXVIII/NRSITZ/87#210+2` 2026-07-07 Gesetzesvorschlag in dritter Lesung: draft
+  - `XXVIII/I/525@BR/BRSITZ/993#22` 2026-07-15 Antrag, keinen Einspruch zu erheben: draft
 - Confirm in docs/5ca-at-readings.md (tick, then `python3 tools/country_5ca.py --cc at --sign-from-doc --by NAME`).
 - Recorded votes on the bill (4), newest last:
   - 2026-07-07 NR 'Abänderungsantrag der Abgeordneten Mag. Johanna Jachs, Mag. Selma Yildirim, Mag. Sophie...'  angenommen
@@ -179,8 +179,9 @@ Left blank at build time (rulebook cell 35).
   - 2026-07-15 BR 'Antrag, keinen Einspruch zu erheben'  angenommen
 - Language: campaigner text in English (rulebook rule 6); the petition itself is in German (Austrian).
 - Not available to the builder: Bluebook (comparables, TIM, RF#1), the Asana campaigns calendar (launch clash check), postcode member counts, the framing glossary (0 entries), the allies and opponents registers (0 / 0), the hostile-outlet deny-list.
-- Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What are we asking for in the petition?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
+- Campaigner checklist (cells holding [CAMPAIGNER: ...]): Background / Context; Campaign Name; Main Purposes; Petitions related TIM project; Who is the petition addressed to?; What is happening that we are responding to?; Why would they listen to us?; What is the key point of injustice; Why is it urgent that we take action now?; Which sources do you want to include?; What should the image look like?; What are some arguments; Describe a bad outcome; Describe a good outcome; RF#1 comment; RF#2 comment; RF#3 comment; RF#4/1 comment.
 
 Changelog:
 
 - 2026-10-11 tools/country_briefs.py drafted every cell
+- 2026-10-17 tools/country_briefs.py refreshed by the builder

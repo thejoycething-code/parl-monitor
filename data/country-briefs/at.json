@@ -1,14 +1,37 @@
 {
  "at-anti-gesichtsverhullungsgesetz-und-strafgesetzbu-xxviii-a-1054": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder; now READY (stances confirmed)"
   ],
-  "content": "f604e643510c97e78e99150655bc7a2790715929040e85e15bdb5404785fa90c",
+  "content": "b48fdbfc2ae67d87912134f0460a8bc7ccaef297a3b10fc34326cd78c268d22d",
   "generated": "2026-10-11",
   "key": "XXVIII/A/1054",
+  "ready": true,
+  "sha": "dee2122a64f8b16dd26e59b0096bc5c8a4d8947aca81fbfd65e4c35620e49c14",
+  "title": "Anti-Gesichtsverhüllungsgesetz- und Strafgesetzbuch-Novelle 2026 (FPÖ)"
+ },
+ "at-burgerinitiative-betreffend-ja-zum-schutz-der-ki-a-pb-1-00932-top-24": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "aeef8108c606a8edc75d80a497dbe7b73bf61d4a0fb273c02914e7d187dffd0b",
+  "generated": "2026-10-17",
+  "key": "A-PB/1/00932 TOP 24",
   "ready": false,
-  "sha": "7bb79199e032045cb6ccf211e1104fe785d19d1f2af4a359b5b1cd557bc43955",
-  "title": "Anti-Gesichtsverhüllungsgesetz- und Strafgesetzbuch-Novelle 2026"
+  "sha": "fb570f039488a9d5a9a1c71ebb94d477f590444329d662ca8b9829fd2c5d0400",
+  "title": "Bürgerinitiative betreffend \"JA zum Schutz der Kinderrechte. JA zum 3. Fakultativprotokoll (individuelles Beschwerderecht für Kinder). NEIN zu den IGV der WHO, die Kinder- und Elternrechte nicht explizit schützen.\" (33/BI) (Wiederaufnahme der am 25. Juni 2026 vertagten Verhandlungen)"
+ },
+ "at-es-gibt-nur-zwei-geschlechter-novelle-fpo-xxviii-a-1021": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "e7221b757f7f92c093f022d8901b452b4be8cbf1cefb66d68b40b5e2e43aef4d",
+  "generated": "2026-10-17",
+  "key": "XXVIII/A/1021",
+  "ready": false,
+  "sha": "f2c96620813a266fccd64debca1dc29764debece6b6b219380664c2cc44f954b",
+  "title": "Es-gibt-nur-zwei-Geschlechter-Novelle (FPÖ)"
  },
  "at-es-gibt-nur-zwei-geschlechter-novelle-xxviii-a-1021": {
   "changelog": [
@@ -21,27 +44,73 @@
   "sha": "24f6dc99f41ec37e09ca5eae58dd44a80710846f2612b9324f37dd60da78923e",
   "title": "Es-gibt-nur-zwei-Geschlechter-Novelle"
  },
+ "at-europaisches-moratorium-fur-staatstrojaner-und-k-xxviii-a-1068": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "d63360c9c4a38107ef89f5b19b092182e8eb8b48586eb5d338cbe32c90a14d08",
+  "generated": "2026-10-17",
+  "key": "XXVIII/A/1068",
+  "ready": false,
+  "sha": "73079c790a2e9a3c28182cfe4a2c7abc5225b084528a394db124fb6f7e9d2a19",
+  "title": "Europäisches Moratorium für Staatstrojaner und kommerzielle Spähsoftware (GRÜNE)"
+ },
+ "at-mehr-transparenz-bei-der-schulischen-sexualerzie-xxviii-a-1120": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "3b4219ef2182b27db5ba367cc092a2d780d8024b59a316d80cc4a16355062e8c",
+  "generated": "2026-10-17",
+  "key": "XXVIII/A/1120",
+  "ready": false,
+  "sha": "dd473aec1a48d266236d4f39bde14561a43dfbe476b7b5bb28d7c1e12c22f403",
+  "title": "Mehr Transparenz bei der schulischen Sexualerziehung (FPÖ)"
+ },
+ "at-osterreichische-familien-entlasten-statt-weiter-xxviii-a-1143": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "e7bef44ef0bf923099747924e246228a2d16268f89c7706f57935e8627cff780",
+  "generated": "2026-10-17",
+  "key": "XXVIII/A/1143",
+  "ready": false,
+  "sha": "d264fda5dada10b23befef9d2e3a98781872a44fb39e89996b8b9da728046f42",
+  "title": "Österreichische Familien entlasten statt weiter vertrösten - Elterngeld jetzt! (FPÖ)"
+ },
  "at-schutz-christlicher-minderheiten-als-voraussetzu-xxviii-a-1022": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "1d84a861b5b4dedf3c49fce1466886f9a7d8238b8a147fc13c059a4a1afabaf7",
+  "content": "811ec993899688e1f481c899b08b72713ebc15a725d1be2219379de1cf6ec9a0",
   "generated": "2026-10-11",
   "key": "XXVIII/A/1022",
   "ready": false,
-  "sha": "15ddf1624ee028ce2b6f09c36a37372f4d007d50d6912adf51dd9c93524dda6b",
-  "title": "Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe"
+  "sha": "efa7fa55315cdd3f9378bef722b6fec2ab5190625e18b5876370490ec0bddca9",
+  "title": "Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (FPÖ)"
  },
  "at-sterbeverfugungsgesetz-novelle-2026-stvfg-nov-20-xxviii-i-525": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "f87c9e5c3058a51bdb9958d883cbe474630ecf4d62ff7159f613ae775bae265b",
+  "content": "a7cfa5efd5f46c5d04c306e549578fd123aa31cd0166fbeb2aadd5ad9fb72605",
   "generated": "2026-10-11",
   "key": "XXVIII/I/525",
   "ready": false,
-  "sha": "388dc34ce74ccd17093bd4d414784b96dfa288698042d90be38a5a59fa928be4",
+  "sha": "c6e0cd76cc59ddda3fe4d1d54f59ffab3edcbec948e94639fa0558307b000bb5",
   "title": "Sterbeverfügungsgesetz-Novelle 2026 - StVfG-Nov 2026"
+ },
+ "at-verbesserung-der-sterbeverfugung-fpo-xxviii-a-1026": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "a1d1b99e537277a7d135d3efd32e88bbf61d10ca5eaafebe5a3ea0b0327e6bad",
+  "generated": "2026-10-17",
+  "key": "XXVIII/A/1026",
+  "ready": false,
+  "sha": "00c4af794bc7539cdb22652bac515b2fc6a1d45faef0e44da2040e23dbe9941d",
+  "title": "Verbesserung der Sterbeverfügung (FPÖ)"
  },
  "at-verbesserung-der-sterbeverfugung-xxviii-a-1026": {
   "changelog": [
@@ -56,13 +125,14 @@
  },
  "at-verscharfung-des-schutzes-vor-zwangsverschleieru-xxviii-a-1059": {
   "changelog": [
-   "2026-10-11 tools/country_briefs.py drafted every cell"
+   "2026-10-11 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder; now READY (stances confirmed)"
   ],
-  "content": "a06100cc5b42249e1f030c7bf47ee5820fe8b6421340cde2d2e01303e8250591",
+  "content": "85c693ed66c62bdba0eed21f796f28200b02204d4198cd287151e8a09e3486f7",
   "generated": "2026-10-11",
   "key": "XXVIII/A/1059",
-  "ready": false,
-  "sha": "e1edcf91d727224db886496efffa1c250e35104e324a5a1c05f5603ae59232e6",
-  "title": "Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild"
+  "ready": true,
+  "sha": "35d3d911ec545dce738a0d1a778763cc7d837fd00a6c32942d42801cae410b81",
+  "title": "Verschärfung des Schutzes vor Zwangsverschleierung und Anpassung des Anti-Gesichtsverhüllungsgesetzes nach internationalem Vorbild (FPÖ)"
  }
 }

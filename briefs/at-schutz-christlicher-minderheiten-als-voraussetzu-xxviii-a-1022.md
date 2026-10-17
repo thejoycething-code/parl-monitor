@@ -1,4 +1,4 @@
-# Campaigns Brief (DRAFT): Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe
+# Campaigns Brief (DRAFT): Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (FPÖ)
 
 > **NOT READY: awaiting sign-off. No position of CitizenGO's on this bill is on file yet. Do not launch, target or recommend anything from this draft until they are confirmed.**
 
@@ -33,11 +33,11 @@ Freedom
 
 ### 🔒 Background / Context
 
-What: Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe. Who: [CAMPAIGNER: who brought it]. The decision lies with the Nationalrat. Where it stands: [CAMPAIGNER: the current stage] (last recorded event: 2026-09-23). What's next: [CAMPAIGNER: the next key date (the record publishes none yet)] Why it matters: [CAMPAIGNER: why it matters: what changes in law or practice]
+What: Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (FPÖ). Who: [CAMPAIGNER: who brought it]. The decision lies with the Nationalrat. Where it stands: [CAMPAIGNER: the current stage] (last recorded event: 2026-09-23). What's next: [CAMPAIGNER: the next key date (the record publishes none yet)] Why it matters: [CAMPAIGNER: why it matters: what changes in law or practice]
 
 Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet.
 
-- What: Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (XXVIII/A/1022)
+- What: Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (FPÖ) (XXVIII/A/1022)
 - Who: [CAMPAIGNER: who brought it]; Nationalrat
 - Stage: ? (2026-09-23)
 - Next date: none published
@@ -96,7 +96,7 @@ All members of the Nationalrat (Abgeordneten).
 
 ### 🔒 What is happening that we are responding to?
 
-2026-09-23: Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe, stage '?'.
+2026-09-23: Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (FPÖ), stage '?'.
 [CAMPAIGNER: the storytelling line, once CitizenGO's position on this bill is confirmed]
 
 ### ✏️ What is the key point of injustice that is at stake here?
@@ -127,7 +127,7 @@ N/A: AA emails carry the generic monthly-donation footer only.
 
 ### 🔒 Which sources do you want to include? Please provide the titles plus URLs:
 
-- Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe [Parlament Österreich]: https://www.parlament.gv.at/gegenstand/XXVIII/A/1022
+- Schutz christlicher Minderheiten als Voraussetzung für österreichische Entwicklungshilfe (FPÖ) [Parlament Österreich]: https://www.parlament.gv.at/gegenstand/XXVIII/A/1022
 - [CAMPAIGNER: a news report, in the list's language]
 - [CAMPAIGNER: the study or report behind the strongest argument]
 
@@ -174,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-11 tools/country_briefs.py drafted every cell
+- 2026-10-17 tools/country_briefs.py refreshed by the builder

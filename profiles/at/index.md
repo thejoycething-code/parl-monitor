@@ -1,253 +1,253 @@
 # Austria: member profiles
 
-Store read 11 October 2026. 243 member(s) listed (sitting, or with a record), 243 with a record on our ground (a profile each); 82 vote(s) on our ground in the store.
-528 author or questioner line(s) on our ground name no listed member (the government, a committee, the other chamber, or a name not matched to exactly one member); they are not attributed.
+Store read 17 October 2026. 243 member(s) listed (sitting, or with a record), 242 with a record on our ground (a profile each); 236 vote(s) on our ground in the store.
+1915 author or questioner line(s) on our ground name no listed member (the government, a committee, the other chamber, or a name not matched to exactly one member); they are not attributed.
 
-| Member | Party | Chamber | Constituency or region | Votes | Authored | Questions |
-|---|---|---|---|---|---|---|
-| [Aldali Lisa](aldali-lisa-38385.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Amhof Nikolaus](amhof-nikolaus-33457.md) | FPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Arpa Claudia, Mag.a](arpa-claudia-mag-a-24110.md) | SPÖ | Bundesrat | 2 Kärnten (Kärnten) | 17 |  |  |
-| [Auer Katrin, Mag.](auer-katrin-mag-30688.md) | SPÖ | Nationalrat | 4D Traunviertel (O) | 56 |  |  |
-| [Auer-Stüger Stephan, Mag.](auer-stuger-stephan-mag-33456.md) | SPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Auinger-Oberzaucher Gertraud, Mag.](auinger-oberzaucher-gertraud-mag-30668.md) | NEOS | Nationalrat | 3 Niederösterreich (N) | 56 | 4 |  |
-| [Baumann Roland](baumann-roland-30689.md) | SPÖ | Nationalrat | 4A Linz und Umgebung (O) | 56 |  |  |
-| [Baumgartner Angela](baumgartner-angela-1974.md) | ÖVP | Nationalrat | 3G Niederösterreich Ost (N) | 56 |  |  |
-| [Bayr Petra, MA MLS](bayr-petra-ma-mls-14835.md) | SPÖ | Nationalrat | 9D Wien Süd (W) | 56 |  |  |
-| [Beer Sandro](beer-sandro-31679.md) | SPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Belakowitsch Dagmar, Dr.](belakowitsch-dagmar-dr-35468.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 | 14 |
-| [Berger Ricarda](berger-ricarda-2996.md) | FPÖ | Nationalrat | 9 Wien (W) | 56 | 2 | 6 |
-| [Berger Tina Angela](berger-tina-angela-30645.md) | FPÖ | Nationalrat | 2C Kärnten West (K) | 56 |  | 1 |
-| [Bernard Michael](bernard-michael-3460.md) | FPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Bernhard Michael](bernhard-michael-83124.md) | NEOS | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Binder Reinhold](binder-reinhold-30693.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Bogner-Strauß Juliane, Mag. Dr.](bogner-strauss-juliane-mag-dr-1975.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 |  |
-| [Brandstötter Henrike](brandstotter-henrike-5683.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 2 |  |
-| [Brandweiner Lukas](brandweiner-lukas-5438.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Brückl Hermann, MA](bruckl-hermann-ma-61639.md) | FPÖ | Nationalrat | 4B Innviertel (O) | 56 |  | 6 |
-| [Bures Doris](bures-doris-145.md) | SPÖ | Nationalrat | 9E Wien Süd-West (W) | 56 |  |  |
-| [Darmann Gernot, Mag.](darmann-gernot-mag-35469.md) | FPÖ | Nationalrat | 2A Klagenfurt (K) | 56 | 3 | 4 |
-| [Deckenbacher Romana, Mag.](deckenbacher-romana-mag-6506.md) | ÖVP | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Deimek Gerhard, Dipl.-Ing.](deimek-gerhard-dipl-ing-51557.md) | FPÖ | Nationalrat | 4D Traunviertel (O) | 56 |  |  |
-| [Della Rossa Antonio, Mag.](della-rossa-antonio-mag-30694.md) | SPÖ | Nationalrat | 8 Vorarlberg (V) | 56 |  |  |
-| [Dengler Veit Valentin](dengler-veit-valentin-30669.md) | OK | Nationalrat | 6 Steiermark (St) |  |  |  |
-| [Deutsch Julia, Mag. Dr.](deutsch-julia-mag-dr-32831.md) | OF | Bundesrat | 9 Wien (Wien) | 1 |  |  |
-| [Diesner-Wais Martina](diesner-wais-martina-16218.md) | ÖVP | Nationalrat | 3B Waldviertel (N) | 56 |  |  |
-| [Disoski Meri, Mag.](disoski-meri-mag-5650.md) | GRÜNE | Nationalrat | 9 Wien (W) | 56 | 7 | 12 |
-| [Doppelbauer Karin, Dipl.-Ing.](doppelbauer-karin-dipl-ing-91141.md) | NEOS | Nationalrat | 4 Oberösterreich (O) | 56 |  |  |
-| [Duzdar Muna, Mag.](duzdar-muna-mag-60446.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Ebner Franz, Mag.](ebner-franz-mag-20230.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Ecker Rosa, MBA](ecker-rosa-mba-87002.md) | FPÖ | Nationalrat | 4E Mühlviertel (O) | 56 | 6 | 61 |
-| [Eder Heike, BSc MBA](eder-heike-bsc-mba-6151.md) | ÖVP | Nationalrat | 8B Vorarlberg Süd (V) | 56 | 1 |  |
-| [Eder-Gitschthaler Andrea, Dr.](eder-gitschthaler-andrea-dr-35471.md) | ÖVP | Bundesrat | 5 Salzburg (Salzburg) | 17 |  | 1 |
-| [Egger Kurt, Mag. (FH)](egger-kurt-mag-fh-20056.md) | ÖVP | Nationalrat | 6 Steiermark (St) | 56 | 1 |  |
-| [Eisenhut Irene](eisenhut-irene-30646.md) | FPÖ | Nationalrat | 3C Mostviertel (N) | 56 |  |  |
-| [Elian Thomas, Ing.](elian-thomas-ing-32569.md) | ÖVP | Nationalrat | 3E Niederösterreich Süd (N) | 56 |  |  |
-| [Erasim Melanie, MSc](erasim-melanie-msc-30653.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Falkner Margreth](falkner-margreth-30717.md) | ÖVP | Nationalrat | 7D Oberland (T) | 56 |  |  |
-| [Feichtinger Elisabeth, BEd BEd](feichtinger-elisabeth-bed-bed-2189.md) | SPÖ | Nationalrat | 4 Oberösterreich (O) | 56 |  |  |
-| [Fiedler Fiona, BEd](fiedler-fiona-bed-5684.md) | NEOS | Nationalrat | 6 Steiermark (St) | 56 |  | 1 |
-| [Fischer Christian](fischer-christian-23968.md) | SPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Forstner Sebastian](forstner-sebastian-31905.md) | SPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Fuchs Hubert, MMag. DDr.](fuchs-hubert-mmag-ddr-83127.md) | FPÖ | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Fürlinger Klaus, Mag.](furlinger-klaus-mag-72999.md) | ÖVP | Nationalrat | 4A Linz und Umgebung (O) | 56 | 1 |  |
-| [Fürst Susanne, Dr.](furst-susanne-dr-1567.md) | FPÖ | Nationalrat | 4 Oberösterreich (O) | 56 | 1 |  |
-| [Fürtbauer Michael](furtbauer-michael-30647.md) | FPÖ | Nationalrat | 4 Oberösterreich (O) | 56 |  | 23 |
-| [Gasser Johannes, BA Bakk. MSc](gasser-johannes-ba-bakk-msc-30670.md) | NEOS | Nationalrat | 8 Vorarlberg (V) | 56 | 3 |  |
-| [Geieregger Bernadette, BA MSc](geieregger-bernadette-ba-msc-25214.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Gerstl Wolfgang, Mag.](gerstl-wolfgang-mag-67199.md) | ÖVP | Nationalrat | 9E Wien Süd-West (W) | 56 | 2 |  |
-| [Gewessler Leonore, BA](gewessler-leonore-ba-5653.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 | 4 |
-| [Gfrerer Silvester](gfrerer-silvester-3725.md) | ÖVP | Bundesrat | 5 Salzburg (Salzburg) | 17 |  |  |
-| [Giuliani-Sterrer Marie-Christine, Mag., BA](giuliani-sterrer-marie-christine-mag-ba-30648.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  | 1 |
-| [Gmeinbauer Daniela](gmeinbauer-daniela-30719.md) | ÖVP | Nationalrat | 6A Graz und Umgebung (St) | 56 | 2 |  |
-| [Gmeindl Michael](gmeindl-michael-32330.md) | FPÖ | Nationalrat | 1 Burgenland (B) | 56 |  |  |
-| [Gödl Ernst, Mag.](godl-ernst-mag-83409.md) | ÖVP | Nationalrat | 6A Graz und Umgebung (St) | 56 | 1 | 1 |
-| [Götze Elisabeth, Dr.](gotze-elisabeth-dr-5654.md) | GRÜNE | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Gradwohl Werner](gradwohl-werner-31964.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Graf Martin, Mag. Dr.](graf-martin-mag-dr-2834.md) | FPÖ | Nationalrat | 9G Wien Nord (W) | 56 |  |  |
-| [Graf Tanja](graf-tanja-1977.md) | ÖVP | Nationalrat | 5 Salzburg (S) | 56 |  |  |
-| [Greiner Karin, Mag.](greiner-karin-mag-80479.md) | SPÖ | Nationalrat | 6 Steiermark (St) | 56 |  |  |
-| [Gruber-Pruner Daniela, Mag.](gruber-pruner-daniela-mag-84868.md) | SPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Grünberg Kira](grunberg-kira-1979.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 |  |
-| [Grüner Jakob, MMag., LL.M.](gruner-jakob-mmag-ll-m-32570.md) | ÖVP | Nationalrat | 7 Tirol (T) | 56 |  |  |
-| [Guggenberger Andreas](guggenberger-andreas-33458.md) | FPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Hafenecker Christian, MA](hafenecker-christian-ma-78586.md) | FPÖ | Nationalrat | 3D Niederösterreich Mitte (N) | 56 | 3 | 16 |
-| [Haitzer Andreas](haitzer-andreas-30695.md) | SPÖ | Nationalrat | 5 Salzburg (S) | 56 |  |  |
-| [Hammer Lukas, Mag.](hammer-lukas-mag-65219.md) | GRÜNE | Nationalrat | 9 Wien (W) | 56 |  | 2 |
-| [Hammer Michael, Mag.](hammer-michael-mag-55227.md) | ÖVP | Nationalrat | 4E Mühlviertel (O) | 56 |  |  |
-| [Hammerl Paul, Mag., MA](hammerl-paul-mag-ma-30649.md) | FPÖ | Nationalrat | 4C Hausruckviertel (O) | 56 |  | 1 |
-| [Hanger Andreas, Mag.](hanger-andreas-mag-83148.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Harrer Peter Manfred, Mag. (FH)](harrer-peter-manfred-mag-fh-32568.md) | SPÖ | Nationalrat | 6 Steiermark (St) | 56 |  |  |
-| [Haubner Peter](haubner-peter-12741.md) | ÖVP | Nationalrat | 5B Flachgau/Tennengau (S) | 56 |  |  |
-| [Hauschildt-Buschberger Claudia](hauschildt-buschberger-claudia-5932.md) | OF | Bundesrat | 4 Oberösterreich (Oberösterreich) | 1 | 1 |  |
-| [Hechenberger Josef, Ing.](hechenberger-josef-ing-5623.md) | ÖVP | Nationalrat | 7C Unterland (T) | 56 |  |  |
-| [Heiß Elisabeth](heiss-elisabeth-30650.md) | FPÖ | Nationalrat | 5 Salzburg (S) | 56 | 1 |  |
-| [Herbert Werner](herbert-werner-47187.md) | FPÖ | Nationalrat | 3G Niederösterreich Ost (N) | 56 |  |  |
-| [Herr Julia Elisabeth](herr-julia-elisabeth-5639.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Herunter Antonia](herunter-antonia-31966.md) | ÖVP | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Herzog Bernhard](herzog-bernhard-30697.md) | SPÖ | Nationalrat | 9G Wien Nord (W) | 56 | 2 |  |
-| [Himmer Harald, Mag.](himmer-harald-mag-3270.md) | ÖVP | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Himmer Heinrich, Mag.](himmer-heinrich-mag-30698.md) | SPÖ | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Hofer Markus, MMag.](hofer-markus-mmag-30680.md) | NEOS | Nationalrat | 4 Oberösterreich (O) | 56 |  |  |
-| [Höfinger Johann, Mst., MBA](hofinger-johann-mst-mba-16234.md) | ÖVP | Nationalrat | 3D Niederösterreich Mitte (N) | 56 |  |  |
-| [Hofinger Manfred, Ing.](hofinger-manfred-ing-83299.md) | ÖVP | Nationalrat | 4 Oberösterreich (O) | 56 | 1 |  |
-| [Höfler Bernhard](hofler-bernhard-30700.md) | SPÖ | Nationalrat | 7 Tirol (T) | 56 | 1 |  |
-| [Holzegger Ines](holzegger-ines-32564.md) | NEOS | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Hörl Franz](horl-franz-35489.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Hoyos-Trauttmansdorff Douglas](hoyos-trauttmansdorff-douglas-2343.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Hutter Viktoria](hutter-viktoria-23961.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Jachs Johanna, Mag.](jachs-johanna-mag-1980.md) | ÖVP | Nationalrat | 4E Mühlviertel (O) | 56 | 5 |  |
-| [Jäckel Sandra](jackel-sandra-31483.md) | FPÖ | Bundesrat | 8 Vorarlberg (Vorarlberg) | 17 |  |  |
-| [Jagl Simone](jagl-simone-23967.md) | OF | Bundesrat | 3 Niederösterreich (Niederösterreich) | 1 | 2 |  |
-| [Jantscher Franz](jantscher-franz-30701.md) | SPÖ | Nationalrat | 6 Steiermark (St) | 56 |  |  |
-| [Jeitler-Cincelli Carmen, Mag., BA](jeitler-cincelli-carmen-mag-ba-1981.md) | ÖVP | Nationalrat | 3F Thermenregion (N) | 56 |  |  |
-| [Juvan Janos, Mag. (FH)](juvan-janos-mag-fh-32563.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Kainz Alois](kainz-alois-2998.md) | FPÖ | Nationalrat | 3B Waldviertel (N) | 56 |  |  |
-| [Kaniak Gerhard, Mag.](kaniak-gerhard-mag-1970.md) | FPÖ | Nationalrat | 4C Hausruckviertel (O) | 56 | 1 |  |
-| [Karacsony Thomas](karacsony-thomas-32338.md) | FPÖ | Bundesrat | 1 Burgenland (Burgenland) | 17 |  |  |
-| [Kerschler Bernadette, Mag.](kerschler-bernadette-mag-31957.md) | SPÖ | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Kickl Herbert](kickl-herbert-35520.md) | FPÖ | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Kittl Elisabeth, MMag., BA](kittl-elisabeth-mmag-ba-17881.md) | OF | Bundesrat | 9 Wien (Wien) | 1 | 2 |  |
-| [Kober Herbert](kober-herbert-31963.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Kocevar Wolfgang](kocevar-wolfgang-30702.md) | SPÖ | Nationalrat | 3F Thermenregion (N) | 56 |  |  |
-| [Kofler Klemens](kofler-klemens-23965.md) | FPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Kogler Werner, Mag.](kogler-werner-mag-8242.md) | GRÜNE | Nationalrat | 6A Graz und Umgebung (St) | 56 |  | 2 |
-| [Kolar Gabriele](kolar-gabriele-31956.md) | SPÖ | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Köllner Maximilian, MA](kollner-maximilian-ma-5641.md) | SPÖ | Nationalrat | 1A Burgenland Nord (B) | 56 |  |  |
-| [Kolm Barbara, Dr.](kolm-barbara-dr-30655.md) | FPÖ | Nationalrat | 7 Tirol (T) | 56 |  |  |
-| [Koza Markus, Mag.](koza-markus-mag-5670.md) | GRÜNE | Nationalrat | 9 Wien (W) | 56 |  | 1 |
-| [Krainer Kai Jan](krainer-kai-jan-14842.md) | SPÖ | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Kucher Philip](kucher-philip-83113.md) | SPÖ | Nationalrat | 2 Kärnten (K) | 56 |  |  |
-| [Kugler Gudrun, Dr.](kugler-gudrun-dr-1986.md) | ÖVP | Nationalrat | 9G Wien Nord (W) | 56 |  |  |
-| [Kühberger Andreas](kuhberger-andreas-1987.md) | ÖVP | Nationalrat | 6D Obersteiermark (St) | 56 |  |  |
-| [Kumpan-Takacs Silvia, MSc BA](kumpan-takacs-silvia-msc-ba-30704.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Laimer Robert](laimer-robert-2330.md) | SPÖ | Nationalrat | 3D Niederösterreich Mitte (N) | 56 |  |  |
-| [Lassnig Sandra](lassnig-sandra-24113.md) | ÖVP | Bundesrat | 2 Kärnten (Kärnten) | 17 |  |  |
-| [Lausch Christian](lausch-christian-51568.md) | FPÖ | Nationalrat | 3A Weinviertel (N) | 56 |  |  |
-| [Leinfellner Markus](leinfellner-markus-6407.md) | FPÖ | Nationalrat | 6C Weststeiermark (St) | 56 | 2 | 4 |
-| [Linder Maximilian](linder-maximilian-51577.md) | FPÖ | Nationalrat | 2B Villach (K) | 56 |  |  |
-| [Lindinger Klaus, Ing., BSc](lindinger-klaus-ing-bsc-2001.md) | ÖVP | Nationalrat | 4C Hausruckviertel (O) | 56 |  |  |
-| [Lindner Mario](lindner-mario-86613.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  | 3 |
-| [Litzke Manuel, BSc (WU)](litzke-manuel-bsc-wu-30656.md) | FPÖ | Nationalrat | 8B Vorarlberg Süd (V) | 56 | 1 |  |
-| [Maier Reinhold](maier-reinhold-30657.md) | FPÖ | Nationalrat | 6A Graz und Umgebung (St) | 56 |  |  |
-| [Mair Klaus](mair-klaus-30722.md) | ÖVP | Nationalrat | 7B Innsbruck-Land (T) | 56 |  |  |
-| [Marchetti Nico](marchetti-nico-2122.md) | ÖVP | Nationalrat | 9 Wien (W) | 56 |  | 1 |
-| [Markytan Wolfgang, MA](markytan-wolfgang-ma-39602.md) | SPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Matznetter Christoph, Dr.](matznetter-christoph-dr-14844.md) | SPÖ | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Maurer Sigrid, BA](maurer-sigrid-ba-83101.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 |  |
-| [Mertel Manfred, Dr.](mertel-manfred-dr-24112.md) | SPÖ | Bundesrat | 2 Kärnten (Kärnten) | 17 |  |  |
-| [Miesenberger Johanna](miesenberger-johanna-5557.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Minnich Andreas](minnich-andreas-5626.md) | ÖVP | Nationalrat | 3A Weinviertel (N) | 56 |  |  |
-| [Moitzi Wolfgang](moitzi-wolfgang-30705.md) | SPÖ | Nationalrat | 6D Obersteiermark (St) | 56 |  |  |
-| [Mölzer Wendelin](molzer-wendelin-36187.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  | 1 |
-| [Muchitsch Josef](muchitsch-josef-35497.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 |  |
-| [Muthsam Amelie](muthsam-amelie-32817.md) | SPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 | 1 |  |
-| [Nemeth Norbert, Mag.](nemeth-norbert-mag-35568.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  | 3 |
-| [Neßler Barbara](nessler-barbara-5672.md) | GRÜNE | Nationalrat | 7 Tirol (T) | 56 | 5 | 1 |
-| [Neumann Maria, MMst. Mag. (FH)](neumann-maria-mmst-mag-fh-3133.md) | ÖVP | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Neumann-Hartberger Irene](neumann-hartberger-irene-6498.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Neurauter Klara](neurauter-klara-3487.md) | ÖVP | Bundesrat | 7 Tirol (Tirol) | 17 |  |  |
-| [Nussbaum Verena, Mag.a](nussbaum-verena-mag-a-2334.md) | SPÖ | Nationalrat | 6A Graz und Umgebung (St) | 56 | 3 |  |
-| [Oberhofer Dominik](oberhofer-dominik-30681.md) | NEOS | Nationalrat | 7 Tirol (T) | 56 |  |  |
-| [Oberlechner Michael, MA](oberlechner-michael-ma-30658.md) | FPÖ | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Obernosterer Gabriel](obernosterer-gabriel-35487.md) | ÖVP | Nationalrat | 2 Kärnten (K) | 56 |  |  |
-| [Oberrauner Petra, Mag.a Dr.in](oberrauner-petra-mag-a-dr-in-5643.md) | SPÖ | Nationalrat | 2 Kärnten (K) | 56 | 1 |  |
-| [Ofenauer Friedrich, Mag.](ofenauer-friedrich-mag-83300.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Ottenschläger Andreas](ottenschlager-andreas-83150.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Oxonitsch Christian](oxonitsch-christian-23167.md) | SPÖ | Nationalrat | 9F Wien Nord-West (W) | 56 | 6 | 1 |
-| [Partl Irene](partl-irene-31081.md) | FPÖ | Bundesrat | 7 Tirol (Tirol) | 17 | 2 |  |
-| [Peterl Martin](peterl-martin-31080.md) | SPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Petschnig Alexander, MMag.](petschnig-alexander-mmag-30659.md) | FPÖ | Nationalrat | 1A Burgenland Nord (B) | 56 |  |  |
-| [Pfeifer Manuel](pfeifer-manuel-30660.md) | FPÖ | Nationalrat | 6B Oststeiermark (St) | 56 |  |  |
-| [Pöttinger Laurenz](pottinger-laurenz-5486.md) | ÖVP | Nationalrat | 4C Hausruckviertel (O) | 56 |  |  |
-| [Pracher-Hilander Katayun, Mag.](pracher-hilander-katayun-mag-30661.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  | 5 |
-| [Pramhofer Christoph, Mag.](pramhofer-christoph-mag-30684.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Prammer Agnes Sirkka, Mag.](prammer-agnes-sirkka-mag-6502.md) | GRÜNE | Nationalrat | 4 Oberösterreich (O) | 56 | 4 | 3 |
-| [Pröller Günter](proller-gunter-20233.md) | FPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 | 1 |  |
-| [Prügl Barbara](prugl-barbara-20236.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 | 1 |  |
-| [Ragger Christian, Mag.](ragger-christian-mag-1937.md) | FPÖ | Nationalrat | 2D Kärnten Ost (K) | 56 |  |  |
-| [Ranzmaier Christofer](ranzmaier-christofer-30662.md) | FPÖ | Nationalrat | 7C Unterland (T) | 56 |  | 1 |
-| [Reifenberger Volker, Ing. Mag.](reifenberger-volker-ing-mag-3717.md) | FPÖ | Nationalrat | 5B Flachgau/Tennengau (S) | 56 |  | 1 |
-| [Reisinger Dominik](reisinger-dominik-4483.md) | SPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Reiter Carina](reiter-carina-5627.md) | ÖVP | Nationalrat | 5C Lungau/Pinzgau/Pongau (S) | 56 |  |  |
-| [Repolust Manfred](repolust-manfred-31965.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Rosenkranz Walter, Dr.](rosenkranz-walter-dr-51570.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  | 2 |
-| [Royer Albert](royer-albert-31991.md) | FPÖ | Nationalrat | 6D Obersteiermark (St) | 56 |  |  |
-| [Ruf Bernhard, Mag.](ruf-bernhard-mag-27589.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Ruprecht Günther](ruprecht-gunther-25764.md) | ÖVP | Bundesrat | 6 Steiermark (Steiermark) | 17 | 1 |  |
-| [Sams Manfred, Mag.](sams-manfred-mag-30706.md) | SPÖ | Nationalrat | 4C Hausruckviertel (O) | 56 |  |  |
-| [Samt Peter](samt-peter-86618.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Schallmeiner Ralph](schallmeiner-ralph-5676.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 |  |
-| [Schandor Christian, Dipl.-Ing.](schandor-christian-dipl-ing-1971.md) | FPÖ | Nationalrat | 6B Oststeiermark (St) | 56 | 1 |  |
-| [Schartel Andrea Michaela](schartel-andrea-michaela-3155.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Schatz Sabine](schatz-sabine-2337.md) | SPÖ | Nationalrat | 4E Mühlviertel (O) | 56 | 1 |  |
-| [Scherak Nikolaus, Dr., MA](scherak-nikolaus-dr-ma-83125.md) | NEOS | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Scheucher-Pichler Elisabeth, Mag.](scheucher-pichler-elisabeth-mag-14896.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 1 |  |
-| [Schiefer Arnold, Mag.](schiefer-arnold-mag-30663.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Schilchegger Michael, MMag. Dr.](schilchegger-michael-mmag-dr-5065.md) | FPÖ | Nationalrat | 4A Linz und Umgebung (O) | 56 | 1 | 11 |
-| [Schmid Daniel](schmid-daniel-22827.md) | SPÖ | Bundesrat | 7 Tirol (Tirol) | 17 |  |  |
-| [Schmid Thomas, Ing.](schmid-thomas-ing-32337.md) | SPÖ | Bundesrat | 1 Burgenland (Burgenland) | 17 | 2 |  |
-| [Schmiedlechner Peter](schmiedlechner-peter-1944.md) | FPÖ | Nationalrat | 3E Niederösterreich Süd (N) | 56 |  | 1 |
-| [Schmuckenschlager Johannes](schmuckenschlager-johannes-52727.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Schnabel Joachim, Mst.](schnabel-joachim-mst-5630.md) | ÖVP | Nationalrat | 6C Weststeiermark (St) | 56 |  |  |
-| [Schnedlitz Michael](schnedlitz-michael-64022.md) | FPÖ | Nationalrat | 3 Niederösterreich (N) | 56 |  | 18 |
-| [Schroll Alois](schroll-alois-5644.md) | SPÖ | Nationalrat | 3C Mostviertel (N) | 56 |  |  |
-| [Schuch-Gubik Lisa](schuch-gubik-lisa-87039.md) | FPÖ | Nationalrat | 3F Thermenregion (N) | 56 |  | 28 |
-| [Schuh Harald, Mag.](schuh-harald-mag-30664.md) | FPÖ | Nationalrat | 4 Oberösterreich (O) | 56 | 1 | 7 |
-| [Schwaighofer Sebastian](schwaighofer-sebastian-30969.md) | FPÖ | Nationalrat | 5C Lungau/Pinzgau/Pongau (S) | 56 |  | 6 |
-| [Schwarz Jakob, Mag. Dr., BA](schwarz-jakob-mag-dr-ba-5677.md) | GRÜNE | Nationalrat | 6 Steiermark (St) | 56 |  |  |
-| [Schwarz-Fuchs Christine, Mag.](schwarz-fuchs-christine-mag-6534.md) | ÖVP | Bundesrat | 8 Vorarlberg (Vorarlberg) | 17 |  |  |
-| [Schweiger Verena, BA MA MA](schweiger-verena-ba-ma-ma-33455.md) | SPÖ | Bundesrat | 9 Wien (Wien) | 17 |  |  |
-| [Schwindsackl Ernest](schwindsackl-ernest-4986.md) | ÖVP | Bundesrat | 6 Steiermark (Steiermark) | 17 |  |  |
-| [Seemayer Michael](seemayer-michael-5645.md) | SPÖ | Nationalrat | 4 Oberösterreich (O) | 56 |  |  |
-| [Seitner Katja](seitner-katja-40763.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Seltenheim Klaus](seltenheim-klaus-32567.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Servus Harald, Mag.](servus-harald-mag-30723.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Shetty Yannick, Mag.](shetty-yannick-mag-5687.md) | NEOS | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Sieber Norbert](sieber-norbert-14769.md) | ÖVP | Nationalrat | 8A Vorarlberg Nord (V) | 56 | 1 |  |
-| [Silvan Rudolf](silvan-rudolf-5646.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Spalt Thomas](spalt-thomas-22847.md) | FPÖ | Nationalrat | 8A Vorarlberg Nord (V) | 56 |  |  |
-| [Spanring Andreas Arthur](spanring-andreas-arthur-3459.md) | FPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 | 1 | 1 |
-| [Staller Hedwig, Dipl.-Ing.](staller-hedwig-dipl-ing-40745.md) | FPÖ | Nationalrat | 6A Graz und Umgebung (St) | 56 |  |  |
-| [Stark Christoph](stark-christoph-2327.md) | ÖVP | Nationalrat | 6B Oststeiermark (St) | 56 |  |  |
-| [Stark Sebastian, BA MSc](stark-sebastian-ba-msc-33491.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Stefan Harald, Mag.](stefan-harald-mag-51571.md) | FPÖ | Nationalrat | 9D Wien Süd (W) | 56 | 2 | 3 |
-| [Steiner Christoph](steiner-christoph-3489.md) | FPÖ | Nationalrat | 7B Innsbruck-Land (T) | 56 | 4 | 19 |
-| [Steinmaurer Markus](steinmaurer-markus-20245.md) | FPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Stich Paul](stich-paul-30707.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Stillebacher Christoph](stillebacher-christoph-22824.md) | ÖVP | Bundesrat | 7 Tirol (Tirol) | 17 | 1 |  |
-| [Stögmüller David](stogmuller-david-87001.md) | GRÜNE | Nationalrat | 4 Oberösterreich (O) | 56 | 8 |  |
-| [Stotter Markus, BA](stotter-markus-ba-22822.md) | ÖVP | Bundesrat | 7 Tirol (Tirol) | 17 |  |  |
-| [Strasser Georg, Dipl.-Ing.](strasser-georg-dipl-ing-83153.md) | ÖVP | Nationalrat | 3C Mostviertel (N) | 56 |  |  |
-| [Sunitsch Nicole](sunitsch-nicole-30665.md) | FPÖ | Nationalrat | 6 Steiermark (St) | 56 |  | 2 |
-| [Tanzler Petra](tanzler-petra-5647.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | 56 | 1 |  |
-| [Taschner Rudolf, Mag. Dr.](taschner-rudolf-mag-dr-2329.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Teiber Barbara, MA](teiber-barbara-ma-30708.md) | SPÖ | Nationalrat | 9 Wien (W) | 56 |  |  |
-| [Thau Harald, Ing.](thau-harald-ing-30666.md) | FPÖ | Nationalrat | 3 Niederösterreich (N) | 56 |  | 1 |
-| [Theuermann Isabella, Mag.](theuermann-isabella-mag-24111.md) | FPÖ | Bundesrat | 2 Kärnten (Kärnten) | 17 |  | 1 |
-| [Thoma Christoph](thoma-christoph-31470.md) | ÖVP | Bundesrat | 8 Vorarlberg (Vorarlberg) | 17 |  |  |
-| [Tiefnig Ferdinand](tiefnig-ferdinand-18446.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | 17 |  |  |
-| [Tomaselli Nina, Mag.](tomaselli-nina-mag-5678.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Totter Agnes, MMag. Dr., BEd](totter-agnes-mmag-dr-bed-5632.md) | ÖVP | Nationalrat | 6B Oststeiermark (St) | 56 |  |  |
-| [Trinkl Mario](trinkl-mario-32336.md) | SPÖ | Bundesrat | 1 Burgenland (Burgenland) | 17 |  |  |
-| [Tschank Markus, Dr.](tschank-markus-dr-1972.md) | FPÖ | Nationalrat | 9E Wien Süd-West (W) | 56 | 2 | 1 |
-| [Viertler Wolfgang, Dr.](viertler-wolfgang-dr-39606.md) | FPÖ | Bundesrat | 5 Salzburg (Salzburg) | 17 |  |  |
-| [Voglauer Olga, Dipl.-Ing.](voglauer-olga-dipl-ing-5679.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [von Künsberg Sarre Martina, Mag.](von-kunsberg-sarre-martina-mag-5685.md) | NEOS | Nationalrat | 3 Niederösterreich (N) | 56 |  |  |
-| [Wanner Michael](wanner-michael-3441.md) | SPÖ | Bundesrat | 5 Salzburg (Salzburg) | 17 | 1 |  |
-| [Weber Johann, Ing.](weber-johann-ing-5633.md) | ÖVP | Nationalrat | 2 Kärnten (K) | 56 |  |  |
-| [Weber Karl, Mag., MSc](weber-karl-mag-msc-33346.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | 17 |  |  |
-| [Weinzierl Maximilian](weinzierl-maximilian-30667.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 |  |  |
-| [Wieninger Pia Maria, MMag.](wieninger-pia-maria-mmag-30709.md) | SPÖ | Nationalrat | 9G Wien Nord (W) | 56 |  |  |
-| [Wöginger August](woginger-august-14795.md) | ÖVP | Nationalrat | 4B Innviertel (O) | 56 | 1 |  |
-| [Wotschke Sophie Marie, Mag.](wotschke-sophie-marie-mag-30685.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | 56 | 4 |  |
-| [Wurm Peter](wurm-peter-83137.md) | FPÖ | Nationalrat | 7 Tirol (T) | 56 |  | 7 |
-| [Yildirim Selma, Mag.](yildirim-selma-mag-2339.md) | SPÖ | Nationalrat | 7 Tirol (T) | 56 | 2 |  |
-| [Zadić Alma, Dr., LL.M.](zadic-alma-dr-ll-m-2345.md) | GRÜNE | Nationalrat | 9 Wien (W) | 56 | 5 | 7 |
-| [Zanger Wolfgang](zanger-wolfgang-35514.md) | FPÖ | Nationalrat | 6D Obersteiermark (St) | 56 |  |  |
-| [Zarits Christoph](zarits-christoph-2332.md) | ÖVP | Nationalrat | 1A Burgenland Nord (B) | 56 |  |  |
-| [Zopf Bettina](zopf-bettina-5634.md) | ÖVP | Nationalrat | 4D Traunviertel (O) | 56 |  |  |
-| [Zorba Süleyman](zorba-suleyman-5681.md) | GRÜNE | Nationalrat | 3 Niederösterreich (N) | 56 | 8 | 4 |
+| Member | Party | Chamber | Constituency or region | Service | Votes | Authored | Questions |
+|---|---|---|---|---|---|---|---|
+| [Aldali Lisa](aldali-lisa-38385.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 7 November 2025 | 32 |  |  |
+| [Amhof Nikolaus](amhof-nikolaus-33457.md) | FPÖ | Bundesrat | 9 Wien (Wien) | serving since 10 June 2025 | 15 |  |  |
+| [Arpa Claudia, Mag.a](arpa-claudia-mag-a-24110.md) | SPÖ | Bundesrat | 2 Kärnten (Kärnten) | serving since 13 April 2023 | 20 |  |  |
+| [Auer Katrin, Mag.](auer-katrin-mag-30688.md) | SPÖ | Nationalrat | 4D Traunviertel (O) | serving since 24 October 2024 | 56 |  |  |
+| [Auer-Stüger Stephan, Mag.](auer-stuger-stephan-mag-33456.md) | SPÖ | Bundesrat | 9 Wien (Wien) | serving since 10 June 2025 | 15 |  |  |
+| [Auinger-Oberzaucher Gertraud, Mag.](auinger-oberzaucher-gertraud-mag-30668.md) | NEOS | Nationalrat | 3 Niederösterreich (N) | serving since 24 October 2024 | 56 | 4 |  |
+| [Baumann Roland](baumann-roland-30689.md) | SPÖ | Nationalrat | 4A Linz und Umgebung (O) | serving since 24 October 2024 | 56 |  |  |
+| [Baumgartner Angela](baumgartner-angela-1974.md) | ÖVP | Nationalrat | 3G Niederösterreich Ost (N) | serving since 9 November 2017 | 185 |  |  |
+| [Bayr Petra, MA MLS](bayr-petra-ma-mls-14835.md) | SPÖ | Nationalrat | 9D Wien Süd (W) | serving since 20 December 2002 | 185 | 4 | 7 |
+| [Beer Sandro](beer-sandro-31679.md) | SPÖ | Bundesrat | 9 Wien (Wien) | serving since 21 November 2024 | 17 |  |  |
+| [Belakowitsch Dagmar, Dr.](belakowitsch-dagmar-dr-35468.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 30 October 2006 | 185 | 3 | 16 |
+| [Berger Ricarda](berger-ricarda-2996.md) | FPÖ | Nationalrat | 9 Wien (W) | serving since 24 October 2024; 1 earlier period(s) from 20 December 2017 | 56 | 4 | 6 |
+| [Berger Tina Angela](berger-tina-angela-30645.md) | FPÖ | Nationalrat | 2C Kärnten West (K) | serving since 24 October 2024 | 56 |  | 1 |
+| [Bernard Michael](bernard-michael-3460.md) | FPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 22 March 2018 | 30 |  |  |
+| [Bernhard Michael](bernhard-michael-83124.md) | NEOS | Nationalrat | 9 Wien (W) | serving since 29 October 2013 | 185 | 13 | 18 |
+| [Binder Reinhold](binder-reinhold-30693.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  |  |
+| [Bogner-Strauß Juliane, Mag. Dr.](bogner-strauss-juliane-mag-dr-1975.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 19 October 2023; 2 earlier period(s) from 9 November 2017 | 77 | 2 |  |
+| [Brandstötter Henrike](brandstotter-henrike-5683.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019 | 185 | 18 | 5 |
+| [Brandweiner Lukas](brandweiner-lukas-5438.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | serving since 12 June 2019 | 185 |  |  |
+| [Brückl Hermann, MA](bruckl-hermann-ma-61639.md) | FPÖ | Nationalrat | 4B Innviertel (O) | serving since 28 October 2015; 1 earlier period(s) from 21 October 2010 | 185 | 3 | 14 |
+| [Bures Doris](bures-doris-145.md) | SPÖ | Nationalrat | 9E Wien Süd-West (W) | serving since 2 September 2014; 3 earlier period(s) from 5 November 1990 | 185 |  |  |
+| [Darmann Gernot, Mag.](darmann-gernot-mag-35469.md) | FPÖ | Nationalrat | 2A Klagenfurt (K) | serving since 24 October 2024; 2 earlier period(s) from 30 October 2006 | 56 | 3 | 5 |
+| [Deckenbacher Romana, Mag.](deckenbacher-romana-mag-6506.md) | ÖVP | Nationalrat | 9 Wien (W) | serving since 9 January 2020 | 185 | 1 |  |
+| [Deimek Gerhard, Dipl.-Ing.](deimek-gerhard-dipl-ing-51557.md) | FPÖ | Nationalrat | 4D Traunviertel (O) | serving since 28 October 2008 | 185 |  |  |
+| [Della Rossa Antonio, Mag.](della-rossa-antonio-mag-30694.md) | SPÖ | Nationalrat | 8 Vorarlberg (V) | serving since 24 October 2024 | 56 |  |  |
+| [Dengler Veit Valentin](dengler-veit-valentin-30669.md) | OK | Nationalrat | 6 Steiermark (St) | serving since 24 October 2024 | 49 |  |  |
+| Deutsch Julia, Mag. Dr. | OF | Bundesrat | 9 Wien (Wien) | serving since 10 June 2025 |  |  |  |
+| [Diesner-Wais Martina](diesner-wais-martina-16218.md) | ÖVP | Nationalrat | 3B Waldviertel (N) | serving since 29 October 2013; 1 earlier period(s) from 24 April 2003 | 185 |  |  |
+| [Disoski Meri, Mag.](disoski-meri-mag-5650.md) | GRÜNE | Nationalrat | 9 Wien (W) | serving since 23 October 2019 | 185 | 7 | 16 |
+| [Doppelbauer Karin, Dipl.-Ing.](doppelbauer-karin-dipl-ing-91141.md) | NEOS | Nationalrat | 4 Oberösterreich (O) | serving since 4 April 2017 | 185 |  |  |
+| [Duzdar Muna, Mag.](duzdar-muna-mag-60446.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 7 March 2025; 3 earlier period(s) from 28 January 2010 | 78 |  |  |
+| [Ebner Franz, Mag.](ebner-franz-mag-20230.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 23 October 2021 | 28 |  |  |
+| [Ecker Rosa, MBA](ecker-rosa-mba-87002.md) | FPÖ | Nationalrat | 4E Mühlviertel (O) | serving since 23 October 2019; 1 earlier period(s) from 23 October 2015 | 185 | 16 | 178 |
+| [Eder Heike, BSc MBA](eder-heike-bsc-mba-6151.md) | ÖVP | Nationalrat | 8B Vorarlberg Süd (V) | serving since 24 October 2024; 1 earlier period(s) from 6 November 2019 | 69 | 1 | 1 |
+| [Eder-Gitschthaler Andrea, Dr.](eder-gitschthaler-andrea-dr-35471.md) | ÖVP | Bundesrat | 5 Salzburg (Salzburg) | serving since 1 October 2017; 1 earlier period(s) from 30 October 2006 | 30 |  | 1 |
+| [Egger Kurt, Mag. (FH)](egger-kurt-mag-fh-20056.md) | ÖVP | Nationalrat | 6 Steiermark (St) | serving since 1 October 2021 | 128 | 1 |  |
+| [Eisenhut Irene](eisenhut-irene-30646.md) | FPÖ | Nationalrat | 3C Mostviertel (N) | serving since 24 October 2024 | 56 |  |  |
+| [Elian Thomas, Ing.](elian-thomas-ing-32569.md) | ÖVP | Nationalrat | 3E Niederösterreich Süd (N) | serving since 7 March 2025 | 55 |  |  |
+| [Erasim Melanie, MSc](erasim-melanie-msc-30653.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 15 April 2021; 1 earlier period(s) from 9 November 2017 | 144 | 1 |  |
+| [Falkner Margreth](falkner-margreth-30717.md) | ÖVP | Nationalrat | 7D Oberland (T) | serving since 24 October 2024 | 56 |  |  |
+| [Feichtinger Elisabeth, BEd BEd](feichtinger-elisabeth-bed-bed-2189.md) | SPÖ | Nationalrat | 4 Oberösterreich (O) | serving since 7 March 2025; 2 earlier period(s) from 9 November 2017 | 150 |  | 1 |
+| [Fiedler Fiona, BEd](fiedler-fiona-bed-5684.md) | NEOS | Nationalrat | 6 Steiermark (St) | serving since 23 October 2019 | 185 |  | 5 |
+| [Fischer Christian](fischer-christian-23968.md) | SPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 23 March 2023 | 20 |  |  |
+| [Forstner Sebastian](forstner-sebastian-31905.md) | SPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 10 December 2024 | 17 |  |  |
+| [Fuchs Hubert, MMag. DDr.](fuchs-hubert-mmag-ddr-83127.md) | FPÖ | Nationalrat | 9 Wien (W) | serving since 24 May 2019; 1 earlier period(s) from 29 October 2013 | 185 |  |  |
+| [Fürlinger Klaus, Mag.](furlinger-klaus-mag-72999.md) | ÖVP | Nationalrat | 4A Linz und Umgebung (O) | serving since 9 November 2017; 2 earlier period(s) from 5 July 2012 | 185 | 1 |  |
+| [Fürst Susanne, Dr.](furst-susanne-dr-1567.md) | FPÖ | Nationalrat | 4 Oberösterreich (O) | serving since 9 November 2017 | 185 | 9 | 10 |
+| [Fürtbauer Michael](furtbauer-michael-30647.md) | FPÖ | Nationalrat | 4 Oberösterreich (O) | serving since 24 October 2024 | 56 |  | 23 |
+| [Gasser Johannes, BA Bakk. MSc](gasser-johannes-ba-bakk-msc-30670.md) | NEOS | Nationalrat | 8 Vorarlberg (V) | serving since 24 October 2024 | 56 | 3 |  |
+| [Geieregger Bernadette, BA MSc](geieregger-bernadette-ba-msc-25214.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 21 September 2023 | 20 |  |  |
+| [Gerstl Wolfgang, Mag.](gerstl-wolfgang-mag-67199.md) | ÖVP | Nationalrat | 9E Wien Süd-West (W) | serving since 9 September 2011 | 185 | 2 |  |
+| [Gewessler Leonore, BA](gewessler-leonore-ba-5653.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024; 1 earlier period(s) from 23 October 2019 | 56 | 1 | 22 |
+| [Gfrerer Silvester](gfrerer-silvester-3725.md) | ÖVP | Bundesrat | 5 Salzburg (Salzburg) | serving since 13 June 2018 | 30 |  |  |
+| [Giuliani-Sterrer Marie-Christine, Mag., BA](giuliani-sterrer-marie-christine-mag-ba-30648.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  | 1 |
+| [Gmeinbauer Daniela](gmeinbauer-daniela-30719.md) | ÖVP | Nationalrat | 6A Graz und Umgebung (St) | serving since 24 October 2024 | 56 | 2 |  |
+| [Gmeindl Michael](gmeindl-michael-32330.md) | FPÖ | Nationalrat | 1 Burgenland (B) | serving since 6 February 2025 | 56 |  |  |
+| [Gödl Ernst, Mag.](godl-ernst-mag-83409.md) | ÖVP | Nationalrat | 6A Graz und Umgebung (St) | serving since 9 November 2017; 1 earlier period(s) from 21 January 2014 | 185 | 1 | 2 |
+| [Götze Elisabeth, Dr.](gotze-elisabeth-dr-5654.md) | GRÜNE | Nationalrat | 3 Niederösterreich (N) | serving since 23 October 2019 | 185 | 2 |  |
+| [Gradwohl Werner](gradwohl-werner-31964.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024 | 17 |  |  |
+| [Graf Martin, Mag. Dr.](graf-martin-mag-dr-2834.md) | FPÖ | Nationalrat | 9G Wien Nord (W) | serving since 9 November 2017; 2 earlier period(s) from 7 November 1994 | 185 | 1 | 1 |
+| [Graf Tanja](graf-tanja-1977.md) | ÖVP | Nationalrat | 5 Salzburg (S) | serving since 9 November 2017 | 185 |  |  |
+| [Greiner Karin, Mag.](greiner-karin-mag-80479.md) | SPÖ | Nationalrat | 6 Steiermark (St) | serving since 17 December 2013; 1 earlier period(s) from 1 July 2013 | 185 |  |  |
+| [Gruber-Pruner Daniela, Mag.](gruber-pruner-daniela-mag-84868.md) | SPÖ | Bundesrat | 9 Wien (Wien) | serving since 26 September 2014 | 30 | 3 | 2 |
+| [Grünberg Kira](grunberg-kira-1979.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 3 July 2025; 1 earlier period(s) from 9 November 2017 | 178 | 2 |  |
+| [Grüner Jakob, MMag., LL.M.](gruner-jakob-mmag-ll-m-32570.md) | ÖVP | Nationalrat | 7 Tirol (T) | serving since 7 March 2025 | 55 |  |  |
+| [Guggenberger Andreas](guggenberger-andreas-33458.md) | FPÖ | Bundesrat | 9 Wien (Wien) | serving since 10 June 2025 | 15 |  |  |
+| [Hafenecker Christian, MA](hafenecker-christian-ma-78586.md) | FPÖ | Nationalrat | 3D Niederösterreich Mitte (N) | serving since 29 October 2013; 1 earlier period(s) from 24 April 2013 | 185 | 4 | 34 |
+| [Haitzer Andreas](haitzer-andreas-30695.md) | SPÖ | Nationalrat | 5 Salzburg (S) | serving since 24 October 2024 | 56 |  |  |
+| [Hammer Lukas, Mag.](hammer-lukas-mag-65219.md) | GRÜNE | Nationalrat | 9 Wien (W) | serving since 23 October 2019 | 185 |  | 2 |
+| [Hammer Michael, Mag.](hammer-michael-mag-55227.md) | ÖVP | Nationalrat | 4E Mühlviertel (O) | serving since 22 March 2011; 1 earlier period(s) from 1 April 2009 | 185 |  |  |
+| [Hammerl Paul, Mag., MA](hammerl-paul-mag-ma-30649.md) | FPÖ | Nationalrat | 4C Hausruckviertel (O) | serving since 24 October 2024 | 56 |  | 1 |
+| [Hanger Andreas, Mag.](hanger-andreas-mag-83148.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 20 November 2024; 1 earlier period(s) from 29 October 2013 | 185 |  |  |
+| [Harrer Peter Manfred, Mag. (FH)](harrer-peter-manfred-mag-fh-32568.md) | SPÖ | Nationalrat | 6 Steiermark (St) | serving since 7 March 2025 | 55 |  |  |
+| [Haubner Peter](haubner-peter-12741.md) | ÖVP | Nationalrat | 5B Flachgau/Tennengau (S) | serving since 3 December 2001 | 185 |  |  |
+| [Hauschildt-Buschberger Claudia](hauschildt-buschberger-claudia-5932.md) | OF | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 23 October 2019 | 1 | 2 |  |
+| [Hechenberger Josef, Ing.](hechenberger-josef-ing-5623.md) | ÖVP | Nationalrat | 7C Unterland (T) | serving since 23 October 2019 | 185 |  |  |
+| [Heiß Elisabeth](heiss-elisabeth-30650.md) | FPÖ | Nationalrat | 5 Salzburg (S) | serving since 24 October 2024 | 56 | 1 |  |
+| [Herbert Werner](herbert-werner-47187.md) | FPÖ | Nationalrat | 3G Niederösterreich Ost (N) | serving since 23 March 2023; 4 earlier period(s) from 10 April 2008 | 85 |  |  |
+| [Herr Julia Elisabeth](herr-julia-elisabeth-5639.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019 | 185 |  | 3 |
+| [Herunter Antonia](herunter-antonia-31966.md) | ÖVP | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024 | 17 |  |  |
+| [Herzog Bernhard](herzog-bernhard-30697.md) | SPÖ | Nationalrat | 9G Wien Nord (W) | serving since 24 October 2024 | 56 | 2 |  |
+| [Himmer Harald, Mag.](himmer-harald-mag-3270.md) | ÖVP | Bundesrat | 9 Wien (Wien) | serving since 24 November 2020; 1 earlier period(s) from 29 June 1995 | 30 |  |  |
+| [Himmer Heinrich, Mag.](himmer-heinrich-mag-30698.md) | SPÖ | Nationalrat | 9 Wien (W) | serving since 24 October 2024 | 56 |  |  |
+| [Hofer Markus, MMag.](hofer-markus-mmag-30680.md) | NEOS | Nationalrat | 4 Oberösterreich (O) | serving since 24 October 2024 | 56 |  |  |
+| [Höfinger Johann, Mst., MBA](hofinger-johann-mst-mba-16234.md) | ÖVP | Nationalrat | 3D Niederösterreich Mitte (N) | serving since 30 October 2006; 1 earlier period(s) from 24 April 2003 | 185 |  |  |
+| [Hofinger Manfred, Ing.](hofinger-manfred-ing-83299.md) | ÖVP | Nationalrat | 4 Oberösterreich (O) | serving since 17 December 2013 | 185 | 3 |  |
+| [Höfler Bernhard](hofler-bernhard-30700.md) | SPÖ | Nationalrat | 7 Tirol (T) | serving since 24 October 2024 | 56 | 1 |  |
+| [Holzegger Ines](holzegger-ines-32564.md) | NEOS | Nationalrat | 9 Wien (W) | serving since 6 March 2025 | 55 |  |  |
+| [Hörl Franz](horl-franz-35489.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 September 2025; 3 earlier period(s) from 30 October 2006 | 175 | 1 |  |
+| [Hoyos-Trauttmansdorff Douglas](hoyos-trauttmansdorff-douglas-2343.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 9 November 2017 | 185 |  |  |
+| [Hutter Viktoria](hutter-viktoria-23961.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 23 March 2023 | 20 |  |  |
+| [Jachs Johanna, Mag.](jachs-johanna-mag-1980.md) | ÖVP | Nationalrat | 4E Mühlviertel (O) | serving since 22 January 2025; 1 earlier period(s) from 9 November 2017 | 185 | 7 |  |
+| [Jäckel Sandra](jackel-sandra-31483.md) | FPÖ | Bundesrat | 8 Vorarlberg (Vorarlberg) | serving since 6 November 2024 | 17 |  |  |
+| [Jagl Simone](jagl-simone-23967.md) | OF | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 23 March 2023 | 1 | 2 |  |
+| [Jantscher Franz](jantscher-franz-30701.md) | SPÖ | Nationalrat | 6 Steiermark (St) | serving since 24 October 2024 | 56 |  |  |
+| [Jeitler-Cincelli Carmen, Mag., BA](jeitler-cincelli-carmen-mag-ba-1981.md) | ÖVP | Nationalrat | 3F Thermenregion (N) | serving since 9 November 2017 | 185 |  |  |
+| [Juvan Janos, Mag. (FH)](juvan-janos-mag-fh-32563.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 6 March 2025 | 55 |  |  |
+| [Kainz Alois](kainz-alois-2998.md) | FPÖ | Nationalrat | 3B Waldviertel (N) | serving since 1 July 2019; 1 earlier period(s) from 20 December 2017 | 185 |  | 1 |
+| [Kaniak Gerhard, Mag.](kaniak-gerhard-mag-1970.md) | FPÖ | Nationalrat | 4C Hausruckviertel (O) | serving since 9 November 2017 | 185 | 3 | 1 |
+| [Karacsony Thomas](karacsony-thomas-32338.md) | FPÖ | Bundesrat | 1 Burgenland (Burgenland) | serving since 6 February 2025 | 17 |  |  |
+| [Kerschler Bernadette, Mag.](kerschler-bernadette-mag-31957.md) | SPÖ | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024 | 17 |  |  |
+| [Kickl Herbert](kickl-herbert-35520.md) | FPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 24 May 2019; 1 earlier period(s) from 30 October 2006 | 185 | 1 |  |
+| [Kittl Elisabeth, MMag., BA](kittl-elisabeth-mmag-ba-17881.md) | OF | Bundesrat | 9 Wien (Wien) | serving since 26 June 2025; 1 earlier period(s) from 24 November 2020 | 1 | 3 | 1 |
+| [Kober Herbert](kober-herbert-31963.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024 | 17 |  |  |
+| [Kocevar Wolfgang](kocevar-wolfgang-30702.md) | SPÖ | Nationalrat | 3F Thermenregion (N) | serving since 24 October 2024 | 56 |  |  |
+| [Kofler Klemens](kofler-klemens-23965.md) | FPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 23 March 2023 | 20 |  |  |
+| [Kogler Werner, Mag.](kogler-werner-mag-8242.md) | GRÜNE | Nationalrat | 6A Graz und Umgebung (St) | serving since 24 October 2024; 2 earlier period(s) from 29 October 1999 | 56 |  | 28 |
+| [Kolar Gabriele](kolar-gabriele-31956.md) | SPÖ | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024 | 17 |  |  |
+| [Köllner Maximilian, MA](kollner-maximilian-ma-5641.md) | SPÖ | Nationalrat | 1A Burgenland Nord (B) | serving since 23 October 2019 | 185 |  |  |
+| [Kolm Barbara, Dr.](kolm-barbara-dr-30655.md) | FPÖ | Nationalrat | 7 Tirol (T) | serving since 24 October 2024 | 56 |  |  |
+| [Koza Markus, Mag.](koza-markus-mag-5670.md) | GRÜNE | Nationalrat | 9 Wien (W) | serving since 23 October 2019 | 185 | 2 | 1 |
+| [Krainer Kai Jan](krainer-kai-jan-14842.md) | SPÖ | Nationalrat | 9 Wien (W) | serving since 17 December 2013; 1 earlier period(s) from 20 December 2002 | 185 | 2 | 4 |
+| [Kucher Philip](kucher-philip-83113.md) | SPÖ | Nationalrat | 2 Kärnten (K) | serving since 29 October 2013 | 185 | 1 |  |
+| [Kugler Gudrun, Dr.](kugler-gudrun-dr-1986.md) | ÖVP | Nationalrat | 9G Wien Nord (W) | serving since 9 November 2017 | 185 | 8 | 2 |
+| [Kühberger Andreas](kuhberger-andreas-1987.md) | ÖVP | Nationalrat | 6D Obersteiermark (St) | serving since 9 November 2017 | 185 |  |  |
+| [Kumpan-Takacs Silvia, MSc BA](kumpan-takacs-silvia-msc-ba-30704.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 24 October 2024 | 56 |  |  |
+| [Laimer Robert](laimer-robert-2330.md) | SPÖ | Nationalrat | 3D Niederösterreich Mitte (N) | serving since 9 November 2017 | 185 |  |  |
+| [Lassnig Sandra](lassnig-sandra-24113.md) | ÖVP | Bundesrat | 2 Kärnten (Kärnten) | serving since 13 April 2023 | 20 |  |  |
+| [Lausch Christian](lausch-christian-51568.md) | FPÖ | Nationalrat | 3A Weinviertel (N) | serving since 28 October 2008 | 185 |  | 1 |
+| [Leinfellner Markus](leinfellner-markus-6407.md) | FPÖ | Nationalrat | 6C Weststeiermark (St) | serving since 16 July 2024; 1 earlier period(s) from 17 December 2019 | 70 | 2 | 8 |
+| [Linder Maximilian](linder-maximilian-51577.md) | FPÖ | Nationalrat | 2B Villach (K) | serving since 17 April 2023; 2 earlier period(s) from 28 October 2008 | 82 |  |  |
+| [Lindinger Klaus, Ing., BSc](lindinger-klaus-ing-bsc-2001.md) | ÖVP | Nationalrat | 4C Hausruckviertel (O) | serving since 9 November 2017 | 185 |  |  |
+| [Lindner Mario](lindner-mario-86613.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 1 April 2021; 2 earlier period(s) from 16 June 2015 | 144 | 25 | 104 |
+| [Litzke Manuel, BSc (WU)](litzke-manuel-bsc-wu-30656.md) | FPÖ | Nationalrat | 8B Vorarlberg Süd (V) | serving since 24 October 2024 | 56 | 1 |  |
+| [Maier Reinhold](maier-reinhold-30657.md) | FPÖ | Nationalrat | 6A Graz und Umgebung (St) | serving since 24 October 2024 | 56 |  |  |
+| [Mair Klaus](mair-klaus-30722.md) | ÖVP | Nationalrat | 7B Innsbruck-Land (T) | serving since 24 October 2024 | 56 |  |  |
+| [Marchetti Nico](marchetti-nico-2122.md) | ÖVP | Nationalrat | 9 Wien (W) | serving since 9 November 2017 | 185 | 8 | 1 |
+| [Markytan Wolfgang, MA](markytan-wolfgang-ma-39602.md) | SPÖ | Bundesrat | 9 Wien (Wien) | serving since 25 March 2026 | 6 |  |  |
+| [Matznetter Christoph, Dr.](matznetter-christoph-dr-14844.md) | SPÖ | Nationalrat | 9 Wien (W) | serving since 25 March 2026; 5 earlier period(s) from 20 December 2002 | 169 | 1 |  |
+| [Maurer Sigrid, BA](maurer-sigrid-ba-83101.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019; 1 earlier period(s) from 29 October 2013 | 185 | 1 | 3 |
+| [Mertel Manfred, Dr.](mertel-manfred-dr-24112.md) | SPÖ | Bundesrat | 2 Kärnten (Kärnten) | serving since 13 April 2023 | 20 |  |  |
+| [Miesenberger Johanna](miesenberger-johanna-5557.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 19 September 2019 | 30 |  |  |
+| [Minnich Andreas](minnich-andreas-5626.md) | ÖVP | Nationalrat | 3A Weinviertel (N) | serving since 23 October 2019 | 185 |  |  |
+| [Moitzi Wolfgang](moitzi-wolfgang-30705.md) | SPÖ | Nationalrat | 6D Obersteiermark (St) | serving since 24 October 2024 | 56 |  |  |
+| [Mölzer Wendelin](molzer-wendelin-36187.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024; 1 earlier period(s) from 29 October 2013 | 56 |  | 1 |
+| [Muchitsch Josef](muchitsch-josef-35497.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 30 October 2006 | 185 | 1 |  |
+| [Muthsam Amelie](muthsam-amelie-32817.md) | SPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 27 March 2025 | 16 | 1 |  |
+| [Nemeth Norbert, Mag.](nemeth-norbert-mag-35568.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  | 3 |
+| [Neßler Barbara](nessler-barbara-5672.md) | GRÜNE | Nationalrat | 7 Tirol (T) | serving since 23 October 2019 | 185 | 17 | 4 |
+| [Neumann Maria, MMst. Mag. (FH)](neumann-maria-mmst-mag-fh-3133.md) | ÖVP | Nationalrat | 9 Wien (W) | serving since 24 January 2018 | 185 |  |  |
+| [Neumann-Hartberger Irene](neumann-hartberger-irene-6498.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 7 March 2025; 2 earlier period(s) from 9 January 2020 | 183 |  |  |
+| [Neurauter Klara](neurauter-klara-3487.md) | ÖVP | Bundesrat | 7 Tirol (Tirol) | serving since 25 October 2022; 1 earlier period(s) from 28 March 2018 | 21 |  |  |
+| [Nussbaum Verena, Mag.a](nussbaum-verena-mag-a-2334.md) | SPÖ | Nationalrat | 6A Graz und Umgebung (St) | serving since 9 November 2017 | 185 | 3 | 3 |
+| [Oberhofer Dominik](oberhofer-dominik-30681.md) | NEOS | Nationalrat | 7 Tirol (T) | serving since 24 October 2024 | 56 |  |  |
+| [Oberlechner Michael, MA](oberlechner-michael-ma-30658.md) | FPÖ | Nationalrat | 9 Wien (W) | serving since 24 October 2024 | 56 |  |  |
+| [Obernosterer Gabriel](obernosterer-gabriel-35487.md) | ÖVP | Nationalrat | 2 Kärnten (K) | serving since 30 October 2006 | 185 |  |  |
+| [Oberrauner Petra, Mag.a Dr.in](oberrauner-petra-mag-a-dr-in-5643.md) | SPÖ | Nationalrat | 2 Kärnten (K) | serving since 23 October 2019 | 185 | 1 |  |
+| [Ofenauer Friedrich, Mag.](ofenauer-friedrich-mag-83300.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | serving since 7 March 2025; 1 earlier period(s) from 17 December 2013 | 184 |  |  |
+| [Ottenschläger Andreas](ottenschlager-andreas-83150.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 29 October 2013 | 185 |  |  |
+| [Oxonitsch Christian](oxonitsch-christian-23167.md) | SPÖ | Nationalrat | 9F Wien Nord-West (W) | serving since 15 December 2022 | 94 | 6 | 2 |
+| [Partl Irene](partl-irene-31081.md) | FPÖ | Bundesrat | 7 Tirol (Tirol) | serving since 24 October 2024 | 17 | 2 |  |
+| [Peterl Martin](peterl-martin-31080.md) | SPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 24 October 2024 | 17 |  |  |
+| [Petschnig Alexander, MMag.](petschnig-alexander-mmag-30659.md) | FPÖ | Nationalrat | 1A Burgenland Nord (B) | serving since 24 October 2024 | 56 |  |  |
+| [Pfeifer Manuel](pfeifer-manuel-30660.md) | FPÖ | Nationalrat | 6B Oststeiermark (St) | serving since 24 October 2024 | 56 |  |  |
+| [Pöttinger Laurenz](pottinger-laurenz-5486.md) | ÖVP | Nationalrat | 4C Hausruckviertel (O) | serving since 2 July 2019 | 185 |  |  |
+| [Pracher-Hilander Katayun, Mag.](pracher-hilander-katayun-mag-30661.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  | 5 |
+| [Pramhofer Christoph, Mag.](pramhofer-christoph-mag-30684.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  |  |
+| [Prammer Agnes Sirkka, Mag.](prammer-agnes-sirkka-mag-6502.md) | GRÜNE | Nationalrat | 4 Oberösterreich (O) | serving since 9 January 2020 | 185 | 13 | 3 |
+| [Pröller Günter](proller-gunter-20233.md) | FPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 23 October 2021 | 28 | 1 |  |
+| [Prügl Barbara](prugl-barbara-20236.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 23 October 2021 | 28 | 2 |  |
+| [Ragger Christian, Mag.](ragger-christian-mag-1937.md) | FPÖ | Nationalrat | 2D Kärnten Ost (K) | serving since 9 November 2017 | 185 | 2 | 1 |
+| [Ranzmaier Christofer](ranzmaier-christofer-30662.md) | FPÖ | Nationalrat | 7C Unterland (T) | serving since 24 October 2024 | 56 |  | 1 |
+| [Reifenberger Volker, Ing. Mag.](reifenberger-volker-ing-mag-3717.md) | FPÖ | Nationalrat | 5B Flachgau/Tennengau (S) | serving since 13 June 2018 | 185 |  | 6 |
+| [Reisinger Dominik](reisinger-dominik-4483.md) | SPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 8 October 2018 | 30 |  |  |
+| [Reiter Carina](reiter-carina-5627.md) | ÖVP | Nationalrat | 5C Lungau/Pinzgau/Pongau (S) | serving since 23 October 2019 | 185 | 2 |  |
+| [Repolust Manfred](repolust-manfred-31965.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024 | 17 |  |  |
+| [Rosenkranz Walter, Dr.](rosenkranz-walter-dr-51570.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024; 1 earlier period(s) from 28 October 2008 | 56 |  | 2 |
+| [Royer Albert](royer-albert-31991.md) | FPÖ | Nationalrat | 6D Obersteiermark (St) | serving since 20 December 2024 | 56 |  |  |
+| [Ruf Bernhard, Mag.](ruf-bernhard-mag-27589.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 25 January 2024 | 17 |  |  |
+| [Ruprecht Günther](ruprecht-gunther-25764.md) | ÖVP | Bundesrat | 6 Steiermark (Steiermark) | serving since 17 October 2023 | 20 | 1 |  |
+| [Sams Manfred, Mag.](sams-manfred-mag-30706.md) | SPÖ | Nationalrat | 4C Hausruckviertel (O) | serving since 24 October 2024 | 56 |  |  |
+| [Samt Peter](samt-peter-86618.md) | FPÖ | Bundesrat | 6 Steiermark (Steiermark) | serving since 18 December 2024; 1 earlier period(s) from 16 June 2015 | 17 |  |  |
+| [Schallmeiner Ralph](schallmeiner-ralph-5676.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019 | 185 | 2 |  |
+| [Schandor Christian, Dipl.-Ing.](schandor-christian-dipl-ing-1971.md) | FPÖ | Nationalrat | 6B Oststeiermark (St) | serving since 24 October 2024; 1 earlier period(s) from 9 November 2017 | 56 | 1 |  |
+| [Schartel Andrea Michaela](schartel-andrea-michaela-3155.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024; 2 earlier period(s) from 29 January 2018 | 69 | 1 | 1 |
+| [Schatz Sabine](schatz-sabine-2337.md) | SPÖ | Nationalrat | 4E Mühlviertel (O) | serving since 9 November 2017 | 185 | 8 | 4 |
+| [Scherak Nikolaus, Dr., MA](scherak-nikolaus-dr-ma-83125.md) | NEOS | Nationalrat | 3 Niederösterreich (N) | serving since 29 October 2013 | 185 | 6 | 17 |
+| [Scheucher-Pichler Elisabeth, Mag.](scheucher-pichler-elisabeth-mag-14896.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019; 1 earlier period(s) from 20 December 2002 | 185 | 3 |  |
+| [Schiefer Arnold, Mag.](schiefer-arnold-mag-30663.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  |  |
+| [Schilchegger Michael, MMag. Dr.](schilchegger-michael-mmag-dr-5065.md) | FPÖ | Nationalrat | 4A Linz und Umgebung (O) | serving since 24 October 2024; 1 earlier period(s) from 7 March 2019 | 58 | 1 | 11 |
+| [Schmid Daniel](schmid-daniel-22827.md) | SPÖ | Bundesrat | 7 Tirol (Tirol) | serving since 25 October 2022 | 21 |  |  |
+| [Schmid Thomas, Ing.](schmid-thomas-ing-32337.md) | SPÖ | Bundesrat | 1 Burgenland (Burgenland) | serving since 6 February 2025 | 17 | 2 |  |
+| [Schmiedlechner Peter](schmiedlechner-peter-1944.md) | FPÖ | Nationalrat | 3E Niederösterreich Süd (N) | serving since 9 November 2017 | 185 |  | 17 |
+| [Schmuckenschlager Johannes](schmuckenschlager-johannes-52727.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | serving since 3 December 2008 | 185 |  |  |
+| [Schnabel Joachim, Mst.](schnabel-joachim-mst-5630.md) | ÖVP | Nationalrat | 6C Weststeiermark (St) | serving since 23 October 2019 | 185 | 1 | 1 |
+| [Schnedlitz Michael](schnedlitz-michael-64022.md) | FPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 23 October 2019 | 185 |  | 20 |
+| [Schroll Alois](schroll-alois-5644.md) | SPÖ | Nationalrat | 3C Mostviertel (N) | serving since 23 October 2019 | 185 |  |  |
+| [Schuch-Gubik Lisa](schuch-gubik-lisa-87039.md) | FPÖ | Nationalrat | 3F Thermenregion (N) | serving since 24 October 2024 | 56 |  | 28 |
+| [Schuh Harald, Mag.](schuh-harald-mag-30664.md) | FPÖ | Nationalrat | 4 Oberösterreich (O) | serving since 24 October 2024 | 56 | 1 | 7 |
+| [Schwaighofer Sebastian](schwaighofer-sebastian-30969.md) | FPÖ | Nationalrat | 5C Lungau/Pinzgau/Pongau (S) |  | 185 |  | 6 |
+| [Schwarz Jakob, Mag. Dr., BA](schwarz-jakob-mag-dr-ba-5677.md) | GRÜNE | Nationalrat | 6 Steiermark (St) | serving since 23 October 2019 | 185 |  |  |
+| [Schwarz-Fuchs Christine, Mag.](schwarz-fuchs-christine-mag-6534.md) | ÖVP | Bundesrat | 8 Vorarlberg (Vorarlberg) | serving since 14 January 2020 | 30 |  |  |
+| [Schweiger Verena, BA MA MA](schweiger-verena-ba-ma-ma-33455.md) | SPÖ | Bundesrat | 9 Wien (Wien) | serving since 10 June 2025 | 15 |  |  |
+| [Schwindsackl Ernest](schwindsackl-ernest-4986.md) | ÖVP | Bundesrat | 6 Steiermark (Steiermark) | serving since 15 January 2019 | 30 | 1 |  |
+| [Seemayer Michael](seemayer-michael-5645.md) | SPÖ | Nationalrat | 4 Oberösterreich (O) | serving since 23 October 2019 | 185 |  |  |
+| [Seitner Katja](seitner-katja-40763.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 24 September 2026 | 1 |  |  |
+| [Seltenheim Klaus](seltenheim-klaus-32567.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 7 March 2025 | 55 |  |  |
+| [Servus Harald, Mag.](servus-harald-mag-30723.md) | ÖVP | Nationalrat | 3 Niederösterreich (N) | serving since 24 October 2024 | 56 |  |  |
+| [Shetty Yannick, Mag.](shetty-yannick-mag-5687.md) | NEOS | Nationalrat | 9 Wien (W) | serving since 23 October 2019 | 185 | 29 | 38 |
+| [Sieber Norbert](sieber-norbert-14769.md) | ÖVP | Nationalrat | 8A Vorarlberg Nord (V) | serving since 29 October 2013; 1 earlier period(s) from 20 December 2002 | 185 | 8 |  |
+| [Silvan Rudolf](silvan-rudolf-5646.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 23 October 2019 | 185 |  | 1 |
+| [Spalt Thomas](spalt-thomas-22847.md) | FPÖ | Nationalrat | 8A Vorarlberg Nord (V) | serving since 1 November 2022 | 98 |  | 2 |
+| [Spanring Andreas Arthur](spanring-andreas-arthur-3459.md) | FPÖ | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 22 March 2018 | 30 | 2 | 4 |
+| [Staller Hedwig, Dipl.-Ing.](staller-hedwig-dipl-ing-40745.md) | FPÖ | Nationalrat | 6A Graz und Umgebung (St) | serving since 21 September 2026 | 6 |  |  |
+| [Stark Christoph](stark-christoph-2327.md) | ÖVP | Nationalrat | 6B Oststeiermark (St) | serving since 9 November 2017 | 185 |  |  |
+| [Stark Sebastian, BA MSc](stark-sebastian-ba-msc-33491.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 12 June 2025 | 15 |  |  |
+| [Stefan Harald, Mag.](stefan-harald-mag-51571.md) | FPÖ | Nationalrat | 9D Wien Süd (W) | serving since 28 October 2008 | 185 | 5 | 8 |
+| [Steiner Christoph](steiner-christoph-3489.md) | FPÖ | Nationalrat | 7B Innsbruck-Land (T) | serving since 24 October 2024; 1 earlier period(s) from 28 March 2018 | 69 | 5 | 23 |
+| [Steinmaurer Markus](steinmaurer-markus-20245.md) | FPÖ | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 23 October 2021 | 28 |  |  |
+| [Stich Paul](stich-paul-30707.md) | SPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  |  |
+| [Stillebacher Christoph](stillebacher-christoph-22824.md) | ÖVP | Bundesrat | 7 Tirol (Tirol) | serving since 25 October 2022 | 21 | 5 |  |
+| [Stögmüller David](stogmuller-david-87001.md) | GRÜNE | Nationalrat | 4 Oberösterreich (O) | serving since 23 October 2019; 1 earlier period(s) from 23 October 2015 | 185 | 12 |  |
+| [Stotter Markus, BA](stotter-markus-ba-22822.md) | ÖVP | Bundesrat | 7 Tirol (Tirol) | serving since 25 October 2022 | 21 |  |  |
+| [Strasser Georg, Dipl.-Ing.](strasser-georg-dipl-ing-83153.md) | ÖVP | Nationalrat | 3C Mostviertel (N) | serving since 29 October 2013 | 185 |  |  |
+| [Sunitsch Nicole](sunitsch-nicole-30665.md) | FPÖ | Nationalrat | 6 Steiermark (St) | serving since 24 October 2024 | 56 |  | 2 |
+| [Tanzler Petra](tanzler-petra-5647.md) | SPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 23 October 2019 | 185 | 2 | 2 |
+| [Taschner Rudolf, Mag. Dr.](taschner-rudolf-mag-dr-2329.md) | ÖVP | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 7 March 2025; 2 earlier period(s) from 9 November 2017 | 184 | 1 |  |
+| [Teiber Barbara, MA](teiber-barbara-ma-30708.md) | SPÖ | Nationalrat | 9 Wien (W) | serving since 24 October 2024 | 56 |  |  |
+| [Thau Harald, Ing.](thau-harald-ing-30666.md) | FPÖ | Nationalrat | 3 Niederösterreich (N) | serving since 24 October 2024 | 56 |  | 1 |
+| [Theuermann Isabella, Mag.](theuermann-isabella-mag-24111.md) | FPÖ | Bundesrat | 2 Kärnten (Kärnten) | serving since 13 April 2023 | 20 |  | 1 |
+| [Thoma Christoph](thoma-christoph-31470.md) | ÖVP | Bundesrat | 8 Vorarlberg (Vorarlberg) | serving since 6 November 2024 | 17 |  |  |
+| [Tiefnig Ferdinand](tiefnig-ferdinand-18446.md) | ÖVP | Bundesrat | 4 Oberösterreich (Oberösterreich) | serving since 9 December 2021; 1 earlier period(s) from 23 October 2003 | 28 | 1 |  |
+| [Tomaselli Nina, Mag.](tomaselli-nina-mag-5678.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019 | 185 |  |  |
+| [Totter Agnes, MMag. Dr., BEd](totter-agnes-mmag-dr-bed-5632.md) | ÖVP | Nationalrat | 6B Oststeiermark (St) | serving since 23 October 2019 | 185 |  |  |
+| [Trinkl Mario](trinkl-mario-32336.md) | SPÖ | Bundesrat | 1 Burgenland (Burgenland) | serving since 6 February 2025 | 17 |  |  |
+| [Tschank Markus, Dr.](tschank-markus-dr-1972.md) | FPÖ | Nationalrat | 9E Wien Süd-West (W) | serving since 24 October 2024; 1 earlier period(s) from 9 November 2017 | 56 | 2 | 1 |
+| [Viertler Wolfgang, Dr.](viertler-wolfgang-dr-39606.md) | FPÖ | Bundesrat | 5 Salzburg (Salzburg) | serving since 25 March 2026 | 6 |  |  |
+| [Voglauer Olga, Dipl.-Ing.](voglauer-olga-dipl-ing-5679.md) | GRÜNE | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 23 October 2019 | 185 |  |  |
+| [von Künsberg Sarre Martina, Mag.](von-kunsberg-sarre-martina-mag-5685.md) | NEOS | Nationalrat | 3 Niederösterreich (N) | serving since 23 October 2019 | 185 | 3 | 1 |
+| [Wanner Michael](wanner-michael-3441.md) | SPÖ | Bundesrat | 5 Salzburg (Salzburg) | serving since 14 June 2023; 1 earlier period(s) from 21 March 2018 | 20 | 1 |  |
+| [Weber Johann, Ing.](weber-johann-ing-5633.md) | ÖVP | Nationalrat | 2 Kärnten (K) | serving since 7 March 2025; 1 earlier period(s) from 23 October 2019 | 184 |  |  |
+| [Weber Karl, Mag., MSc](weber-karl-mag-msc-33346.md) | ÖVP | Bundesrat | 3 Niederösterreich (Niederösterreich) | serving since 22 May 2025 | 15 |  |  |
+| [Weinzierl Maximilian](weinzierl-maximilian-30667.md) | FPÖ | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 |  |  |
+| [Wieninger Pia Maria, MMag.](wieninger-pia-maria-mmag-30709.md) | SPÖ | Nationalrat | 9G Wien Nord (W) | serving since 24 October 2024 | 56 |  |  |
+| [Wöginger August](woginger-august-14795.md) | ÖVP | Nationalrat | 4B Innviertel (O) | serving since 20 December 2002 | 185 | 3 |  |
+| [Wotschke Sophie Marie, Mag.](wotschke-sophie-marie-mag-30685.md) | NEOS | Nationalrat | B Bundeswahlvorschlag (BWV) | serving since 24 October 2024 | 56 | 4 |  |
+| [Wurm Peter](wurm-peter-83137.md) | FPÖ | Nationalrat | 7 Tirol (T) | serving since 29 October 2013 | 185 |  | 7 |
+| [Yildirim Selma, Mag.](yildirim-selma-mag-2339.md) | SPÖ | Nationalrat | 7 Tirol (T) | serving since 9 November 2017 | 185 | 7 | 4 |
+| [Zadić Alma, Dr., LL.M.](zadic-alma-dr-ll-m-2345.md) | GRÜNE | Nationalrat | 9 Wien (W) | serving since 24 October 2024; 1 earlier period(s) from 9 November 2017 | 56 | 10 | 161 |
+| [Zanger Wolfgang](zanger-wolfgang-35514.md) | FPÖ | Nationalrat | 6D Obersteiermark (St) | serving since 30 October 2006 | 185 |  |  |
+| [Zarits Christoph](zarits-christoph-2332.md) | ÖVP | Nationalrat | 1A Burgenland Nord (B) | serving since 9 November 2017 | 185 |  |  |
+| [Zopf Bettina](zopf-bettina-5634.md) | ÖVP | Nationalrat | 4D Traunviertel (O) | serving since 23 October 2019 | 185 |  |  |
+| [Zorba Süleyman](zorba-suleyman-5681.md) | GRÜNE | Nationalrat | 3 Niederösterreich (N) | serving since 23 October 2019 | 185 | 9 | 4 |
 
 ## Groups on our ground
 
@@ -266,9 +266,11 @@ Committees, cross-party groups and declared interests whose NAME the config read
 ## Notes
 
 - On our ground means what the Austria edition shows: the collector's classification (taxonomy and watchlist), the edition's noise rules and mutes, and the session judge's score where it has read the vote. Titles are the source's own, verbatim.
-- Party: The Nationalrat and Bundesrat record only each Klub's vote: every member position here is DERIVED from it (X5), by the member's latest Klub.
+- Party: The Nationalrat and Bundesrat record only each Klub's vote: every member position here is DERIVED from it (X5), by the member's latest Klub. Since 11 October 2026, where the parliament dates a member's seats and group (src/member_service.py), a DERIVED position is given only for a day the member sat, by the group they were in that day; otherwise by the latest group, as labelled.
 - In the vote table, the party's basis: 'at the vote' (the record names it), 'as listed, not at the vote' (X6: the record names none), 'group's vote, X5' (the position is DERIVED from the group's vote, never recorded per member), or the party-history source that covers the day.
 - No verdicts: which way a vote cut for our side is a signed judgement (5CA) that this country does not have yet.
 - 'Their vote meant' (watched and tier-1 votes) says what the member's Yes or No did, in English, by rule from the vote's wording and the bill, by the free session judge, or as a person wrote it in config/vote-meanings-at.yaml (which wins); it is what the vote did, never whose side it was on.
-- Committees, groups and declared interests: the parliament's own open data (src/member_intel.py; at-ausschuesse read 2026-10-11 (2838 row(s))). A membership is shown as recorded; a group is flagged on our ground by its name only (config/member-intel-groups.yaml).
+- Length of service: the parliament's own record of each member's periods (src/member_service.py; at-biografien read 17 October 2026: every Nationalrat and Bundesrat mandate the Parliament's biographies list). 'Serving since' is the start of the current unbroken run of periods in the chamber, as the source dates them (a dissolution, a ministerial post or a resignation breaks it); 'at least' where it starts on the first day the source covers. A source that names terms only gives no 'since'. Nothing here says whether a term is a member's first.
+- DERIVED positions follow the record of who sat: where the parliament dates a member's seats and group, a member is given a group's vote only for a day they sat, and by the group they were in that day ('group's vote on the day'); 10656 position(s) the store's derivation by today's group would have given were left out on that ground. A member without dated rows is derived by their latest group, as labelled.
+- Committees, groups and declared interests: the parliament's own open data (src/member_intel.py; at-ausschuesse read 2026-10-17 (2840 row(s))). A membership is shown as recorded; a group is flagged on our ground by its name only (config/member-intel-groups.yaml).
 - Generated by tools/member_profiles.py from the store each week; do not edit by hand.
