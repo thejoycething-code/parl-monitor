@@ -6,6 +6,11 @@ Belgium, Chambre / Kamer. From the parliamentary monitor's store; positions are 
 - **Status:** not on the source's current list
 - **Source id:** `07686`
 
+## Length of service
+
+- **Terms in the source:** legislature 56 (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the Chamber's member list of each legislature from the 48th; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Votes on our ground (8)
 
 Recorded positions (8): “yes” 4, “no” 3, “abstain” 1.

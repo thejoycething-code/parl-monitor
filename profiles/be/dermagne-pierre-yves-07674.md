@@ -6,6 +6,11 @@ Belgium, Chambre / Kamer. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `07674`
 
+## Length of service
+
+- **Terms in the source:** legislature 56 (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the Chamber's member list of each legislature from the 48th; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Votes on our ground (8)
 
 Recorded positions (8): “no” 3, “yes” 3, “abstain” 2.
@@ -17,18 +22,19 @@ Every vote:
 |---|---|---|---|---|
 | 8 Oct 2026 | abstain | PS (as listed, not at the vote) | [Geheel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van pallia…](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html) · **watched** | assisted dying |
 | 8 Oct 2026 | abstain | PS (as listed, not at the vote) | [Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie e…](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html) · **watched** | assisted dying |
-| 25 Jun 2026 | no | PS (as listed, not at the vote) | [Voorstel tot verwerping door de commissie voor Justitie van het wetsvoorstel tot wijziging van de regelgeving met betrekking tot de vrijwil…](https://www.lachambre.be/doc/PCRI/html/56/ip131x.html) · **watched** | abortion |
+| 25 Jun 2026 | no | PS (as listed, not at the vote) | [Voorstel tot verwerping door de commissie voor Justitie van het wetsvoorstel tot wijziging van de regelgeving met betrekking tot de vrijwil…](https://www.lachambre.be/doc/PCRI/html/56/ip131x.html) · **watched** · their vote meant: against rejecting it, so it goes on (by rule, from the vote's wording and the bill) | abortion |
 | 4 Jun 2026 | yes | PS (as listed, not at the vote) | [Wetsvoorstel tot wijziging van de wet van 4 april 2014 betreffende de verzekeringen, teneinde de uitsluiting van de poging tot zelfdoding o…](https://www.lachambre.be/doc/PCRI/html/56/ip124x.html) | assisted dying |
-| 26 Feb 2026 | no | PS (as listed, not at the vote) | [Voorstel tot verwerping door de commissie voor Binnenlandse Zaken, Veiligheid, Migratie en Bestuurszaken van het wetsvoorstel betreffende d…](https://www.lachambre.be/doc/PCRI/html/56/ip095x.html) · **watched** | religious freedom |
+| 26 Feb 2026 | no | PS (as listed, not at the vote) | [Voorstel tot verwerping door de commissie voor Binnenlandse Zaken, Veiligheid, Migratie en Bestuurszaken van het wetsvoorstel betreffende d…](https://www.lachambre.be/doc/PCRI/html/56/ip095x.html) · **watched** · their vote meant: against rejecting it, so it goes on (by rule, from the vote's wording and the bill) | religious freedom |
 | 18 Dec 2025 | no | PS (as listed, not at the vote) | [Voorstel tot verwerping door de commissie voor Justitie van het wetsvoorstel teneinde vrouwenmoord in het Strafwetboek op te nemen (355/1-2…](https://www.lachambre.be/doc/PCRI/html/56/ip088x.html) | sex-based rights |
 | 4 Dec 2025 | yes | PS (as listed, not at the vote) | [Wetsvoorstel tot wijziging van het Burgerlijk Wetboek, teneinde bij een echtscheiding de mogelijkheden tot toewijzing van de gezinswoning t…](https://www.lachambre.be/doc/PCRI/html/56/ip080x.html) | marriage and family |
 | 4 Dec 2025 | yes | PS (as listed, not at the vote) | [Voorstel tot verwerping door de commissie voor Sociale Zaken, Werk en Pensioenen van het voorstel van resolutie betreffende de overdraagbaa…](https://www.lachambre.be/doc/PCRI/html/56/ip080x.html) | marriage and family |
 
-## Bills and items on our ground they authored or introduced (1)
+## Bills and items on our ground they authored or introduced (2)
 
 | Date | Title | Key | Role | Areas |
 |---|---|---|---|---|
 | 15 Jan 2026 | [Proposition de résolution visant à reconnaître le préjudice subi par les personnes condamnées sur le fondement des dispositions pénales inc…](https://www.lachambre.be/kvvcr/showpage.cfm?section=/flwb&language=fr&cfm=/site/wwwcfm/flwb/flwbn.cfm?lang=F&legislat=56&dossierID=1303) | 56/1303 | author | abortion, **watched** |
+| 20 Oct 2025 | [Proposition de révision visant à insérer un article 23bis protégeant les droits sexuels et reproductifs, en ce compris le droit à l'avortem…](https://www.lachambre.be/kvvcr/showpage.cfm?section=/flwb&language=fr&cfm=/site/wwwcfm/flwb/flwbn.cfm?lang=F&legislat=56&dossierID=1122) | 56/1122 | author | abortion, **watched** |
 
 ## Notes
 

@@ -6,6 +6,11 @@ Belgium, Chambre / Kamer. From the parliamentary monitor's store; positions are 
 - **Status:** sitting, on the source's current list
 - **Source id:** `08052`
 
+## Length of service
+
+- **Terms in the source:** legislature 56 (the source says which terms the member sat in, not when they took or left the seat)
+- **What the source covers:** the Chamber's member list of each legislature from the 48th; no seat dates. Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Votes on our ground (2)
 
 Recorded positions (2): “no” 1, “yes” 1.
@@ -15,8 +20,8 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 8 Oct 2026 | yes | Vooruit (as listed, not at the vote) | [Geheel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van pallia…](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html) · **watched** | assisted dying |
-| 8 Oct 2026 | no | Vooruit (as listed, not at the vote) | [Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie e…](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html) · **watched** | assisted dying |
+| 8 Oct 2026 | yes | Vooruit (as listed, not at the vote) | [Geheel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie en van de periode van pallia…](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html) · **watched** · their vote meant: to pass 56/1338 (Bereavement leave around 'planned euthanasia' (and palliative leave)) as a whole (by rule, from the vote's wording and the bill) | assisted dying |
+| 8 Oct 2026 | no | Vooruit (as listed, not at the vote) | [Aangehouden amendement en artikel van het wetsvoorstel tot flexibilisering van de periode van rouwverlof in geval van geplande euthanasie e…](https://www.lachambre.be/doc/PCRI/html/56/ip143x.html) · **watched** · their vote meant: against adopting it (by rule, from the vote's wording and the bill) | assisted dying |
 
 ## Notes
 

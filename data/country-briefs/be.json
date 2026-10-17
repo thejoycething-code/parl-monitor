@@ -1,4 +1,15 @@
 {
+ "be-regeling-van-de-werkzaamheden-53410571-1": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "ce5db044c2b20a3658f64ac5f9f8f1c36917d17af5446fa3ecdcf2a75ea508e2",
+  "generated": "2026-10-17",
+  "key": "53410571-1",
+  "ready": false,
+  "sha": "2cfd7df2335fb846640890c970d918c34c5504730cf70e27cf8a8b61ca46554b",
+  "title": "Regeling van de werkzaamheden:"
+ },
  "be-voorstel-van-resolutie-betreffende-de-bestrijdin-56-1713": {
   "changelog": [
    "2026-10-10 tools/country_briefs.py drafted every cell"
@@ -9,6 +20,83 @@
   "ready": false,
   "sha": "5b41bb750f92885c2cec6bb9c8ac501072f3c091ba7ba604ce1a048990bd37ef",
   "title": "Voorstel van resolutie betreffende de bestrijding van de wereldwijde christenvervolging en christenhaat."
+ },
+ "be-vraag-van-christophe-lacroix-ps-over-de-verdere-53409541-40": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "86c4e45d8f309533fadf9577fcc264172fe819a9c5a9748039a1b8bbe1399736",
+  "generated": "2026-10-17",
+  "key": "53409541-40",
+  "ready": false,
+  "sha": "2868be7fe9f7a9345b374c25a42be744a4dbaf2f050953c4b488b5551d1e8b6d",
+  "title": "Vraag van Christophe Lacroix (PS) over \"De verdere achteruitgang van de persvrijheid in Turkije\" (56020006C)"
+ },
+ "be-vraag-van-dieter-keuten-vb-over-de-dsa-en-de-pri-53410731-1": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "87758c24b7d6104fb043d63215b8cdb58996180b1f557d469edbc5524c331fd9",
+  "generated": "2026-10-17",
+  "key": "53410731-1",
+  "ready": false,
+  "sha": "a7b572b59ae7b4b32a160c97e6a755a13d9e444a8873465f9a228b05483653fe",
+  "title": "Vraag van Dieter Keuten (VB) over \"De DSA en de privacy\" (56013341C)"
+ },
+ "be-vraag-van-dieter-keuten-vb-over-de-onthouding-va-53409541-9": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "62726f7ee1b001756cbf70f3cd04ffef9ec733bafee483bb8fa1cd101a776e71",
+  "generated": "2026-10-17",
+  "key": "53409541-9",
+  "ready": false,
+  "sha": "d827ddbd9bd5e983ff1bee2cd4fa958ec46a3f9cc3760b792fb04559a0aef699",
+  "title": "Vraag van Dieter Keuten (VB) over \"De onthouding van België bij de stemming in verband met de Chat Control-verordening in de Raad\" (56018760C)"
+ },
+ "be-vraag-van-frieda-gijbels-n-va-over-de-toename-va-53410561-124": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "6e7bd7afbd89354559d9195cbf023a1a5cb602e1fe90554590ab8707fa96cfd3",
+  "generated": "2026-10-17",
+  "key": "53410561-124",
+  "ready": false,
+  "sha": "717846c8f9d8023bf09675c4dca216f706fad38344d7857ee336a77890831446",
+  "title": "Vraag van Frieda Gijbels (N-VA) over \"De toename van het aantal gevallen van euthanasie bij patiënten met polypathologie\" (56019937C)"
+ },
+ "be-vraag-van-irina-de-knop-anders-over-het-voorontw-53410561-107": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "38b918d1b1d202b1c3ff3758e6ca87701bdade9876b39698b0b1216243c93a96",
+  "generated": "2026-10-17",
+  "key": "53410561-107",
+  "ready": false,
+  "sha": "f241e448238c2135b7faa589823fa0a1744241b717f0e714047d9bb2b4e9a6d3",
+  "title": "Vraag van Irina De Knop (Anders.) over \"Het voorontwerp van wet inzake euthanasie bij verworven wilsonbekwaamheid\" (56019750C)"
+ },
+ "be-vraag-van-jeroen-van-lysebettens-ecolo-groen-ove-53410561-21": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "99f2aefffe37d01f6dde837b23c6eb5ea7eb1c544e29d894d377d0e3ec2cfba9",
+  "generated": "2026-10-17",
+  "key": "53410561-21",
+  "ready": false,
+  "sha": "363e512a8ac32fbe74eeb19aed13b3612aa006cf14a0c87389ca8c70ab9903c2",
+  "title": "Vraag van Jeroen Van Lysebettens (Ecolo-Groen) over \"Het dalende aantal spermadonoren\" (56018752C)"
+ },
+ "be-vraag-van-sofie-merckx-pvda-ptb-over-de-internat-53410801-5": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "4eb03eb8c6482d5fbb632e6ae05f70a8626abe2a5e3543da422d0fd34241ee87",
+  "generated": "2026-10-17",
+  "key": "53410801-5",
+  "ready": false,
+  "sha": "03d9a0d2f7b2e37dbe343ead04bba14056275bb36c11d79f81edefb029ded3d8",
+  "title": "Vraag van Sofie Merckx (PVDA-PTB) over \"De internationale dag voor het recht op abortus\" (56019209C)"
  },
  "be-wetsontwerp-tot-flexibilisering-van-de-periode-v-56-1338": {
   "changelog": [
