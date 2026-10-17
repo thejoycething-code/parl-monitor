@@ -477,11 +477,11 @@
       "sha256": "496022c5c5b076140e408169a01376b515a012a314a738351e8838e1732dc0d9"
     },
     "2026-10-17": {
-      "bytes": 63339005,
-      "files": 1834,
-      "published_by": "local",
-      "published_utc": "2026-10-17T06:47:44Z",
-      "sha256": "0a170d4969c68ebe2fd8257f3d4fbd37ad97cc8fa3c0eead60152102836669bc"
+      "bytes": 83131769,
+      "files": 3150,
+      "published_by": "run 39013808284",
+      "published_utc": "2026-10-17T08:17:40Z",
+      "sha256": "8d2c7e7fe1e82814d06e69dddfdc465dc14545d89f032f28929fffb364659cb7"
     },
     "eu-probe-2026-09-01": {
       "bytes": 15724967,

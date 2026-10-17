@@ -6,35 +6,37 @@ Guatemala, Congreso de la República. From the parliamentary monitor's store; po
 - **Constituency or region:** Quetzaltenango
 - **Source id:** `de erick jose leon mario tzun`
 
-## Votes on our ground (20)
+## Votes on our ground (39)
 
-Recorded positions (20): “A FAVOR” 20.
-By area (every vote): organ donation: “A FAVOR” 20.
+Recorded positions (39): “A FAVOR” 35, “AUSENTE” 3, “CONTRA” 1.
+By area (every vote): religious freedom: “A FAVOR” 6; marriage and family: “A FAVOR” 9, “AUSENTE” 2, “CONTRA” 1; prostitution and trafficking: “AUSENTE” 1; organ donation: “A FAVOR” 20.
 
-Every vote:
+The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE MOCIÓN DE REVISIÓN (6337) | marriage and family |
+| 24 Feb 2026 | CONTRA | VAMOS (as listed, not at the vote) | APROBACIÓN DE LA REDACCIÓN FINAL DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL PREÁMBULO DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL ARTÍCULO 5 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | AUSENTE | VAMOS (as listed, not at the vote) | APROBACIÓN DEL ARTÍCULO 4 CON LA ENMIENDA INCORPORADA DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | AUSENTE | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 4 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL ARTÍCULO 3 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL ARTÍCULO 2 CON LA ENMIENDA INCORPORADA DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 2 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL ARTÍCULO 1 CON LA ENMIENDA INCORPORADA DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 1 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 24 Feb 2026 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN EN TERCER DEBATE DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6337 | marriage and family |
+| 12 Aug 2025 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE LA REDACCIÓN FINAL DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6607 · **watched** · their vote meant: to pass 6607 (Day of the Bible, first Saturday of August (plenary 12 August 2025; voted on in the X legislature)) as a whole (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 12 Aug 2025 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL PREÁMBULO DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6607 · **watched** | religious freedom, tier 2 |
+| 12 Aug 2025 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 4 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 6607 · **watched** · their vote meant: to adopt the amendment or part put to the vote (“APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 4 DEL…”) on 6607 (Day of the Bible, first Saturday of August (plenary 12 August 2025; voted on in the X legislature)) (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 12 Aug 2025 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL TÍTULO I QUE CONTIENE LOS CAPÍTULOS I Y II Y LOS ARTÍCULOS DEL 1 AL 4 INCLUSIVE CON LA ENMIENDA INCORPORADA DEL PROYECTO DE… · **watched** · their vote meant: to adopt the amendment or part put to the vote (“APROBACIÓN DEL TÍTULO I QUE CONTIENE LOS CAPÍTULOS I Y II Y LOS…”) on 6607 (Day of the Bible, first Saturday of August (plenary 12 August 2025; voted on in the X legislature)) (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 12 Aug 2025 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN EN ÚNICO DEBATE DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA 6607 · **watched** | religious freedom, tier 2 |
+| 12 Aug 2025 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE MOCIÓN PRIVILEGIADA DISPENSA DE DICTÁMEN Y URGENCIA NACIONAL 6607 · **watched** | religious freedom, tier 2 |
+| 1 Jul 2025 | AUSENTE | VAMOS (as listed, not at the vote) | APROBACIÓN DE MOCIÓN PRIVILEGIADA PARA RETORNO A COMISIÓN (INICIATIVA DE LEY 6430-6355) | prostitution and trafficking |
 | 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE LA REDACCIÓN FINAL CON EL FONDO DE REVISIÓN INCORPORADO DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL FONDO DE REVISIÓN DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE MOCIÓN DE REVISIÓN (4712) | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL PREÁMBULO DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO VII QUE CONSTA DE LOS ARTÍCULOS DEL 33 AL 36 INCLUSIVE DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE… | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO VI QUE CONSTA DE LOS ARTÍCULOS 31 Y 32 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO V QUE CONSTA DE LOS ARTÍCULOS 29 Y 30 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO IV QUE CONSTA DE LOS ARTÍCULOS DEL 25 AL 28 INCLUSIVE DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE… | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO III QUE CONSTA DE LOS ARTÍCULOS DEL 18 AL 24 INCLUSIVE CON LAS ENMIENDAS INCORPORADAS DEL PROYECTO DE DECRETO QUE D… | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 24 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR ADICIÓN DE UN ARTÍCULO NUEVO A CONTINUACIÓN DEL ARTÍCULO 18 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICI… | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 18 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO II QUE CONSTA DE LOS ARTÍCULOS DEL 11 AL 17 INCLUSIVE CON LAS ENMIENDAS INCORPORADAS DEL PROYECTO DE DECRETO QUE DI… | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 15 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN PARCIAL AL ARTÍCULO 14 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DEL CAPÍTULO I QUE CONSTA DE LOS ARTÍCULOS DEL 1 AL 10 INCLUSIVE CON LAS ENMIENDAS INCORPORADAS DEL PROYECTO DE DECRETO QUE DISP… | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN PARCIAL DEL ARTÍCULO 9 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 7 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 6 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
-| 27 Feb 2024 | A FAVOR | VAMOS (as listed, not at the vote) | APROBACIÓN DE ENMIENDA POR SUSTITUCIÓN TOTAL DEL ARTÍCULO 5 DEL PROYECTO DE DECRETO QUE DISPONE APROBAR LA INICIATIVA DE LEY 4712 | organ donation |
+
+19 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Notes
 
