@@ -36,7 +36,7 @@ Every vote:
 
 - **Plenary votes** (derived): cast a vote in 8 of 30 recorded vote(s) (22 present, not voting), 2026-05-13 to 2026-09-11.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

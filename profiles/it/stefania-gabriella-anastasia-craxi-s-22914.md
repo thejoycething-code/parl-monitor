@@ -13,7 +13,7 @@ Italy, Senato della Repubblica. From the parliamentary monitor's store; position
 
 - FI-BP-PPE: 18 October 2022 to 25 March 2026 (the Senate's group spells)
 - FI-BP-PPE: 26 March 2026 to now (the Senate's group spells)
-- Recorded at votes in the store: FI-BP-PPE (first 24 November 2022, last 30 September 2026).
+- Recorded at votes in the store: FI-BP-PPE (first 24 November 2022, last 15 October 2026).
 
 ## Votes on our ground (75)
 
@@ -49,9 +49,9 @@ The latest 20:
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 215 of 452 recorded vote(s) (38 excused or on leave, 199 present, not voting), 2026-02-04 to 2026-09-30.
+- **Plenary votes** (derived): cast a vote in 249 of 489 recorded vote(s) (38 excused or on leave, 202 present, not voting), 2026-02-04 to 2026-10-15.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

@@ -41,7 +41,7 @@ Path to victory: the vote count awaits the sign-off of CitizenGO's readings; nob
 - Who: Dep. Del Barba Mauro; Camera dei deputati
 - Stage: assegnato (no esame) (2026-10-07)
 - Next date: none published
-- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Camera dei deputati: FDI 119, PD-IDP 75, LEGA 64, FI-PPE 56, M5S 52, MISTO 15, AZ-PER-RE 10, AVS 10, NM(N-C-U-I)-M 8, IV-C-RE 6.
+- 5CA summary: the vote count awaits the sign-off of CitizenGO's readings; nobody is placed yet. seats in the Camera dei deputati: FDI 120, PD-IDP 73, LEGA 60, FI-PPE 54, M5S 51, MISTO 22, AZ-PER-RE 10, AVS 10, NM(N-C-U-I)-M 8, IV-C-RE 7.
 - Our history: [CAMPAIGNER: earlier CitizenGO campaigns on this issue, with signatures and links]
 
 ### ✏️ Estimated Launch date
@@ -90,7 +90,7 @@ All members of the Camera dei deputati (parlamentari).
 ### ✏️ Why would they listen to us?
 
 [CAMPAIGNER: the lead sentence: if we <action>, <target> will <behaviour>, because <pressure point>]
-1. **Vote arithmetic:** seats in the Camera dei deputati: FDI 119, PD-IDP 75, LEGA 64, FI-PPE 56, M5S 52, MISTO 15, AZ-PER-RE 10, AVS 10, NM(N-C-U-I)-M 8, IV-C-RE 6.
+1. **Vote arithmetic:** seats in the Camera dei deputati: FDI 120, PD-IDP 73, LEGA 60, FI-PPE 54, M5S 51, MISTO 22, AZ-PER-RE 10, AVS 10, NM(N-C-U-I)-M 8, IV-C-RE 7.
 2. **Whip:** [CAMPAIGNER: free vote or whipped, and by whom]
 3. **Our members in their seats:** [CAMPAIGNER: our members in each constituency, from the postcode data]
 
@@ -174,3 +174,4 @@ Left blank at build time (rulebook cell 35).
 Changelog:
 
 - 2026-10-12 tools/country_briefs.py drafted every cell
+- 2026-10-17 tools/country_briefs.py refreshed by the builder

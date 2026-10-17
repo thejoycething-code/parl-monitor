@@ -17,15 +17,17 @@ Group spells, as the source dates them: PARTITO DEMOCRATICO (27 March 2018 to 12
 
 - Recorded at votes in the store: PD-IDP (first 24 January 2023, last 29 January 2026).
 
-## Votes on our ground (260)
+## Votes on our ground (264)
 
-Recorded positions (260): “aye” 147, “absent” 105, “no” 7, “abstain” 1.
-By area (every vote): sex-based rights: “aye” 65, “absent” 59, “abstain” 1, “no” 1; parental rights and education: “aye” 38, “absent” 5, “no” 3; religious freedom: “aye” 6; marriage and family: “absent” 36; surrogacy and embryology: “aye” 38, “no” 3, “absent” 1; prostitution and trafficking: “absent” 4.
+Recorded positions (264): “aye” 148, “absent” 107, “no” 8, “abstain” 1.
+By area (every vote): sex-based rights: “aye” 65, “absent” 59, “abstain” 1, “no” 1; parental rights and education: “aye” 38, “absent” 5, “no” 3; free speech and civil liberties: “aye” 1, “no” 1; religious freedom: “aye” 6; marriage and family: “absent” 36; surrogacy and embryology: “aye” 38, “no” 3, “absent” 1; prostitution and trafficking: “absent” 6.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
+| 11 Dec 2025 | aye | PD-IDP (at the vote) | MOZ 1-529 - Votazione · bill's areas | free speech and civil liberties, tier 1 |
+| 11 Dec 2025 | no | PD-IDP (at the vote) | MOZ 1-524 - Votazione · bill's areas | free speech and civil liberties, tier 1 |
 | 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/25 - Votazione Ordine del giorno 9/2423-A E ABB/25; on: Disposizioni in materia di consenso informato in ambito scolasti…](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
 | 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/24 - Votazione Ordine del giorno 9/2423-A E ABB/24; on: Disposizioni in materia di consenso informato in ambito scolasti…](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
 | 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/23 - Votazione Ordine del giorno 9/2423-A E ABB/23; on: Disposizioni in materia di consenso informato in ambito scolasti…](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
@@ -44,16 +46,14 @@ The latest 20:
 | 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/8 - Votazione Ordine del giorno 9/2423-A E ABB/8; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
 | 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/6 - Votazione Ordine del giorno 9/2423-A E ABB/6; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
 | 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/5 - Votazione Ordine del giorno 9/2423-A E ABB/5; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
-| 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/4 - Votazione Ordine del giorno 9/2423-A E ABB/4; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
-| 2 Dec 2025 | aye | PD-IDP (at the vote) | [ODG 9/2423-A E ABB/3 - Votazione Ordine del giorno 9/2423-A E ABB/3; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas · their vote meant: to adopt the order of the day 9 (a non-binding motion) on 19/C.2423 (parents' prior consent to sex and relationships education in schools, the government bill (Valditara)) (by rule, from the vote's wording and the bill) | parental rights and education |
 
-240 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+244 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 976 of 1901 recorded vote(s) (925 absent), 2025-10-08 to 2026-01-29.
+- **Plenary votes** (derived): cast a vote in 976 of 1802 recorded vote(s) (826 absent), 2025-10-15 to 2026-01-29.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

@@ -17,15 +17,17 @@ Group spells, as the source dates them: LEGA NORD PADANIA (5 May 2008 to 14 Marc
 
 - Recorded at votes in the store: LEGA (first 24 January 2023, last 18 December 2025).
 
-## Votes on our ground (260)
+## Votes on our ground (264)
 
-Recorded positions (260): “mission” 260.
-By area (every vote): sex-based rights: “mission” 126; parental rights and education: “mission” 46; religious freedom: “mission” 6; marriage and family: “mission” 36; surrogacy and embryology: “mission” 42; prostitution and trafficking: “mission” 4.
+Recorded positions (264): “mission” 260, “absent” 4.
+By area (every vote): sex-based rights: “mission” 126; parental rights and education: “mission” 46; free speech and civil liberties: “absent” 2; religious freedom: “mission” 6; marriage and family: “mission” 36; surrogacy and embryology: “mission” 42; prostitution and trafficking: “mission” 4, “absent” 2.
 
 The latest 20:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
+| 11 Dec 2025 | absent | LEGA (at the vote) | MOZ 1-529 - Votazione · bill's areas | free speech and civil liberties, tier 1 |
+| 11 Dec 2025 | absent | LEGA (at the vote) | MOZ 1-524 - Votazione · bill's areas | free speech and civil liberties, tier 1 |
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/25 - Votazione Ordine del giorno 9/2423-A E ABB/25; on: Disposizioni in materia di consenso informato in ambito scolasti…](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/24 - Votazione Ordine del giorno 9/2423-A E ABB/24; on: Disposizioni in materia di consenso informato in ambito scolasti…](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/23 - Votazione Ordine del giorno 9/2423-A E ABB/23; on: Disposizioni in materia di consenso informato in ambito scolasti…](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
@@ -44,16 +46,14 @@ The latest 20:
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/8 - Votazione Ordine del giorno 9/2423-A E ABB/8; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/6 - Votazione Ordine del giorno 9/2423-A E ABB/6; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/5 - Votazione Ordine del giorno 9/2423-A E ABB/5; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
-| 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/4 - Votazione Ordine del giorno 9/2423-A E ABB/4; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
-| 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/3 - Votazione Ordine del giorno 9/2423-A E ABB/3; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 
-240 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+244 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 3 of 1286 recorded vote(s) (1152 absent, 131 excused or on leave), 2025-10-08 to 2025-12-18.
+- **Plenary votes** (derived): cast a vote in 0 of 1187 recorded vote(s) (1056 absent, 131 excused or on leave), 2025-10-15 to 2025-12-18.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

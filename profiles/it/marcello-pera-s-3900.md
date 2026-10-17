@@ -12,7 +12,7 @@ Italy, Senato della Repubblica. From the parliamentary monitor's store; position
 ## Party history
 
 - FdI: 18 October 2022 to now (the Senate's group spells)
-- Recorded at votes in the store: FdI (first 22 November 2023, last 7 October 2026).
+- Recorded at votes in the store: FdI (first 22 November 2023, last 14 October 2026).
 
 ## Votes on our ground (43)
 
@@ -48,9 +48,9 @@ The latest 20:
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 175 of 473 recorded vote(s) (293 excused or on leave, 5 present, not voting), 2026-02-04 to 2026-10-07.
+- **Plenary votes** (derived): cast a vote in 177 of 475 recorded vote(s) (293 excused or on leave, 5 present, not voting), 2026-02-04 to 2026-10-14.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

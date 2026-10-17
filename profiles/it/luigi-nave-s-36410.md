@@ -14,7 +14,7 @@ Italy, Senato della Repubblica. From the parliamentary monitor's store; position
 - M5S: 18 October 2022 to 25 February 2026 (the Senate's group spells)
 - M5S: 26 February 2026 to 7 October 2026 (the Senate's group spells)
 - Misto: 8 October 2026 to now (the Senate's group spells)
-- Recorded at votes in the store: M5S (first 24 November 2022, last 7 October 2026).
+- Recorded at votes in the store: M5S (first 24 November 2022, last 7 October 2026); Misto (first 14 October 2026, last 15 October 2026).
 
 ## Votes on our ground (75)
 
@@ -50,9 +50,9 @@ The latest 20:
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 310 of 436 recorded vote(s) (126 present, not voting), 2026-02-04 to 2026-10-07.
+- **Plenary votes** (derived): cast a vote in 343 of 478 recorded vote(s) (135 present, not voting), 2026-02-04 to 2026-10-15.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

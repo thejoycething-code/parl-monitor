@@ -1,4 +1,37 @@
 {
+ "it-delega-al-governo-per-l-introduzione-dell-educaz-19-s-1334": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "0caed959dbefdfd81c53aefec0432626f96c36fb5260f7b92a27ba58ef3ee2ea",
+  "generated": "2026-10-17",
+  "key": "19/S.1334",
+  "ready": false,
+  "sha": "a28fcad7e7f271164530bace14d7064f277d8053777b6fea53c61d36de7fdc9e",
+  "title": "Delega al Governo per l'introduzione dell'educazione alla relazione e ai sentimenti nelle istituzioni scolastiche di ogni ordine e grado"
+ },
+ "it-discussione-sulle-linee-generali-della-proposta-20261014-10-2": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "b96c34ac69a683f1bafd50343c4f73e408fc34b0da318238ebc6d429aed14ec7",
+  "generated": "2026-10-17",
+  "key": "20261014-10-2",
+  "ready": false,
+  "sha": "0ac3cdc27eb06e537ad977a0618aaad282328723975e6974f4ac49afc61719fd",
+  "title": "Discussione sulle linee generali della proposta di legge n. 2562 e abbinate - Modifiche al codice penale e altre disposizioni in materia di contrasto del fondamentalismo religioso"
+ },
+ "it-disposizioni-finalizzate-all-introduzione-di-per-19-s-979": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "758bd9358685d9e197cf775fbec7720f9776f1a232c20368e5b59bd8bf2b7efb",
+  "generated": "2026-10-17",
+  "key": "19/S.979",
+  "ready": false,
+  "sha": "f0e6c06515184c3816ef5d7038ed9348a4932bf33afa324a8b420937f9ddf2de",
+  "title": "Disposizioni finalizzate all'introduzione di percorsi di educazione all'affettività e di educazione sessuale nell'ambito del sistema nazionale di istruzione"
+ },
  "it-disposizioni-in-materia-di-prevenzione-dell-infe-19-s-2057": {
   "changelog": [
    "2026-10-12 tools/country_briefs.py drafted every cell"
@@ -12,24 +45,26 @@
  },
  "it-disposizioni-per-agevolare-l-accesso-alle-presta-19-c-3105": {
   "changelog": [
-   "2026-10-12 tools/country_briefs.py drafted every cell"
+   "2026-10-12 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "be86218c44b65a504e0bae6dc58cbb968ee4993a1fbd87ce2c257f145ab50f8a",
+  "content": "e2af2e5c4299b72ad3369d3a20aba5358255a8dcc8b1d6b774cd84d5d4d3d20c",
   "generated": "2026-10-12",
   "key": "19/C.3105",
   "ready": false,
-  "sha": "30c7889f49bb15a6cd5ac2a7384d3e49f12c75851a20682b0a1fd9c55d8bc418",
+  "sha": "c8444e95e65240c16b0b29223a0eb2e99b2cf9726f8cf68360400baa4e584581",
   "title": "Disposizioni per agevolare l'accesso alle prestazioni sanitarie di crioconservazione degli ovociti a scopo precauzionale"
  },
  "it-disposizioni-per-la-promozione-dell-accesso-alle-19-c-3084": {
   "changelog": [
-   "2026-10-12 tools/country_briefs.py drafted every cell"
+   "2026-10-12 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "765321d730de55c2cbc6353c57b18f736cdb55b32b2d5bb120fb915374d8fa68",
+  "content": "8356bef18511893c45adbbda1e795fc19fe9c4d5c8080b71fffc8171d2c2767a",
   "generated": "2026-10-12",
   "key": "19/C.3084",
   "ready": false,
-  "sha": "2a96c9492f442e328e923366ff092af8c13291cfa479676e43a19180ed776893",
+  "sha": "a4c799091d30d4a5e455847e2bb4e6c84496f05f74def1fd2cee3bca80c7ba27",
   "title": "Disposizioni per la promozione dell'accesso alle tecniche di preservazione della fertilità per fini sociali"
  },
  "it-introduzione-dell-educazione-all-affettivita-e-a-19-s-294": {
@@ -65,15 +100,38 @@
   "sha": "0905a974b872455bccecb31984adbac4c398a3d1e1fe25e0c4d37ed26d4e7c76",
   "title": "Introduzione dell'insegnamento dell'educazione emotivo-sentimentale nei programmi scolastici del sistema educativo di istruzione e di formazione, al fine di contrastare il fenomeno del femminicidio"
  },
+ "it-introduzione-dell-insegnamento-scolastico-dell-e-19-s-1394": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "451aa998fcfec453456ba244781b478dc333390d78e89a8ccc2f3d7cb1e1a795",
+  "generated": "2026-10-17",
+  "key": "19/S.1394",
+  "ready": false,
+  "sha": "0af23373343214efe6d71df75f053dead111b52be6d9155ad8d0536172692a28",
+  "title": "Introduzione dell'insegnamento scolastico dell'educazione sentimentale in tutte le scuole di ogni ordine e grado, statali, private e paritarie"
+ },
+ "it-modifica-alla-legge-20-agosto-2019-n-92-in-mater-19-s-1064": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "81db71dabd3cf0012138f16d32573a76af8fcd30ca90feacd9e679833830776d",
+  "generated": "2026-10-17",
+  "key": "19/S.1064",
+  "ready": false,
+  "sha": "0ebc8a22b83f072a9aad7918f6993d9f70adf200394b432b348f7dd28428759f",
+  "title": "Modifica alla legge 20 agosto 2019, n. 92, in materia di introduzione dell'educazione all'emotività, all'affettività e alla sessualità nell'ambito dell'insegnamento trasversale dell'educazione civica"
+ },
  "it-modifiche-alla-legge-4-maggio-1983-n-184-in-mate-19-c-3003": {
   "changelog": [
-   "2026-10-12 tools/country_briefs.py drafted every cell"
+   "2026-10-12 tools/country_briefs.py drafted every cell",
+   "2026-10-17 tools/country_briefs.py refreshed by the builder"
   ],
-  "content": "ebda83682608ede74ded72737be65f4c57207317f6a252bc0c8209ca041766aa",
+  "content": "3b5533dce960cf1cc252b951783abab9d072d9641ab4932048e34f0ac1871c94",
   "generated": "2026-10-12",
   "key": "19/C.3003",
   "ready": false,
-  "sha": "0e566fac4448375e0ba6e71e2c7dc947a6fdac9820e3f07608e5f6fbe2e72231",
+  "sha": "6239797a67f56a438280fde9c764ff8d3b01cded006665b2377d34225cb423ad",
   "title": "Modifiche alla legge 4 maggio 1983, n. 184, in materia di adozione dei minori da parte delle persone dello stesso sesso unite in unione civile, delle persone conviventi di fatto e delle persone singole"
  },
  "it-ratifica-ed-esecuzione-della-convenzione-del-con-19-s-1188": {
@@ -86,5 +144,16 @@
   "ready": false,
   "sha": "c73e85a5928f96e6fb0a144f488602ec781b5598c2cef5aa7f0a9bcadc7f3fda",
   "title": "Ratifica ed esecuzione della Convenzione del Consiglio d'Europa contro il traffico di organi umani, fatta a Santiago de Compostela il 25 marzo 2015, nonché norme di coordinamento con l'ordinamento interno"
+ },
+ "it-seguito-dell-esame-della-proposta-di-legge-n-218-20261014-8-7": {
+  "changelog": [
+   "2026-10-17 tools/country_briefs.py drafted every cell"
+  ],
+  "content": "0339465bdb60668520319847585bb7beaee86e26efd4e1cc6beafb0bedbaaf41",
+  "generated": "2026-10-17",
+  "key": "20261014-8-7",
+  "ready": false,
+  "sha": "25c61bf78b6af192ab1e474a9ab683861f8a496d662692bf5dfdbc036749f482",
+  "title": "Seguito dell’esame della proposta di legge n. 218 e abbinate - Interventi per la prevenzione e la lotta contro il virus dell’immunodeficienza umana ( HIV ), la sindrome da immunodeficienza acquisita ( AIDS ), il papilloma virus umano ( HPV ) e le infezioni e malattie a trasmissione sessuale"
  }
 }

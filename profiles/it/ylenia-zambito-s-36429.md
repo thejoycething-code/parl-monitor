@@ -13,7 +13,7 @@ Italy, Senato della Repubblica. From the parliamentary monitor's store; position
 
 - PD-IDP: 18 October 2022 to 5 June 2023 (the Senate's group spells)
 - PD-IDP: 6 June 2023 to now (the Senate's group spells)
-- Recorded at votes in the store: PD-IDP (first 24 November 2022, last 7 October 2026).
+- Recorded at votes in the store: PD-IDP (first 24 November 2022, last 15 October 2026).
 
 ## Votes on our ground (76)
 
@@ -49,9 +49,9 @@ The latest 20:
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 457 of 546 recorded vote(s) (37 excused or on leave, 52 present, not voting), 2026-02-04 to 2026-10-07.
+- **Plenary votes** (derived): cast a vote in 492 of 589 recorded vote(s) (37 excused or on leave, 60 present, not voting), 2026-02-04 to 2026-10-15.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

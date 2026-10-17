@@ -17,10 +17,10 @@ Group spells, as the source dates them: LEGA - SALVINI PREMIER (27 March 2018 to
 
 - Recorded at votes in the store: LEGA (first 24 January 2023, last 4 December 2025).
 
-## Votes on our ground (260)
+## Votes on our ground (262)
 
-Recorded positions (260): “mission” 131, “absent” 52, “no” 43, “aye” 34.
-By area (every vote): sex-based rights: “mission” 45, “absent” 34, “aye” 27, “no” 20; parental rights and education: “mission” 46; religious freedom: “aye” 5, “absent” 1; marriage and family: “mission” 36; surrogacy and embryology: “no” 23, “absent” 17, “aye” 2; prostitution and trafficking: “mission” 4.
+Recorded positions (262): “mission” 131, “absent” 54, “no” 43, “aye” 34.
+By area (every vote): sex-based rights: “mission” 45, “absent” 34, “aye” 27, “no” 20; parental rights and education: “mission” 46; religious freedom: “aye” 5, “absent” 1; marriage and family: “mission” 36; surrogacy and embryology: “no” 23, “absent” 17, “aye” 2; prostitution and trafficking: “mission” 4, “absent” 2.
 
 The latest 20:
 
@@ -47,13 +47,13 @@ The latest 20:
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/4 - Votazione Ordine del giorno 9/2423-A E ABB/4; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 | 2 Dec 2025 | mission | LEGA (at the vote) | [ODG 9/2423-A E ABB/3 - Votazione Ordine del giorno 9/2423-A E ABB/3; on: Disposizioni in materia di consenso informato in ambito scolastico](https://www.camera.it/leg19/126?leg=19&idDocumento=2423) · **watched** · bill's areas | parental rights and education |
 
-240 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
+242 earlier vote(s) on our ground are counted above; each is in the store and in the week's edition.
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 4 of 1052 recorded vote(s) (917 absent, 131 excused or on leave), 2025-10-08 to 2025-12-04.
+- **Plenary votes** (derived): cast a vote in 1 of 953 recorded vote(s) (821 absent, 131 excused or on leave), 2025-10-15 to 2025-12-04.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 

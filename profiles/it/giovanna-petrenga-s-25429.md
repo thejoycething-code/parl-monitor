@@ -13,7 +13,7 @@ Italy, Senato della Repubblica. From the parliamentary monitor's store; position
 
 - Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP: 18 October 2022 to 7 November 2022 (the Senate's group spells)
 - Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP: 8 November 2022 to now (the Senate's group spells)
-- Recorded at votes in the store: Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP (first 1 February 2023, last 30 September 2026).
+- Recorded at votes in the store: Cd'I-UDC-NM (NcI, CI, IaC)-MAIE-CP (first 1 February 2023, last 15 October 2026).
 
 ## Votes on our ground (69)
 
@@ -49,9 +49,9 @@ The latest 20:
 
 ## Attendance
 
-- **Plenary votes** (derived): cast a vote in 414 of 444 recorded vote(s) (7 excused or on leave, 23 present, not voting), 2026-02-04 to 2026-09-30.
+- **Plenary votes** (derived): cast a vote in 416 of 487 recorded vote(s) (47 excused or on leave, 24 present, not voting), 2026-02-04 to 2026-10-15.
 
-Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-08. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
+Basis: plenary votes: from the stored vote records, which list the members who did not vote (the Camera's and the Senate's records list 'assente', 'in missione' and 'presente non votante'); the 365 days to 2026-10-15. A count of what the parliament recorded, never a judgement: an absence may be leave, a mission or a pair.
 
 ## Notes
 
