@@ -7,9 +7,17 @@ Brazil, Senado Federal. From the parliamentary monitor's store; positions are as
 - **Status:** sitting, on the source's current list
 - **Source id:** `senado-5422`
 
+## Length of service
+
+- **Serving since:** 12 June 2023 (Senado Federal; 56-57; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 1 February 2019 to 14 December 2022 (56-57)
+- **What the source covers:** the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Party spells, as the source dates them: DEM (17 March 2016 to 25 January 2022); PL (26 January 2022 to now).
+
 ## Party history
 
-- Recorded at votes in the store: PL (first 14 June 2023, last 3 September 2026).
+- Recorded at votes in the store: PL (first 14 June 2023, last 15 October 2026).
 
 ## Votes on our ground (7)
 
@@ -30,5 +38,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

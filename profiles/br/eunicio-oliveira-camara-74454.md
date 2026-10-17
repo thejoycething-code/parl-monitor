@@ -7,6 +7,12 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 - **Status:** sitting, on the source's current list
 - **Source id:** `camara-74454`
 
+## Length of service
+
+- **Serving since:** 11 October 2025 (Câmara dos Deputados; legislature 57; MDB; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 1 February 2023 to 12 June 2025 (legislature 57; MDB); 14 July 2005 to 31 January 2011 (legislature 52, 53; PMDB); 1 February 2003 to 23 January 2004 (legislature 52; PMDB)
+- **What the source covers:** the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked). Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - Recorded at votes in the store: MDB (first 13 June 2023, last 2 September 2026).
@@ -42,5 +48,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

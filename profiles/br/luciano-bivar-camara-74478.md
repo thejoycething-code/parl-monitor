@@ -7,6 +7,12 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 - **Status:** sitting, on the source's current list
 - **Source id:** `camara-74478`
 
+## Length of service
+
+- **Serving since:** 1 February 2019 (Câmara dos Deputados; legislature 56, 57; PSL / UNIÃO; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 24 October 2017 to 10 April 2018 (legislature 55; PSL); 17 July 2017 to 17 October 2017 (legislature 55; PSL)
+- **What the source covers:** the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked). Service outside it is not in it, and nothing here says whether this is a first term.
+
 ## Party history
 
 - Recorded at votes in the store: UNIÃO (first 14 June 2023, last 25 March 2026); MDB (first 7 April 2026, last 3 September 2026).
@@ -20,12 +26,12 @@ Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 28 May 2026 | Sim | MDB (at the vote) | [Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Fede…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
-| 28 May 2026 | Não | MDB (at the vote) | [Aprovada, em segundo turno, a Proposta de Emenda à Constituição n° 5, de 2023. Sim: 368; Não: 96; Abstenção: 7; Total: 471.; on: PEC 5/2023…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
-| 28 May 2026 | Não | MDB (at the vote) | [Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal, para…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
-| 28 May 2026 | Não | MDB (at the vote) | [Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal, para…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
-| 28 May 2026 | Não | MDB (at the vote) | [Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
-| 28 May 2026 | Sim | MDB (at the vote) | [Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal,…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas | religious freedom, tier 2 |
+| 28 May 2026 | Sim | MDB (at the vote) | [Rejeitado o Requerimento. Sim: 102; Não: 322; Abstenção: 1; Total: 425.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Fede…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas · their vote meant: to approve a procedural request (requerimento) on PEC 5/2023 (Extends tax immunity for religious organisations (art. 150 of the Constitution)) (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 28 May 2026 | Não | MDB (at the vote) | [Aprovada, em segundo turno, a Proposta de Emenda à Constituição n° 5, de 2023. Sim: 368; Não: 96; Abstenção: 7; Total: 471.; on: PEC 5/2023…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas · their vote meant: against approving it (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 28 May 2026 | Não | MDB (at the vote) | [Mantido o texto. Sim: 335; Não: 117; Abstenção: 5; Total: 457.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal, para…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas · their vote meant: to strike the challenged part out (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 28 May 2026 | Não | MDB (at the vote) | [Mantido o texto. Sim: 340; Não: 110; Abstenção: 7; Total: 457.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal, para…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas · their vote meant: to strike the challenged part out (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 28 May 2026 | Não | MDB (at the vote) | [Aprovada, em primeiro turno, a Proposta de Emenda à Constituição nº 5, de 2023, na forma da Emenda Aglutinativa Substitutiva nº 3. Sim: 385…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas · their vote meant: against approving it in the first round (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
+| 28 May 2026 | Sim | MDB (at the vote) | [Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1; Total: 472.; on: PEC 5/2023: Acrescenta § 4º-A ao art. 150 da Constituição Federal,…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2351506) · **watched** · bill's areas · their vote meant: to agree the procedural motion (“Aprovada a preferência. Sim: 467; Não: 4; Abstenção: 1…”) on PEC 5/2023 (Extends tax immunity for religious organisations (art. 150 of the Constitution)): the handling, not the substance (by rule, from the vote's wording and the bill) | religious freedom, tier 2 |
 | 17 Mar 2026 | Não | UNIÃO (at the vote) | [Rejeitado o Requerimento. Sim: 97; Não: 258; Abstenção: 3; Total: 358.; on: PL 4709/2025: Dispõe sobre a prevenção e repressão ao “golpe do…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2563330) · bill's areas | free speech and civil liberties, tier 2 |
 | 3 Mar 2026 | Não | UNIÃO (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 317; Não: 117; Total: 434.; on: PL 4183/2024: Garante o internamento voluntári…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2466097) · bill's areas | drug decriminalisation, tier 2 |
 | 16 Dec 2025 | Sim | UNIÃO (at the vote) | [Aprovada a Subemenda Substitutiva Global ao Projeto de Lei Complementar nº 128, de 2025, adotada pelo relator da Comissão de Desenvolviment…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2520670) · bill's areas | gambling and betting, tier 2 |
@@ -38,5 +44,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

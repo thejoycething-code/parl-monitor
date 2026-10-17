@@ -4,7 +4,12 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 - **Party:** PT; latest seen in the member list
 - **Constituency or region:** RJ
+- **Status:** not on the source's current list
 - **Source id:** `camara-220601`
+
+## Length of service
+
+- Not in the service source read (br-historico, 17 October 2026: the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked)): nothing is said about this member's service.
 
 ## Party history
 
@@ -14,18 +19,19 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 Recorded positions (5): “Sim” 3, “Não” 2.
 By area (every vote): gambling and betting: “Sim” 3, “Não” 2.
+Party line (the orientation the Câmara publishes for the member's party or federation) on 5 vote(s): followed 5.
 
 Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 21 Dec 2023 | Sim | PT (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 307; não: 115; abstenção: 1; total: 423.; on: PL 3626/2023: Dispõe sobre a mod…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 21 Dec 2023 | Sim | PT (at the vote) | [Aprovadas as Emendas do Senado Federal nº 1 (na parte em que altera os arts. 1º e 14 do PL 3.626, de 2023); e das Emendas nºs 2, 4 a 7, 10…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 13 Sep 2023 | Não | PT (at the vote) | [Aprovada a Emenda de Plenário nº 34. Sim: 203; não: 164; total: 367.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apost…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 13 Sep 2023 | Sim | PT (at the vote) | [Suprimido o texto. Sim: 222; não: 242; abstenção: 2; total: 466.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas d…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 13 Sep 2023 | Não | PT (at the vote) | [Rejeitada a Emenda de Plenário nº 26. Sim: 82; não: 342; abstenção: 8; total: 432.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica de…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
+| 21 Dec 2023 | Sim | PT (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 307; não: 115; abstenção: 1; total: 423.; on: PL 3626/2023: Dispõe sobre a mod…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line (Fdr PT-PCdoB-PV): Sim | gambling and betting, tier 2 |
+| 21 Dec 2023 | Sim | PT (at the vote) | [Aprovadas as Emendas do Senado Federal nº 1 (na parte em que altera os arts. 1º e 14 do PL 3.626, de 2023); e das Emendas nºs 2, 4 a 7, 10…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line (Fdr PT-PCdoB-PV): Sim | gambling and betting, tier 2 |
+| 13 Sep 2023 | Não | PT (at the vote) | [Aprovada a Emenda de Plenário nº 34. Sim: 203; não: 164; total: 367.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apost…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line (Fdr PT-PCdoB-PV): Não | gambling and betting, tier 2 |
+| 13 Sep 2023 | Sim | PT (at the vote) | [Suprimido o texto. Sim: 222; não: 242; abstenção: 2; total: 466.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas d…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line (Fdr PT-PCdoB-PV): Sim | gambling and betting, tier 2 |
+| 13 Sep 2023 | Não | PT (at the vote) | [Rejeitada a Emenda de Plenário nº 26. Sim: 82; não: 342; abstenção: 8; total: 432.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica de…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line (Fdr PT-PCdoB-PV): Não | gambling and betting, tier 2 |
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

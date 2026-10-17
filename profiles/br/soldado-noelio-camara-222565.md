@@ -4,7 +4,12 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 - **Party:** UNIÃO; latest seen in the member list
 - **Constituency or region:** CE
+- **Status:** not on the source's current list
 - **Source id:** `camara-222565`
+
+## Length of service
+
+- Not in the service source read (br-historico, 17 October 2026: the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked)): nothing is said about this member's service.
 
 ## Party history
 
@@ -24,5 +29,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

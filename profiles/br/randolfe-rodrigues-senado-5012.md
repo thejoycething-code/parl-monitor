@@ -7,9 +7,16 @@ Brazil, Senado Federal. From the parliamentary monitor's store; positions are as
 - **Status:** sitting, on the source's current list
 - **Source id:** `senado-5012`
 
+## Length of service
+
+- **Serving since:** 1 February 2011 (Senado Federal; 54-55, 56-57; the current unbroken run of periods, as the source dates them)
+- **What the source covers:** the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Party spells, as the source dates them: PSOL (28 January 2011 to 28 September 2015); REDE (29 September 2015 to 23 January 2024); S/Partido (24 January 2024 to 17 July 2024); PT (18 July 2024 to now).
+
 ## Party history
 
-- Recorded at votes in the store: REDE (first 8 February 2023, last 20 December 2023); S/Partido (first 20 February 2024, last 10 July 2024); PT (first 13 August 2024, last 3 September 2026).
+- Recorded at votes in the store: REDE (first 8 February 2023, last 20 December 2023); S/Partido (first 20 February 2024, last 10 July 2024); PT (first 13 August 2024, last 15 October 2026).
 
 ## Votes on our ground (7)
 
@@ -30,5 +37,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

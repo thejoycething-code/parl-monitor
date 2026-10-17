@@ -7,9 +7,17 @@ Brazil, Senado Federal. From the parliamentary monitor's store; positions are as
 - **Status:** sitting, on the source's current list
 - **Source id:** `senado-22`
 
+## Length of service
+
+- **Serving since:** 1 February 2019 (Senado Federal; 56-57; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 24 December 1996 to 31 December 1998 (49-50); 1 February 1991 to 25 August 1996 (49-50)
+- **What the source covers:** the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked). Service outside it is not in it, and nothing here says whether this is a first term.
+
+Party spells, as the source dates them: PDS (1 February 1991 to 15 June 1993); PPR (16 June 1993 to 24 October 1995); PPB (25 October 1995 to 31 December 1998); S/Partido (1 January 1999 to 31 January 2011); PP (1 February 2011 to now).
+
 ## Party history
 
-- Recorded at votes in the store: PP (first 8 February 2023, last 3 September 2026).
+- Recorded at votes in the store: PP (first 8 February 2023, last 15 October 2026).
 
 ## Votes on our ground (7)
 
@@ -30,5 +38,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

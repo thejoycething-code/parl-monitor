@@ -4,7 +4,14 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 - **Party:** PP; latest seen in the member list
 - **Constituency or region:** BA
+- **Status:** sitting, on the source's current list
 - **Source id:** `camara-74550`
+
+## Length of service
+
+- **Serving since:** 13 October 2026 (Câmara dos Deputados; legislature 57; PP; the current unbroken run of periods, as the source dates them)
+- **Earlier periods:** 1 February 2023 to 8 April 2026 (legislature 57; PP); 15 March 2012 to 31 December 2014 (legislature 54; PP); 31 March 2010 to 16 March 2011 (legislature 53, 54; PP); 1 February 2003 to 20 August 2009 (legislature 52, 53; PL / PP)
+- **What the source covers:** the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked). Service outside it is not in it, and nothing here says whether this is a first term.
 
 ## Party history
 
@@ -27,7 +34,7 @@ Every vote:
 | 16 Dec 2025 | Não | PP (at the vote) | [Rejeitado o Requerimento. Sim: 114; Não: 319; Abstenção: 2; Total: 435.; on: PLP 128/2025: Dispõe sobre a redução e os critérios de concess…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2520670) · bill's areas | gambling and betting, tier 2 |
 | 12 Nov 2025 | Sim | PP (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 303; Não: 55; Total: 358.; on: PL 4709/2025: Dispõe sobre a prevenção e repres…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2563330) · bill's areas | free speech and civil liberties, tier 2 |
 | 4 Nov 2025 | Sim | PP (at the vote) | [Mantido o texto. Sim: 377; Não: 50; Abstenção: 2; Total: 429.; on: PL 3935/2008: Acrescenta arts. 473-A a 473-C à Consolidação das Leis do…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=408349) · bill's areas | marriage and family, tier 2 |
-| 13 Nov 2024 | Não | PP (at the vote) | [Rejeitado o Requerimento de Retirada de Pauta. Resultado: 13 votos "Sim", 34 votos "Não". Quórum de votação: 47 votos e 1 obstrução.; on: P…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=543252) · **watched** · bill's areas | abortion, tier 2 |
+| 13 Nov 2024 | Não | PP (at the vote) | [Rejeitado o Requerimento de Retirada de Pauta. Resultado: 13 votos "Sim", 34 votos "Não". Quórum de votação: 47 votos e 1 obstrução.; on: P…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=543252) · **watched** · bill's areas · their vote meant: against the request (by rule, from the vote's wording and the bill) | abortion, tier 2 |
 | 21 Dec 2023 | Sim | PP (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 307; não: 115; abstenção: 1; total: 423.; on: PL 3626/2023: Dispõe sobre a mod…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
 | 21 Dec 2023 | Sim | PP (at the vote) | [Aprovadas as Emendas do Senado Federal nº 1 (na parte em que altera os arts. 1º e 14 do PL 3.626, de 2023); e das Emendas nºs 2, 4 a 7, 10…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
 | 21 Dec 2023 | Não | PP (at the vote) | [Rejeitado o Requerimento. Sim: 100; não: 275; total: 375.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas de quota…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
@@ -38,5 +45,5 @@ Every vote:
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

@@ -4,7 +4,12 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 - **Party:** REPUBLICANOS; latest seen in the member list
 - **Constituency or region:** SP
+- **Status:** not on the source's current list
 - **Source id:** `camara-218086`
+
+## Length of service
+
+- Not in the service source read (br-historico, 17 October 2026: the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked)): nothing is said about this member's service.
 
 ## Party history
 
@@ -14,6 +19,7 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 Recorded positions (16): “Sim” 11, “Não” 5.
 By area (every vote): abortion: “Sim” 1; free speech and civil liberties: “Não” 1, “Sim” 1; marriage and family: “Sim” 1; gambling and betting: “Sim” 7, “Não” 4; drug decriminalisation: “Sim” 1.
+Party line (the orientation the Câmara publishes for the member's party or federation) on 1 vote(s): followed 1.
 
 Every vote:
 
@@ -34,9 +40,9 @@ Every vote:
 | 21 Dec 2023 | Sim | REPUBLICANOS (at the vote) | [Rejeitado o Requerimento. Sim: 106; não: 281; total: 387.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas de quota…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
 | 13 Sep 2023 | Sim | REPUBLICANOS (at the vote) | [Aprovada a Emenda de Plenário nº 34. Sim: 203; não: 164; total: 367.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apost…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
 | 13 Sep 2023 | Não | REPUBLICANOS (at the vote) | [Suprimido o texto. Sim: 222; não: 242; abstenção: 2; total: 466.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas d…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 16 Aug 2023 | Sim | REPUBLICANOS (at the vote) | Rejeitado. Resultado: 6 votos "Sim", 9 votos "Não". Quórum de votação: 15 votos. · bill's areas | abortion, tier 2 |
+| 16 Aug 2023 | Sim | REPUBLICANOS (at the vote) | Rejeitado. Resultado: 6 votos "Sim", 9 votos "Não". Quórum de votação: 15 votos. · bill's areas · party line: Sim | abortion, tier 2 |
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).

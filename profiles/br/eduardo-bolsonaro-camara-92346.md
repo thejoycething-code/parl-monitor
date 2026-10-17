@@ -4,7 +4,12 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 - **Party:** PL; latest seen in the member list
 - **Constituency or region:** SP
+- **Status:** not on the source's current list
 - **Source id:** `camara-92346`
+
+## Length of service
+
+- Not in the service source read (br-historico, 17 October 2026: the Câmara's status history of each sitting deputy and the Senado's mandates of each sitting senator (each chamber separately: a deputy's Senate years, or a senator's Câmara years, are not linked)): nothing is said about this member's service.
 
 ## Party history
 
@@ -14,19 +19,20 @@ Brazil, Câmara dos Deputados. From the parliamentary monitor's store; positions
 
 Recorded positions (6): “Sim” 4, “Não” 2.
 By area (every vote): abortion: “Sim” 1; gambling and betting: “Sim” 3, “Não” 2.
+Party line (the orientation the Câmara publishes for the member's party or federation) on 6 vote(s): followed 6.
 
 Every vote:
 
 | Date | Position | Party at the vote | Vote | Areas |
 |---|---|---|---|---|
-| 21 Dec 2023 | Não | PL (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 307; não: 115; abstenção: 1; total: 423.; on: PL 3626/2023: Dispõe sobre a mod…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 21 Dec 2023 | Sim | PL (at the vote) | [Rejeitada a Emenda do Senado Federal nº 3. Sim: 120; não: 261; abstenção: 1; total: 382.; on: PL 3626/2023: Dispõe sobre a modalidade lotér…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 21 Dec 2023 | Não | PL (at the vote) | [Aprovadas as Emendas do Senado Federal nº 1 (na parte em que altera os arts. 1º e 14 do PL 3.626, de 2023); e das Emendas nºs 2, 4 a 7, 10…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 21 Dec 2023 | Sim | PL (at the vote) | [Rejeitado o Requerimento. Sim: 100; não: 275; total: 375.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas de quota…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 21 Dec 2023 | Sim | PL (at the vote) | [Rejeitado o Requerimento. Sim: 106; não: 281; total: 387.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas de quota…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas | gambling and betting, tier 2 |
-| 1 Aug 2023 | Sim | PL (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 328; não: 48; total: 376.; on: PL 1037/2023: Altera a Lei nº 8.036, de 11 de m…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2350875) · bill's areas | abortion, tier 2 |
+| 21 Dec 2023 | Não | PL (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 307; não: 115; abstenção: 1; total: 423.; on: PL 3626/2023: Dispõe sobre a mod…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line: Não | gambling and betting, tier 2 |
+| 21 Dec 2023 | Sim | PL (at the vote) | [Rejeitada a Emenda do Senado Federal nº 3. Sim: 120; não: 261; abstenção: 1; total: 382.; on: PL 3626/2023: Dispõe sobre a modalidade lotér…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line: Sim | gambling and betting, tier 2 |
+| 21 Dec 2023 | Não | PL (at the vote) | [Aprovadas as Emendas do Senado Federal nº 1 (na parte em que altera os arts. 1º e 14 do PL 3.626, de 2023); e das Emendas nºs 2, 4 a 7, 10…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line: Não | gambling and betting, tier 2 |
+| 21 Dec 2023 | Sim | PL (at the vote) | [Rejeitado o Requerimento. Sim: 100; não: 275; total: 375.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas de quota…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line: Sim | gambling and betting, tier 2 |
+| 21 Dec 2023 | Sim | PL (at the vote) | [Rejeitado o Requerimento. Sim: 106; não: 281; total: 387.; on: PL 3626/2023: Dispõe sobre a modalidade lotérica denominada apostas de quota…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2374400) · bill's areas · party line: Sim | gambling and betting, tier 2 |
+| 1 Aug 2023 | Sim | PL (at the vote) | [Aprovado o Requerimento de Urgência (Art. 155 do RICD). Sim: 328; não: 48; total: 376.; on: PL 1037/2023: Altera a Lei nº 8.036, de 11 de m…](https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2350875) · bill's areas · party line: Sim | abortion, tier 2 |
 
 ## Notes
 
-- Party: The party the vote record names at each vote.
+- Party: The party the vote record names at each vote. Beside each Câmara position, the orientation the party (or its federation) gave for that vote, as the Câmara publishes it (orientação de bancada): the only whip line any of these parliaments publishes.
 - How these profiles are built, and what they never say: [the index's notes](index.md#notes).
